@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://letsscore.github.io/Let-s-Score-/sitemap.xml
