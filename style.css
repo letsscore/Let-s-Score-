@@ -119,3 +119,27 @@ svg{
     display:block;
     margin:20px auto;
   }
+.diagram-box{
+    background:#f5f5f5;
+    border:3px solid #42a5f5;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+    text-align:center;
+}
+
+.diagram-box h3{
+    color:#003366;
+    margin-bottom:15px;
+}
+
+.diagram-img{
+    width:100%;
+    max-width:700px;
+    height:auto;
+}
+
+.diagram-caption{
+    margin-top:10px;
+    font-weight:bold;
+    }
