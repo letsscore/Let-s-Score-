@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>মৌলৰ পৰ্যাবৃত্ত শ্ৰেণীবিভাজন</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="logo">🎓 LET'S SCORE</div>
+</header>
+
+<section class="hero">
+<h1>পৰ্যাবৃত্ত শ্ৰেণীবিভাজন</h1>
+<p>দশম শ্ৰেণী বিজ্ঞান - অধ্যায় ৫</p>
+</section>
+
+<div style="margin:20px;">
+<a href="index.html" class="btn">🏠 মুখ্য পৃষ্ঠা</a>
+<a href="class10-assamese.html" class="btn">📚 দশম শ্ৰেণী</a>
+<a href="javascript:history.back()" class="btn">⬅ পিছলৈ যাওক</a>
+</div>
+
+<section>
+
+<h2>অধ্যায়ৰ বিষয়বস্তু</h2>
+
+<a href="class10a-ch5-ncert-solutions-free.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>📘 NCERT সমাধান</h3>
+<p>বিনামূলীয়া</p>
+</div>
+</a>
+
+<a href="class10a-ch5-detailed-notes.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>📖 বিস্তৃত টোকা</h3>
+<p>বিনামূলীয়া</p>
+</div>
+</a>
+
+<a href="class10a-ch5-mcq-bank.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>📝 MCQ ভঁৰাল</h3>
+<p>প্ৰিমিয়াম ₹১৯</p>
+
+<p>
+প্ৰিমিয়াম বিষয়বস্তু আনলক কৰিবলৈ WhatsApp-ত যোগাযোগ কৰক।
+</p>
+
+<a href="https://wa.me/917002137940" class="btn">
+📱 প্ৰিমিয়ামত যোগদান কৰক
+</a>
+
+</div>
+</a>
+
+<a href="class10a-ch5-pyq-collection.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>📚 পূৰ্ববৰ্ষৰ প্ৰশ্নসমূহ</h3>
+<p>বিনামূলীয়া</p>
+</div>
+</a>
+
+<a href="class10a-ch5-formula-sheet.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>📄 সূত্ৰ পৃষ্ঠা</h3>
+<p>বিনামূলীয়া</p>
+</div>
+</a>
+
+<a href="class10a-ch5-mock-tests.html" style="text-decoration:none;color:inherit;">
+<div class="card">
+<h3>🎯 SEBAৰ মেট্ৰিক পৰীক্ষাৰ আৰ্হিত মক টেষ্ট পেপাৰ</h3>
+<p>₹১৭</p>
+
+<p>
+প্ৰিমিয়াম বিষয়বস্তু আনলক কৰিবলৈ WhatsApp-ত যোগাযোগ কৰক।
+</p>
+
+<a href="https://wa.me/917002137940" class="btn">
+📱 প্ৰিমিয়ামত যোগদান কৰক
+</a>
+
+</div>
+</a>
+
+</section>
+
+</body>
+</html>
