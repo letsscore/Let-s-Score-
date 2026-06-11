@@ -112,3 +112,10 @@ text-decoration:none;
 border-radius:8px;
 font-weight:bold;
 }
+svg{
+    width:100%;
+    max-width:500px;
+    height:auto;
+    display:block;
+    margin:20px auto;
+  }
