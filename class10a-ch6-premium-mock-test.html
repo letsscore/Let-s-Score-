@@ -1,91 +1,548 @@
 <!DOCTYPE html>
-<html>
+<html lang="as">
 <head>
-<title>Premium Mock Test - Life Processes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>জীৱন প্ৰক্ৰিয়া - প্ৰিমিয়াম মক টেষ্ট</title>
+
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+.timer{
+position:sticky;
+top:0;
+z-index:999;
+background:#d32f2f;
+color:white;
+padding:12px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.card{
+background:white;
+padding:20px;
+margin:15px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.question{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.option{
+display:block;
+padding:8px;
+font-size:18px;
+text-align:left;
+}
+
+input[type="radio"]{
+margin-right:10px;
+}
+
+.submit-btn{
+background:#1976d2;
+color:white;
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+#result{
+font-size:24px;
+font-weight:bold;
+text-align:center;
+margin:20px;
+}
+
+</style>
+
 </head>
 
 <body>
+
+<div class="timer">
+⏰ অৱশিষ্ট সময়:
+<span id="timer">90:00</span>
+</div>
 
 <header>
 <div class="logo">🎓 LET'S SCORE</div>
 </header>
 
 <section class="hero">
-<h1>Life Processes</h1>
-<p>Premium Mock Test</p>
+<h1>জীৱন প্ৰক্ৰিয়া</h1>
+<p>প্ৰিমিয়াম মক টেষ্ট (45 Questions)</p>
 </section>
 
 <div class="card">
-<h3>Q1. Nutrition is the process by which:</h3>
+<h2>নিৰ্দেশনা</h2>
 
-<input type="radio" name="q1"> Movement occurs<br>
-<input type="radio" name="q1" id="q1correct"> Organisms obtain and utilize food<br>
-<input type="radio" name="q1"> Reproduction occurs<br>
-<input type="radio" name="q1"> Excretion occurs<br>
+<ul>
+<li>মুঠ প্ৰশ্ন = 45</li>
+<li>সময় = 90 মিনিট</li>
+<li>প্ৰতিটো প্ৰশ্নৰ মান = 1</li>
+<li>Passing Marks = 18</li>
+<li>সকলো প্ৰশ্ন চেষ্টা কৰক</li>
+</ul>
+
 </div>
+
+<!-- QUESTION 1 -->
 
 <div class="card">
-<h3>Q2. Photosynthesis takes place in:</h3>
 
-<input type="radio" name="q2"> Mitochondria<br>
-<input type="radio" name="q2" id="q2correct"> Chloroplast<br>
-<input type="radio" name="q2"> Nucleus<br>
-<input type="radio" name="q2"> Ribosome<br>
+<p class="question">
+1. পুষ্টি মানে কি?
+</p>
+
+<label class="option">
+<input type="radio" name="q1">
+গতি
+</label>
+
+<label class="option">
+<input type="radio" name="q1" id="q1correct">
+খাদ্য গ্ৰহণ আৰু ব্যৱহাৰৰ প্ৰক্ৰিয়া
+</label>
+
+<label class="option">
+<input type="radio" name="q1">
+প্ৰজনন
+</label>
+
+<label class="option">
+<input type="radio" name="q1">
+ৰেচন
+</label>
+
 </div>
+
+<!-- QUESTION 2 -->
 
 <div class="card">
-<h3>Q3. Functional unit of kidney is:</h3>
 
-<input type="radio" name="q3"> Alveolus<br>
-<input type="radio" name="q3"> Villi<br>
-<input type="radio" name="q3" id="q3correct"> Nephron<br>
-<input type="radio" name="q3"> Atrium<br>
+<p class="question">
+2. স্বপোষিত পুষ্টিৰ উদাহৰণ কোনটো?
+</p>
+
+<label class="option">
+<input type="radio" name="q2">
+মানুহ
+</label>
+
+<label class="option">
+<input type="radio" name="q2">
+ভেঁকুৰ
+</label>
+
+<label class="option">
+<input type="radio" name="q2" id="q2correct">
+সেউজীয়া উদ্ভিদ
+</label>
+
+<label class="option">
+<input type="radio" name="q2">
+অমৰলতা
+</label>
+
 </div>
+
+<!-- QUESTION 3 -->
 
 <div class="card">
-<h3>Q4. Which blood vessel carries blood away from heart?</h3>
 
-<input type="radio" name="q4"> Vein<br>
-<input type="radio" name="q4" id="q4correct"> Artery<br>
-<input type="radio" name="q4"> Capillary<br>
-<input type="radio" name="q4"> Lymph vessel<br>
+<p class="question">
+3. সালোক-সংশ্লেষণৰ বাবে কোনটো ৰঞ্জক দ্ৰব্য প্ৰয়োজন?
+</p>
+
+<label class="option">
+<input type="radio" name="q3">
+হিম'গ্ল'বিন
+</label>
+
+<label class="option">
+<input type="radio" name="q3" id="q3correct">
+ক্ল'ৰ'ফিল
+</label>
+
+<label class="option">
+<input type="radio" name="q3">
+মেলানিন
+</label>
+
+<label class="option">
+<input type="radio" name="q3">
+কেৰোটিন
+</label>
+
 </div>
+
+<!-- QUESTION 4 -->
 
 <div class="card">
-<h3>Q5. Double circulation occurs in:</h3>
 
-<input type="radio" name="q5"> Fish<br>
-<input type="radio" name="q5"> Frog<br>
-<input type="radio" name="q5" id="q5correct"> Human beings<br>
-<input type="radio" name="q5"> Earthworm<br>
+<p class="question">
+4. পৰজীৱী পুষ্টিৰ উদাহৰণ কোনটো?
+</p>
+
+<label class="option">
+<input type="radio" name="q4">
+ভেঁকুৰ
+</label>
+
+<label class="option">
+<input type="radio" name="q4" id="q4correct">
+অমৰলতা
+</label>
+
+<label class="option">
+<input type="radio" name="q4">
+সেউজীয়া উদ্ভিদ
+</label>
+
+<label class="option">
+<input type="radio" name="q4">
+আমিবা
+</label>
+
 </div>
 
-<button onclick="checkScore()" class="btn">
-Submit Test
-</button>
+<!-- QUESTION 5 -->
 
-<h2 id="result"></h2>
+<div class="card">
 
-<script>
-function checkScore(){
+<p class="question">
+5. মানুহৰ পাচনতন্ত্ৰৰ আৰম্ভণি ক'ত হয়?
+</p>
 
-let score = 0;
+<label class="option">
+<input type="radio" name="q5" id="q5correct">
+মুখগহ্বৰ
+</label>
 
-if(document.getElementById("q1correct").checked) score++;
-if(document.getElementById("q2correct").checked) score++;
-if(document.getElementById("q3correct").checked) score++;
-if(document.getElementById("q4correct").checked) score++;
-if(document.getElementById("q5correct").checked) score++;
+<label class="option">
+<input type="radio" name="q5">
+পাকস্থলী
+</label>
 
-document.getElementById("result").innerHTML =
-"Your Score: " + score + " / 5";
+<label class="option">
+<input type="radio" name="q5">
+ক্ষুদ্ৰান্ত্ৰ
+</label>
 
-}
-</script>
+<label class="option">
+<input type="radio" name="q5">
+বৃহদান্ত্ৰ
+</label>
 
-</body>
-  </html>
-<a href="class10a-ch6-premium-mock-test.html" class="btn">
-🚀 Start Mock Test
-</a>
+</div>
+
+<!-- QUESTION 6 -->
+
+<div class="card">
+
+<p class="question">
+6. লালটিজলত থকা উৎসেচকটোৰ নাম কি?
+</p>
+
+<label class="option">
+<input type="radio" name="q6">
+পেপচিন
+</label>
+
+<label class="option">
+<input type="radio" name="q6" id="q6correct">
+এমাইলেজ
+</label>
+
+<label class="option">
+<input type="radio" name="q6">
+ট্ৰিপচিন
+</label>
+
+<label class="option">
+<input type="radio" name="q6">
+লাইপেজ
+</label>
+
+</div>
+
+<!-- QUESTION 7 -->
+
+<div class="card">
+
+<p class="question">
+7. পাকস্থলীত কোন এচিড থাকে?
+</p>
+
+<label class="option">
+<input type="radio" name="q7">
+ছালফিউৰিক এচিড
+</label>
+
+<label class="option">
+<input type="radio" name="q7">
+নাইট্ৰিক এচিড
+</label>
+
+<label class="option">
+<input type="radio" name="q7" id="q7correct">
+হাইড্ৰ'ক্লৰিক এচিড
+</label>
+
+<label class="option">
+<input type="radio" name="q7">
+এচিটিক এচিড
+</label>
+
+</div>
+
+<!-- QUESTION 8 -->
+
+<div class="card">
+
+<p class="question">
+8. ক্ষুদ্ৰান্ত্ৰত থকা আঙুলিৰ দৰে গঠনবোৰক কি বোলে?
+</p>
+
+<label class="option">
+<input type="radio" name="q8">
+এলভিঅ'লাছ
+</label>
+
+<label class="option">
+<input type="radio" name="q8">
+নেফ্ৰন
+</label>
+
+<label class="option">
+<input type="radio" name="q8" id="q8correct">
+ভিলাই
+</label>
+
+<label class="option">
+<input type="radio" name="q8">
+কেশিকা
+</label>
+
+</div>
+
+<!-- QUESTION 9 -->
+
+<div class="card">
+
+<p class="question">
+9. শ্বসনৰ সময়ত কোন গেছ গ্ৰহণ কৰা হয়?
+</p>
+
+<label class="option">
+<input type="radio" name="q9">
+কাৰ্বন ডাইঅক্সাইড
+</label>
+
+<label class="option">
+<input type="radio" name="q9" id="q9correct">
+অক্সিজেন
+</label>
+
+<label class="option">
+<input type="radio" name="q9">
+নাইট্ৰজেন
+</label>
+
+<label class="option">
+<input type="radio" name="q9">
+হাইড্ৰজেন
+</label>
+
+</div>
+
+<!-- QUESTION 10 -->
+
+<div class="card">
+
+<p class="question">
+10. অক্সিজেনৰ উপস্থিতিত হোৱা শ্বসনক কি বোলে?
+</p>
+
+<label class="option">
+<input type="radio" name="q10">
+অবাত শ্বসন
+</label>
+
+<label class="option">
+<input type="radio" name="q10" id="q10correct">
+সবাত শ্বসন
+</label>
+
+<label class="option">
+<input type="radio" name="q10">
+বাহ্যিক শ্বসন
+</label>
+
+<label class="option">
+<input type="radio" name="q10">
+অভ্যন্তৰীণ শ্বসন
+</label>
+
+</div>
+
+<!-- QUESTION 11 -->
+
+<div class="card">
+
+<p class="question">
+11. মানুহৰ শ্বাসতন্ত্ৰৰ মুখ্য অংগ কোনটো?
+</p>
+
+<label class="option">
+<input type="radio" name="q11">
+যকৃত
+</label>
+
+<label class="option">
+<input type="radio" name="q11">
+বৃক্ক
+</label>
+
+<label class="option">
+<input type="radio" name="q11" id="q11correct">
+হাওঁফাওঁ
+</label>
+
+<label class="option">
+<input type="radio" name="q11">
+হৃদযন্ত্ৰ
+</label>
+
+</div>
+
+<!-- QUESTION 12 -->
+
+<div class="card">
+
+<p class="question">
+12. গেছৰ আদান-প্ৰদান ক'ত সংঘটিত হয়?
+</p>
+
+<label class="option">
+<input type="radio" name="q12">
+ব্ৰংকাছ
+</label>
+
+<label class="option">
+<input type="radio" name="q12">
+ট্ৰেকিয়া
+</label>
+
+<label class="option">
+<input type="radio" name="q12" id="q12correct">
+এলভিঅ'লাছ
+</label>
+
+<label class="option">
+<input type="radio" name="q12">
+গ্ৰসনী
+</label>
+
+</div>
+
+<!-- QUESTION 13 -->
+
+<div class="card">
+
+<p class="question">
+13. ৰক্তৰ তৰল অংশক কি বোলে?
+</p>
+
+<label class="option">
+<input type="radio" name="q13">
+RBC
+</label>
+
+<label class="option">
+<input type="radio" name="q13">
+WBC
+</label>
+
+<label class="option">
+<input type="radio" name="q13">
+Platelet
+</label>
+
+<label class="option">
+<input type="radio" name="q13" id="q13correct">
+Plasma
+</label>
+
+</div>
+
+<!-- QUESTION 14 -->
+
+<div class="card">
+
+<p class="question">
+14. অক্সিজেন পৰিবহন কোনে কৰে?
+</p>
+
+<label class="option">
+<input type="radio" name="q14" id="q14correct">
+RBC
+</label>
+
+<label class="option">
+<input type="radio" name="q14">
+WBC
+</label>
+
+<label class="option">
+<input type="radio" name="q14">
+Platelet
+</label>
+
+<label class="option">
+<input type="radio" name="q14">
+Plasma
+</label>
+
+</div>
+
+<!-- QUESTION 15 -->
+
+<div class="card">
+
+<p class="question">
+15. হৃদযন্ত্ৰত কিমানটা কোঠালি থাকে?
+</p>
+
+<label class="option">
+<input type="radio" name="q15">
+2
+</label>
+
+<label class="option">
+<input type="radio" name="q15">
+3
+</label>
+
+<label class="option">
+<input type="radio" name="q15" id="q15correct">
+4
+</label>
+
+<label class="option">
+<input type="radio" name="q15">
+5
+</label>
+
+</div>
