@@ -1093,22 +1093,31 @@ score++;
 }
 
 let percentage = ((score/45)*100).toFixed(2);
+let studentName =
+document.getElementById("studentName").value;
 
+let DOB =
+document.getElementById("DOB").value;
 let resultText="";
 
 if(score>=18){
 resultText="PASS ✅";
 }
-else{
-resultText="FAIL ❌";
-}
+document.getElementById("result").innerHTML =
 
-document.getElementById("result").innerHTML=
+"<h2>LET'S SCORE</h2>" +
 
-"Total Marks : 45 <br><br>" +
+"নাম : " + studentName + "<br><br>" +
 
-"Marks Obtained : " + score + "<br><br>" +
+"ৰোল নং : " + DOB + "<br><br>" +
 
+"মুঠ নম্বৰ : 45 <br><br>" +
+
+"প্ৰাপ্ত নম্বৰ : " + score + "<br><br>" +
+
+"শতাংশ : " + percentage + "%<br><br>" +
+
+"ফলাফল : " + resultText;
 "Percentage  : " + percentage + "%<br><br>" +
 
 "Result : " + resultText;
