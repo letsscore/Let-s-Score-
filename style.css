@@ -143,3 +143,47 @@ svg{
     margin-top:10px;
     font-weight:bold;
     }
+.card{
+background:#fff;
+padding:20px;
+margin:15px;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+text-align:left;
+}
+
+.option{
+display:block;
+font-size:18px;
+margin:10px 0;
+text-align:left;
+}
+
+input[type="radio"]{
+margin-right:10px;
+}
+
+.btn{
+display:inline-block;
+padding:12px 25px;
+background:#007bff;
+color:white;
+text-decoration:none;
+border:none;
+border-radius:5px;
+font-size:18px;
+cursor:pointer;
+}
+
+#result{
+font-size:22px;
+font-weight:bold;
+margin-top:20px;
+text-align:center;
+}
