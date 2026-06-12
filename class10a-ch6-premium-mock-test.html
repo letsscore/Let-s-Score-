@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Premium Mock Test - Life Processes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="logo">🎓 LET'S SCORE</div>
+</header>
+
+<section class="hero">
+<h1>Life Processes</h1>
+<p>Premium Mock Test</p>
+</section>
+
+<div class="card">
+<h3>Q1. Nutrition is the process by which:</h3>
+
+<input type="radio" name="q1"> Movement occurs<br>
+<input type="radio" name="q1" id="q1correct"> Organisms obtain and utilize food<br>
+<input type="radio" name="q1"> Reproduction occurs<br>
+<input type="radio" name="q1"> Excretion occurs<br>
+</div>
+
+<div class="card">
+<h3>Q2. Photosynthesis takes place in:</h3>
+
+<input type="radio" name="q2"> Mitochondria<br>
+<input type="radio" name="q2" id="q2correct"> Chloroplast<br>
+<input type="radio" name="q2"> Nucleus<br>
+<input type="radio" name="q2"> Ribosome<br>
+</div>
+
+<div class="card">
+<h3>Q3. Functional unit of kidney is:</h3>
+
+<input type="radio" name="q3"> Alveolus<br>
+<input type="radio" name="q3"> Villi<br>
+<input type="radio" name="q3" id="q3correct"> Nephron<br>
+<input type="radio" name="q3"> Atrium<br>
+</div>
+
+<div class="card">
+<h3>Q4. Which blood vessel carries blood away from heart?</h3>
+
+<input type="radio" name="q4"> Vein<br>
+<input type="radio" name="q4" id="q4correct"> Artery<br>
+<input type="radio" name="q4"> Capillary<br>
+<input type="radio" name="q4"> Lymph vessel<br>
+</div>
+
+<div class="card">
+<h3>Q5. Double circulation occurs in:</h3>
+
+<input type="radio" name="q5"> Fish<br>
+<input type="radio" name="q5"> Frog<br>
+<input type="radio" name="q5" id="q5correct"> Human beings<br>
+<input type="radio" name="q5"> Earthworm<br>
+</div>
+
+<button onclick="checkScore()" class="btn">
+Submit Test
+</button>
+
+<h2 id="result"></h2>
+
+<script>
+function checkScore(){
+
+let score = 0;
+
+if(document.getElementById("q1correct").checked) score++;
+if(document.getElementById("q2correct").checked) score++;
+if(document.getElementById("q3correct").checked) score++;
+if(document.getElementById("q4correct").checked) score++;
+if(document.getElementById("q5correct").checked) score++;
+
+document.getElementById("result").innerHTML =
+"Your Score: " + score + " / 5";
+
+}
+</script>
+
+</body>
+  </html>
