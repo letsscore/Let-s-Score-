@@ -122,8 +122,8 @@ Unlock Test
 
 <br><br>
 
-<label>DOB</label>
-<input type="text" id="DOB" style="width:100%;padding:10px;">
+<label>rollNo</label>
+<input type="text" id="rollNo" style="width:100%;padding:10px;">
 
   </div>
 
@@ -1127,12 +1127,13 @@ let studentName =
 document.getElementById("studentName").value;
 
 let DOB =
-document.getElementById("DOB").value;
-let resultText="";
+document.getElementById("rollNo").value;
 
 if(score>=18){
-resultText="PASS ✅";
-}
+    resultText="PASS ✅";
+}else{
+    resultText="FAIL ❌";
+  }
 document.getElementById("result").innerHTML =
 
 "<h2>LET'S SCORE</h2>" +
