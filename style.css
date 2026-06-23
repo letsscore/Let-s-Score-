@@ -104,11 +104,6 @@ h2{
 
 /* ===== CARDS ===== */
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-}
-
 .card{
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(15px);
@@ -116,16 +111,24 @@ h2{
     border-radius:20px;
     padding:25px;
     text-align:center;
-    transition:.4s;
+    color:#ffffff; /* Text White */
     box-shadow:
         0 10px 25px rgba(0,0,0,.25),
         inset 0 1px 1px rgba(255,255,255,.1);
 }
 
-.card:hover{
-    transform:translateY(-10px) rotateX(5deg);
-    box-shadow:0 20px 40px rgba(0,0,0,.4);
+.card h3{
+    color:#ffffff;
+    font-size:30px;
+    font-weight:700;
+    text-shadow:0 2px 10px rgba(0,0,0,0.5);
 }
+
+.card p{
+    color:#cbd5e1;
+    font-size:18px;
+    font-weight:500;
+    }
 
 /* ===== NOTES ===== */
 .notes-section{
