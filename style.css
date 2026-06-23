@@ -124,16 +124,10 @@ h2{
         0 0 20px #38bdf8,
         0 0 30px #38bdf8;
 }
-    .card h3{
-    color:#ffffff;
 }
 
 .card p{
     color:#e2e8f0;
-}
-
-.card p{
-    color:#cbd5e1;
     font-size:18px;
     font-weight:500;
     }
@@ -287,10 +281,16 @@ h5,
 h6{
     color:white !important;
 }
-.chapter-list a,
-.chapter-list h3,
-.chapter-list p,
-.chapter-list li,
-.chapter-list span{
-    color:#ffffff !important;
+.chapter-box{
+    background: linear-gradient(135deg,#ffffff,#e0f2fe);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+    margin:20px;
 }
+
+.chapter-box h3,
+.chapter-box p,
+.chapter-box a{
+    color:#003366;
+    }
