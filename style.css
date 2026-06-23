@@ -287,3 +287,10 @@ h5,
 h6{
     color:white !important;
 }
+.chapter-list a,
+.chapter-list h3,
+.chapter-list p,
+.chapter-list li,
+.chapter-list span{
+    color:#ffffff !important;
+}
