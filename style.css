@@ -255,3 +255,21 @@ nav a{
     margin-left:10px;
 }
     }
+.card,
+.card h3,
+.card h4,
+.card p,
+.card span,
+.card a{
+    color:#ffffff !important;
+}
+
+.card h3{
+    font-size:30px;
+    font-weight:700;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+
+.card p{
+    color:#e2e8f0 !important;
+}
