@@ -7,10 +7,14 @@
 }
 
 body{
-    background: linear-gradient(135deg,#0f172a,#1e293b,#0ea5e9);
-    background-attachment: fixed;
-    color:#f8fafc;
-    line-height:1.7;
+    min-height:100vh;
+    background: linear-gradient(
+        180deg,
+        #0f172a 0%,
+        #1e1b4b 30%,
+        #1e293b 70%,
+        #111827 100%
+    );
 }
 
 /* ===== HEADER ===== */
