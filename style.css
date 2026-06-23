@@ -298,3 +298,13 @@ h6{
 .chapter-box a{
     color:#003366;
     }
+.chapter-box{
+    background:#0f172a !important;
+}
+
+.chapter-box h3,
+.chapter-box p,
+.chapter-box a,
+.chapter-box li{
+    color:#ffffff !important;
+}
