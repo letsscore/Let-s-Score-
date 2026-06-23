@@ -273,3 +273,17 @@ nav a{
 .card p{
     color:#e2e8f0 !important;
 }
+body,
+section,
+.card,
+a,
+li,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    color:white !important;
+}
