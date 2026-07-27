@@ -4,12 +4,45 @@
 <title>Motion in a Plane - Detailed Notes</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f9f9f9; color: #333; }
-  .content-container { max-width: 900px; margin: 20px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  body { 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    margin: 0; 
+    padding: 0; 
+    background-color: #0b0f19; 
+    color: #f1f5f9; 
+  }
+  .content-container { 
+    max-width: 900px; 
+    margin: 20px auto; 
+    background: #ffffff; 
+    color: #1e293b; 
+    padding: 30px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+  }
   h2, h3, h4 { color: #0056b3; }
-  .formula-box { background: #eef2f7; padding: 12px; border-left: 4px solid #0056b3; margin: 15px 0; font-family: monospace; font-size: 1.1em; }
-  .example-box { background: #fdfefe; border: 1px dashed #0056b3; padding: 15px; margin: 15px 0; border-radius: 5px; }
+  p, li { color: #334155; }
+  .formula-box { 
+    background: #eef2f7; 
+    color: #0f172a; 
+    padding: 12px; 
+    border-left: 4px solid #0056b3; 
+    margin: 15px 0; 
+    font-family: monospace; 
+    font-size: 1.1em; 
+    overflow-x: auto;
+  }
+  .example-box { 
+    background: #fdfefe; 
+    border: 1px dashed #0056b3; 
+    padding: 15px; 
+    margin: 15px 0; 
+    border-radius: 5px; 
+    color: #1e293b;
+  }
   ul { padding-left: 20px; }
+  hr { border: 0; height: 1px; background: #cbd5e1; margin: 30px 0; }
 </style>
 </head>
 
@@ -19,9 +52,9 @@
 <div class="logo">🎓 LET'S SCORE</div>
 </header>
 
-<section class="hero">
+<section class="hero" style="text-align:center; padding: 20px; color: white;">
 <h1>Motion in a Plane</h1>
-<p>Class 11 Physics - Comprehensive NCERT Vector Notes</p>
+<p>Class 11 Physics - Comprehensive NCERT Vector Notes & Derivations</p>
 </section>
 
 <div style="margin:20px; text-align: center;">
@@ -33,17 +66,12 @@
 <div class="content-container">
 
 <section>
-  <h2>1. Introduction to Vectors (NCERT Baseline)</h2>
-  <p>In physics, quantities are classified based on their direction properties:</p>
+  <h2>1. Introduction to Vectors</h2>
+  <p>Physical quantities are classified into two main types based on direction properties:</p>
   <ul>
-    <li><strong>Scalars:</strong> Quantities with magnitude only (e.g., mass, length, time, speed, work). They follow ordinary rules of algebra.</li>
-    <li><strong>Vectors:</strong> Quantities possessing both magnitude and a specific direction, and which combine according to the vector addition laws (e.g., displacement, velocity, acceleration, force).</li>
+    <li><strong>Scalars:</strong> Quantities that have magnitude only and no direction (e.g., mass, distance, speed, time, temperature). They follow ordinary laws of algebra.</li>
+    <li><strong>Vectors:</strong> Quantities that have both magnitude and a specific direction, and obey the special laws of vector addition (e.g., displacement, velocity, acceleration, force).</li>
   </ul>
-  
-  <div class="example-box">
-    <h4>Example:</h4>
-    <p>A car traveling at $60\text{ km/h}$ is speed (scalar), but traveling $60\text{ km/h}$ towards the North is velocity (vector).</p>
-  </div>
 </section>
 
 <hr>
@@ -51,17 +79,13 @@
 <section>
   <h2>2. Representation of a Vector</h2>
   <h3>Symbolic Representation:</h3>
-  <p>Represented graphically by an arrow-headed line segment where length corresponds to magnitude and arrow indicates direction. Written as $\vec{A}$ or $\mathbf{A}$. Magnitude is denoted by $|\vec{A}|$ or $A$.</p>
+  <p>A vector is represented graphically by a directed line segment (an arrow). The length represents magnitude, and the arrowhead points in the direction. Denoted as $\vec{A}$ or $\mathbf{A}$. Magnitude is written as $|\vec{A}|$ or $A$.</p>
 
   <h3>Equation Representation:</h3>
-  <p>In Cartesian coordinates using orthogonal unit vectors $\hat{i}$, $\hat{j}$, $\hat{k}$:</p>
-  <div class="formula-box">
-    $$\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}$$
-  </div>
+  <p>In Cartesian coordinates using orthogonal unit vectors $\hat{i}$, $\hat{j}$, $\hat{k}$ along X, Y, and Z axes:</p>
+  <div class="formula-box">$$\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}$$</div>
   <p>Magnitude formula:</p>
-  <div class="formula-box">
-    $$|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}$$
-  </div>
+  <div class="formula-box">$$|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}$$</div>
 </section>
 
 <hr>
@@ -69,19 +93,16 @@
 <section>
   <h2>3. Various Types of Vectors</h2>
   <ul>
-    <li><strong>Null Vector (Zero Vector):</strong> Magnitude is zero ($\vec{0}$); arbitrary direction. <em>Example:</em> Velocity of a stationary particle.</li>
-    <li><strong>Unit Vector:</strong> Magnitude equals 1, used exclusively to designate direction. $\hat{A} = \frac{\vec{A}}{|\vec{A}|}$.</li>
-    <li><strong>Position Vector:</strong> Locates an object relative to the coordinate origin: $\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}$.</li>
-    <li><strong>Displacement Vector:</strong> Change in position vector from initial to final point: $\Delta\vec{r} = \vec{r_2} - \vec{r_1}$.</li>
-    <li><strong>Equal Vectors:</strong> Equal magnitudes and identical directions.</li>
-    <li><strong>Unequal Vectors:</strong> Varying magnitudes or different directions.</li>
-    <li><strong>Like Vectors:</strong> Vectors pointing in the same direction irrespective of magnitude.</li>
-    <li><strong>Unlike Vectors:</strong> Vectors pointing in opposite directions.</li>
-    <li><strong>Negative of a Vector:</strong> Equal magnitude but directly opposite orientation ($-\vec{A}$).</li>
-    <li><strong>Parallel Vectors:</strong> Lines of action are parallel ($0^\circ$ angle).</li>
-    <li><strong>Coplanar Vectors:</strong> Vectors lying on the same plane.</li>
-    <li><strong>Collinear Vectors:</strong> Vectors acting along the same single line.</li>
-    <li><strong>Coinitial Vectors:</strong> Vectors sharing a common starting origin point.</li>
+    <li><strong>Null Vector (Zero Vector):</strong> A vector with zero magnitude ($\vec{0}$) and an arbitrary direction. (e.g., velocity of a stationary object).</li>
+    <li><strong>Unit Vector:</strong> A vector of magnitude 1 used exclusively to specify direction ($\hat{A} = \frac{\vec{A}}{|\vec{A}|}$).</li>
+    <li><strong>Position Vector:</strong> Specifies the position of a point relative to the origin: $\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}$.</li>
+    <li><strong>Displacement Vector:</strong> Represents change in position: $\Delta\vec{r} = \vec{r_2} - \vec{r_1}$.</li>
+    <li><strong>Equal Vectors:</strong> Vectors having identical magnitudes and directions.</li>
+    <li><strong>Like & Unlike Vectors:</strong> Like vectors point in the same direction; unlike vectors point in opposite directions.</li>
+    <li><strong>Negative of a Vector:</strong> Same magnitude but opposite direction ($-\vec{A}$).</li>
+    <li><strong>Parallel & Collinear Vectors:</strong> Parallel vectors act along parallel lines ($0^\circ$ or $180^\circ$); collinear vectors act along the same line.</li>
+    <li><strong>Coplanar Vectors:</strong> Vectors lying in the same plane.</li>
+    <li><strong>Coinitial Vectors:</strong> Vectors sharing the exact same starting point.</li>
   </ul>
 </section>
 
@@ -89,112 +110,90 @@
 
 <section>
   <h2>4. Properties of Vectors</h2>
-  <h3>1. Commutative Law:</h3>
-  <div class="formula-box">$$\vec{A} + \vec{B} = \vec{B} + \vec{A}$$</div>
-  <h3>2. Associative Law:</h3>
-  <div class="formula-box">$$(\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C})$$</div>
-  <h3>3. Distributive Law:</h3>
-  <div class="formula-box">$$m(\vec{A} + \vec{B}) = m\vec{A} + m\vec{B}$$</div>
+  <ul>
+    <li><strong>Commutative Law:</strong> $\vec{A} + \vec{B} = \vec{B} + \vec{A}$</li>
+    <li><strong>Associative Law:</strong> $(\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C})$</li>
+    <li><strong>Distributive Law:</strong> $m(\vec{A} + \vec{B}) = m\vec{A} + m\vec{B}$ (where $m$ is a scalar)</li>
+  </ul>
 </section>
 
 <hr>
 
 <section>
-  <h2>5. Addition of Vectors & Laws of Vector Addition</h2>
+  <h2>5. Addition of Vectors & Parallelogram Law (Derivation)</h2>
+  <p><strong>Parallelogram Law Statement:</strong> If two vectors acting simultaneously at a point are represented in magnitude and direction by two adjacent sides of a parallelogram, their resultant is represented by the diagonal passing through that point.</p>
   
-  <h3>A. Triangle Law</h3>
-  <p>If two vectors are represented by two continuous sides of a triangle in order, their sum (resultant) is represented by the third side taken in opposite order.</p>
+  <h3>Step-by-Step Derivation of Resultant Magnitude & Direction:</h3>
+  <p>1. Let two vectors $\vec{A}$ and $\vec{B}$ be represented by sides $OP$ and $OQ$ of a parallelogram, inclined at an angle $\theta$.</p>
+  <p>2. Extend line $OP$ and draw a perpendicular $QN$ from point $Q$ onto $OP$ produced, meeting at point $N$.</p>
+  <p>3. In right-angled triangle $\triangle ONQ$:</p>
+  <div class="formula-box">$$OQ^2 = ON^2 + QN^2$$</div>
+  <p>4. Since $ON = OP + PN$, substitute this:</p>
+  <div class="formula-box">$$R^2 = (OP + PN)^2 + QN^2 \quad \text{--- (Equation 1)}$$</div>
+  <p>5. In right-angled triangle $\triangle QPN$, let $\angle QPN = \theta$:</p>
+  <div class="formula-box">$$PN = B\cos\theta \quad \text{and} \quad QN = B\sin\theta$$</div>
+  <p>6. Substitute $OP = A$, $PN$, and $QN$ into Equation 1:</p>
+  <div class="formula-box">$$R^2 = (A + B\cos\theta)^2 + (B\sin\theta)^2$$</div>
+  <div class="formula-box">$$R^2 = A^2 + B^2\cos^2\theta + 2AB\cos\theta + B^2\sin^2\theta$$</div>
+  <div class="formula-box">$$R^2 = A^2 + B^2(\cos^2\theta + \sin^2\theta) + 2AB\cos\theta$$</div>
+  <p>Since $\cos^2\theta + \sin^2\theta = 1$, the final magnitude formula is:</p>
+  <div class="formula-box">$$R = \sqrt{A^2 + B^2 + 2AB\cos\theta}$$</div>
 
-  <h3>B. Parallelogram Law (With Derivation)</h3>
-  <p>If two vectors $\vec{A}$ and $\vec{B}$ form adjacent sides of a parallelogram meeting at angle $\theta$, the diagonal represents the magnitude of the resultant $\vec{R}$:</p>
-  <div class="formula-box">
-    $$R = \sqrt{A^2 + B^2 + 2AB\cos\theta}$$
-  </div>
-  <p>Direction ($\alpha$) with vector $\vec{A}$:</p>
-  <div class="formula-box">
-    $$\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}$$
-  </div>
-
-  <div class="example-box">
-    <h4>Numerical Example:</h4>
-    <p>Find the resultant of two vectors of magnitude $3\text{ units}$ and $4\text{ units}$ acting at an angle of $90^\circ$.</p>
-    <p><strong>Solution:</strong> $R = \sqrt{3^2 + 4^2 + 2(3)(4)\cos 90^\circ} = \sqrt{9 + 16 + 0} = \sqrt{25} = 5\text{ units}$.</p>
-  </div>
+  <p><strong>Direction ($\alpha$ with vector $\vec{A}$):</strong></p>
+  <p>From right-angled triangle $\triangle ONQ$, $\tan\alpha = \frac{QN}{ON} = \frac{QN}{OP + PN}$</p>
+  <div class="formula-box">$$\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}$$</div>
 </section>
 
 <hr>
 
 <section>
   <h2>6. Subtraction of Vectors</h2>
-  <p>Defined as adding the negative vector: $\vec{A} - \vec{B} = \vec{A} + (-\vec{B})$.</p>
-  <div class="formula-box">
-    $$R_{sub} = \sqrt{A^2 + B^2 - 2AB\cos\theta}$$
-  </div>
+  <p>Vector subtraction is the addition of a negative vector: $\vec{A} - \vec{B} = \vec{A} + (-\vec{B})$.</p>
+  <div class="formula-box">$$R_{sub} = \sqrt{A^2 + B^2 - 2AB\cos\theta}$$</div>
 </section>
 
 <hr>
 
 <section>
   <h2>7. Resolution of Vectors</h2>
-  <p>Splitting vector $\vec{A}$ into rectangular components along axes where it makes angle $\theta$ with the X-axis:</p>
-  <div class="formula-box">
-    $$\vec{A} = A_x\hat{i} + A_y\hat{j} \quad \text{where } A_x = A\cos\theta, A_y = A\sin\theta$$
-  </div>
+  <p>Splitting a vector $\vec{A}$ into rectangular components along orthogonal axes (making angle $\theta$ with X-axis):</p>
+  <div class="formula-box">$$A_x = A\cos\theta, \quad A_y = A\sin\theta \implies \vec{A} = A_x\hat{i} + A_y\hat{j}$$</div>
 </section>
 
 <hr>
 
 <section>
-  <h2>8. Scalar (Dot) and Vector (Cross) Product</h2>
+  <h2>8. Scalar (Dot) and Vector (Cross) Products</h2>
+  <h3>A. Scalar (Dot) Product:</h3>
+  <div class="formula-box">$$\vec{A} \cdot \vec{B} = AB\cos\theta = A_x B_x + A_y B_y + A_z B_z$$</div>
+  <p><em>Example:</em> Work done $W = \vec{F} \cdot \vec{s} = Fs\cos\theta$.</p>
 
-  <h3>A. Scalar Product</h3>
-  <div class="formula-box">
-    $$\vec{A} \cdot \vec{B} = AB\cos\theta = A_x B_x + A_y B_y + A_z B_z$$
-  </div>
-  <div class="example-box">
-    <h4>Example:</h4>
-    <p>Work $W = \vec{F} \cdot \vec{s} = Fs\cos\theta$.</p>
-  </div>
-
-  <h3>B. Vector Product</h3>
-  <div class="formula-box">
-    $$\vec{A} \times \vec{B} = (AB\sin\theta)\hat{n} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}$$
-  </div>
-  <div class="example-box">
-    <h4>Example:</h4>
-    <p>Torque $\vec{\tau} = \vec{r} \times \vec{F}$.</p>
-  </div>
+  <h3>B. Vector (Cross) Product:</h3>
+  <div class="formula-box">$$\vec{A} \times \vec{B} = (AB\sin\theta)\hat{n} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}$$</div>
+  <p><em>Example:</em> Torque $\vec{\tau} = \vec{r} \times \vec{F}$.</p>
 </section>
 
 <hr>
 
 <section>
-  <h2>9. Sine Law and Cosine Law in Vectors</h2>
+  <h2>9. Sine Law and Cosine Law (Derivations)</h2>
+  
+  <h3>A. Cosine Law Derivation</h3>
+  <p>Consider any triangle with side vectors $\vec{a}$, $\vec{b}$, and $\vec{c}$ such that $\vec{a} + \vec{b} = \vec{c}$. Taking the dot product of a vector with itself ($c^2 = \vec{c} \cdot \vec{c}$):</p>
+  <div class="formula-box">$$c^2 = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}$$</div>
+  <p>Since $\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C$:</p>
+  <div class="formula-box">$$c^2 = a^2 + b^2 - 2ab\cos C$$</div>
 
-  <h3>A. Cosine Law (Magnitude Form)</h3>
-  <p>Derived directly from vector triangle properties, relating side lengths ($a, b, c$):</p>
-  <div class="formula-box">
-    $$c^2 = a^2 + b^2 - 2ab\cos C$$
-  </div>
-
-  <h3>B. Sine Law</h3>
-  <p>Relates the ratio of side lengths to the sine of their opposite angles:</p>
-  <div class="formula-box">
-    $$\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}$$
-  </div>
-
-  <div class="example-box">
-    <h4>Numerical Example:</h4>
-    <p>In a triangle vector loop, if side $a = 7$, side $b = 10$, and included angle $C = 60^\circ$, find side $c$.</p>
-    <p><strong>Solution:</strong><br>
-    $c^2 = 7^2 + 10^2 - 2(7)(10)\cos 60^\circ$<br>
-    $c^2 = 49 + 100 - 140(0.5) = 149 - 70 = 79$<br>
-    $c = \sqrt{79} \approx 8.88\text{ units}$.</p>
-  </div>
+  <h3>B. Sine Law Derivation</h3>
+  <p>Consider a triangle with sides $a, b, c$ and angles $A, B, C$. The area of the triangle can be expressed in three ways using vector cross-product magnitudes:</p>
+  <div class="formula-box">$$\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B$$</div>
+  <p>Dividing throughout by $\frac{1}{2}abc$ yields the Sine Law:</p>
+  <div class="formula-box">$$\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}$$</div>
 </section>
 
 </div>
 
 </body>
-  </html>
+</html>
+
   
