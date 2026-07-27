@@ -312,7 +312,124 @@
 
   <h3>B. Sine Law Derivation</h3>
   <p>The area of any arbitrary triangle can be expressed using vector cross-product magnitudes of its sides taken in pairs:</p>
-  <div class="formula-box">\(
+  <div class="formula-box">\(\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B\)</div>
+  <p>Dividing throughout by the common factor \(\frac{1}{2}abc\) yields the classical Law of Sines:</p>
+  <div class="formula-box">\(\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}\)</div>
+
+  <div class="pyq-box">
+    <h4>📝 NEET / JEE Conceptual PYQ</h4>
+    <p><strong>Q:</strong> If three forces acting in a single plane are in equilibrium, prove how the Sine Law applies to them (Lami's Theorem).</p>
+    <p><strong>Detailed Solution:</strong> By Lami's Theorem, if three concurrent coplanar forces \(\vec{F_1}\), \(\vec{F_2}\), and \(\vec{F_3}\) are in equilibrium, the magnitude of each force is directly proportional to the sine of the angle between the other two forces: \(\frac{F_1}{\sin\alpha} = \frac{F_2}{\sin\beta} = \frac{F_3}{\sin\gamma}\). This directly stems from the vector polygon closing condition where the vector sum equals zero.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2>8. Projectile Motion: Deep Conceptual Masterclass</h2>
+  <p>Projectile motion is the motion of an object thrown or projected into the air, subject only to the downward acceleration of gravity (ignoring air resistance). It is the classic two-dimensional motion where horizontal and vertical motions occur independently of each other.</p>
+
+  <div class="concept-box">
+    <h3>Core Principles of Projectile Motion</h3>
+    <ul>
+      <li><strong>Horizontal Motion:</strong> Since air resistance is neglected, there is no horizontal force acting on the projectile. Therefore, horizontal acceleration \(a_x = 0\), meaning horizontal velocity remains constant throughout the flight (\(v_x = u\cos\theta\)).</li>
+      <li><strong>Vertical Motion:</strong> The projectile experiences constant downward acceleration due to gravity (\(a_y = -g\)). This causes the vertical velocity to change uniformly over time.</li>
+      <li><strong>Independence of Motions:</strong> Galileo's principle of superposition states that horizontal and vertical motions are mutually independent. A projectile's horizontal position depends solely on initial horizontal velocity, while its vertical position depends on initial vertical velocity and gravity.</li>
+    </ul>
+  </div>
+
+  <div class="svg-container">
+    <h4>Figure: Trajectory Path of an Oblique Projectile</h4>
+    <svg width="600" height="320" viewBox="0 0 600 320" style="background:#ffffff; max-width:100%; height:auto;">
+      <!-- Grid / Axes -->
+      <line x1="50" y1="270" x2="550" y2="270" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)" />
+      <line x1="50" y1="270" x2="50" y2="30" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)" />
+      <text x="545" y="295" font-size="14" fill="#334155">X (Range R)</text>
+      <text x="20" y="35" font-size="14" fill="#334155">Y (Height H)</text>
+
+      <!-- Trajectory Curve -->
+      <path d="M 50 270 Q 300 -20 550 270" fill="none" stroke="#0056b3" stroke-width="3" stroke-dasharray="5,5" />
+      <path d="M 50 270 Q 300 20 550 270" fill="none" stroke="#0284c7" stroke-width="3" />
+
+      <!-- Max Height Line -->
+      <line x1="300" y1="120" x2="300" y2="270" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,3" />
+      <text x="310" y="200" font-size="13" fill="#d97706">Max Height (H)</text>
+
+      <!-- Initial Velocity Vector -->
+      <line x1="50" y1="270" x2="130" y2="190" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrowGreen)" />
+      <text x="90" y="215" font-size="14" fill="#16a34a" font-weight="bold">u</text>
+      <text x="135" y="240" font-size="13" fill="#334155">Angle θ</text>
+
+      <!-- Markers -->
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+        </marker>
+        <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>1. Derivation of Trajectory Path Equation</h3>
+  <p>The equation of trajectory establishes the spatial path (\(y\) as a function of \(x\)) traced by the projectile.</p>
+  <p>Let an object be projected with velocity \(u\) at angle \(\theta\) from the origin \((0,0)\).</p>
+  <ul>
+    <li>At any time \(t\), the horizontal displacement is:
+      <div class="formula-box">\(x = (u\cos\theta)t \implies t = \frac{x}{u\cos\theta}\)</div>
+    </li>
+    <li>At the same time \(t\), the vertical displacement is:
+      <div class="formula-box">\(y = (u\sin\theta)t - \frac{1}{2}gt^2\)</div>
+    </li>
+    <li>Substituting the expression for time \(t\) into the vertical displacement equation:
+      <div class="formula-box">\(y = (u\sin\theta)\left(\frac{x}{u\cos\theta}\right) - \frac{1}{2}g\left(\frac{x}{u\cos\theta}\right)^2\)</div>
+      <div class="formula-box">\(y = x\tan\theta - \frac{g}{2u^2\cos^2\theta}x^2\)</div>
+    </li>
+  </ul>
+  <p>This is standard quadratic equation form \(y = ax - bx^2\), proving that the trajectory path of a projectile is strictly a <strong>parabola</strong>.</p>
+
+  <h3>2. Derivation of Time of Flight (\(T\))</h3>
+  <p><strong>Definition:</strong> Total time duration for which the projectile remains in flight in the air from projection to hitting the ground.</p>
+  <p>When the projectile lands back on the ground, its net vertical displacement is zero (\(y = 0\)). Using the kinematic equation \(s_y = u_y t + \frac{1}{2}a_y t^2\):</p>
+  <div class="formula-box">\(0 = (u\sin\theta)T - \frac{1}{2}gT^2 \implies (u\sin\theta)T = \frac{1}{2}gT^2\)</div>
+  <div class="formula-box">\(T = \frac{2u\sin\theta}{g}\)</div>
+
+  <h3>3. Derivation of Maximum Height (\(H\))</h3>
+  <p><strong>Definition:</strong> The maximum vertical distance attained by the projectile above the horizontal projection plane.</p>
+  <p>At maximum height, the vertical component of velocity becomes zero (\(v_y = 0\)). Using the kinematic relation \(v_y^2 = u_y^2 + 2a_y s_y\):</p>
+  <div class="formula-box">\(0 = (u\sin\theta)^2 - 2gH \implies 2gH = u^2\sin^2\theta\)</div>
+  <div class="formula-box">\(H = \frac{u^2\sin^2\theta}{2g}\)</div>
+
+  <h3>4. Derivation of Horizontal Range (\(R\))</h3>
+  <p><strong>Definition:</strong> The maximum horizontal distance traveled by the projectile from the point of projection to the point where it strikes the ground.</p>
+  <p>Range is the horizontal velocity multiplied by the total time of flight (\(T\)):</p>
+  <div class="formula-box">\(R = (u\cos\theta) \times T = (u\cos\theta)\left(\frac{2u\sin\theta}{g}\right) = \frac{u^2 (2\sin\theta\cos\theta)}{g}\)</div>
+  <p>Using the double-angle trigonometric identity \(2\sin\theta\cos\theta = \sin(2\theta)\):</p>
+  <div class="formula-box">\(R = \frac{u^2\sin(2\theta)}{g}\)</div>
+
+  <div class="exam-tip">
+    <strong>Key Projectile Properties:</strong><br>
+    • Maximum range occurs when \(\sin(2\theta) = 1 \implies 2\theta = 90^\circ \implies \theta = 45^\circ\). Thus, \(R_{max} = \frac{u^2}{g}\).<br>
+    • Complementary angles of projection (\(\theta\) and \(90^\circ - \theta\)) yield the exact same horizontal range.
+  </div>
+
+  <div class="pyq-box">
+    <h4>📝 NEET / JEE Main Previous Year Question</h4>
+    <p><strong>Q:</strong> A projectile is fired with a velocity \(u\) at an angle \(\theta\) with the horizontal. Find the maximum height attained and horizontal range if \(u = 20\text{ m/s}\), \(\theta = 30^\circ\), and \(g = 10\text{ m/s}^2\).</p>
+    <p><strong>Detailed Solution:</strong><br>
+    1. Maximum Height Formula: \(H = \frac{u^2\sin^2\theta}{2g}\)<br>
+    \(H = \frac{(20)^2 (\sin 30^\circ)^2}{2(10)} = \frac{400 \times (0.5)^2}{20} = \frac{400 \times 0.25}{20} = \frac{100}{20} = 5\text{ m}\).<br>
+    2. Horizontal Range Formula: \(R = \frac{u^2\sin(2\theta)}{g}\)<br>
+    \(R = \frac{(20)^2 \sin(60^\circ)}{10} = \frac{400 \times (\sqrt{3}/2)}{10} = 40 \times \frac{\sqrt{3}}{2} = 20\sqrt{3}\text{ m} \approx 34.64\text{ m}\).</p>
+  </div>
+</section>
+
+</div>
+
+</body>
+</html>
+
     
 
   
