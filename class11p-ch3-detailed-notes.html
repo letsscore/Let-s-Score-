@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Motion in a Plane - Detailed Notes</title>
-<link rel="stylesheet" href="style.css">
 <!-- Include KaTeX for proper mathematical formula rendering -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -99,13 +98,13 @@
 <section>
   <h2>2. Representation of a Vector</h2>
   <h3>Symbolic Representation:</h3>
-  <p>A vector is represented graphically by a directed line segment (an arrow). The length represents magnitude, and the arrowhead points in the direction. Denoted as $\vec{A}$ or $\mathbf{A}$. Magnitude is written as $|\vec{A}|$ or $A$.</p>
+  <p>A vector is represented graphically by a directed line segment (an arrow). The length represents magnitude, and the arrowhead points in the direction. Denoted as \(\vec{A}\) or \(\mathbf{A}\). Magnitude is written as \(|\vec{A}|\) or \(A\).</p>
 
   <h3>Equation Representation:</h3>
-  <p>In Cartesian coordinates using orthogonal unit vectors $\hat{i}$, $\hat{j}$, $\hat{k}$ along X, Y, and Z axes:</p>
-  <div class="formula-box">$$\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}$$</div>
+  <p>In Cartesian coordinates using orthogonal unit vectors \(\hat{i}\), \(\hat{j}\), \(\hat{k}\) along X, Y, and Z axes:</p>
+  <div class="formula-box">\(\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}\)</div>
   <p>Magnitude formula:</p>
-  <div class="formula-box">$$|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}$$</div>
+  <div class="formula-box">\(|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}\)</div>
 </section>
 
 <hr>
@@ -113,14 +112,14 @@
 <section>
   <h2>3. Various Types of Vectors</h2>
   <ul>
-    <li><strong>Null Vector (Zero Vector):</strong> A vector with zero magnitude ($\vec{0}$) and an arbitrary direction. (e.g., velocity of a stationary object).</li>
-    <li><strong>Unit Vector:</strong> A vector of magnitude 1 used exclusively to specify direction ($\hat{A} = \frac{\vec{A}}{|\vec{A}|}$).</li>
-    <li><strong>Position Vector:</strong> Specifies the position of a point relative to the origin: $\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}$.</li>
-    <li><strong>Displacement Vector:</strong> Represents change in position: $\Delta\vec{r} = \vec{r_2} - \vec{r_1}$.</li>
+    <li><strong>Null Vector (Zero Vector):</strong> A vector with zero magnitude (\(\vec{0}\)) and an arbitrary direction. (e.g., velocity of a stationary object).</li>
+    <li><strong>Unit Vector:</strong> A vector of magnitude 1 used exclusively to specify direction (\(\hat{A} = \frac{\vec{A}}{|\vec{A}|}\)).</li>
+    <li><strong>Position Vector:</strong> Specifies the position of a point relative to the origin: \(\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}\).</li>
+    <li><strong>Displacement Vector:</strong> Represents change in position: \(\Delta\vec{r} = \vec{r_2} - \vec{r_1}\).</li>
     <li><strong>Equal Vectors:</strong> Vectors having identical magnitudes and directions.</li>
     <li><strong>Like & Unlike Vectors:</strong> Like vectors point in the same direction; unlike vectors point in opposite directions.</li>
-    <li><strong>Negative of a Vector:</strong> Same magnitude but opposite direction ($-\vec{A}$).</li>
-    <li><strong>Parallel & Collinear Vectors:</strong> Parallel vectors act along parallel lines ($0^\circ$ or $180^\circ$); collinear vectors act along the same line.</li>
+    <li><strong>Negative of a Vector:</strong> Same magnitude but opposite direction (\(-\vec{A}\)).</li>
+    <li><strong>Parallel & Collinear Vectors:</strong> Parallel vectors act along parallel lines (\(0^\circ\) or \(180^\circ\)); collinear vectors act along the same line.</li>
     <li><strong>Coplanar Vectors:</strong> Vectors lying in the same plane.</li>
     <li><strong>Coinitial Vectors:</strong> Vectors sharing the exact same starting point.</li>
   </ul>
@@ -131,9 +130,9 @@
 <section>
   <h2>4. Properties of Vectors</h2>
   <ul>
-    <li><strong>Commutative Law:</strong> $\vec{A} + \vec{B} = \vec{B} + \vec{A}$</li>
-    <li><strong>Associative Law:</strong> $(\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C})$</li>
-    <li><strong>Distributive Law:</strong> $m(\vec{A} + \vec{B}) = m\vec{A} + m\vec{B}$ (where $m$ is a scalar)</li>
+    <li><strong>Commutative Law:</strong> \(\vec{A} + \vec{B} = \vec{B} + \vec{A}\)</li>
+    <li><strong>Associative Law:</strong> \((\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C})\)</li>
+    <li><strong>Distributive Law:</strong> \(m(\vec{A} + \vec{B}) = m\vec{A} + m\vec{B}\) (where \(m\) is a scalar)</li>
   </ul>
 </section>
 
@@ -144,40 +143,40 @@
   <p><strong>Parallelogram Law Statement:</strong> If two vectors acting simultaneously at a point are represented in magnitude and direction by two adjacent sides of a parallelogram, their resultant is represented by the diagonal passing through that point.</p>
   
   <h3>Step-by-Step Derivation of Resultant Magnitude & Direction:</h3>
-  <p>1. Let two vectors $\vec{A}$ and $\vec{B}$ be represented by sides $OP$ and $OQ$ of a parallelogram, inclined at an angle $\theta$.</p>
-  <p>2. Extend line $OP$ and draw a perpendicular $QN$ from point $Q$ onto $OP$ produced, meeting at point $N$.</p>
-  <p>3. In right-angled triangle $\triangle ONQ$:</p>
-  <div class="formula-box">$$OQ^2 = ON^2 + QN^2$$</div>
-  <p>4. Since $ON = OP + PN$, substitute this:</p>
-  <div class="formula-box">$$R^2 = (OP + PN)^2 + QN^2 \quad \text{--- (Equation 1)}$$</div>
-  <p>5. In right-angled triangle $\triangle QPN$, let $\angle QPN = \theta$:</p>
-  <div class="formula-box">$$PN = B\cos\theta \quad \text{and} \quad QN = B\sin\theta$$</div>
-  <p>6. Substitute $OP = A$, $PN$, and $QN$ into Equation 1:</p>
-  <div class="formula-box">$$R^2 = (A + B\cos\theta)^2 + (B\sin\theta)^2$$</div>
-  <div class="formula-box">$$R^2 = A^2 + B^2\cos^2\theta + 2AB\cos\theta + B^2\sin^2\theta$$</div>
-  <div class="formula-box">$$R^2 = A^2 + B^2(\cos^2\theta + \sin^2\theta) + 2AB\cos\theta$$</div>
-  <p>Since $\cos^2\theta + \sin^2\theta = 1$, the final magnitude formula is:</p>
-  <div class="formula-box">$$R = \sqrt{A^2 + B^2 + 2AB\cos\theta}$$</div>
+  <p>1. Let two vectors \(\vec{A}\) and \(\vec{B}\) be represented by sides \(OP\) and \(OQ\) of a parallelogram, inclined at an angle \(\theta\).</p>
+  <p>2. Extend line \(OP\) and draw a perpendicular \(QN\) from point \(Q\) onto \(OP\) produced, meeting at point \(N\).</p>
+  <p>3. In right-angled triangle \(\triangle ONQ\):</p>
+  <div class="formula-box">\(OQ^2 = ON^2 + QN^2\)</div>
+  <p>4. Since \(ON = OP + PN\), substitute this:</p>
+  <div class="formula-box">\(R^2 = (OP + PN)^2 + QN^2 \quad \text{--- (Equation 1)}\)</div>
+  <p>5. In right-angled triangle \(\triangle QPN\), let \(\angle QPN = \theta\):</p>
+  <div class="formula-box">\(PN = B\cos\theta \quad \text{and} \quad QN = B\sin\theta\)</div>
+  <p>6. Substitute \(OP = A\), \(PN\), and \(QN\) into Equation 1:</p>
+  <div class="formula-box">\(R^2 = (A + B\cos\theta)^2 + (B\sin\theta)^2\)</div>
+  <div class="formula-box">\(R^2 = A^2 + B^2\cos^2\theta + 2AB\cos\theta + B^2\sin^2\theta\)</div>
+  <div class="formula-box">\(R^2 = A^2 + B^2(\cos^2\theta + \sin^2\theta) + 2AB\cos\theta\)</div>
+  <p>Since \(\cos^2\theta + \sin^2\theta = 1\), the final magnitude formula is:</p>
+  <div class="formula-box">\(R = \sqrt{A^2 + B^2 + 2AB\cos\theta}\)</div>
 
-  <p><strong>Direction ($\alpha$ with vector $\vec{A}$):</strong></p>
-  <p>From right-angled triangle $\triangle ONQ$, $\tan\alpha = \frac{QN}{ON} = \frac{QN}{OP + PN}$</p>
-  <div class="formula-box">$$\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}$$</div>
+  <p><strong>Direction (\(\alpha\) with vector \(\vec{A}\)):</strong></p>
+  <p>From right-angled triangle \(\triangle ONQ\), \(\tan\alpha = \frac{QN}{ON} = \frac{QN}{OP + PN}\)</p>
+  <div class="formula-box">\(\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}\)</div>
 </section>
 
 <hr>
 
 <section>
   <h2>6. Subtraction of Vectors</h2>
-  <p>Vector subtraction is the addition of a negative vector: $\vec{A} - \vec{B} = \vec{A} + (-\vec{B})$.</p>
-  <div class="formula-box">$$R_{sub} = \sqrt{A^2 + B^2 - 2AB\cos\theta}$$</div>
+  <p>Vector subtraction is the addition of a negative vector: \(\vec{A} - \vec{B} = \vec{A} + (-\vec{B})\).</p>
+  <div class="formula-box">\(R_{sub} = \sqrt{A^2 + B^2 - 2AB\cos\theta}\)</div>
 </section>
 
 <hr>
 
 <section>
   <h2>7. Resolution of Vectors</h2>
-  <p>Splitting a vector $\vec{A}$ into rectangular components along orthogonal axes (making angle $\theta$ with X-axis):</p>
-  <div class="formula-box">$$A_x = A\cos\theta, \quad A_y = A\sin\theta \implies \vec{A} = A_x\hat{i} + A_y\hat{j}$$</div>
+  <p>Splitting a vector \(\vec{A}\) into rectangular components along orthogonal axes (making angle \(\theta\) with X-axis):</p>
+  <div class="formula-box">\(A_x = A\cos\theta, \quad A_y = A\sin\theta \implies \vec{A} = A_x\hat{i} + A_y\hat{j}\)</div>
 </section>
 
 <hr>
@@ -185,12 +184,12 @@
 <section>
   <h2>8. Scalar (Dot) and Vector (Cross) Products</h2>
   <h3>A. Scalar (Dot) Product:</h3>
-  <div class="formula-box">$$\vec{A} \cdot \vec{B} = AB\cos\theta = A_x B_x + A_y B_y + A_z B_z$$</div>
-  <p><em>Example:</em> Work done $W = \vec{F} \cdot \vec{s} = Fs\cos\theta$.</p>
+  <div class="formula-box">\(\vec{A} \cdot \vec{B} = AB\cos\theta = A_x B_x + A_y B_y + A_z B_z\)</div>
+  <p><em>Example:</em> Work done \(W = \vec{F} \cdot \vec{s} = Fs\cos\theta\).</p>
 
   <h3>B. Vector (Cross) Product:</h3>
-  <div class="formula-box">$$\vec{A} \times \vec{B} = (AB\sin\theta)\hat{n} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}$$</div>
-  <p><em>Example:</em> Torque $\vec{\tau} = \vec{r} \times \vec{F}$.</p>
+  <div class="formula-box">\(\vec{A} \times \vec{B} = (AB\sin\theta)\hat{n}\)</div>
+  <p><em>Example:</em> Torque \(\vec{\tau} = \vec{r} \times \vec{F}\).</p>
 </section>
 
 <hr>
@@ -199,22 +198,23 @@
   <h2>9. Sine Law and Cosine Law (Derivations)</h2>
   
   <h3>A. Cosine Law Derivation</h3>
-  <p>Consider any triangle with side vectors $\vec{a}$, $\vec{b}$, and $\vec{c}$ such that $\vec{a} + \vec{b} = \vec{c}$. Taking the dot product of a vector with itself ($c^2 = \vec{c} \cdot \vec{c}$):</p>
-  <div class="formula-box">$$c^2 = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}$$</div>
-  <p>Since $\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C$:</p>
-  <div class="formula-box">$$c^2 = a^2 + b^2 - 2ab\cos C$$</div>
+  <p>Consider any triangle with side vectors \(\vec{a}\), \(\vec{b}\), and \(\vec{c}\) such that \(\vec{a} + \vec{b} = \vec{c}\). Taking the dot product of a vector with itself (\(c^2 = \vec{c} \cdot \vec{c}\)):</p>
+  <div class="formula-box">\(c^2 = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}\)</div>
+  <p>Since \(\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C\):</p>
+  <div class="formula-box">\(c^2 = a^2 + b^2 - 2ab\cos C\)</div>
 
   <h3>B. Sine Law Derivation</h3>
-  <p>Consider a triangle with sides $a, b, c$ and angles $A, B, C$. The area of the triangle can be expressed in three ways using vector cross-product magnitudes:</p>
-  <div class="formula-box">$$\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B$$</div>
-  <p>Dividing throughout by $\frac{1}{2}abc$ yields the Sine Law:</p>
-  <div class="formula-box">$$\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}$$</div>
+  <p>Consider a triangle with sides \(a, b, c\) and angles \(A, B, C\). The area of the triangle can be expressed using vector cross-product magnitudes:</p>
+  <div class="formula-box">\(\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B\)</div>
+  <p>Dividing throughout by \(\frac{1}{2}abc\) yields the Sine Law:</p>
+  <div class="formula-box">\(\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}\)</div>
 </section>
 
 </div>
 
 </body>
-  </html>
+          </html>
+  
     
 
   
