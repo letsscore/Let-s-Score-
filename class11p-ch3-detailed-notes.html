@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Motion in a Plane - Deep Conceptual Masterclass & PYQs</title>
+<title>Motion in a Plane - Deep Conceptual Masterclass & Projectile Motion</title>
 <!-- Include KaTeX for proper mathematical formula rendering -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -67,6 +67,14 @@
     color: #15803d;
     margin-top: 0;
   }
+  .svg-container {
+    text-align: center;
+    margin: 25px 0;
+    background: #f8fafc;
+    padding: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+  }
   ul { padding-left: 20px; }
   hr { border: 0; height: 1px; background: #cbd5e1; margin: 35px 0; }
   .btn {
@@ -91,14 +99,14 @@
 </header>
 
 <section class="hero" style="text-align:center; padding: 20px; color: white;">
-<h1>Motion in a Plane: Advanced Conceptual Masterclass</h1>
-<p>Comprehensive Detailed Explanations, Complete Derivations, and NEET/JEE Exam Corner</p>
+<h1>Motion in a Plane: Advanced Masterclass & Projectile Motion</h1>
+<p>Detailed Vector Classifications, Rigorous Derivations, Interactive SVG Visualizations, and NEET/JEE Exam Corner</p>
 </section>
 
 <div style="margin:20px; text-align: center;">
 <a href="index.html" class="btn">🏠 Home Page</a>
 <a href="class11p-ch3.html" class="btn">📚 Chapter Index</a>
-<a href="javascript:history.back()" class="btn">⬅ Go Graph</a>
+<a href="class11p-graphs.html" class="btn">📈 Go Graphs</a>
 </div>
 
 <div class="content-container">
@@ -141,11 +149,15 @@
       <div class="formula-box">\(\hat{A} = \frac{\vec{A}}{|\vec{A}|} \implies \vec{A} = |\vec{A}|\hat{A}\)</div>
       Orthogonal unit vectors \(\hat{i}\), \(\hat{j}\), and \(\hat{k}\) point along the positive Cartesian X, Y, and Z axes respectively.
     </li>
+    <li><strong>Equal Vectors:</strong> Two vectors are said to be equal if they have both the same magnitude and the exact same direction, regardless of their initial starting points in space. If \(\vec{A} = \vec{B}\), then \(|\vec{A}| = |\vec{B}|\) and their directional angles match identically.</li>
+    <li><strong>Like Vectors (Parallel Vectors):</strong> Vectors that point in the exact same spatial direction, though they may possess unequal magnitudes. Their included angle is \(\theta = 0^\circ\).</li>
+    <li><strong>Unlike Vectors (Anti-parallel Vectors):</strong> Vectors that point in completely opposite spatial directions. Their included angle is \(\theta = 180^\circ\).</li>
+    <li><strong>Negative Vector:</strong> A vector having the exact same magnitude as a given vector \(\vec{A}\) but pointing in the exact opposite direction. It is denoted as \(-\vec{A}\).</li>
+    <li><strong>Collinear and Coplanar Vectors:</strong> Collinear vectors act along the same line or parallel lines. Coplanar vectors lie entirely within the same two-dimensional plane.</li>
     <li><strong>Position Vector:</strong> Establishes the spatial coordinates of a point particle relative to a chosen origin point \(O\). In a 3D Cartesian frame, it is written as \(\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}\), where coordinates \(x, y, z\) represent the perpendicular distances from coordinate planes.</li>
     <li><strong>Displacement Vector:</strong> Represents the net straight-line change in position of a moving body from an initial point \(P_1(\vec{r_1})\) to a final point \(P_2(\vec{r_2})\):
       <div class="formula-box">\(\Delta\vec{r} = \vec{r_2} - \vec{r_1} = (x_2 - x_1)\hat{i} + (y_2 - y_1)\hat{j} + (z_2 - z_1)\hat{k}\)</div>
     </li>
-    <li><strong>Polar vs. Axial Vectors:</strong> Polar vectors have a natural starting point or linear direction associated with translational motion (e.g., displacement, force, velocity). Axial vectors represent rotational or spinning effects and are directed along the axis of rotation following the right-hand screw rule (e.g., angular velocity, torque, angular momentum).</li>
   </ul>
 
   <div class="pyq-box">
@@ -154,9 +166,9 @@
     <p><strong>Detailed Solution:</strong><br>
     1. First, find the resultant vector \(\vec{R}\):<br>
     \(\vec{R} = \vec{A} + \vec{B} = (3+1)\hat{i} + (4-2)\hat{j} + (-2+3)\hat{k} = 4\hat{i} + 2\hat{j} + \hat{k}\).<br>
-    2. Compute the magnitude of the resultant vector:\
+    2. Compute the magnitude of the resultant vector:<br>
     \(|\vec{R}| = \sqrt{4^2 + 2^2 + 1^2} = \sqrt{16 + 4 + 1} = \sqrt{21}\).<br>
-    3. Construct the unit vector:\
+    3. Construct the unit vector:<br>
     \(\hat{R} = \frac{\vec{R}}{|\vec{R}|} = \frac{4\hat{i} + 2\hat{j} + \hat{k}}{\sqrt{21}}\).</p>
   </div>
 </section>
@@ -175,7 +187,7 @@
   <p><strong>Detailed Statement:</strong> If two active vectors originating from a common point are represented in magnitude and direction by two adjacent sides of a parallelogram drawn from that exact point, their comprehensive resultant vector is represented completely by the diagonal of the parallelogram originating from that same common point.</p>
   
   <p><strong>Comprehensive Proof and Derivation:</strong></p>
-  <p>1. Let two vectors \(\vec{A}\) (represented by side \(OP\)) and \(\vec{B}\) (represented by side \(OQ\)) act at an angle \(\theta$ relative to one another.</p>
+  <p>1. Let two vectors \(\vec{A}\) (represented by side \(OP\)) and \(\vec{B}\) (represented by side \(OQ\)) act at an angle \(\theta\) relative to one another.</p>
   <p>2. Complete the parallelogram \(OPRS\). The diagonal \(OR\) represents the resultant vector \(\vec{R}\), making an angle \(\alpha\) with vector \(\vec{A}\).</p>
   <p>3. To find the mathematical magnitude of \(\vec{R}\), extend the line segment \(OP\) outwards and drop a perpendicular line from vertex \(R\) down to meet the extended line at point \(N\). This creates a large right-angled triangle \(\triangle ONR\).</p>
   <p>4. Applying the Pythagorean theorem to right-angled triangle \(\triangle ONR\):</p>
@@ -207,7 +219,7 @@
     <h4>📝 NEET Previous Year Question</h4>
     <p><strong>Q:</strong> The resultant of two vectors \(\vec{A}\) and \(\vec{B}\) is perpendicular to vector \(\vec{A}\). If the magnitude of vector \(\vec{B}\) is twice the magnitude of vector \(\vec{A}\), find the angle between vectors \(\vec{A}\) and \(\vec{B}\).</p>
     <p><strong>Detailed Solution:</strong><br>
-    1. Given condition: Resultant vector \(\vec{R}\) makes an angle \(\alpha = 90^\circ\) with vector \(\vec{A}\). Also, \(B = 2A$.<br>
+    1. Given condition: Resultant vector \(\vec{R}\) makes an angle \(\alpha = 90^\circ\) with vector \(\vec{A}\). Also, \(B = 2A\).<br>
     2. Using the direction formula: \(\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}\)<br>
     3. Since \(\tan(90^\circ) = \infty\), the denominator must approach zero:<br>
     \(A + B\cos\theta = 0 \implies A + (2A)\cos\theta = 0\)<br>
@@ -240,7 +252,7 @@
 <section>
   <h2>5. Resolution of Vectors into Rectangular Components</h2>
   <p>To perform complex vector equations analytically without drawing diagrams, vectors are resolved along mutually perpendicular Cartesian axes (\(\hat{i}, \hat{j}, \hat{k}\)).</p>
-  <p>If a vector \(\vec{A}\) lies in the XY-plane making an angle \(\theta$ with the positive X-axis, dropping perpendiculars to the axes splits it into components:</p>
+  <p>If a vector \(\vec{A}\) lies in the XY-plane making an angle \(\theta\) with the positive X-axis, dropping perpendiculars to the axes splits it into components:</p>
   <div class="formula-box">\(A_x = A\cos\theta \quad \text{and} \quad A_y = A\sin\theta\)</div>
   <p>The vector in unit vector component form is expressed as:</p>
   <div class="formula-box">\(\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}\)</div>
@@ -293,22 +305,14 @@
   <h2>7. Triangle Trigonometric Laws Derived via Vectors</h2>
 
   <h3>A. Cosine Law Derivation</h3>
-  <p>Consider any triangle formed by side vectors \(\vec{a}\), \(\vec{b}\), and \(\vec{c}$ connected in a closed loop such that \(\vec{a} + \vec{b} = \vec{c}\). Taking the dot product of vector \(\vec{c}\) with itself:</p>
+  <p>Consider any triangle formed by side vectors \(\vec{a}\), \(\vec{b}\), and \(\vec{c}\) connected in a closed loop such that \(\vec{a} + \vec{b} = \vec{c}\). Taking the dot product of vector \(\vec{c}\) with itself:</p>
   <div class="formula-box">\(c^2 = \vec{c} \cdot \vec{c} = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}\)</div>
   <p>Because the interior angle between adjacent vectors \(\vec{a}\) and \(\vec{b}\) in the loop is equal to \((180^\circ - C)\), substituting \(\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C\) yields the Law of Cosines:</p>
   <div class="formula-box">\(c^2 = a^2 + b^2 - 2ab\cos C\)</div>
 
   <h3>B. Sine Law Derivation</h3>
   <p>The area of any arbitrary triangle can be expressed using vector cross-product magnitudes of its sides taken in pairs:</p>
-  <div class="formula-box">\(\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B\)</div>
-  <p>Dividing throughout by the common factor \(\frac{1}{2}abc\) yields the classical Law of Sines:</p>
-  <div class="formula-box">\(\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}\)</div>
-
-  <div class="pyq-box">
-    <h4>📝 NEET / JEE Conceptual PYQ</h4>
-    <p><strong>Q:</strong> If three forces acting in a single plane are in equilibrium, prove how the Sine Law applies to them (Lami's Theorem).</p>
-    <p><strong>Detailed Solution:</strong> By Lami's Theorem, if three concurrent coplanar forces \(\vec{F_1}\), \(\vec{F_2}\), and \(\vec{F_3}\) are in equilibrium, the magnitude of each force is directly proportional to the sine of the angle between the other two forces: \(\frac{F_1}{\sin\alpha} = \frac{F_2}{\sin\beta} = \frac{F_3}{\sin\gamma}\). This directly stems from the vector polygon closing condition where the 
-  
+  <div class="formula-box">\(
     
 
   
