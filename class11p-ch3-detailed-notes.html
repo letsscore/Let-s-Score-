@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Motion in a Plane - Detailed Notes</title>
+<title>Motion in a Plane - Deep Conceptual Masterclass & PYQs</title>
 <!-- Include KaTeX for proper mathematical formula rendering -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -12,42 +12,63 @@
 <style>
   body { 
     font-family: Arial, sans-serif; 
-    line-height: 1.6; 
+    line-height: 1.8; 
     margin: 0; 
     padding: 0; 
     background-color: #0b0f19; 
     color: #f1f5f9; 
   }
   .content-container { 
-    max-width: 900px; 
+    max-width: 950px; 
     margin: 20px auto; 
     background: #ffffff; 
     color: #1e293b; 
-    padding: 30px; 
+    padding: 45px; 
     border-radius: 8px; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
   }
-  h2, h3, h4 { color: #0056b3; }
-  p, li { color: #334155; }
+  h2 { color: #0056b3; border-bottom: 2px solid #eef2f7; padding-bottom: 8px; margin-top: 45px; }
+  h3 { color: #0284c7; margin-top: 30px; }
+  h4 { color: #334155; margin-top: 20px; }
+  p, li { color: #334155; font-size: 1.05em; text-align: justify; }
   .formula-box { 
     background: #eef2f7; 
     color: #0f172a; 
-    padding: 12px; 
-    border-left: 4px solid #0056b3; 
-    margin: 15px 0; 
+    padding: 14px 18px; 
+    border-left: 5px solid #0056b3; 
+    margin: 18px 0; 
     font-size: 1.1em; 
     overflow-x: auto;
   }
-  .example-box { 
-    background: #fdfefe; 
-    border: 1px dashed #0056b3; 
-    padding: 15px; 
-    margin: 15px 0; 
-    border-radius: 5px; 
-    color: #1e293b;
+  .concept-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .exam-tip {
+    background: #fef3c7;
+    border-left: 5px solid #d97706;
+    padding: 14px 18px;
+    margin: 18px 0;
+    color: #78350f;
+    border-radius: 0 4px 4px 0;
+  }
+  .pyq-box {
+    background: #f0fdf4;
+    border: 1px solid #16a34a;
+    border-left: 6px solid #16a34a;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 6px;
+  }
+  .pyq-box h4 {
+    color: #15803d;
+    margin-top: 0;
   }
   ul { padding-left: 20px; }
-  hr { border: 0; height: 1px; background: #cbd5e1; margin: 30px 0; }
+  hr { border: 0; height: 1px; background: #cbd5e1; margin: 35px 0; }
   .btn {
     display: inline-block;
     background-color: #0056b3;
@@ -59,161 +80,234 @@
     font-weight: bold;
     font-size: 14px;
   }
-  .btn:hover {
-    background-color: #003d82;
-  }
+  .btn:hover { background-color: #003d82; }
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo" style="text-align:center; padding: 10px; font-size: 20px; font-weight: bold; color: #fff;">🎓 LET'S SCORE</div>
+<div class="logo" style="text-align:center; padding: 15px; font-size: 22px; font-weight: bold; color: #fff;">🎓 LET'S SCORE</div>
 </header>
 
 <section class="hero" style="text-align:center; padding: 20px; color: white;">
-<h1>Motion in a Plane</h1>
-<p>Class 11 Physics - Comprehensive NCERT Vector Notes & Derivations</p>
+<h1>Motion in a Plane: Advanced Conceptual Masterclass</h1>
+<p>Comprehensive Detailed Explanations, Complete Derivations, and NEET/JEE Exam Corner</p>
 </section>
 
 <div style="margin:20px; text-align: center;">
 <a href="index.html" class="btn">🏠 Home Page</a>
-<a href="class11p-ch3.html" class="btn">📚 Chapter 3 Index</a>
-<a href="javascript:history.back()" class="btn">⬅ Go Back</a>
+<a href="class11p-ch3.html" class="btn">📚 Chapter Index</a>
+<a href="javascript:history.back()" class="btn">⬅ Go Graph</a>
 </div>
 
 <div class="content-container">
 
 <section>
-  <h2>1. Introduction to Vectors</h2>
-  <p>Physical quantities are classified into two main types based on direction properties:</p>
-  <ul>
-    <li><strong>Scalars:</strong> Quantities that have magnitude only and no direction (e.g., mass, distance, speed, time, temperature). They follow ordinary laws of algebra.</li>
-    <li><strong>Vectors:</strong> Quantities that have both magnitude and a specific direction, and obey the special laws of vector addition (e.g., displacement, velocity, acceleration, force).</li>
-  </ul>
-</section>
-
-<hr>
-
-<section>
-  <h2>2. Representation of a Vector</h2>
-  <h3>Symbolic Representation:</h3>
-  <p>A vector is represented graphically by a directed line segment (an arrow). The length represents magnitude, and the arrowhead points in the direction. Denoted as \(\vec{A}\) or \(\mathbf{A}\). Magnitude is written as \(|\vec{A}|\) or \(A\).</p>
-
-  <h3>Equation Representation:</h3>
-  <p>In Cartesian coordinates using orthogonal unit vectors \(\hat{i}\), \(\hat{j}\), \(\hat{k}\) along X, Y, and Z axes:</p>
-  <div class="formula-box">\(\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}\)</div>
-  <p>Magnitude formula:</p>
-  <div class="formula-box">\(|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}\)</div>
-</section>
-
-<hr>
-
-<section>
-  <h2>3. Various Types of Vectors</h2>
-  <ul>
-    <li><strong>Null Vector (Zero Vector):</strong> A vector with zero magnitude (\(\vec{0}\)) and an arbitrary direction. (e.g., velocity of a stationary object).</li>
-    <li><strong>Unit Vector:</strong> A vector of magnitude 1 used exclusively to specify direction (\(\hat{A} = \frac{\vec{A}}{|\vec{A}|}\)).</li>
-    <li><strong>Position Vector:</strong> Specifies the position of a point relative to the origin: \(\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}\).</li>
-    <li><strong>Displacement Vector:</strong> Represents change in position: \(\Delta\vec{r} = \vec{r_2} - \vec{r_1}\).</li>
-    <li><strong>Equal Vectors:</strong> Vectors having identical magnitudes and directions.</li>
-    <li><strong>Like & Unlike Vectors:</strong> Like vectors point in the same direction; unlike vectors point in opposite directions.</li>
-    <li><strong>Negative of a Vector:</strong> Same magnitude but opposite direction (\(-\vec{A}\)).</li>
-    <li><strong>Parallel & Collinear Vectors:</strong> Parallel vectors act along parallel lines (\(0^\circ\) or \(180^\circ\)); collinear vectors act along the same line.</li>
-    <li><strong>Coplanar Vectors:</strong> Vectors lying in the same plane.</li>
-    <li><strong>Coinitial Vectors:</strong> Vectors sharing the exact same starting point.</li>
-  </ul>
-</section>
-
-<hr>
-
-<section>
-  <h2>4. Properties of Vectors</h2>
-  <ul>
-    <li><strong>Commutative Law:</strong> \(\vec{A} + \vec{B} = \vec{B} + \vec{A}\)</li>
-    <li><strong>Associative Law:</strong> \((\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C})\)</li>
-    <li><strong>Distributive Law:</strong> \(m(\vec{A} + \vec{B}) = m\vec{A} + m\vec{B}\) (where \(m\) is a scalar)</li>
-  </ul>
-</section>
-
-<hr>
-
-<section>
-  <h2>5. Addition of Vectors & Parallelogram Law (Derivation)</h2>
-  <p><strong>Parallelogram Law Statement:</strong> If two vectors acting simultaneously at a point are represented in magnitude and direction by two adjacent sides of a parallelogram, their resultant is represented by the diagonal passing through that point.</p>
+  <h2>1. Comprehensive Philosophy of Scalars and Vectors</h2>
+  <p>In physics, describing physical phenomena requires precise mathematical tools. Quantities are fundamentally separated based on whether a directional reference frame changes their character or combination rules:</p>
   
-  <h3>Step-by-Step Derivation of Resultant Magnitude & Direction:</h3>
-  <p>1. Let two vectors \(\vec{A}\) and \(\vec{B}\) be represented by sides \(OP\) and \(OQ\) of a parallelogram, inclined at an angle \(\theta\).</p>
-  <p>2. Extend line \(OP\) and draw a perpendicular \(QN\) from point \(Q\) onto \(OP\) produced, meeting at point \(N\).</p>
-  <p>3. In right-angled triangle \(\triangle ONQ\):</p>
-  <div class="formula-box">\(OQ^2 = ON^2 + QN^2\)</div>
-  <p>4. Since \(ON = OP + PN\), substitute this:</p>
-  <div class="formula-box">\(R^2 = (OP + PN)^2 + QN^2 \quad \text{--- (Equation 1)}\)</div>
-  <p>5. In right-angled triangle \(\triangle QPN\), let \(\angle QPN = \theta\):</p>
-  <div class="formula-box">\(PN = B\cos\theta \quad \text{and} \quad QN = B\sin\theta\)</div>
-  <p>6. Substitute \(OP = A\), \(PN\), and \(QN\) into Equation 1:</p>
+  <div class="concept-box">
+    <h3>Detailed Analysis of Scalars</h3>
+    <p>Scalars are physical quantities that require only a single real number (magnitude) accompanied by a physical unit to completely specify them. Crucially, scalars obey ordinary laws of elementary arithmetic and algebra. For instance, adding \(3\text{ kg}\) of mass to \(5\text{ kg}\) of mass always yields exactly \(8\text{ kg}\), independent of spatial orientation or coordinate axes.</p>
+    <p><em>Examples:</em> Mass, time, distance, speed, energy, work, power, temperature, and density.</p>
+  </div>
+
+  <div class="concept-box">
+    <h3>Detailed Analysis of Vectors</h3>
+    <p>Vectors require both a magnitude and a precise spatial direction to be completely defined. More importantly, vectors must obey specific geometric laws of addition (such as the triangle law or parallelogram law) rather than simple algebraic addition. If a quantity possesses both magnitude and direction but fails to satisfy vector combination rules, it cannot be classified as a true vector.</p>
+    <p><em>Examples:</em> Displacement, velocity, acceleration, linear momentum, force, torque, and electric field intensity.</p>
+  </div>
+
+  <div class="exam-tip">
+    <strong>Deep Conceptual Insight:</strong> Why is electric current a scalar quantity despite having both magnitude and a clear direction of flow? Because electric currents flowing through a junction add up algebraically (\(I_1 + I_2 = I_3\)) regardless of the angle between the conducting wires, violating the directional parallelogram law of vector addition.
+  </div>
+
+  <div class="pyq-box">
+    <h4>📝 NEET / JEE Advanced Foundation PYQ</h4>
+    <p><strong>Q:</strong> Can a physical quantity having both magnitude and direction be a scalar? Give conceptual reasoning and identify.</p>
+    <p><strong>Detailed Solution:</strong> Yes. A classic example is <strong>Electric Current</strong> or <strong>Pressure</strong>. Pressure is normal force per unit area. Force is a vector, but pressure is treated as a scalar because it has no specific fixed direction associated with a point in a static fluid; it acts equally in all directions, and scalar rules govern its distribution.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2>2. Exhaustive Classification and Properties of Vectors</h2>
+  <p>To successfully navigate complex problems in mechanics, you must thoroughly understand every variety of vector:</p>
+  <ul>
+    <li><strong>Zero Vector (Null Vector):</strong> A vector whose magnitude is identically zero (\(\vec{0}\)). Because its magnitude is zero, its direction is completely indeterminate or arbitrary. Physically, it represents states like a stationary particle, an object in uniform equilibrium, or the point of origin. Properties: \(\vec{A} + \vec{0} = \vec{A}\) and scalar multiplication \(m\vec{0} = \vec{0}\).</li>
+    <li><strong>Unit Vector:</strong> A dimensionless vector having a magnitude of exactly \(1\), utilized exclusively to designate a spatial orientation along a specific axis or line. Denoted by a hat symbol (\(\hat{A}\)), it is mathematically defined as:
+      <div class="formula-box">\(\hat{A} = \frac{\vec{A}}{|\vec{A}|} \implies \vec{A} = |\vec{A}|\hat{A}\)</div>
+      Orthogonal unit vectors \(\hat{i}\), \(\hat{j}\), and \(\hat{k}\) point along the positive Cartesian X, Y, and Z axes respectively.
+    </li>
+    <li><strong>Position Vector:</strong> Establishes the spatial coordinates of a point particle relative to a chosen origin point \(O\). In a 3D Cartesian frame, it is written as \(\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}\), where coordinates \(x, y, z\) represent the perpendicular distances from coordinate planes.</li>
+    <li><strong>Displacement Vector:</strong> Represents the net straight-line change in position of a moving body from an initial point \(P_1(\vec{r_1})\) to a final point \(P_2(\vec{r_2})\):
+      <div class="formula-box">\(\Delta\vec{r} = \vec{r_2} - \vec{r_1} = (x_2 - x_1)\hat{i} + (y_2 - y_1)\hat{j} + (z_2 - z_1)\hat{k}\)</div>
+    </li>
+    <li><strong>Polar vs. Axial Vectors:</strong> Polar vectors have a natural starting point or linear direction associated with translational motion (e.g., displacement, force, velocity). Axial vectors represent rotational or spinning effects and are directed along the axis of rotation following the right-hand screw rule (e.g., angular velocity, torque, angular momentum).</li>
+  </ul>
+
+  <div class="pyq-box">
+    <h4>📝 NEET / JEE Main PYQ</h4>
+    <p><strong>Q:</strong> Find the unit vector parallel to the resultant of vectors \(\vec{A} = 3\hat{i} + 4\hat{j} - 2\hat{k}\) and \(\vec{B} = \hat{i} - 2\hat{j} + 3\hat{k}\).</p>
+    <p><strong>Detailed Solution:</strong><br>
+    1. First, find the resultant vector \(\vec{R}\):<br>
+    \(\vec{R} = \vec{A} + \vec{B} = (3+1)\hat{i} + (4-2)\hat{j} + (-2+3)\hat{k} = 4\hat{i} + 2\hat{j} + \hat{k}\).<br>
+    2. Compute the magnitude of the resultant vector:\
+    \(|\vec{R}| = \sqrt{4^2 + 2^2 + 1^2} = \sqrt{16 + 4 + 1} = \sqrt{21}\).<br>
+    3. Construct the unit vector:\
+    \(\hat{R} = \frac{\vec{R}}{|\vec{R}|} = \frac{4\hat{i} + 2\hat{j} + \hat{k}}{\sqrt{21}}\).</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2>3. Detailed Laws of Vector Addition and Complete Derivations</h2>
+  <p>Because vectors possess direction, adding them requires accounting for the angle between them. Simple scalar addition fails entirely.</p>
+
+  <h3>A. The Triangle Law of Vector Addition (Conceptual & Geometric)</h3>
+  <p><strong>Detailed Statement:</strong> If two vectors are represented continuously in magnitude and direction by two adjacent sides of an open triangle taken in sequential order (head-to-tail connection), then their net resultant vector is represented in magnitude and direction by the third closing side of the triangle taken in the reverse order (from the tail of the first to the head of the second).</p>
+  <div class="formula-box">\(\vec{R} = \vec{A} + \vec{B}\)</div>
+
+  <h3>B. The Parallelogram Law of Vector Addition (Rigorous Step-by-Step Derivation)</h3>
+  <p><strong>Detailed Statement:</strong> If two active vectors originating from a common point are represented in magnitude and direction by two adjacent sides of a parallelogram drawn from that exact point, their comprehensive resultant vector is represented completely by the diagonal of the parallelogram originating from that same common point.</p>
+  
+  <p><strong>Comprehensive Proof and Derivation:</strong></p>
+  <p>1. Let two vectors \(\vec{A}\) (represented by side \(OP\)) and \(\vec{B}\) (represented by side \(OQ\)) act at an angle \(\theta$ relative to one another.</p>
+  <p>2. Complete the parallelogram \(OPRS\). The diagonal \(OR\) represents the resultant vector \(\vec{R}\), making an angle \(\alpha\) with vector \(\vec{A}\).</p>
+  <p>3. To find the mathematical magnitude of \(\vec{R}\), extend the line segment \(OP\) outwards and drop a perpendicular line from vertex \(R\) down to meet the extended line at point \(N\). This creates a large right-angled triangle \(\triangle ONR\).</p>
+  <p>4. Applying the Pythagorean theorem to right-angled triangle \(\triangle ONR\):</p>
+  <div class="formula-box">\(OR^2 = ON^2 + RN^2\)</div>
+  <p>5. Substitute the expanded base length \(ON = OP + PN\):</p>
+  <div class="formula-box">\(R^2 = (OP + PN)^2 + RN^2 \quad \text{--- (Equation 1)}\)</div>
+  <p>6. Now examine the smaller inner right-angled triangle \(\triangle RPN\), where angle \(\angle RPN = \theta\):</p>
+  <div class="formula-box">\(PN = B \cos\theta \quad \text{and} \quad RN = B \sin\theta\)</div>
+  <p>7. Substitute \(OP = A\), \(PN\), and \(RN\) back into Equation 1:</p>
   <div class="formula-box">\(R^2 = (A + B\cos\theta)^2 + (B\sin\theta)^2\)</div>
-  <div class="formula-box">\(R^2 = A^2 + B^2\cos^2\theta + 2AB\cos\theta + B^2\sin^2\theta\)</div>
+  <div class="formula-box">\(R^2 = A^2 + 2AB\cos\theta + B^2\cos^2\theta + B^2\sin^2\theta\)</div>
   <div class="formula-box">\(R^2 = A^2 + B^2(\cos^2\theta + \sin^2\theta) + 2AB\cos\theta\)</div>
-  <p>Since \(\cos^2\theta + \sin^2\theta = 1\), the final magnitude formula is:</p>
+  <p>8. Recognizing the fundamental trigonometric identity \(\cos^2\theta + \sin^2\theta = 1\), we arrive at the final magnitude expression:</p>
   <div class="formula-box">\(R = \sqrt{A^2 + B^2 + 2AB\cos\theta}\)</div>
 
-  <p><strong>Direction (\(\alpha\) with vector \(\vec{A}\)):</strong></p>
-  <p>From right-angled triangle \(\triangle ONQ\), \(\tan\alpha = \frac{QN}{ON} = \frac{QN}{OP + PN}\)</p>
-  <div class="formula-box">\(\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}\)</div>
+  <p><strong>Derivation of Resultant Direction Angle (\(\alpha\)):</strong></p>
+  <p>From the geometry of right-angled triangle \(\triangle ONR\):</p>
+  <div class="formula-box">\(\tan\alpha = \frac{RN}{ON} = \frac{RN}{OP + PN} = \frac{B\sin\theta}{A + B\cos\theta}\)</div>
+  <div class="formula-box">\(\alpha = \tan^{-1}\left(\frac{B\sin\theta}{A + B\cos\theta}\right)\)</div>
+
+  <div class="exam-tip">
+    <strong>Extreme Boundary Conditions:</strong><br>
+    • Maximum Resultant (\(\theta = 0^\circ\)): \(R_{max} = \sqrt{A^2 + B^2 + 2AB} = A + B\)<br>
+    • Minimum Resultant (\(\theta = 180^\circ\)): \(R_{min} = \sqrt{A^2 + B^2 - 2AB} = |A - B|\)<br>
+    • Perpendicular Vectors (\(\theta = 90^\circ\)): \(R = \sqrt{A^2 + B^2}\) with direction \(\tan\alpha = B/A\).
+  </div>
+
+  <div class="pyq-box">
+    <h4>📝 NEET Previous Year Question</h4>
+    <p><strong>Q:</strong> The resultant of two vectors \(\vec{A}\) and \(\vec{B}\) is perpendicular to vector \(\vec{A}\). If the magnitude of vector \(\vec{B}\) is twice the magnitude of vector \(\vec{A}\), find the angle between vectors \(\vec{A}\) and \(\vec{B}\).</p>
+    <p><strong>Detailed Solution:</strong><br>
+    1. Given condition: Resultant vector \(\vec{R}\) makes an angle \(\alpha = 90^\circ\) with vector \(\vec{A}\). Also, \(B = 2A$.<br>
+    2. Using the direction formula: \(\tan\alpha = \frac{B\sin\theta}{A + B\cos\theta}\)<br>
+    3. Since \(\tan(90^\circ) = \infty\), the denominator must approach zero:<br>
+    \(A + B\cos\theta = 0 \implies A + (2A)\cos\theta = 0\)<br>
+    \(1 + 2\cos\theta = 0 \implies \cos\theta = -\frac{1}{2}\)<br>
+    4. Therefore, the angle between the vectors is \(\theta = 120^\circ\).</p>
+  </div>
 </section>
 
 <hr>
 
 <section>
-  <h2>6. Subtraction of Vectors</h2>
-  <p>Vector subtraction is the addition of a negative vector: \(\vec{A} - \vec{B} = \vec{A} + (-\vec{B})\).</p>
+  <h2>4. Subtraction of Vectors</h2>
+  <p>Subtracting vector \(\vec{B}\) from vector \(\vec{A}\) is defined mathematically as adding the negative vector of \(\vec{B}\) to \(\vec{A}\):</p>
+  <div class="formula-box">\(\vec{A} - \vec{B} = \vec{A} + (-\vec{B})\)</div>
+  <p>Graphically, this involves reversing the direction of vector \(\vec{B}\) by \(180^\circ\) and applying the parallelogram addition law with the included angle becoming \((180^\circ - \theta)\). Because \(\cos(180^\circ - \theta) = -\cos\theta\), the magnitude formula for vector difference becomes:</p>
   <div class="formula-box">\(R_{sub} = \sqrt{A^2 + B^2 - 2AB\cos\theta}\)</div>
+
+  <div class="pyq-box">
+    <h4>📝 JEE Main Previous Year Question</h4>
+    <p><strong>Q:</strong> Two forces have magnitudes \(F\) and \(2F\). When the angle between them is changed, the magnitude of their resultant varies. What are the maximum and minimum possible magnitudes of their resultant?</p>
+    <p><strong>Detailed Solution:</strong><br>
+    • Maximum resultant occurs when \(\theta = 0^\circ\): \(R_{max} = F + 2F = 3F\).<br>
+    • Minimum resultant occurs when \(\theta = 180^\circ\): \(R_{min} = |F - 2F| = F\).<br>
+    Thus, the resultant magnitude can take any value in the continuous range from \(F\) to \(3F\).</p>
+  </div>
 </section>
 
 <hr>
 
 <section>
-  <h2>7. Resolution of Vectors</h2>
-  <p>Splitting a vector \(\vec{A}\) into rectangular components along orthogonal axes (making angle \(\theta\) with X-axis):</p>
-  <div class="formula-box">\(A_x = A\cos\theta, \quad A_y = A\sin\theta \implies \vec{A} = A_x\hat{i} + A_y\hat{j}\)</div>
+  <h2>5. Resolution of Vectors into Rectangular Components</h2>
+  <p>To perform complex vector equations analytically without drawing diagrams, vectors are resolved along mutually perpendicular Cartesian axes (\(\hat{i}, \hat{j}, \hat{k}\)).</p>
+  <p>If a vector \(\vec{A}\) lies in the XY-plane making an angle \(\theta$ with the positive X-axis, dropping perpendiculars to the axes splits it into components:</p>
+  <div class="formula-box">\(A_x = A\cos\theta \quad \text{and} \quad A_y = A\sin\theta\)</div>
+  <p>The vector in unit vector component form is expressed as:</p>
+  <div class="formula-box">\(\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}\)</div>
+  <p>The magnitude and orientation angle are recovered via:</p>
+  <div class="formula-box">\(A = \sqrt{A_x^2 + A_y^2 + A_z^2} \quad \text{and} \quad \theta = \tan^{-1}\left(\frac{A_y}{A_x}\right)\)</div>
+
+  <div class="pyq-box">
+    <h4>📝 NEET Previous Year Question</h4>
+    <p><strong>Q:</strong> A particle is displaced from position coordinate \((1\text{ m}, 2\text{ m}, 3\text{ m})\) to \((4\text{ m}, 6\text{ m}, 9\text{ m})\) under the action of force \(\vec{F} = (2\hat{i} + 3\hat{j} + \hat{k})\text{ N}\). Find the displacement vector.</p>
+    <p><strong>Detailed Solution:</strong><br>
+    Initial position: \(\vec{r_1} = 1\hat{i} + 2\hat{j} + 3\hat{k}\)<br>
+    Final position: \(\vec{r_2} = 4\hat{i} + 6\hat{j} + 9\hat{k}\)<br>
+    Displacement vector: \(\Delta\vec{r} = \vec{r_2} - \vec{r_1} = (4-1)\hat{i} + (6-2)\hat{j} + (9-3)\hat{k} = 3\hat{i} + 4\hat{j} + 6\hat{k}\text{ m}\).</p>
+  </div>
 </section>
 
 <hr>
 
 <section>
-  <h2>8. Scalar (Dot) and Vector (Cross) Products</h2>
-  <h3>A. Scalar (Dot) Product:</h3>
+  <h2>6. Advanced Product of Vectors (Dot and Cross Products)</h2>
+
+  <h3>A. Scalar Product (Dot Product)</h3>
+  <p>The scalar product of two vectors \(\vec{A}\) and \(\vec{B}\) yields a scalar value equal to the product of their magnitudes and the cosine of the included angle:</p>
   <div class="formula-box">\(\vec{A} \cdot \vec{B} = AB\cos\theta = A_x B_x + A_y B_y + A_z B_z\)</div>
-  <p><em>Example:</em> Work done \(W = \vec{F} \cdot \vec{s} = Fs\cos\theta\).</p>
+  <p><em>Key Property:</em> If two vectors are mutually perpendicular (\(\theta = 90^\circ\)), their dot product is zero because \(\cos(90^\circ) = 0\).</p>
 
-  <h3>B. Vector (Cross) Product:</h3>
+  <h3>B. Vector Product (Cross Product)</h3>
+  <p>The vector product of two vectors yields a third vector perpendicular to the plane containing the first two vectors:</p>
   <div class="formula-box">\(\vec{A} \times \vec{B} = (AB\sin\theta)\hat{n}\)</div>
-  <p><em>Example:</em> Torque \(\vec{\tau} = \vec{r} \times \vec{F}\).</p>
+  <p>Expressed in component determinant form:</p>
+  <div class="formula-box">\(\vec{A} \times \vec{B} = (A_y B_z - A_z B_y)\hat{i} - (A_x B_z - A_z B_x)\hat{j} + (A_x B_y - A_y B_x)\hat{k}\)</div>
+  <p><em>Key Property:</em> If two vectors are parallel or collinear (\(\theta = 0^\circ\) or \(180^\circ\)), their cross product is zero because \(\sin(0^\circ) = 0\).</p>
+
+  <div class="pyq-box">
+    <h4>📝 JEE Advanced / Main PYQ</h4>
+    <p><strong>Q:</strong> Find the angle between the two vectors \(\vec{A} = \hat{i} + \hat{j} + \hat{k}\) and \(\vec{B} = 2\hat{i} - 2\hat{j} + 2\hat{k}\).</p>
+    <p><strong>Detailed Solution:</strong><br>
+    1. Compute dot product: \(\vec{A} \cdot \vec{B} = (1)(2) + (1)(-2) + (1)(2) = 2 - 2 + 2 = 2\).<br>
+    2. Compute individual magnitudes:<br>
+    \(|\vec{A}| = \sqrt{1^2 + 1^2 + 1^2} = \sqrt{3}\)<br>
+    \(|\vec{B}| = \sqrt{2^2 + (-2)^2 + 2^2} = \sqrt{4 + 4 + 4} = \sqrt{12} = 2\sqrt{3}\).<br>
+    3. Apply formula: \(\cos\theta = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|} = \frac{2}{(\sqrt{3})(2\sqrt{3})} = \frac{2}{6} = \frac{1}{3}\).<br>
+    4. Therefore, \(\theta = \cos^{-1}(1/3)\).</p>
+  </div>
 </section>
 
 <hr>
 
 <section>
-  <h2>9. Sine Law and Cosine Law (Derivations)</h2>
-  
+  <h2>7. Triangle Trigonometric Laws Derived via Vectors</h2>
+
   <h3>A. Cosine Law Derivation</h3>
-  <p>Consider any triangle with side vectors \(\vec{a}\), \(\vec{b}\), and \(\vec{c}\) such that \(\vec{a} + \vec{b} = \vec{c}\). Taking the dot product of a vector with itself (\(c^2 = \vec{c} \cdot \vec{c}\)):</p>
-  <div class="formula-box">\(c^2 = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}\)</div>
-  <p>Since \(\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C\):</p>
+  <p>Consider any triangle formed by side vectors \(\vec{a}\), \(\vec{b}\), and \(\vec{c}$ connected in a closed loop such that \(\vec{a} + \vec{b} = \vec{c}\). Taking the dot product of vector \(\vec{c}\) with itself:</p>
+  <div class="formula-box">\(c^2 = \vec{c} \cdot \vec{c} = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) = a^2 + b^2 + 2\vec{a}\cdot\vec{b}\)</div>
+  <p>Because the interior angle between adjacent vectors \(\vec{a}\) and \(\vec{b}\) in the loop is equal to \((180^\circ - C)\), substituting \(\vec{a}\cdot\vec{b} = ab\cos(180^\circ - C) = -ab\cos C\) yields the Law of Cosines:</p>
   <div class="formula-box">\(c^2 = a^2 + b^2 - 2ab\cos C\)</div>
 
   <h3>B. Sine Law Derivation</h3>
-  <p>Consider a triangle with sides \(a, b, c\) and angles \(A, B, C\). The area of the triangle can be expressed using vector cross-product magnitudes:</p>
+  <p>The area of any arbitrary triangle can be expressed using vector cross-product magnitudes of its sides taken in pairs:</p>
   <div class="formula-box">\(\text{Area} = \frac{1}{2}ab\sin C = \frac{1}{2}bc\sin A = \frac{1}{2}ac\sin B\)</div>
-  <p>Dividing throughout by \(\frac{1}{2}abc\) yields the Sine Law:</p>
+  <p>Dividing throughout by the common factor \(\frac{1}{2}abc\) yields the classical Law of Sines:</p>
   <div class="formula-box">\(\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}\)</div>
-</section>
 
-</div>
-
-</body>
-          </html>
+  <div class="pyq-box">
+    <h4>📝 NEET / JEE Conceptual PYQ</h4>
+    <p><strong>Q:</strong> If three forces acting in a single plane are in equilibrium, prove how the Sine Law applies to them (Lami's Theorem).</p>
+    <p><strong>Detailed Solution:</strong> By Lami's Theorem, if three concurrent coplanar forces \(\vec{F_1}\), \(\vec{F_2}\), and \(\vec{F_3}\) are in equilibrium, the magnitude of each force is directly proportional to the sine of the angle between the other two forces: \(\frac{F_1}{\sin\alpha} = \frac{F_2}{\sin\beta} = \frac{F_3}{\sin\gamma}\). This directly stems from the vector polygon closing condition where the 
   
     
 
