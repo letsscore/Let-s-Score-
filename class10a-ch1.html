@@ -40,11 +40,43 @@
 </div>
 </a>
 
-<a href="class10a-ch1-mcq-bank.html" style="text-decoration:none;color:inherit;">
-<div class="card">
-<h3>📝 MCQ ভঁৰাল</h3>
-<p>প্ৰিমিয়াম ₹49</p>
+<!-- Locked Premium Resource Card -->
+    <div class="card" onclick="openPaymentModal()" style="cursor: pointer;">
+        <h3>📝 MCQ ভঁৰাল</h3>
+        <p>প্ৰিমিয়াম ₹৪৯<br><small>প্ৰিমিয়াম বিষয়বস্তু আনলক কৰিবলৈ ক্লিক কৰক</small></p>
+    </div>
+<!-- Payment Modal Popup -->
+<div id="upiModal" class="modal">
+    <div class="modal-content">
+        <h3>🔒 প্ৰিমিয়াম বিষয়বস্তু (₹49)</h3>
+        <p>যিকোনো UPI এপ (GPay, PhonePe, Paytm) দ্বাৰা পেমেন্ট কৰক:</p>
+        
+        <!-- Direct UPI intent link button for mobile users -->
+        <a href="upi://pay?pa=hussain.abidur@ybl&am=49&cu=INR&tn=LetsScoreClass10Chapter1" class="pay-btn">
+            ⚡ পোনচাটেই পেমেণ্ট কৰক (Pay ₹49)
+        </a>
 
+        <p><strong>UPI ID:</strong> hussain.abidur@ybl</p>
+        <p style="font-size: 13px; color: #666;">টকা পঠিওৱাৰ পিছত WhatsApp-ত Screenshot পঠিয়াওক আৰু পাছৱৰ্ড সংগ্ৰহ কৰক।</p>
+        
+        <a href="https://wa.me/917002137940?text=Sir,%20I%20have%20paid%20Rs.49%20for%20Class%2010%20Science%20Chapter%201.%20Here%20is%20the%20screenshot." class="whatsapp-btn" target="_blank">💬 WhatsApp-ত Screenshot পঠিয়াওক</a>
+        <br>
+        <button class="close-btn" onclick="closePaymentModal()">বন্ধ কৰক (Close)</button>
+    </div>
+</div>
+
+<script>
+    function openPaymentModal() {
+        document.getElementById("upiModal").style.display = "flex";
+    }
+
+    function closePaymentModal() {
+        document.getElementById("upiModal").style.display = "none";
+    }
+</script>
+
+
+    
 <p>
 প্ৰিমিয়াম বিষয়বস্তু আনলক কৰিবলৈ WhatsApp-ত যোগাযোগ কৰক।
 </p>
