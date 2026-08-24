@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSLC SEBA 2027: Short Answer Questions (Secure)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .header { background: #117864; color: white; text-align: center; padding: 20px; border-radius: 6px; margin-bottom: 25px; }
+        #lock-screen { text-align: center; padding: 60px 20px; }
+        #lock-screen input { padding: 12px; font-size: 16px; width: 250px; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        #lock-screen button { padding: 12px 20px; background: #117864; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #content { display: none; }
+        .q-box { border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; color: #2c3e50; font-size: 15px; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+    <script>
+        function unlock() {
+            if(document.getElementById("pass").value === "SEBA2027") {
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            } else {
+                document.getElementById("err").innerText = "ভুল পাছৱৰ্ড! (SEBA2027 ব্যৱহাৰ কৰক)";
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div id="lock-screen">
+        <h2>🔒 Short Answer Questions (30 Questions)</h2>
+        <p>প্ৰৱেশ কৰিবলৈ পাছৱৰ্ড দিয়ক (SEBA2027):</p>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="unlock()">Unlock</button>
+        <div id="err" class="error"></div>
+    </div>
+    <div id="content">
+        <div class="header">
+            <h1>HSLC SEBA 2027 - Short Answer Questions (SA)</h1>
+            <p>Chapter 1: ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ (30 Questions)</p>
+        </div>
+        <!-- 30 SA Questions -->
+        <div class="q-box">১. এটা ৰাসায়নিক সমীকৰণ সন্তুলন কৰাটো কিয় অতি প্ৰয়োজনীয়? ব্যাখ্যা কৰা।</div>
+        <div class="q-box">২. সংযোজন বিক্ৰিয়া কাক বোলে? উদাহৰণেৰে বুজাই লিখা।</div>
+        <div class="q-box">৩. বিয়োজন বিক্ৰিয়া সংযোজন বিক্ৰিয়াৰ বিপৰীত— উদাহৰণেৰে প্ৰমাণ কৰা।</div>
+        <div class="q-box">৪. তাপবৰ্জি আৰু তাপগ্রাহী বিক্ৰিয়াৰ মাজত পাৰ্থক্য লিখা।</div>
+        <div class="q-box">৫. প্ৰতিস্থাপন আৰু দ্বি-প্ৰতিস্থাপন বিক্ৰিয়াৰ মূল পাৰ্থক্যসমূহ কি কি?</div>
+        <div class="q-box">৬. জিংকৰ লগত হাইড্ৰ’ক্ল’ৰিক এচিডৰ বিক্ৰিয়াটোৰ সন্তুলন সমীকৰণ লিখা।</div>
+        <div class="q-box">৭. কপাৰ ছালফেট দ্ৰৱত জিংকৰ টুকুৰা পেলাই ৰাখিলে কি পৰিৱৰ্তন ঘটে? সমীকৰণ দিয়া।</div>
+        <div class="q-box">৮. ৰেডক্স বিক্ৰিয়াৰ এটা  উদাহৰণ দি জাৰক আৰু বিজারক পদাৰ্থ চিনাক্ত কৰা।</div>
+        <div class="q-box">৯. পেকেটজাত খাদ্যবস্তুত নাইট্ৰ’জেন গেছ ব্যৱহাৰ কৰাৰ বৈজ্ঞানিক কাৰণ কি?</div>
+        <div class="q-box">১০. লোহাৰ সামগ্ৰীত ৰং বা বাৰ্নিচ কৰিলে মামৰ ধৰাৰ পৰা কেনেকৈ সুৰক্ষা পোৱা যায়?</div>
+        <div class="q-box">১১. বগা ৰং কৰাৰ বাবে ব্যৱহাৰ কৰা পদাৰ্থবিধ পানীৰ লগত বিক্ৰিয়া কৰোঁতে হোৱা বিক্ৰিয়াটো লিখা।</div>
+        <div class="q-box">১২. ঘৰৰ দেৱালত চূণ লগোৱাৰ কেইদিনমানৰ পিছত দেৱালখন চিকমিকাই উঠাৰ কাৰণ কি?</div>
+        <div class="q-box">১৩. পানীৰ বিদ্যুৎ বিশ্লেষণৰ পৰীক্ষাত নলী দুডালত জমা হোৱা গেছ দুবিধ কি কি আৰু সিহঁতক কেনেকৈ পৰীক্ষা কৰি চিনাক্ত কৰিব?</div>
+        <div class="q-box">১৪. শ্বসনক তাপ বৰ্জি বিক্ৰিয়া বুলি গণ্য কৰা হয় কিয়?</div>
+        <div class="q-box">১৫. তাপীয় বিয়োজন আৰু আলোক বিয়োজনৰ মাজত সাদৃশ্য আৰু বৈসাদৃশ্য লিখা।</div>
+        <div class="q-box">১৬. ৰূপৰ অলংকাৰ ক’লা পৰি যোৱা আৰু লোহাত মামৰ ধৰাৰ মাজত কি মিল আছে?</div>
+        <div class="q-box">১৭. সক্ৰিয়তা শৃংখলৰ গুৰুত্ব ৰাসায়নিক বিক্ৰিয়াৰ ক্ষেত্ৰত কেনেকুৱা?</div>
+        <div class="q-box">১৮. বগা-ক’লা ফট’গ্ৰাফীত ব্যৱহৃত ৰাসায়নিক বিক্ৰিয়াটোৰ সমীকৰণ লিখা।</div>
+        <div class="q-box">১৯. পিতল বা তামৰ পাত্ৰত টেঁটুৱা বা নেমুৰ ৰস ঘঁহি পৰিষ্কাৰ কৰাৰ কাৰণ কি?</div>
+        <div class="q-box">২০. দহন বিক্ৰিয়াৰ সংজ্ঞা দিয়া আৰু দুটা উদাহৰণ দাঙি ধৰা।</div>
+        <div class="q-box">২১. এটা সম্পূৰ্ণ ৰাসায়নিক সমীকৰণে কি কি গুৰুত্বপূৰ্ণ তথ্য প্ৰদান কৰে?</div>
+        <div class="q-box">২২. জৰাজীৰ্ণতা বা ক্ষয়ীভৱন(Corrosion) প্ৰতিৰোধ কৰাৰ যিকোনো তিনিটা উপায় বৰ্ণনা কৰা।</div>
+        <div class="q-box">২৩. খাদ্যৰ দুৰ্গন্ধিতা অৱস্থা ৰোধ কৰাৰ ব্যৱহাৰিক পদ্ধতিসমূহ আলোচনা কৰা।</div>
+        <div class="q-box">২৪. ৰাসায়নিক বিক্ৰিয়াৰ মূল শ্ৰেণীবিভাগসমূহ উদাহৰণেৰে উল্লেখ কৰা।</div>
+        <div class="q-box">২৫. পানীৰ বিদ্যুৎ বিশ্লেষণ পৰীক্ষাৰ পৰা কি সিদ্ধান্তত উপনীত হ’ব পাৰি?</div>
+        <div class="q-box">২৬. সমীকৰণ সন্তুলন কৰাঃ $BaCl_2 + Al_2(SO_4)_3 \rightarrow AlCl_3 + BaSO_4$</div>
+        <div class="q-box">২৭. সমীকৰণ সন্তুলন কৰাঃ $NaOH + H_2SO_4 \rightarrow Na_2SO_4 + H_2O$</div>
+        <div class="q-box">২৮. সমীকৰণ সন্তুলন কৰাঃ $HNO_3 + Ca(OH)_2 \rightarrow Ca(NO_3)_2 + H_2O$</div>
+        <div class="q-box">২৯. সমীকৰণ সন্তুলন কৰাঃ $Fe + H_2O \rightarrow Fe_3O_4 + H_2$</div>
+        <div class="q-box">৩০. কপাৰ নাইট্ৰেট তপ্ত কৰিলে কি ঘটে? সমীকৰণসহ লিখা।</div>
+    </div>
+</div>
+</body>
+</html>
