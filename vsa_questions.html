@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSLC SEBA 2027: VSA Questions (Secure)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .header { background: #7b241c; color: white; text-align: center; padding: 20px; border-radius: 6px; margin-bottom: 25px; }
+        #lock-screen { text-align: center; padding: 60px 20px; }
+        #lock-screen input { padding: 12px; font-size: 16px; width: 250px; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        #lock-screen button { padding: 12px 20px; background: #7b241c; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #content { display: none; }
+        .q-box { border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; color: #2c3e50; font-size: 15px; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+    <script>
+        function unlock() {
+            if(document.getElementById("pass").value === "SEBA2027") {
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            } else {
+                document.getElementById("err").innerText = "ভুল পাছৱৰ্ড! (SEBA2027 ব্যৱহাৰ কৰক)";
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div id="lock-screen">
+        <h2>🔒 VSA Questions (30 Questions)</h2>
+        <p>প্ৰৱেশ কৰিবলৈ পাছৱৰ্ড দিয়ক (SEBA2027):</p>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="unlock()">Unlock</button>
+        <div id="err" class="error"></div>
+    </div>
+    <div id="content">
+        <div class="header">
+            <h1>HSLC SEBA 2027 - Very Short Answer Questions</h1>
+            <p>Chapter 1: ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ (30 Questions)</p>
+        </div>
+        <!-- 30 VSA Questions -->
+        <div class="q-box">১. মেগনেশিয়াম ফিটা বতাহত দহন কৰাৰ আগতে বালি কাগজৰে  পৰিষ্কাৰ কৰা হয় কিয়?</div>
+        <div class="q-box">২. জঁকা ৰাসায়নিক সমীকৰণ (Skeleton Equation) বুলিলে কি বুজা?</div>
+        <div class="q-box">৩. অধঃক্ষেপন বিক্ৰিয়া কাক বোলে? এটা উদাহৰণ দিয়া।</div>
+        <div class="q-box">৪. ৰাসায়নিক বিক্ৰিয়াত জাৰণ (Oxidation) বুলিলে কি বুজায়?</div>
+        <div class="q-box">৫. বিজাৰন (Reduction) কাক বোলে?</div>
+        <div class="q-box">৬. দুৰ্গন্ধিতা বা ৰেন্সীডিটি (Rancidity) কি?</div>
+        <div class="q-box">৭. প্ৰশমন বিক্ৰিয়াৰ এটা সাধাৰণ সংজ্ঞা দিয়া।</div>
+        <div class="q-box">৮. পোহৰৰ দ্বাৰা সংঘটিত হোৱা বিয়োজন বিক্ৰিয়াৰ এটা সমীকৰণ লিখা।</div>
+        <div class="q-box">৯. তাপগ্রাহী বিক্ৰিয়া (Endothermic Reaction) কাক বোলে?</div>
+        <div class="q-box">১০. পোৰা চূণ (Quicklime) ৰ ৰাসায়নিক সংকেত কি?</div>
+        <div class="q-box">১১. শিলা চূণ বা শিথিলিত চূণ (Slaked Lime) ৰ সংকেত লিখা।</div>
+        <div class="q-box">১২. কপাৰ নাইট্ৰেট গৰম কৰিলে নিৰ্গত হোৱা বাদামী ৰঙৰ গেছটো কি?</div>
+        <div class="q-box">১৩. ৰেডক্স বিক্ৰিয়া (Redox Reaction) বুলিলে কি বুজা?</div>
+        <div class="q-box">১৪. লোহাৰ বস্তুত সাধাৰণতে ৰং কৰা হয় কিয়?</div>
+        <div class="q-box">১৫. কেলচিয়াম কাৰ্বনেটৰ তাপীয় বিয়োজনৰ সন্তুলন ৰাসায়নিক সমীকৰণ লিখা।</div>
+        <div class="q-box">১৬. সক্ৰিয়তা শৃংখলৰ শীৰ্ষত থকা ধাতুসমূহৰ প্ৰকৃতি কিেকুৱা?</div>
+        <div class="q-box">১৭. পানীৰ বিদ্যুৎ বিশ্লেষণৰ সময়ত পানীৰ লগত সামান্য পৰিমাণে এচিড কিয় মিহলোৱা হয়?</div>
+        <div class="q-box">১৮. আমাৰ শৰীৰত গ্লুক’জ ভাঙি শক্তি উৎপন্ন হোৱাটো কি প্ৰকাৰৰ বিক্ৰিয়া?</div>
+        <div class="q-box">১৯. সোণ বা প্লেটিনামৰ দৰে ধাতুৰ বিবৰ্ণতা নঘটে কিয়?</div>
+        <div class="q-box">২০. এচিডযুক্ত পানীৰ বিদ্যুৎ বিশ্লেষণত এনডত কোনটো গেছ জমা হয়?</div>
+        <div class="q-box">২১. খনিজ এচিড ব্যৱহাৰ কৰি তামৰ পাত্ৰৰ ওপৰৰ মামৰ কিদৰে আঁতৰোৱা হয়?</div>
+        <div class="q-box">২২. দহন বিক্ৰিয়া সম্পন্ন হ’বলৈ অতিাৱশ্যকীয় চৰ্তটো কি?</div>
+        <div class="q-box">২৩. সংযোজন বিক্ৰিয়াৰ সম্পূৰ্ণ বিপৰীত বিক্ৰিয়াক কি নামেৰে জনা যায়?</div>
+        <div class="q-box">২৪. দুটা দ্ৰৱৰ মাজত হোৱা বিক্ৰিয়াত উৎপন্ন হোৱা অধঃক্ষেপৰ ৰং সাধাৰণতে কি হয়?</div>
+        <div class="q-box">২৫. পৰীক্ষাগাৰত হাইড্ৰ’জেন গেছ প্ৰস্তুতিৰ বাবে জিংকৰ লগত কোনবিধ এচিড ব্যৱহাৰ কৰা হয়?</div>
+        <div class="q-box">২৬. ফেৰাছ ছালফেট স্ফটিক তপ্ত কৰিলে কি কি গেছ উৎপন্ন হয়?</div>
+        <div class="q-box">২৭. ব্লিচিং পাউডাৰৰ ব্যৱহাৰ লিখা।</div>
+        <div class="q-box">২৮. বগা ফট’গ্ৰাফীত কোনবিধ পদাৰ্থ ব্যৱহাৰ কৰা হয়?</div>
+        <div class="q-box">২৯. ছডিয়াম ছালফেট আৰু বেৰিয়াম ক্ল’ৰাইড দ্ৰৱৰ বিক্ৰিয়াত পৰে কি ৰঙৰ অধঃক্ষেপ পৰে?</div>
+        <div class="q-box">৩০. কেথ’ড আৰু এনাডত উৎপন্ন গেছৰ নাম কি?</div>
+    </div>
+</div>
+</body>
+</html>
