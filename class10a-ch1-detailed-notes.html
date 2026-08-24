@@ -21,6 +21,26 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        /* PDF Download Button Styling */
+        .download-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
         .header-box {
             background-color: #1a5276;
             color: white;
@@ -89,6 +109,13 @@
 <body>
 
 <div class="container">
+
+    <!-- PDF Download Button Added Here -->
+    <div class="download-container">
+        <a href="class10a_ch1_notes_download.pdf" download class="download-btn">
+            📥 সম্পূৰ্ণ নোটছ PDF Download কৰক
+        </a>
+    </div>
 
     <div class="header-box">
         <h1>অধ্যায় ১: ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ</h1>
@@ -172,7 +199,7 @@
             
             <ul>
                 <li>
-                    <strong>প্ৰথম পদক্ষেপ (Step 1):</strong> প্ৰথমে বিক্ৰিয়াটোৰ সঠিক জঁকা সমীকৰণটো লিখক আৰু প্ৰতিটো সংকেতৰ চাৰিওফালে এটাটাকৈ বাকচ (Box) বনাοক। বাকচৰ ভিতৰত থকা সংখ্যা বা সংকেতৰ কোনো পৰিৱৰ্তন কৰিব নোৱাৰি।<br>
+                    <strong>প্ৰথম পদক্ষেপ (Step 1):</strong> প্ৰথমে বিক্ৰিয়াটোৰ সঠিক জঁকা সমীকৰণটো লিখক আৰু প্ৰতিটো সংকেতৰ চাৰিওফালে এটাটাকৈ বাকচ (Box) বনাওক। বাকচৰ ভিতৰত থকা সংখ্যা বা সংকেতৰ কোনো পৰিৱৰ্তন কৰিব নোৱாரி।<br>
                     <strong>উদাহৰণ:</strong> [Fe] + [H<sub>2</sub>O] &rarr; [Fe<sub>3</sub>O<sub>4</sub>] + [H<sub>2</sub>]
                 </li>
 
@@ -229,8 +256,6 @@
             </ul>
         </div>
     </div>
-
-
 
     <!-- Section 7 -->
     <div class="question-box">
@@ -320,8 +345,8 @@
         <div class="answer">
             <ul>
                 <li><strong>জাৰণ (Oxidation):</strong> যি বিক্ৰিয়াত অক্সিজেন সংযোজন বা হাইড্ৰ’জেন অপসৰণ বা কোনো মৌলই ইলেক্ট্ৰন হেৰুৱাই তেনে প্ৰক্ৰিয়াক জাৰণ বোলে।</li>
-                <li><strong>বিজাৰণ (Reduction):</strong>যি বিক্ৰিয়াত হাইড্ৰ’জেন সংযোজন বা অক্সিজেন অপসৰণ বা কোনো মৌলই ইলেক্ট্ৰন লাভ কৰে তেনে প্ৰক্ৰিয়াক  বিজাৰণ বোলে।</li>
-                <li><strong>ৰেদক্স বিক্ৰিয়া (Redox Reaction):</strong> যি বিক্ৰিয়াত একেলগে জাৰণ আৰু বিজাৰণ দুয়োটা ঘটে, তাকে ৰীডক্স বিক্ৰিয়া বোলে।</li>
+                <li><strong>বিজাৰণ (Reduction):</strong> যি বিক্ৰিয়াত হাইড্ৰ’জেন সংযোজন বা অক্সিজেন অপসৰণ বা কোনো মৌলই ইলেক্ট্ৰন লাভ কৰে তেনে প্ৰক্ৰিয়াক বিজাৰণ বোলে।</li>
+                <li><strong>ৰেদক্স বিক্ৰিয়া (Redox Reaction):</strong> যি বিক্ৰিয়াত একেলগে জাৰণ আৰু বিজাৰণ দুয়ოটা ঘটে, তাকে ৰীডক্স বিক্ৰিয়া বোলে।</li>
                 <li><strong>জাৰক দ্ৰব্য (Oxidising Agent):</strong> যি পদাৰ্থই আনক অক্সিজেন দিয়ে বা নিজে বিজাৰিত হয়, তাকে জাৰক পদাৰ্থ বোলে।</li>
                 <li><strong>বিজাৰক দ্ৰব্য (Reducing Agent):</strong> যি পদাৰ্থই আনৰ পৰা অক্সিজেন কাঢ়ি লয় বা হাইড্ৰ’জেন দিয়ে আৰু নিজে জাৰিত হয়, তাকে বিজাৰক পদাৰ্থ বোলে।</li>
             </ul>
@@ -354,65 +379,6 @@
         <div class="answer">
             <p><strong>ক্ষয়ীভৱন (Corrosion):</strong> ধাতুৰ ওপৰত আৰ্দ্ৰতা, অম্ল বা বতাহৰ অক্সিজেনৰ ক্ৰিয়াৰ ফলত ধাতুৰ উপৰিভাগ ক্ৰমান্বয়ে নষ্ট হৈ যোৱা প্ৰক্ৰিয়াক ক্ষয়ীভৱন বোলে। (যেনে: লোহাত মামেৰ ধৰা, তামৰ ওপৰত সেউজীয়া আৱৰণ পৰা, ৰূপ ক’লা পৰা)।</p>
             <ul>
-                <li><strong>প্ৰতিৰোধৰ উপায়:</strong> ৰং কৰা, গ্ৰীজ বা তেল লগোৱা, গেলেভেনাইজেচন (Galvanisation - দস্তাৰ আৱৰণ দিয়া) কৰা, আৰু মিশ্ৰ ধাতু (Alloy) প্ৰস্তুত কৰা।</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Section 16 -->
-    <div class="question-box">
-        <div class="question">১৬. পাঠ্যপুথিৰ অন্তৰ্গত গুৰুত্বপূৰ্ণ যৌগসমূহ, সিহঁতৰ ৰং আৰু ৰং সলনি হোৱাৰ কাৰণ</div>
-        <table>
-            <tr>
-                <th>যৌগৰ নাম</th>
-                <th>ৰাসায়নিক সংকেত</th>
-                <th>প্ৰাৰম্ভিক ৰং</th>
-                <th>বিক্ৰিয়াৰ পিছৰ ৰং / পৰিৱৰ্তনৰ কাৰণ</th>
-            </tr>
-            <tr>
-                <td>মেগনেছিয়াম ফিতা</td>
-                <td>Mg</td>
-                <td>ৰূপালী বগা</td>
-                <td>দহন কৰিলে বগা ৰঙৰ মেগনেছিয়াম অক্সাইড (MgO) গুৰি উৎপন্ন হয়।</td>
-            </tr>
-            <tr>
-                <td>ফাৰাছ ছালফেট স্ফটিক</td>
-                <td>FeSO<sub>4</sub>.7H<sub>2</sub>O</td>
-                <td>সেউজীয়া (Green)</td>
-                <td>উত্তপ্ত কৰিলে পানী গুচি গৈ বগা/মটীয়া ৰঙৰ ফেৰিক অক্সাইডলৈ সলনি হয়।</td>
-            </tr>
-            <tr>
-                <td>লেড নাইট্ৰেট আৰু পটাশিয়াম আয়োডাইড</td>
-                <td>Pb(NO<sub>3</sub>)<sub>2</sub> + KI</td>
-                <td>উভয় দ্ৰৱণেই বৰ্ণহীন / স্বচ্ছ</td>
-                <td>মিহলালে হালধীয়া ৰঙৰ লেড আয়োডাইডৰ (PbI<sub>2</sub>) অধঃক্ষেপ পৰে।</td>
-            </tr>
-            <tr>
-                <td>কপাৰ ছালফেট দ্ৰৱণ</td>
-                <td>CuSO<sub>4</sub></td>
-                <td>নীলা (Blue)</td>
-                <td>লোহা (Fe) যোগ কৰিলে দ্ৰৱণটোৰ নীলা ৰং বিবৰ্ণ হৈ সেউজীয়া (FeSO<sub>4</sub>) হৈ পৰে আৰু তাম (Cu) জমা হয়।</td>
-            </tr>
-            <tr>
-                <td>ছিলভাৰ ক্ল’ৰাইড</td>
-                <td>AgCl</td>
-                <td>বগা (White)</td>
-                <td>সূৰ্যৰ পোহৰত ৰাখিলে ধাৰাবাহিকভাৱে ধূসৰ (Grey) বৰণলৈ সলনি হয়।</td>
-</tr>
-            <tr>
-                <td>কপাৰ/তাম</td>
-                <td>Cu</td>
-                <td>ৰঙচুৱা বা মটীয়া</td>
-                <td>অক্সিজেন ৰ লগত গৰম কৰিলে CuO সৃষ্টি হৈ কলা ৰংৰ হৈ পৰে</td>
-            </tr>
-            </tr>
-        </table>
-    </div>
-
-</div>
-
-</body>
-                </html>
-    
+                
 
   
