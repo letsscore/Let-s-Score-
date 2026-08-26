@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Let's Score</title>
-<link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>LET'S SCORE</title>
 
+<link rel="stylesheet" href="style.css">
+
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W0JZXZHE37"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -17,104 +16,258 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-W0JZXZHE37');
 </script>
+
+<style>
+/* ================================
+   SCIENTIST QUOTE SECTION
+================================ */
+
+.scientist-quotes {
+    padding: 55px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #f5f9ff, #eef4ff);
+    overflow: hidden;
+}
+
+.quote-container {
+    max-width: 900px;
+    margin: auto;
+    min-height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote-card {
+    width: 100%;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.quote-card.fade-out {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.quote-mark {
+    font-size: 55px;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+#scientist-quote {
+    font-size: 1.35rem;
+    line-height: 1.7;
+    font-weight: 500;
+    color: #1f2937;
+    margin: 0 auto 15px;
+}
+
+#scientist-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 0;
+}
+
+.quote-field {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .scientist-quotes {
+        padding: 40px 15px;
+    }
+
+    #scientist-quote {
+        font-size: 1.08rem;
+        line-height: 1.6;
+    }
+
+    .quote-mark {
+        font-size: 42px;
+    }
+}
+</style>
 </head>
+
 <body>
 
 <header>
     <div class="logo">🎓 LET'S SCORE</div>
+
     <nav>
-        
-<a href="#classes">Classes</a>
-<a href="#contact">Contact</a>
-</nav>
+        <a href="#classes">Classes</a>
+        <a href="#contact">Contact</a>
+    </nav>
 </header>
 
+
+<!-- ================================
+     HERO SECTION
+================================ -->
+
 <section id="home" class="hero">
+
     <h1>LET'S SCORE</h1>
+
     <p>Science for Classes VI–X | Physics for Classes XI–XII</p>
+
     <p>For Assamese & English Medium Students</p>
 
     <div class="buttons">
         <a href="#classes" class="btn">Choose Your Class</a>
-        <a href="https://wa.me/917002137940" class="btn">Join WhatsApp</a>
+
+        <a href="https://wa.me/917002137940" class="btn">
+            Join WhatsApp
+        </a>
     </div>
+
 </section>
 
+
+<!-- ================================
+     ROTATING SCIENTIST QUOTES
+================================ -->
+
+<section class="scientist-quotes">
+
+    <div class="quote-container">
+
+        <div class="quote-card" id="quote-card">
+
+            <div class="quote-mark">❝</div>
+
+            <p id="scientist-quote">
+                The important thing is not to stop questioning.
+            </p>
+
+            <p id="scientist-name">
+                — Albert Einstein
+            </p>
+
+            <div class="quote-field" id="scientist-field">
+                Physics
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================
+     ABOUT SECTION
+================================ -->
+
 <section class="about">
+
     <h2>About Let's Score</h2>
 
     <p>
         Let's Score is an educational platform dedicated to Science
         (Classes VI-X) and Physics (Classes XI-XII).
+
         Our goal is to provide quality educational resources,
         NCERT Solutions, Notes, MCQs, PYQs and Test Series
         for Assamese and English medium students.
     </p>
+
 </section>
-    <section id="classes">
 
-<h2 style="text-align:center;">Choose Your Class</h2>
 
-<div class="cards">
+<!-- ================================
+     CLASS SECTION
+================================ -->
 
-<a href="class6.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class VI Science</h3>
-<p>NCERT and SEBA</p>
-</div>
-</a>
-    <a href="class7.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class VII Science</h3>
-<p>NCERT and SEBA</p>
-</div>
-    </a>
-    <a href="class8.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class VIII Science</h3>
-<p>NCERT and SEBA</p>
-</div>
-</a>
+<section id="classes">
 
-<a href="class9.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class IX Science</h3>
-<p>NCERT and SEBA</p>
-</div>
-</a>
+    <h2 style="text-align:center;">Choose Your Class</h2>
 
-<a href="class10.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class X Science</h3>
-<p>NCERT and SEBA</p>
-</div>
-</a>
+    <div class="cards">
 
-<a href="class11.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class XI Physics</h3>
-<p>NCERT and AHSEC</p>
-</div>
-</a>
+        <a href="class6.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class VI Science</h3>
+                <p>NCERT and SEBA</p>
+            </div>
+        </a>
 
-<a href="class12.html" style="text-decoration:none;color:black;">
-<div class="card">
-<h3>Class XII Physics</h3>
-<p>NCERT and AHSEC</p>
-</div>
-</a>
-   
+        <a href="class7.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class VII Science</h3>
+                <p>NCERT and SEBA</p>
+            </div>
+        </a>
+
+        <a href="class8.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class VIII Science</h3>
+                <p>NCERT and SEBA</p>
+            </div>
+        </a>
+
+        <a href="class9.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class IX Science</h3>
+                <p>NCERT and SEBA</p>
+            </div>
+        </a>
+
+        <a href="class10.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class X Science</h3>
+                <p>NCERT and SEBA</p>
+            </div>
+        </a>
+
+        <a href="class11.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class XI Physics</h3>
+                <p>NCERT and AHSEC</p>
+            </div>
+        </a>
+
+        <a href="class12.html" style="text-decoration:none;color:black;">
+            <div class="card">
+                <h3>Class XII Physics</h3>
+                <p>NCERT and AHSEC</p>
+            </div>
+        </a>
 
     </div>
-<a href="pyq.html" style="text-decoration:none;color:inherit;">
-  <div class="card">
-    <h3>📚 PYQ Collection</h3>
-    <p>Class  10 Previous Year Question Papers</p>
-  </div>
-</a>        
+
+
+    <!-- PYQ -->
+
+    <a href="pyq.html" style="text-decoration:none;color:inherit;">
+
+        <div class="card">
+
+            <h3>📚 PYQ Collection</h3>
+
+            <p>
+                Class 10 Previous Year Question Papers
+            </p>
+
+        </div>
+
+    </a>
+
 </section>
 
+
+<!-- ================================
+     WHY CHOOSE US
+================================ -->
+
 <section class="why">
+
     <h2>Why Choose Let's Score?</h2>
 
     <ul>
@@ -124,37 +277,195 @@ gtag('config', 'G-W0JZXZHE37');
         <li>Concept-Based Learning</li>
         <li>Affordable Premium Resources</li>
     </ul>
+
 </section>
 
+
+<!-- ================================
+     CONTACT
+================================ -->
+
 <section id="contact">
+
     <h2>Contact Us</h2>
 
-    <p><strong>Phone / WhatsApp:</strong> 7002137940</p>
-    <p><strong>Email:</strong> support@letsscore.in</p>
+    <p>
+        <strong>Phone / WhatsApp:</strong>
+        7002137940
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        letsscore@gmail.com
+    </p>
 
     <a href="https://wa.me/917002137940" class="btn">
         Chat on WhatsApp
     </a>
+
 </section>
 
+
+<!-- ================================
+     FOOTER
+================================ -->
+
 <footer>
+
     <p>
-        © <footer>
+        <a href="about.html">About Us</a> |
+        <a href="contact.html">Contact Us</a> |
+        <a href="privacy-policy.html">Privacy Policy</a>
+    </p>
 
-<p>
-<a href="about.html">About Us</a> |
-<a href="contact.html">Contact Us</a> |
-<a href="privacy-policy.html">Privacy Policy</a>
-</p>
+    <p>
+        © 2026 LET'S SCORE
+    </p>
 
-<p>© 2026 LET'S SCORE</p>
+</footer>
 
-        </footer>
+
+<!-- Floating WhatsApp -->
+
 <a href="https://wa.me/917002137940" class="whatsapp-float">
-💬
+    💬
 </a>
+
+
+<!-- ================================
+     ROTATING QUOTE SCRIPT
+================================ -->
+
+<script>
+
+const scientistQuotes = [
+
+    {
+        quote: "The important thing is not to stop questioning.",
+        name: "Albert Einstein",
+        field: "Physics"
+    },
+
+    {
+        quote: "Nothing in life is to be feared; it is only to be understood.",
+        name: "Marie Curie",
+        field: "Physics & Chemistry"
+    },
+
+    {
+        quote: "Somewhere, something incredible is waiting to be known.",
+        name: "Carl Sagan",
+        field: "Astronomy & Science"
+    },
+
+    {
+        quote: "The good thing about science is that it's true whether or not you believe in it.",
+        name: "Neil deGrasse Tyson",
+        field: "Astrophysics"
+    },
+
+    {
+        quote: "Science is the great antidote to the poison of enthusiasm and superstition.",
+        name: "Adam Smith",
+        field: "Philosophy & Science"
+    },
+
+    {
+        quote: "The measure of intelligence is the ability to change.",
+        name: "Albert Einstein",
+        field: "Physics"
+    },
+
+    {
+        quote: "The universe is under no obligation to make sense to you.",
+        name: "Neil deGrasse Tyson",
+        field: "Astrophysics"
+    },
+
+    {
+        quote: "An investment in knowledge pays the best interest.",
+        name: "Benjamin Franklin",
+        field: "Science & Philosophy"
+    },
+
+    {
+        quote: "The most beautiful experience we can have is the mysterious.",
+        name: "Albert Einstein",
+        field: "Physics"
+    },
+
+    {
+        quote: "We cannot solve our problems with the same thinking we used when we created them.",
+        name: "Albert Einstein",
+        field: "Physics & Philosophy"
+    },
+
+    {
+        quote: "Equipped with his five senses, man explores the universe around him and calls the adventure Science.",
+        name: "Edwin Hubble",
+        field: "Astronomy"
+    },
+
+    {
+        quote: "Science is a way of thinking much more than it is a body of knowledge.",
+        name: "Carl Sagan",
+        field: "Science & Astronomy"
+    }
+
+];
+
+let currentQuote = 0;
+
+const quoteCard = document.getElementById("quote-card");
+const quoteText = document.getElementById("scientist-quote");
+const quoteName = document.getElementById("scientist-name");
+const quoteField = document.getElementById("scientist-field");
+
+
+function showQuote() {
+
+    quoteCard.classList.add("fade-out");
+
+    setTimeout(() => {
+
+        currentQuote =
+            (currentQuote + 1) % scientistQuotes.length;
+
+        const item = scientistQuotes[currentQuote];
+
+        quoteText.textContent = item.quote;
+
+        quoteName.textContent = "— " + item.name;
+
+        quoteField.textContent = item.field;
+
+        quoteCard.classList.remove("fade-out");
+
+    }, 700);
+}
+
+
+/* Change quote every 5 seconds */
+
+setInterval(showQuote, 5000);
+
+</script>
+
+
 <script src="script.js"></script>
 
 </body>
 </html>
+
+A couple of important points
+
+- Email changed: "support@letsscore.in" → "letsscore@gmail.com"
+- Quotes rotate automatically every 5 seconds.
+- There is a smooth fade/slide transition.
+- Quotes cover physics, astronomy, chemistry, science and philosophy.
+- The malformed footer and duplicate "<meta>"/"<title>" elements are cleaned up.
+- I kept your existing WhatsApp number and class-page links unchanged.
+- I deliberately used relatively short quotations; for a public educational website, this is safer than loading a large collection of potentially copyrighted modern quotations.
+
+If you want the site to look substantially more premium, the next improvement I'd make is a “Quote of the Day” glassmorphism card with a subtle atom/physics animation in the background, while keeping the page fast on mobile.
       
