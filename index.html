@@ -1,158 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>LET'S SCORE</title>
+    <meta name="description"
+          content="Let's Score - Science for Classes VI-X and Physics for Classes XI-XII. NCERT based learning, notes, MCQs, PYQs and exam-oriented resources for Assamese and English medium students.">
 
-<link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0f172a">
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W0JZXZHE37"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-W0JZXZHE37');
-</script>
+    <title>LET'S SCORE | Science & Physics Learning</title>
 
-<style>
-/* ================================
-   SCIENTIST QUOTE SECTION
-================================ */
-
-.scientist-quotes {
-    padding: 55px 20px;
-    text-align: center;
-    background: linear-gradient(135deg, #f5f9ff, #eef4ff);
-    overflow: hidden;
-}
-
-.quote-container {
-    max-width: 900px;
-    margin: auto;
-    min-height: 170px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.quote-card {
-    width: 100%;
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.quote-card.fade-out {
-    opacity: 0;
-    transform: translateY(15px);
-}
-
-.quote-mark {
-    font-size: 55px;
-    line-height: 1;
-    margin-bottom: 10px;
-}
-
-#scientist-quote {
-    font-size: 1.35rem;
-    line-height: 1.7;
-    font-weight: 500;
-    color: #1f2937;
-    margin: 0 auto 15px;
-}
-
-#scientist-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #2563eb;
-    margin: 0;
-}
-
-.quote-field {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin-top: 5px;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .scientist-quotes {
-        padding: 40px 15px;
-    }
-
-    #scientist-quote {
-        font-size: 1.08rem;
-        line-height: 1.6;
-    }
-
-    .quote-mark {
-        font-size: 42px;
-    }
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-    <div class="logo">🎓 LET'S SCORE</div>
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    <nav>
+<header class="site-header">
+
+    <a href="#home" class="logo">
+        🎓 <span>LET'S SCORE</span>
+    </a>
+
+    <nav class="main-nav">
         <a href="#classes">Classes</a>
         <a href="#contact">Contact</a>
     </nav>
+
 </header>
 
 
-<!-- ================================
-     HERO SECTION
-================================ -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section id="home" class="hero">
 
-    <h1>LET'S SCORE</h1>
+    <div class="hero-content">
 
-    <p>Science for Classes VI–X | Physics for Classes XI–XII</p>
+        <div class="hero-badge">
+            SCIENCE • PHYSICS • EXAM PREPARATION
+        </div>
 
-    <p>For Assamese & English Medium Students</p>
+        <h1>LET'S SCORE</h1>
 
-    <div class="buttons">
-        <a href="#classes" class="btn">Choose Your Class</a>
+        <p class="hero-main">
+            Science for Classes VI–X
+            <span>•</span>
+            Physics for Classes XI–XII
+        </p>
 
-        <a href="https://wa.me/917002137940" class="btn">
-            Join WhatsApp
-        </a>
-    </div>
+        <p class="hero-sub">
+            For Assamese &amp; English Medium Students
+        </p>
 
-</section>
+        <div class="hero-buttons">
 
+            <a href="#classes" class="btn btn-primary">
+                Choose Your Class
+            </a>
 
-<!-- ================================
-     ROTATING SCIENTIST QUOTES
-================================ -->
-
-<section class="scientist-quotes">
-
-    <div class="quote-container">
-
-        <div class="quote-card" id="quote-card">
-
-            <div class="quote-mark">❝</div>
-
-            <p id="scientist-quote">
-                The important thing is not to stop questioning.
-            </p>
-
-            <p id="scientist-name">
-                — Albert Einstein
-            </p>
-
-            <div class="quote-field" id="scientist-field">
-                Physics
-            </div>
+            <a href="https://wa.me/917002137940"
+               class="btn btn-whatsapp"
+               target="_blank"
+               rel="noopener">
+                Join WhatsApp
+            </a>
 
         </div>
 
@@ -161,82 +80,196 @@ gtag('config', 'G-W0JZXZHE37');
 </section>
 
 
-<!-- ================================
-     ABOUT SECTION
-================================ -->
+<!-- =====================================================
+     ROTATING SCIENTIST QUOTES
+===================================================== -->
+
+<section class="scientist-quotes-section">
+
+    <div class="scientist-quotes">
+
+        <div class="science-symbol">
+            ❝
+        </div>
+
+        <div class="quote-container">
+
+            <div class="quote-card" id="quote-card">
+
+                <p id="scientist-quote">
+                    The important thing is not to stop questioning.
+                </p>
+
+                <p id="scientist-name">
+                    — Albert Einstein
+                </p>
+
+                <p id="scientist-field">
+                    Physics
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="quote-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
 
 <section class="about">
 
-    <h2>About Let's Score</h2>
+    <div class="section-heading">
+
+        <span class="section-label">
+            LEARN • UNDERSTAND • SCORE
+        </span>
+
+        <h2>About Let's Score</h2>
+
+    </div>
 
     <p>
-        Let's Score is an educational platform dedicated to Science
-        (Classes VI-X) and Physics (Classes XI-XII).
+        Let's Score is an educational platform dedicated to
+        Science for Classes VI–X and Physics for Classes XI–XII.
+        Our goal is to provide clear, concept-based and
+        exam-oriented educational resources for Assamese and
+        English medium students.
+    </p>
 
-        Our goal is to provide quality educational resources,
-        NCERT Solutions, Notes, MCQs, PYQs and Test Series
-        for Assamese and English medium students.
+    <p>
+        Explore NCERT-based learning resources, notes, MCQs,
+        previous year question papers and test-oriented materials
+        designed to make learning simpler and more effective.
     </p>
 
 </section>
 
 
-<!-- ================================
-     CLASS SECTION
-================================ -->
+<!-- =====================================================
+     CLASSES
+===================================================== -->
 
-<section id="classes">
+<section id="classes" class="classes-section">
 
-    <h2 style="text-align:center;">Choose Your Class</h2>
+    <div class="section-heading">
+
+        <span class="section-label">
+            START YOUR LEARNING JOURNEY
+        </span>
+
+        <h2>Choose Your Class</h2>
+
+    </div>
+
 
     <div class="cards">
 
-        <a href="class6.html" style="text-decoration:none;color:black;">
+        <a href="class6.html" class="class-link">
             <div class="card">
+
+                <div class="card-icon">🔬</div>
+
                 <h3>Class VI Science</h3>
+
                 <p>NCERT and SEBA</p>
+
             </div>
         </a>
 
-        <a href="class7.html" style="text-decoration:none;color:black;">
+
+        <a href="class7.html" class="class-link">
             <div class="card">
+
+                <div class="card-icon">🧪</div>
+
                 <h3>Class VII Science</h3>
+
                 <p>NCERT and SEBA</p>
+
             </div>
         </a>
 
-        <a href="class8.html" style="text-decoration:none;color:black;">
+
+        <a href="class8.html" class="class-link">
             <div class="card">
+
+                <div class="card-icon">⚗️</div>
+
                 <h3>Class VIII Science</h3>
+
                 <p>NCERT and SEBA</p>
+
             </div>
         </a>
 
-        <a href="class9.html" style="text-decoration:none;color:black;">
+
+        <a href="class9.html" class="class-link">
             <div class="card">
+
+                <div class="card-icon">🧬</div>
+
                 <h3>Class IX Science</h3>
+
                 <p>NCERT and SEBA</p>
+
             </div>
         </a>
 
-        <a href="class10.html" style="text-decoration:none;color:black;">
-            <div class="card">
+
+        <a href="class10.html" class="class-link">
+            <div class="card featured-card">
+
+                <div class="card-icon">🏆</div>
+
                 <h3>Class X Science</h3>
+
                 <p>NCERT and SEBA</p>
+
+                <span class="card-badge">
+                    BOARD FOCUS
+                </span>
+
             </div>
         </a>
 
-        <a href="class11.html" style="text-decoration:none;color:black;">
+
+        <a href="class11.html" class="class-link">
             <div class="card">
+
+                <div class="card-icon">⚡</div>
+
                 <h3>Class XI Physics</h3>
+
                 <p>NCERT and AHSEC</p>
+
             </div>
         </a>
 
-        <a href="class12.html" style="text-decoration:none;color:black;">
-            <div class="card">
+
+        <a href="class12.html" class="class-link">
+            <div class="card featured-card">
+
+                <div class="card-icon">🚀</div>
+
                 <h3>Class XII Physics</h3>
+
                 <p>NCERT and AHSEC</p>
+
+                <span class="card-badge">
+                    BOARD FOCUS
+                </span>
+
             </div>
         </a>
 
@@ -245,214 +278,218 @@ gtag('config', 'G-W0JZXZHE37');
 
     <!-- PYQ -->
 
-    <a href="pyq.html" style="text-decoration:none;color:inherit;">
+    <a href="pyq.html" class="pyq-card">
 
-        <div class="card">
+        <div class="pyq-icon">
+            📚
+        </div>
 
-            <h3>📚 PYQ Collection</h3>
+        <div>
+            <h3>PYQ Collection</h3>
 
             <p>
                 Class 10 Previous Year Question Papers
             </p>
-
         </div>
+
+        <span class="pyq-arrow">
+            →
+        </span>
 
     </a>
 
 </section>
 
 
-<!-- ================================
-     WHY CHOOSE US
-================================ -->
+<!-- =====================================================
+     WHY CHOOSE LET'S SCORE
+===================================================== -->
 
 <section class="why">
 
-    <h2>Why Choose Let's Score?</h2>
+    <div class="section-heading">
 
-    <ul>
-        <li>NCERT Based Learning</li>
-        <li>Assamese & English Medium Support</li>
-        <li>Exam-Oriented Content</li>
-        <li>Concept-Based Learning</li>
-        <li>Affordable Premium Resources</li>
-    </ul>
+        <span class="section-label">
+            OUR APPROACH
+        </span>
+
+        <h2>Why Choose Let's Score?</h2>
+
+    </div>
+
+
+    <div class="why-grid">
+
+        <div class="why-item">
+            <span>📘</span>
+            <div>
+                <h3>NCERT Based</h3>
+                <p>Concepts aligned with the prescribed curriculum.</p>
+            </div>
+        </div>
+
+
+        <div class="why-item">
+            <span>🌐</span>
+            <div>
+                <h3>Two Medium Support</h3>
+                <p>Resources for Assamese and English medium students.</p>
+            </div>
+        </div>
+
+
+        <div class="why-item">
+            <span>🎯</span>
+            <div>
+                <h3>Exam Oriented</h3>
+                <p>Focused preparation for school and board examinations.</p>
+            </div>
+        </div>
+
+
+        <div class="why-item">
+            <span>💡</span>
+            <div>
+                <h3>Concept Based</h3>
+                <p>Understand the idea instead of simply memorising it.</p>
+            </div>
+        </div>
+
+
+        <div class="why-item">
+            <span>💰</span>
+            <div>
+                <h3>Affordable Resources</h3>
+                <p>Useful learning materials at accessible prices.</p>
+            </div>
+        </div>
+
+
+        <div class="why-item">
+            <span>📝</span>
+            <div>
+                <h3>PYQs &amp; Practice</h3>
+                <p>Practice with previous year questions and exam material.</p>
+            </div>
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- ================================
+<!-- =====================================================
      CONTACT
-================================ -->
+===================================================== -->
 
-<section id="contact">
+<section id="contact" class="contact">
 
-    <h2>Contact Us</h2>
+    <div class="section-heading">
 
-    <p>
-        <strong>Phone / WhatsApp:</strong>
-        7002137940
-    </p>
+        <span class="section-label">
+            GET IN TOUCH
+        </span>
 
-    <p>
-        <strong>Email:</strong>
-        letsscore@gmail.com
-    </p>
+        <h2>Contact Let's Score</h2>
 
-    <a href="https://wa.me/917002137940" class="btn">
-        Chat on WhatsApp
+    </div>
+
+
+    <div class="contact-content">
+
+        <div class="contact-item">
+
+            <span class="contact-icon">
+                📱
+            </span>
+
+            <div>
+                <strong>Phone / WhatsApp</strong>
+                <p>7002137940</p>
+            </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <span class="contact-icon">
+                ✉️
+            </span>
+
+            <div>
+                <strong>Email</strong>
+                <p>letsscore@gmail.com</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <a href="https://wa.me/917002137940"
+       class="btn btn-primary contact-btn"
+       target="_blank"
+       rel="noopener">
+
+        💬 Chat on WhatsApp
+
     </a>
 
 </section>
 
 
-<!-- ================================
+<!-- =====================================================
      FOOTER
-================================ -->
+===================================================== -->
 
 <footer>
 
-    <p>
-        <a href="about.html">About Us</a> |
-        <a href="contact.html">Contact Us</a> |
-        <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="footer-logo">
+        🎓 LET'S SCORE
+    </div>
+
+    <p class="footer-tagline">
+        Learn • Understand • Practice • Score
     </p>
 
-    <p>
-        © 2026 LET'S SCORE
+    <div class="footer-links">
+
+        <a href="about.html">About Us</a>
+
+        <span>|</span>
+
+        <a href="contact.html">Contact Us</a>
+
+        <span>|</span>
+
+        <a href="privacy-policy.html">Privacy Policy</a>
+
+    </div>
+
+    <p class="copyright">
+        © 2026 LET'S SCORE. All Rights Reserved.
     </p>
 
 </footer>
 
 
-<!-- Floating WhatsApp -->
+<!-- =====================================================
+     FLOATING WHATSAPP
+===================================================== -->
 
-<a href="https://wa.me/917002137940" class="whatsapp-float">
+<a href="https://wa.me/917002137940"
+   class="whatsapp-float"
+   target="_blank"
+   rel="noopener"
+   aria-label="Chat with Let's Score on WhatsApp">
+
     💬
+
 </a>
-
-
-<!-- ================================
-     ROTATING QUOTE SCRIPT
-================================ -->
-
-<script>
-
-const scientistQuotes = [
-
-    {
-        quote: "The important thing is not to stop questioning.",
-        name: "Albert Einstein",
-        field: "Physics"
-    },
-
-    {
-        quote: "Nothing in life is to be feared; it is only to be understood.",
-        name: "Marie Curie",
-        field: "Physics & Chemistry"
-    },
-
-    {
-        quote: "Somewhere, something incredible is waiting to be known.",
-        name: "Carl Sagan",
-        field: "Astronomy & Science"
-    },
-
-    {
-        quote: "The good thing about science is that it's true whether or not you believe in it.",
-        name: "Neil deGrasse Tyson",
-        field: "Astrophysics"
-    },
-
-    {
-        quote: "Science is the great antidote to the poison of enthusiasm and superstition.",
-        name: "Adam Smith",
-        field: "Philosophy & Science"
-    },
-
-    {
-        quote: "The measure of intelligence is the ability to change.",
-        name: "Albert Einstein",
-        field: "Physics"
-    },
-
-    {
-        quote: "The universe is under no obligation to make sense to you.",
-        name: "Neil deGrasse Tyson",
-        field: "Astrophysics"
-    },
-
-    {
-        quote: "An investment in knowledge pays the best interest.",
-        name: "Benjamin Franklin",
-        field: "Science & Philosophy"
-    },
-
-    {
-        quote: "The most beautiful experience we can have is the mysterious.",
-        name: "Albert Einstein",
-        field: "Physics"
-    },
-
-    {
-        quote: "We cannot solve our problems with the same thinking we used when we created them.",
-        name: "Albert Einstein",
-        field: "Physics & Philosophy"
-    },
-
-    {
-        quote: "Equipped with his five senses, man explores the universe around him and calls the adventure Science.",
-        name: "Edwin Hubble",
-        field: "Astronomy"
-    },
-
-    {
-        quote: "Science is a way of thinking much more than it is a body of knowledge.",
-        name: "Carl Sagan",
-        field: "Science & Astronomy"
-    }
-
-];
-
-let currentQuote = 0;
-
-const quoteCard = document.getElementById("quote-card");
-const quoteText = document.getElementById("scientist-quote");
-const quoteName = document.getElementById("scientist-name");
-const quoteField = document.getElementById("scientist-field");
-
-
-function showQuote() {
-
-    quoteCard.classList.add("fade-out");
-
-    setTimeout(() => {
-
-        currentQuote =
-            (currentQuote + 1) % scientistQuotes.length;
-
-        const item = scientistQuotes[currentQuote];
-
-        quoteText.textContent = item.quote;
-
-        quoteName.textContent = "— " + item.name;
-
-        quoteField.textContent = item.field;
-
-        quoteCard.classList.remove("fade-out");
-
-    }, 700);
-}
-
-
-/* Change quote every 5 seconds */
-
-setInterval(showQuote, 5000);
-
-</script>
 
 
 <script src="script.js"></script>
 
 </body>
-</html>
+                   </html>
