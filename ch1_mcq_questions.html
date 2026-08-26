@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>লেট্‌ছ স্ক'ৰ | হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ | ৩০টা বহু বিকল্পীয় প্ৰশ্ন</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans Assamese","Nirmala UI","Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0d1b35 45%,#111827);color:#fff;min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.site-header{position:sticky;top:0;z-index:1000;min-height:64px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(7,17,31,.97);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.logo{color:#38bdf8;text-decoration:none;font-size:22px;font-weight:800}.header-label{color:#94a3b8;font-size:11px;font-weight:700}
+.container{width:min(calc(100% - 10px),1000px);margin:6px auto 25px;background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.3)}
+#lock-screen{min-height:620px;display:flex;align-items:center;justify-content:center;padding:25px 14px;background:radial-gradient(circle at 20% 20%,rgba(14,165,233,.15),transparent 35%),radial-gradient(circle at 80% 80%,rgba(99,102,241,.16),transparent 35%)}
+.lock-card{width:100%;max-width:450px;padding:38px 24px;text-align:center;background:linear-gradient(145deg,rgba(30,41,59,.98),rgba(23,37,84,.97));border:1px solid rgba(56,189,248,.28);border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.lock-icon{font-size:52px;margin-bottom:12px}.lock-card h1{color:#38bdf8;font-size:29px}.lock-card h2{font-size:18px;margin:5px 0 14px}.lock-card p{color:#cbd5e1;font-size:14px;margin-bottom:20px}.password-row{display:flex;flex-direction:column;gap:10px}
+#pass{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;outline:none;text-align:center;font-size:16px}
+#pass:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.unlock-btn,.submit-btn{border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,#0284c7,#6366f1);color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+#error{min-height:22px;color:#f87171;font-size:14px;margin-top:10px}#content{display:none}
+.hero{padding:38px 18px 28px;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.18),transparent 32%),radial-gradient(circle at 85% 75%,rgba(139,92,246,.18),transparent 34%);border-bottom:1px solid rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:5px 13px;margin-bottom:12px;border-radius:30px;background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.22);color:#7dd3fc;font-size:11px;font-weight:800}
+.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.25}.hero p{color:#cbd5e1;font-size:15px}.hero .chapter{color:#7dd3fc;font-size:18px;font-weight:700;margin-top:7px}
+.progress-area{padding:14px 18px;background:rgba(2,6,23,.55);border-bottom:1px solid rgba(255,255,255,.06)}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:6px;color:#94a3b8;font-size:12px}.progress-track{height:7px;border-radius:20px;background:rgba(255,255,255,.08);overflow:hidden}.progress-fill{width:0;height:100%;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);transition:width .15s}
+.instructions{margin:16px;padding:16px;border-radius:16px;background:rgba(30,41,59,.72);border:1px solid rgba(255,255,255,.08);border-left:4px solid #38bdf8}
+.instructions h3{color:#38bdf8;font-size:17px;margin-bottom:6px}.instructions p,.instructions li{color:#cbd5e1;font-size:13px}.instructions ul{padding-left:19px;margin-top:6px}
+.q-box{margin:0 15px 14px;padding:16px;border-radius:16px;background:linear-gradient(145deg,rgba(30,41,59,.96),rgba(23,37,84,.9));border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.16)}
+.q-number{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:20px;background:rgba(56,189,248,.1);color:#38bdf8;font-size:12px;font-weight:800}.q-title{font-size:15px;font-weight:700;margin-bottom:10px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}.option{display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);cursor:pointer}.option.selected{background:rgba(14,165,233,.12);border-color:rgba(56,189,248,.45)}.option input{margin-top:4px;accent-color:#38bdf8;flex-shrink:0}.option span{color:#e2e8f0;font-size:12.5px}
+.submit-area{text-align:center;padding:10px 15px 28px}.submit-btn{min-width:240px;border-radius:50px}
+#result{display:none;margin:0 15px 20px;padding:25px;text-align:center;border-radius:19px;background:linear-gradient(145deg,rgba(14,165,233,.12),rgba(99,102,241,.13));border:1px solid rgba(56,189,248,.25)}
+.score-circle{width:115px;height:115px;margin:0 auto 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;border:5px solid rgba(56,189,248,.25);background:rgba(15,23,42,.75)}
+#score-text{font-size:27px;font-weight:900}.score-label{color:#7dd3fc;font-size:10px}#শতাংশ{color:#38bdf8;font-size:21px;font-weight:800}#score-message{color:#cbd5e1;font-size:13px;margin-top:5px}
+#answer-review{display:none;padding:0 15px 30px}.review-heading{text-align:center;color:#38bdf8;font-size:22px;margin-bottom:16px}.review-card{margin-bottom:10px;padding:15px;border-radius:14px;background:rgba(30,41,59,.86);border:1px solid rgba(255,255,255,.08)}.review-card.সঠিক{border-left:4px solid #22c55e}.review-card.ভুল{border-left:4px solid #ef4444}.review-card h3{font-size:14px;margin-bottom:6px}.review-card p{color:#cbd5e1;font-size:12.5px;margin:3px 0}.review-সঠিক{color:#4ade80!important;font-weight:800}.review-ভুল{color:#f87171!important;font-weight:800}.review-explanation{color:#7dd3fc!important;margin-top:7px!important}
+.retry-area{text-align:center;margin-top:17px}.retry-btn{padding:11px 25px;border-radius:30px;border:1px solid rgba(56,189,248,.3);background:rgba(56,189,248,.08);color:#7dd3fc;font-weight:700;cursor:pointer}
+.site-footer{padding:25px 18px;text-align:center;background:#070d19;border-top:1px solid rgba(255,255,255,.07)}.site-footer h3{color:#38bdf8;font-size:17px}.site-footer p{color:#64748b;font-size:11px;margin:2px}
+@media(max-width:700px){.header-label{display:none}.logo{font-size:19px}.container{border-radius:17px}.lock-card{padding:32px 18px}.hero{padding:32px 13px 25px}.hero h1{font-size:29px}.hero .chapter{font-size:16px}.instructions{margin:12px;padding:14px}.q-box{margin-left:11px;margin-right:11px;padding:14px}.options{grid-template-columns:1fr}.option{padding:9px}.option span{font-size:12px}.submit-area{padding-left:11px;padding-right:11px}.submit-btn{width:100%}#result{margin-left:11px;margin-right:11px}#answer-review{padding-left:11px;padding-right:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<a href="index.html" class="logo">🎓 লেট্‌ছ স্ক'ৰ</a>
+<span class="header-label">হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • দশম শ্ৰেণী</span>
+</header>
+<div class="container">
+
+<div id="lock-screen">
+<div class="lock-card">
+<div class="lock-icon">🔐</div>
+<h1>LET'S নম্বৰ</h1>
+<h2>হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ প্ৰশ্ন অনুশীলন</h2>
+<p>অধ্যায় ১-ৰ ৩০টা বহু বিকল্পীয় প্ৰশ্ন অনুশীলন কৰিবলৈ গোপন সংকেত প্ৰৱেশ কৰক।</p>
+<div class="password-row">
+<input type="password" id="pass" placeholder="গোপন সংকেত লিখক" autocomplete="off">
+<button type="button" class="unlock-btn" id="unlockButton">🔓 প্ৰৱেশ কৰক</button>
+</div>
+<div id="error"></div>
+</div>
+</div>
+
+<div id="content">
+<section class="hero">
+<div class="badge">হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • পৰীক্ষামুখী অনুশীলন</div>
+<h1>দশম শ্ৰেণী বিজ্ঞান</h1>
+<p>৩০টা বহু বিকল্পীয় প্ৰশ্ন — অনুশীলনী পৰীক্ষা</p>
+<p class="chapter">অধ্যায় ১ — ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ</p>
+</section>
+
+<div class="progress-area">
+<div class="progress-top"><span>উত্তৰ দিয়াৰ অগ্ৰগতি</span><span id="progress-text">0 / 30</span></div>
+<div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+</div>
+
+<div class="instructions">
+<h3>📌 নিৰ্দেশনা</h3>
+<p>প্ৰতিটো প্ৰশ্নৰ বাবে সঠিক উত্তৰ নিৰ্বাচন কৰক। সকলো প্ৰশ্ন দশম শ্ৰেণী বিজ্ঞানৰ অধ্যায় ১-ৰ গুৰুত্বপূৰ্ণ পৰীক্ষামুখী ধাৰণাৰ ওপৰত ভিত্তি কৰি প্ৰস্তুত কৰা হৈছে।</p>
+<ul>
+<li>মুঠ প্ৰশ্ন: <strong>৩০টা</strong></li>
+<li>প্ৰতিটো প্ৰশ্ন: <strong>১ নম্বৰ</strong></li>
+<li>মুঠ নম্বৰ: <strong>৩০</strong></li>
+</ul>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন ১</span>
+<div class="q-title">মেগনেছিয়াম ফিতা বায়ুত দহন কৰিলে কি উৎপন্ন হয়?</div>
+<div class="options"><label class="option"><input type="radio" name="q1" value="A"><span>(ক) MgCl₂</span></label>
+<label class="option"><input type="radio" name="q1" value="B"><span>(খ) MgCO₃</span></label>
+<label class="option"><input type="radio" name="q1" value="C"><span>(গ) MgO</span></label>
+<label class="option"><input type="radio" name="q1" value="D"><span>(ঘ) MgSO₄</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২</span>
+<div class="q-title">তলৰ কোনটো ৰাসায়নিক বিক্ৰিয়াৰ এটা লক্ষণ?</div>
+<div class="options"><label class="option"><input type="radio" name="q2" value="A"><span>(ক) গেছ উৎপন্ন হোৱা</span></label>
+<label class="option"><input type="radio" name="q2" value="B"><span>(খ) কেৱল আকাৰ সলনি</span></label>
+<label class="option"><input type="radio" name="q2" value="C"><span>(গ) কেৱল অৱস্থা সলনি</span></label>
+<label class="option"><input type="radio" name="q2" value="D"><span>(ঘ) কেৱল দ্ৰৱীভূত হোৱা</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৩</span>
+<div class="q-title">ৰাসায়নিক সমীকৰণ সন্তুলন কৰাটো কোনটো সূত্ৰৰ ওপৰত ভিত্তি কৰি কৰা হয়?</div>
+<div class="options"><label class="option"><input type="radio" name="q3" value="A"><span>(ক) শক্তি সংৰক্ষণৰ সূত্ৰ</span></label>
+<label class="option"><input type="radio" name="q3" value="B"><span>(খ) গেছৰ সূত্ৰ</span></label>
+<label class="option"><input type="radio" name="q3" value="C"><span>(গ) স্থিৰ উষ্ণতাৰ সূত্ৰ</span></label>
+<label class="option"><input type="radio" name="q3" value="D"><span>(ঘ) ভৰ সংৰক্ষণৰ সূত্ৰ</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৪</span>
+<div class="q-title">CaCO₃-ক উত্তপ্ত কৰিলে উৎপন্ন হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q4" value="A"><span>(ক) Ca(OH)₂ আৰু O₂</span></label>
+<label class="option"><input type="radio" name="q4" value="B"><span>(খ) CaO আৰু CO₂</span></label>
+<label class="option"><input type="radio" name="q4" value="C"><span>(গ) CaCl₂ আৰু CO₂</span></label>
+<label class="option"><input type="radio" name="q4" value="D"><span>(ঘ) CaO আৰু H₂</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৫</span>
+<div class="q-title">Fe + CuSO₄ → FeSO₄ + Cu কোন ধৰণৰ বিক্ৰিয়া?</div>
+<div class="options"><label class="option"><input type="radio" name="q5" value="A"><span>(ক) সংযোজন</span></label>
+<label class="option"><input type="radio" name="q5" value="B"><span>(খ) বিয়োজন</span></label>
+<label class="option"><input type="radio" name="q5" value="C"><span>(গ) প্ৰতিস্থাপন</span></label>
+<label class="option"><input type="radio" name="q5" value="D"><span>(ঘ) দ্বি-প্ৰতিস্থাপন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৬</span>
+<div class="q-title">Na₂SO₄ + BaCl₂ → BaSO₄ + 2NaCl কোন ধৰণৰ বিক্ৰিয়া?</div>
+<div class="options"><label class="option"><input type="radio" name="q6" value="A"><span>(ক) দ্বি-প্ৰতিস্থাপন</span></label>
+<label class="option"><input type="radio" name="q6" value="B"><span>(খ) সংযোজন</span></label>
+<label class="option"><input type="radio" name="q6" value="C"><span>(গ) বিয়োজন</span></label>
+<label class="option"><input type="radio" name="q6" value="D"><span>(ঘ) দহন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৭</span>
+<div class="q-title">AgCl সূৰ্যৰ পোহৰত ৰাখিলে কি হয়?</div>
+<div class="options"><label class="option"><input type="radio" name="q7" value="A"><span>(ক) AgCl গলি যায়</span></label>
+<label class="option"><input type="radio" name="q7" value="B"><span>(খ) Ag₂O সৃষ্টি হয়</span></label>
+<label class="option"><input type="radio" name="q7" value="C"><span>(গ) কোনো পৰিৱৰ্তন নহয়</span></label>
+<label class="option"><input type="radio" name="q7" value="D"><span>(ঘ) Ag আৰু Cl₂ সৃষ্টি হয়</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৮</span>
+<div class="q-title">AgCl পোহৰত ধূসৰ হৈ পৰাৰ মূল কাৰণ—</div>
+<div class="options"><label class="option"><input type="radio" name="q8" value="A"><span>(ক) Cl₂-ৰ বাবে</span></label>
+<label class="option"><input type="radio" name="q8" value="B"><span>(খ) ধাতৱ Ag সৃষ্টি হোৱাৰ বাবে</span></label>
+<label class="option"><input type="radio" name="q8" value="C"><span>(গ) পানী শোষণৰ বাবে</span></label>
+<label class="option"><input type="radio" name="q8" value="D"><span>(ঘ) অক্সিজেনৰ বাবে</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৯</span>
+<div class="q-title">Pb(NO₃)₂ গৰম কৰিলে উৎপন্ন হোৱা মুগা গেছটো হ'ল—</div>
+<div class="options"><label class="option"><input type="radio" name="q9" value="A"><span>(ক) SO₂</span></label>
+<label class="option"><input type="radio" name="q9" value="B"><span>(খ) CO₂</span></label>
+<label class="option"><input type="radio" name="q9" value="C"><span>(গ) NO₂</span></label>
+<label class="option"><input type="radio" name="q9" value="D"><span>(ঘ) H₂</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১০</span>
+<div class="q-title">লোহাৰ গজাল CuSO₄ দ্ৰৱণত ৰাখিলে দ্ৰৱণৰ ৰং—</div>
+<div class="options"><label class="option"><input type="radio" name="q10" value="A"><span>(ক) নীলাৰ পৰা সেউজীয়া</span></label>
+<label class="option"><input type="radio" name="q10" value="B"><span>(খ) সেউজীয়াৰ পৰা নীলা</span></label>
+<label class="option"><input type="radio" name="q10" value="C"><span>(গ) বৰ্ণহীনৰ পৰা নীলা</span></label>
+<label class="option"><input type="radio" name="q10" value="D"><span>(ঘ) নীলা হৈয়ে থাকে</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১১</span>
+<div class="q-title">তলৰ কোনটো তাপবৰ্জী বিক্ৰিয়া?</div>
+<div class="options"><label class="option"><input type="radio" name="q11" value="A"><span>(ক) পানীৰ বিদ্যুৎ বিশ্লেষণ</span></label>
+<label class="option"><input type="radio" name="q11" value="B"><span>(খ) AgCl-ৰ বিয়োজন</span></label>
+<label class="option"><input type="radio" name="q11" value="C"><span>(গ) CaCO₃-ৰ বিয়োজন</span></label>
+<label class="option"><input type="radio" name="q11" value="D"><span>(ঘ) প্ৰাকৃতিক গেছৰ দহন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১২</span>
+<div class="q-title">শ্বসনক সাধাৰণতে কোৱা হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q12" value="A"><span>(ক) তাপগ্ৰাহী</span></label>
+<label class="option"><input type="radio" name="q12" value="B"><span>(খ) তাপবৰ্জী</span></label>
+<label class="option"><input type="radio" name="q12" value="C"><span>(গ) বিয়োজনহীন</span></label>
+<label class="option"><input type="radio" name="q12" value="D"><span>(ঘ) ভৌতিক পৰিৱৰ্তন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৩</span>
+<div class="q-title">Zn + 2HCl → ZnCl₂ + ?-ত '?' হ'ল—</div>
+<div class="options"><label class="option"><input type="radio" name="q13" value="A"><span>(ক) O₂</span></label>
+<label class="option"><input type="radio" name="q13" value="B"><span>(খ) CO₂</span></label>
+<label class="option"><input type="radio" name="q13" value="C"><span>(গ) H₂</span></label>
+<label class="option"><input type="radio" name="q13" value="D"><span>(ঘ) Cl₂</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৪</span>
+<div class="q-title">তলৰ কোনটো জাৰণ (জাৰণ)-ৰ উদাহৰণ?</div>
+<div class="options"><label class="option"><input type="radio" name="q14" value="A"><span>(ক) অক্সিজেন সংযোজন</span></label>
+<label class="option"><input type="radio" name="q14" value="B"><span>(খ) অক্সিজেন অপসাৰণ</span></label>
+<label class="option"><input type="radio" name="q14" value="C"><span>(গ) হাইড্ৰ'জেন সংযোজন</span></label>
+<label class="option"><input type="radio" name="q14" value="D"><span>(ঘ) ইলেক্ট্ৰন গ্ৰহণ</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৫</span>
+<div class="q-title">বিজাৰণ (বিজাৰণ) বুলিলে সাধাৰণতে বুজায়—</div>
+<div class="options"><label class="option"><input type="radio" name="q15" value="A"><span>(ক) অক্সিজেন সংযোজন</span></label>
+<label class="option"><input type="radio" name="q15" value="B"><span>(খ) হাইড্ৰ'জেন অপসাৰণ</span></label>
+<label class="option"><input type="radio" name="q15" value="C"><span>(গ) ইলেক্ট্ৰন বৰ্জন</span></label>
+<label class="option"><input type="radio" name="q15" value="D"><span>(ঘ) অক্সিজেন অপসাৰণ</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৬</span>
+<div class="q-title">CuO-ৰ ওপৰেৰে H₂ প্ৰৱাহিত কৰিলে উৎপন্ন হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q16" value="A"><span>(ক) CuO₂ আৰু H₂</span></label>
+<label class="option"><input type="radio" name="q16" value="B"><span>(খ) Cu আৰু H₂O</span></label>
+<label class="option"><input type="radio" name="q16" value="C"><span>(গ) CuCl₂ আৰু H₂</span></label>
+<label class="option"><input type="radio" name="q16" value="D"><span>(ঘ) C আৰু H₂O</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৭</span>
+<div class="q-title">লোহাত মামৰ ধৰিবলৈ প্ৰয়োজন—</div>
+<div class="options"><label class="option"><input type="radio" name="q17" value="A"><span>(ক) কেৱল নাইট্ৰ'জেন</span></label>
+<label class="option"><input type="radio" name="q17" value="B"><span>(খ) কেৱল CO₂</span></label>
+<label class="option"><input type="radio" name="q17" value="C"><span>(গ) অক্সিজেন আৰু আৰ্দ্ৰতা</span></label>
+<label class="option"><input type="radio" name="q17" value="D"><span>(ঘ) কেৱল H₂</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৮</span>
+<div class="q-title">মামৰৰ মূল উপাদান হিচাপে ধৰা হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q18" value="A"><span>(ক) জলযুক্ত লো (III) অক্সাইড</span></label>
+<label class="option"><input type="radio" name="q18" value="B"><span>(খ) তামৰ অক্সাইড</span></label>
+<label class="option"><input type="radio" name="q18" value="C"><span>(গ) জিংকৰ অক্সাইড</span></label>
+<label class="option"><input type="radio" name="q18" value="D"><span>(ঘ) ছডিয়ামৰ অক্সাইড</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ১৯</span>
+<div class="q-title">ৰূপৰ বস্তুত ক'লা আৱৰণ সাধাৰণতে কোনটো যৌগৰ?</div>
+<div class="options"><label class="option"><input type="radio" name="q19" value="A"><span>(ক) Ag₂O</span></label>
+<label class="option"><input type="radio" name="q19" value="B"><span>(খ) AgCl</span></label>
+<label class="option"><input type="radio" name="q19" value="C"><span>(গ) AgNO₃</span></label>
+<label class="option"><input type="radio" name="q19" value="D"><span>(ঘ) Ag₂S</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২০</span>
+<div class="q-title">তামৰ ওপৰত সেউজীয়া আৱৰণ মূলতঃ—</div>
+<div class="options"><label class="option"><input type="radio" name="q20" value="A"><span>(ক) ছডিয়াম ক্ল'ৰাইড</span></label>
+<label class="option"><input type="radio" name="q20" value="B"><span>(খ) ক্ষাৰীয় তামৰ কাৰ্বনেট</span></label>
+<label class="option"><input type="radio" name="q20" value="C"><span>(গ) লোহাৰ অক্সাইড</span></label>
+<label class="option"><input type="radio" name="q20" value="D"><span>(ঘ) জিংকৰ কাৰ্বনেট</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২১</span>
+<div class="q-title">খাদ্যৰ চৰ্বি বা তেল নষ্ট হোৱা মূলতঃ কোন প্ৰক্ৰিয়াৰ সৈতে জড়িত?</div>
+<div class="options"><label class="option"><input type="radio" name="q21" value="A"><span>(ক) বিজাৰণ</span></label>
+<label class="option"><input type="radio" name="q21" value="B"><span>(খ) নিৰপেক্ষীকৰণ</span></label>
+<label class="option"><input type="radio" name="q21" value="C"><span>(গ) জাৰণ</span></label>
+<label class="option"><input type="radio" name="q21" value="D"><span>(ঘ) অধঃক্ষেপণ</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২২</span>
+<div class="q-title">চৰ্বি বা তেল নষ্ট হোৱা ৰোধ কৰিবলৈ পেকেটত প্ৰায়ে ব্যৱহাৰ কৰা হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q22" value="A"><span>(ক) নাইট্ৰ'জেন</span></label>
+<label class="option"><input type="radio" name="q22" value="B"><span>(খ) অক্সিজেন</span></label>
+<label class="option"><input type="radio" name="q22" value="C"><span>(গ) ক্ল'ৰিন</span></label>
+<label class="option"><input type="radio" name="q22" value="D"><span>(ঘ) হাইড্ৰ'জেন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৩</span>
+<div class="q-title">পানীৰ বিদ্যুৎ বিশ্লেষণত H₂ আৰু O₂-ৰ আয়তন অনুপাত—</div>
+<div class="options"><label class="option"><input type="radio" name="q23" value="A"><span>(ক) 1:1</span></label>
+<label class="option"><input type="radio" name="q23" value="B"><span>(খ) 1:2</span></label>
+<label class="option"><input type="radio" name="q23" value="C"><span>(গ) 3:1</span></label>
+<label class="option"><input type="radio" name="q23" value="D"><span>(ঘ) 2:1</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৪</span>
+<div class="q-title">পানীৰ বিদ্যুৎ-বিশ্লেষণ কোন ধৰণৰ বিক্ৰিয়া?</div>
+<div class="options"><label class="option"><input type="radio" name="q24" value="A"><span>(ক) সংযোজন</span></label>
+<label class="option"><input type="radio" name="q24" value="B"><span>(খ) বিয়োজন</span></label>
+<label class="option"><input type="radio" name="q24" value="C"><span>(গ) প্ৰতিস্থাপন</span></label>
+<label class="option"><input type="radio" name="q24" value="D"><span>(ঘ) দহন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৫</span>
+<div class="q-title">ব্লিচিং পাউডাৰ-ৰ সংকেত হিচাপে পাঠ্যপুথিত ব্যৱহৃত হয়—</div>
+<div class="options"><label class="option"><input type="radio" name="q25" value="A"><span>(ক) NaHCO₃</span></label>
+<label class="option"><input type="radio" name="q25" value="B"><span>(খ) Na₂CO₃</span></label>
+<label class="option"><input type="radio" name="q25" value="C"><span>(গ) CaOCl₂</span></label>
+<label class="option"><input type="radio" name="q25" value="D"><span>(ঘ) CaCO₃</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৬</span>
+<div class="q-title">পানী বীজাণুমুক্ত কৰিবলৈ তলৰ কোনটো ব্যৱহাৰ কৰিব পাৰি?</div>
+<div class="options"><label class="option"><input type="radio" name="q26" value="A"><span>(ক) ব্লিচিং পাউডাৰ</span></label>
+<label class="option"><input type="radio" name="q26" value="B"><span>(খ) বেকিং ছ'ডা</span></label>
+<label class="option"><input type="radio" name="q26" value="C"><span>(গ) ৱাশিং ছ'ডা</span></label>
+<label class="option"><input type="radio" name="q26" value="D"><span>(ঘ) জিপছাম</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৭</span>
+<div class="q-title">জিংক ব্লেণ্ড (ZnS) বায়ুৰ উপস্থিতিত তাপ দি জাৰণ কৰিলে মুখ্য গেছ—</div>
+<div class="options"><label class="option"><input type="radio" name="q27" value="A"><span>(ক) CO₂</span></label>
+<label class="option"><input type="radio" name="q27" value="B"><span>(খ) H₂S</span></label>
+<label class="option"><input type="radio" name="q27" value="C"><span>(গ) Cl₂</span></label>
+<label class="option"><input type="radio" name="q27" value="D"><span>(ঘ) SO₂</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৮</span>
+<div class="q-title">তলৰ কোনটো জাৰণ আৰু বিজাৰণ দুয়োটাকে একেলগে জড়িত কৰা বিক্ৰিয়া?</div>
+<div class="options"><label class="option"><input type="radio" name="q28" value="A"><span>(ক) কেৱল অধঃক্ষেপণ</span></label>
+<label class="option"><input type="radio" name="q28" value="B"><span>(খ) জাৰণ-বিজাৰণ বিক্ৰিয়া</span></label>
+<label class="option"><input type="radio" name="q28" value="C"><span>(গ) ভৌতিক পৰিৱৰ্তন</span></label>
+<label class="option"><input type="radio" name="q28" value="D"><span>(ঘ) গলন</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ২৯</span>
+<div class="q-title">পেকেটজাত খাদ্যত জাৰণ-ৰোধক ব্যৱহাৰৰ উদ্দেশ্য—</div>
+<div class="options"><label class="option"><input type="radio" name="q29" value="A"><span>(ক) পানী বৃদ্ধি কৰা</span></label>
+<label class="option"><input type="radio" name="q29" value="B"><span>(খ) তাপ বৃদ্ধি কৰা</span></label>
+<label class="option"><input type="radio" name="q29" value="C"><span>(গ) জাৰণ কমোৱা</span></label>
+<label class="option"><input type="radio" name="q29" value="D"><span>(ঘ) CO₂ উৎপাদন কৰা</span></label></div>
+</div><div class="q-box">
+<span class="q-number">প্ৰশ্ন ৩০</span>
+<div class="q-title">ৰাসায়নিক বিক্ৰিয়াৰ সমীকৰণত অভিকাৰক সাধাৰণতে থাকে—</div>
+<div class="options"><label class="option"><input type="radio" name="q30" value="A"><span>(ক) বাঁওফালে</span></label>
+<label class="option"><input type="radio" name="q30" value="B"><span>(খ) সোঁফালে</span></label>
+<label class="option"><input type="radio" name="q30" value="C"><span>(গ) ওপৰত</span></label>
+<label class="option"><input type="radio" name="q30" value="D"><span>(ঘ) তলত</span></label></div>
+</div>
+
+<div class="submit-area">
+<button type="button" class="submit-btn" onclick="submitQuiz()">✅ উত্তৰ জমা দিয়ক</button>
+</div>
+
+<div id="result">
+<div class="score-circle"><div id="score-text">0/30</div><div class="score-label">নম্বৰ</div></div>
+<div id="শতাংশ">0%</div>
+<div id="score-message"></div>
+</div>
+
+<div id="answer-review">
+<h2 class="review-heading">📖 উত্তৰ আৰু ব্যাখ্যা</h2>
+<div id="review-content"></div>
+<div class="retry-area"><button type="button" class="retry-btn" onclick="retryQuiz()">🔄 পুনৰ চেষ্টা কৰক</button></div>
+</div>
+</div>
+
+<footer class="site-footer">
+<h3>🎓 লেট্‌ছ স্ক'ৰ</h3>
+<p>শিকা • বুজা • অনুশীলন কৰা • সফল হোৱা</p>
+<p>হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • দশম শ্ৰেণী বিজ্ঞান</p>
+<p>© 2026 LET'S নম্বৰ</p>
+</footer>
+</div>
+
+<script>
+const CORRECT_PASSWORD="letsscore207";
+
+function unlock(){
+const input=document.getElementById("pass"),error=document.getElementById("error");
+if(input.value.trim()===CORRECT_PASSWORD){
+document.getElementById("lock-screen").style.display="none";
+document.getElementById("content").style.display="block";
+error.textContent="";
+try{sessionStorage.setItem("letsনম্বৰবহু বিকল্পীয় প্ৰশ্নUnlocked","true")}catch(e){}
+window.scrollTo(0,0);
+}else{
+error.textContent="❌ ভুল গোপন সংকেত! পুনৰ চেষ্টা কৰক।";
+input.value="";input.focus();
+}
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+const input=document.getElementById("pass");
+document.getElementById("unlockButton").addEventListener("click",unlock);
+input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();unlock()}});
+try{
+if(sessionStorage.getItem("letsনম্বৰবহু বিকল্পীয় প্ৰশ্নUnlocked")==="true"){
+document.getElementById("lock-screen").style.display="none";
+document.getElementById("content").style.display="block";
+}
+}catch(e){}
+});
+
+const answers={q1:"C",q2:"A",q3:"D",q4:"B",q5:"C",q6:"A",q7:"D",q8:"B",q9:"C",q10:"A",q11:"D",q12:"B",q13:"C",q14:"A",q15:"D",q16:"B",q17:"C",q18:"A",q19:"D",q20:"B",q21:"C",q22:"A",q23:"D",q24:"B",q25:"C",q26:"A",q27:"D",q28:"B",q29:"C",q30:"A"};
+const explanations={q1:'মেগনেছিয়াম অক্সিজেনৰ সৈতে বিক্ৰিয়া কৰি MgO সৃষ্টি কৰে।',q2:'গেছ উৎপন্ন হোৱা ৰাসায়নিক বিক্ৰিয়াৰ এটা সাধাৰণ লক্ষণ।',q3:'ৰাসায়নিক বিক্ৰিয়াত ভৰ সংৰক্ষিত থাকে।',q4:'CaCO₃ → CaO + CO₂।',q5:'Fe-এ Cu-ক CuSO₄-ৰ পৰা প্ৰতিস্থাপন কৰে।',q6:'দুটা যৌগৰ আয়ন বিনিময় হয়।',q7:'AgCl পোহৰৰ প্ৰভাৱত Ag আৰু Cl₂-লৈ বিয়োজিত হয়।',q8:'ধাতৱ ৰূপ সৃষ্টি হোৱাৰ বাবে ধূসৰ ৰং দেখা যায়।',q9:'Lead nitrate-ৰ তাপীয় বিয়োজনত NO₂ উৎপন্ন হয়।',q10:'FeSO₄ সৃষ্টি হোৱাৰ বাবে দ্ৰৱণ সেউজীয়া হয়।',q11:'দহনত তাপ মুক্ত হয়।',q12:'শ্বসনত শক্তি মুক্ত হয়।',q13:'জিংকে dilute HCl-ৰ পৰা H₂ অপসাৰণ কৰে।',q14:'অক্সিজেন সংযোজনক জাৰণ বুলি কোৱা হয়।',q15:'অক্সিজেন অপসাৰণ বিজাৰণ-ৰ এটা সংজ্ঞা।',q16:'H₂-এ CuO-ৰ পৰা অক্সিজেন আঁতৰাই Cu সৃষ্টি কৰে।',q17:'লোহাৰ ক্ষয়-ত অক্সিজেন আৰু পানী/আৰ্দ্ৰতা গুৰুত্বপূৰ্ণ।',q18:'মামৰ মূলত জলযুক্ত লো (III) অক্সাইড।',q19:'বায়ুৰ sulfur compounds-ৰ সৈতে বিক্ৰিয়াত Ag₂S সৃষ্টি হয়।',q20:'তাম আৰ্দ্ৰ বায়ুত বিক্ৰিয়া কৰি ক্ষাৰীয় তামৰ কাৰ্বনেট-ৰ সেউজীয়া আৱৰণ সৃষ্টি কৰে।',q21:'তেল/চৰ্বিৰ জাৰণ-এ চৰ্বি বা তেল নষ্ট হোৱা ঘটায়।',q22:'Nitrogen-এ অক্সিজেন-ৰ সংস্পৰ্শ কমায়।',q23:'2H₂O → 2H₂ + O₂; সেয়ে 2:1।',q24:'পানী ভাঙি H₂ আৰু O₂ সৃষ্টি হয়।',q25:'দশম শ্ৰেণীৰ পাঠ্যপুথিত ব্লিচিং পাউডাৰ-ৰ সংকেত CaOCl₂ হিচাপে দিয়া হয়।',q26:'ব্লিচিং পাউডাৰ পানী বীজাণুমুক্ত কৰিবলৈ ব্যৱহাৰ কৰা হয়।',q27:'2ZnS + 3O₂ → 2ZnO + 2SO₂।',q28:'একেটা বিক্ৰিয়াত জাৰণ আৰু বিজাৰণ একেলগে ঘটিলে জাৰণ-বিজাৰণ বিক্ৰিয়া।',q29:'Antioxidant-এ খাদ্যৰ জাৰণ ধীৰ কৰাত সহায় কৰে।',q30:'ৰাসায়নিক সমীকৰণ-ত অভিকাৰক বাঁওফালে আৰু উৎপাদ সোঁফালে লিখা হয়।'};
+
+const assameseDigits={"0":"০","1":"১","2":"২","3":"৩","4":"৪","5":"৫","6":"৬","7":"৭","8":"৮","9":"৯"};
+function toAssamese(v){return String(v).replace(/[0-9]/g,d=>assameseDigits[d]);}
+
+function updateProgress(){
+let n=0;
+for(let i=1;i<=30;i++)if(document.querySelector('input[name="q'+i+'"]:checked'))n++;
+document.getElementById("progress-fill").style.width=(n/30*100)+"%";
+document.getElementById("progress-text").textContent=toAssamese(n)+" / ৩০";
+}
+
+document.addEventListener("change",e=>{
+if(e.target.matches('input[type="radio"]')){
+document.querySelectorAll('input[name="'+e.target.name+'"]').forEach(x=>x.closest(".option").classList.remove("selected"));
+e.target.closest(".option").classList.add("selected");
+updateProgress();
+}
+});
+
+function submitQuiz(){
+let score=0,answered=0,html="";
+for(let i=1;i<=30;i++){
+const selected=document.querySelector('input[name="q'+i+'"]:checked');
+const সঠিক=answers["q"+i];
+let user="উত্তৰ দিয়া হোৱা নাই";
+if(selected){answered++;user="("+selected.value+")";}
+const ok=selected&&selected.value===সঠিক;
+if(ok)score++;
+html+=`<div class="review-card ${ok?"সঠিক":"ভুল"}">
+<h3>প্ৰশ্ন ${toAssamese(i)} ${ok?"✅":"❌"}</h3>
+<p class="${ok?"review-সঠিক":"review-ভুল"}">আপোনাৰ উত্তৰ: ${user}</p>
+<p class="review-সঠিক">সঠিক উত্তৰ: (${সঠিক})</p>
+<p class="review-explanation">💡 ${explanations["q"+i]}</p>
+</div>`;
+}
+const pct=Math.round(score/30*100);
+document.getElementById("score-text").textContent=toAssamese(score)+"/৩০";
+document.getElementById("শতাংশ").textContent=pct+"%";
+let msg=score===30?"🌟 অসাধাৰণ! সকলো উত্তৰ সঠিক।":
+score>=24?"🏆 অতি উত্তম! হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭-ৰ বাবে আপোনাৰ প্ৰস্তুতি ভাল।":
+score>=18?"👏 ভাল প্ৰচেষ্টা। ভুল হোৱা ধাৰণাসমূহ পুনৰ চাওক।":
+score>=12?"📚 আৰু কিছু অনুশীলন আৰু পুনৰাবৃত্তি কৰক।":
+"📖 অধ্যায় ১ পুনৰ ভালদৰে অধ্যয়ন কৰি আকৌ চেষ্টা কৰক।";
+if(answered<30)msg+=" "+toAssamese(30-answered)+"টা প্ৰশ্নৰ উত্তৰ দিয়া হোৱা নাই।";
+document.getElementById("score-message").textContent=msg;
+document.getElementById("result").style.display="block";
+document.getElementById("answer-review").style.display="block";
+document.getElementById("review-content").innerHTML=html;
+document.getElementById("progress-fill").style.width="100%";
+document.getElementById("result").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function retryQuiz(){
+document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+document.querySelectorAll(".option.selected").forEach(x=>x.classList.remove("selected"));
+document.getElementById("result").style.display="none";
+document.getElementById("answer-review").style.display="none";
+document.getElementById("review-content").innerHTML="";
+document.getElementById("progress-fill").style.width="0%";
+document.getElementById("progress-text").textContent="০ / ৩০";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>

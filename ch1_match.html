@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>দশম শ্ৰেণী বিজ্ঞান | মিলোৱা প্ৰশ্নৰ অনুশীলন</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+font-family:"Noto Sans Assamese","Nirmala UI","Segoe UI",Arial,sans-serif;
+background:linear-gradient(180deg,#07111f,#0d1b35 45%,#111827);
+color:#fff;min-height:100vh;line-height:1.65;overflow-x:hidden;
+-webkit-font-smoothing:antialiased
+}
+.site-header{
+position:sticky;top:0;z-index:1000;min-height:64px;
+display:flex;align-items:center;justify-content:space-between;
+padding:12px 20px;background:rgba(7,17,31,.97);
+border-bottom:1px solid rgba(255,255,255,.08);
+box-shadow:0 4px 18px rgba(0,0,0,.3)
+}
+.logo{color:#38bdf8;text-decoration:none;font-size:22px;font-weight:800}
+.header-label{color:#94a3b8;font-size:12px;font-weight:700}
+.container{
+width:min(calc(100% - 10px),1000px);margin:6px auto 25px;
+background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.08);
+border-radius:20px;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.3)
+}
+#lock-screen{
+min-height:620px;display:flex;align-items:center;justify-content:center;
+padding:25px 14px;background:radial-gradient(circle at 20% 20%,rgba(14,165,233,.15),transparent 35%),radial-gradient(circle at 80% 80%,rgba(99,102,241,.16),transparent 35%)
+}
+.lock-card{
+width:100%;max-width:450px;padding:38px 24px;text-align:center;
+background:linear-gradient(145deg,rgba(30,41,59,.98),rgba(23,37,84,.97));
+border:1px solid rgba(56,189,248,.28);border-radius:24px;
+box-shadow:0 20px 50px rgba(0,0,0,.4)
+}
+.lock-icon{font-size:52px;margin-bottom:12px}
+.lock-card h1{color:#38bdf8;font-size:29px}
+.lock-card h2{font-size:19px;margin:5px 0 14px}
+.lock-card p{color:#cbd5e1;font-size:14px;margin-bottom:20px}
+.password-row{display:flex;flex-direction:column;gap:10px}
+#pass{
+width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);
+background:rgba(255,255,255,.06);color:#fff;outline:none;text-align:center;font-size:16px
+}
+#pass:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.unlock-btn,.submit-btn{
+border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,#0284c7,#6366f1);
+color:#fff;font-size:16px;font-weight:800;cursor:pointer
+}
+#error{min-height:22px;color:#f87171;font-size:14px;margin-top:10px}
+#content{display:none}
+.hero{
+padding:38px 18px 28px;text-align:center;
+background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.18),transparent 32%),radial-gradient(circle at 85% 75%,rgba(139,92,246,.18),transparent 34%);
+border-bottom:1px solid rgba(255,255,255,.07)
+}
+.badge{
+display:inline-block;padding:5px 13px;margin-bottom:12px;border-radius:30px;
+background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.22);
+color:#7dd3fc;font-size:12px;font-weight:800
+}
+.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.25}
+.hero p{color:#cbd5e1;font-size:15px}
+.hero .chapter{color:#7dd3fc;font-size:18px;font-weight:700;margin-top:7px}
+.progress-area{padding:14px 18px;background:rgba(2,6,23,.55);border-bottom:1px solid rgba(255,255,255,.06)}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:6px;color:#94a3b8;font-size:12px}
+.progress-track{height:7px;border-radius:20px;background:rgba(255,255,255,.08);overflow:hidden}
+.progress-fill{width:0;height:100%;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);transition:width .15s}
+.instructions{
+margin:16px;padding:16px;border-radius:16px;background:rgba(30,41,59,.72);
+border:1px solid rgba(255,255,255,.08);border-left:4px solid #38bdf8
+}
+.instructions h3{color:#38bdf8;font-size:17px;margin-bottom:6px}
+.instructions p,.instructions li{color:#cbd5e1;font-size:13px}
+.instructions ul{padding-left:19px;margin-top:6px}
+.quiz{padding:0 15px 18px}
+.q-box{
+margin-bottom:16px;padding:17px;border-radius:17px;
+background:linear-gradient(145deg,rgba(30,41,59,.96),rgba(23,37,84,.9));
+border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.16)
+}
+.q-number{
+display:inline-block;margin-bottom:9px;padding:4px 10px;border-radius:20px;
+background:rgba(56,189,248,.1);color:#38bdf8;font-size:12px;font-weight:800
+}
+.q-title{font-size:15px;font-weight:700;margin-bottom:12px}
+.match-columns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}
+.match-column{border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden}
+.match-head{background:rgba(14,165,233,.13);color:#7dd3fc;padding:8px;text-align:center;font-size:13px;font-weight:800}
+.match-list{list-style:none;padding:0;margin:0}
+.match-list li{padding:9px;color:#e2e8f0;font-size:12.5px;border-top:1px solid rgba(255,255,255,.06);min-height:42px}
+.match-list.left-list li{font-weight:600;color:#fff}
+@media(max-width:700px){.match-columns{grid-template-columns:1fr 1fr;gap:7px}.match-list li{font-size:12px;padding:8px 7px}}
+.options-title{color:#94a3b8;font-size:12px;font-weight:700;margin:10px 0 7px}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.option{
+display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:11px;
+background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);cursor:pointer
+}
+.option:hover{background:rgba(56,189,248,.07)}
+.option.selected{background:rgba(14,165,233,.12);border-color:rgba(56,189,248,.45)}
+.option input{margin-top:4px;accent-color:#38bdf8;flex-shrink:0}
+.option span{color:#e2e8f0;font-size:12.5px}
+.submit-area{text-align:center;padding:10px 15px 28px}
+.submit-btn{min-width:240px;border-radius:50px}
+#result{
+display:none;margin:0 15px 20px;padding:25px;text-align:center;border-radius:19px;
+background:linear-gradient(145deg,rgba(14,165,233,.12),rgba(99,102,241,.13));
+border:1px solid rgba(56,189,248,.25)
+}
+.score-circle{
+width:115px;height:115px;margin:0 auto 12px;display:flex;flex-direction:column;
+align-items:center;justify-content:center;border-radius:50%;
+border:5px solid rgba(56,189,248,.25);background:rgba(15,23,42,.75)
+}
+#score-text{font-size:27px;font-weight:900}
+.score-label{color:#7dd3fc;font-size:10px}
+#percentage{color:#38bdf8;font-size:21px;font-weight:800}
+#score-message{color:#cbd5e1;font-size:13px;margin-top:5px}
+#answer-review{display:none;padding:0 15px 30px}
+.review-heading{text-align:center;color:#38bdf8;font-size:22px;margin-bottom:16px}
+.review-card{
+margin-bottom:10px;padding:15px;border-radius:14px;background:rgba(30,41,59,.86);
+border:1px solid rgba(255,255,255,.08)
+}
+.review-card.correct{border-left:4px solid #22c55e}
+.review-card.wrong{border-left:4px solid #ef4444}
+.review-card h3{font-size:14px;margin-bottom:6px}
+.review-card p{color:#cbd5e1;font-size:12.5px;margin:3px 0}
+.review-correct{color:#4ade80!important;font-weight:800}
+.review-wrong{color:#f87171!important;font-weight:800}
+.review-explanation{color:#7dd3fc!important;margin-top:7px!important}
+.retry-area{text-align:center;margin-top:17px}
+.retry-btn{
+padding:11px 25px;border-radius:30px;border:1px solid rgba(56,189,248,.3);
+background:rgba(56,189,248,.08);color:#7dd3fc;font-weight:700;cursor:pointer
+}
+.site-footer{padding:25px 18px;text-align:center;background:#070d19;border-top:1px solid rgba(255,255,255,.07)}
+.site-footer h3{color:#38bdf8;font-size:17px}
+.site-footer p{color:#64748b;font-size:11px;margin:2px}
+@media(max-width:700px){
+.header-label{display:none}.logo{font-size:19px}.container{border-radius:17px}
+.lock-card{padding:32px 18px}.hero{padding:32px 13px 25px}
+.hero h1{font-size:29px}.hero .chapter{font-size:16px}
+.instructions{margin:12px;padding:14px}.quiz{padding:0 11px 15px}
+.q-box{padding:14px;border-radius:15px}.options{grid-template-columns:1fr}
+.option{padding:9px}.option span{font-size:12px}
+.submit-area{padding-left:11px;padding-right:11px}.submit-btn{width:100%}
+#result{margin-left:11px;margin-right:11px}#answer-review{padding-left:11px;padding-right:11px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+<a href="index.html" class="logo">🎓 LET'S SCORE</a>
+<span class="header-label">হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • দশম শ্ৰেণী</span>
+</header>
+
+<div class="container">
+<div id="lock-screen">
+<div class="lock-card">
+<div class="lock-icon">🔐</div>
+<h1>LET'S SCORE</h1>
+<h2>প্ৰশ্ন অনুশীলন</h2>
+<p>দশম শ্ৰেণী বিজ্ঞানৰ প্ৰথম অধ্যায়ৰ মিলোৱা প্ৰশ্নসমূহ অনুশীলন কৰিবলৈ গোপন সংকেত প্ৰৱেশ কৰক।</p>
+<div class="password-row">
+<input type="password" id="pass" placeholder="গোপন সংকেত লিখক" autocomplete="off">
+<button type="button" class="unlock-btn" id="unlockButton">🔓 প্ৰৱেশ কৰক</button>
+</div>
+<div id="error"></div>
+</div>
+</div>
+
+<div id="content">
+<section class="hero">
+<div class="badge">হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • পৰীক্ষামুখী অনুশীলন</div>
+<h1>দশম শ্ৰেণী বিজ্ঞান</h1>
+<p>মিলোৱা প্ৰশ্নৰ অনুশীলন</p>
+<p class="chapter">অধ্যায় ১ — ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ</p>
+</section>
+
+<div class="progress-area">
+<div class="progress-top">
+<span>উত্তৰ দিয়াৰ অগ্ৰগতি</span>
+<span id="progress-text">০ / ১০</span>
+</div>
+<div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+</div>
+
+<div class="instructions">
+<h3>📌 নিৰ্দেশনা</h3>
+<p>প্ৰথম স্তম্ভ আৰু দ্বিতীয় স্তম্ভৰ উপযুক্ত মিল নিজে বিচাৰি উলিয়াওক। তাৰ পিছত তলত দিয়া বিকল্পসমূহৰ পৰা সঠিক মিলৰ ক্ৰমটো বাছনি কৰক।</p>
+<ul>
+<li>মুঠ প্ৰশ্ন: <strong>১০টা</strong></li>
+<li>প্ৰতিটো প্ৰশ্ন: <strong>১ নম্বৰ</strong></li>
+<li>মুঠ নম্বৰ: <strong>১০</strong></li>
+<li>প্ৰথমে নিজে মিল উলিয়াওক, তাৰ পিছতহে বিকল্প বাছনি কৰক।</li>
+</ul>
+</div>
+
+<div class="quiz">
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 1</span>
+<div class="q-title">ৰাসায়নিক বিক্ৰিয়াসমূহক বিক্ৰিয়াৰ ধৰণৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. Mg + O₂ → MgO</li>
+<li>২. CaCO₃ → CaO + CO₂</li>
+<li>৩. Fe + CuSO₄ → FeSO₄ + Cu</li>
+<li>৪. AgCl + সূৰ্যৰ পোহৰ → Ag + Cl₂</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. প্ৰতিস্থাপন বিক্ৰিয়া</li>
+<li>Q. পোহৰৰ প্ৰভাৱত বিয়োজন</li>
+<li>R. সংযোজন বিক্ৰিয়া</li>
+<li>S. বিয়োজন বিক্ৰিয়া</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q1" value="ক"><span>(ক) ১–R, ২–S, ৩–P, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q1" value="খ"><span>(খ) ১–S, ২–R, ৩–Q, ৪–P</span></label>
+<label class="option"><input type="radio" name="q1" value="গ"><span>(গ) ১–P, ২–Q, ৩–R, ৪–S</span></label>
+<label class="option"><input type="radio" name="q1" value="ঘ"><span>(ঘ) ১–Q, ২–P, ৩–S, ৪–R</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 2</span>
+<div class="q-title">তলৰ পদাৰ্থসমূহক সিহঁতৰ ৰঙৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. CuSO₄ দ্ৰৱণ</li>
+<li>২. FeSO₄ দ্ৰৱণ</li>
+<li>৩. Cu ধাতু</li>
+<li>৪. MgO</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. বগা</li>
+<li>Q. ৰঙচুৱা-বাদামী</li>
+<li>R. নীলা</li>
+<li>S. সেউজীয়া</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q2" value="ক"><span>(ক) ১–P, ২–Q, ৩–R, ৪–S</span></label>
+<label class="option"><input type="radio" name="q2" value="খ"><span>(খ) ১–Q, ২–R, ৩–S, ৪–P</span></label>
+<label class="option"><input type="radio" name="q2" value="গ"><span>(গ) ১–R, ২–S, ৩–Q, ৪–P</span></label>
+<label class="option"><input type="radio" name="q2" value="ঘ"><span>(ঘ) ১–S, ২–P, ৩–R, ৪–Q</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 3</span>
+<div class="q-title">ৰাসায়নিক বিক্ৰিয়াসমূহক বিক্ৰিয়াৰ ধৰণৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. CaO + H₂O → Ca(OH)₂</li>
+<li>২. CaCO₃ → CaO + CO₂</li>
+<li>৩. Fe + CuSO₄ → FeSO₄ + Cu</li>
+<li>৪. Na₂SO₄ + BaCl₂ → BaSO₄ + 2NaCl</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. দ্বি-প্ৰতিস্থাপন বিক্ৰিয়া</li>
+<li>Q. বিয়োজন বিক্ৰিয়া</li>
+<li>R. সংযোজন বিক্ৰিয়া</li>
+<li>S. প্ৰতিস্থাপন বিক্ৰিয়া</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q3" value="ক"><span>(ক) ১–S, ২–R, ৩–P, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q3" value="খ"><span>(খ) ১–R, ২–Q, ৩–S, ৪–P</span></label>
+<label class="option"><input type="radio" name="q3" value="গ"><span>(গ) ১–P, ২–S, ৩–Q, ৪–R</span></label>
+<label class="option"><input type="radio" name="q3" value="ঘ"><span>(ঘ) ১–Q, ২–P, ৩–R, ৪–S</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 4</span>
+<div class="q-title">তলৰ ঘটনাসমূহক সংশ্লিষ্ট পদাৰ্থ বা ফলাফলৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. Mg দহন</li>
+<li>২. Pb(NO₃)₂ গৰম কৰা</li>
+<li>৩. AgCl সূৰ্যৰ পোহৰত</li>
+<li>৪. লোহাত মামৰ ধৰা</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. মুগা NO₂</li>
+<li>Q. ধূসৰ Ag</li>
+<li>R. জলযুক্ত লৌহ(III) অক্সাইড</li>
+<li>S. বগা MgO</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q4" value="ক"><span>(ক) ১–P, ২–Q, ৩–R, ৪–S</span></label>
+<label class="option"><input type="radio" name="q4" value="খ"><span>(খ) ১–Q, ২–R, ৩–S, ৪–P</span></label>
+<label class="option"><input type="radio" name="q4" value="গ"><span>(গ) ১–R, ২–S, ৩–P, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q4" value="ঘ"><span>(ঘ) ১–S, ২–P, ৩–Q, ৪–R</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 5</span>
+<div class="q-title">তলৰ পদাৰ্থসমূহক সিহঁতৰ ব্যৱহাৰৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. ব্লিচিং পাউডাৰ</li>
+<li>২. বেকিং ছ’ডা</li>
+<li>৩. ধোৱা ছ’ডা</li>
+<li>৪. নাইট্ৰ’জেন গেছ</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. কাপোৰ ধোৱা</li>
+<li>Q. খাদ্য নষ্ট হোৱা ৰোধ কৰা</li>
+<li>R. পানী বীজাণুমুক্ত কৰা</li>
+<li>S. পিঠা-ৰুটি বনোৱা আৰু অম্লতা কমোৱাত ব্যৱহাৰ</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q5" value="ক"><span>(ক) ১–Q, ২–R, ৩–P, ৪–S</span></label>
+<label class="option"><input type="radio" name="q5" value="খ"><span>(খ) ১–R, ২–S, ৩–P, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q5" value="গ"><span>(গ) ১–P, ২–Q, ৩–S, ৪–R</span></label>
+<label class="option"><input type="radio" name="q5" value="ঘ"><span>(ঘ) ১–S, ২–P, ৩–Q, ৪–R</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 6</span>
+<div class="q-title">তলৰ ৰাসায়নিক সমীকৰণসমূহক উৎপন্ন পদাৰ্থৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. Zn + 2HCl → ZnCl₂ + ?</li>
+<li>২. Fe + CuSO₄ → FeSO₄ + ?</li>
+<li>৩. CaCO₃ → CaO + ?</li>
+<li>৪. 2AgCl → 2Ag + ?</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. H₂</li>
+<li>Q. Cu</li>
+<li>R. CO₂</li>
+<li>S. Cl₂</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q6" value="ক"><span>(ক) ১–Q, ২–P, ৩–S, ৪–R</span></label>
+<label class="option"><input type="radio" name="q6" value="খ"><span>(খ) ১–R, ২–S, ৩–P, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q6" value="গ"><span>(গ) ১–P, ২–Q, ৩–R, ৪–S</span></label>
+<label class="option"><input type="radio" name="q6" value="ঘ"><span>(ঘ) ১–S, ২–R, ৩–Q, ৪–P</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 7</span>
+<div class="q-title">তলৰ বিক্ৰিয়া বা পৰিঘটনাসমূহক শক্তিৰ পৰিৱৰ্তনৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. CaO + H₂O → Ca(OH)₂</li>
+<li>২. প্ৰাকৃতিক গেছৰ দহন</li>
+<li>৩. শ্বসন</li>
+<li>৪. পানীৰ বিদ্যুৎ-বিশ্লেষণ</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. বৈদ্যুতিক শক্তিৰ প্ৰয়োজন</li>
+<li>Q. খাদ্যৰ ৰাসায়নিক শক্তি মুক্ত হয়</li>
+<li>R. তাপ আৰু পোহৰ মুক্ত হয়</li>
+<li>S. তাপ মুক্ত হয়</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q7" value="ক"><span>(ক) ১–R, ২–Q, ৩–S, ৪–P</span></label>
+<label class="option"><input type="radio" name="q7" value="খ"><span>(খ) ১–P, ২–S, ৩–R, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q7" value="গ"><span>(গ) ১–Q, ২–P, ৩–R, ৪–S</span></label>
+<label class="option"><input type="radio" name="q7" value="ঘ"><span>(ঘ) ১–S, ২–R, ৩–Q, ৪–P</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 8</span>
+<div class="q-title">তলৰ পদাৰ্থসমূহক সিহঁতৰ ৰাসায়নিক সংকেতৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. পোৰা চূণ</li>
+<li>২. নিভোৱা চূণ</li>
+<li>৩. ব্লিচিং পাউডাৰ</li>
+<li>৪. বেকিং ছ’ডা</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. NaHCO₃</li>
+<li>Q. CaO</li>
+<li>R. CaOCl₂</li>
+<li>S. Ca(OH)₂</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q8" value="ক"><span>(ক) ১–Q, ২–S, ৩–R, ৪–P</span></label>
+<label class="option"><input type="radio" name="q8" value="খ"><span>(খ) ১–R, ২–P, ৩–S, ৪–Q</span></label>
+<label class="option"><input type="radio" name="q8" value="গ"><span>(গ) ১–S, ২–Q, ৩–P, ৪–R</span></label>
+<label class="option"><input type="radio" name="q8" value="ঘ"><span>(ঘ) ১–P, ২–R, ৩–Q, ৪–S</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 9</span>
+<div class="q-title">তলৰ পৰিঘটনাসমূহক সংশ্লিষ্ট বিক্ৰিয়াৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. লোহাত মামৰ ধৰা</li>
+<li>২. CuO + H₂ → Cu + H₂O</li>
+<li>৩. Zn + CuSO₄ → ZnSO₄ + Cu</li>
+<li>৪. CaCO₃ → CaO + CO₂</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. বিয়োজন</li>
+<li>Q. জাৰণ</li>
+<li>R. প্ৰতিস্থাপন</li>
+<li>S. বিজাৰণ</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q9" value="ক"><span>(ক) ১–S, ২–R, ৩–Q, ৪–P</span></label>
+<label class="option"><input type="radio" name="q9" value="খ"><span>(খ) ১–P, ২–Q, ৩–S, ৪–R</span></label>
+<label class="option"><input type="radio" name="q9" value="গ"><span>(গ) ১–Q, ২–S, ৩–R, ৪–P</span></label>
+<label class="option"><input type="radio" name="q9" value="ঘ"><span>(ঘ) ১–R, ২–P, ৩–Q, ৪–S</span></label>
+</div>
+</div>
+
+<div class="q-box">
+<span class="q-number">প্ৰশ্ন 10</span>
+<div class="q-title">তলৰ পৰিঘটনাসমূহক সংশ্লিষ্ট বৈশিষ্ট্য বা ফলাফলৰ সৈতে মিলোৱা:</div>
+<div class="match-columns">
+<div class="match-column">
+<div class="match-head">প্ৰথম স্তম্ভ</div>
+<ul class="match-list left-list">
+<li>১. AgCl সূৰ্যৰ পোহৰত</li>
+<li>২. খাদ্যৰ চৰ্বি বা তেল নষ্ট হোৱা</li>
+<li>৩. শ্বসন</li>
+<li>৪. পানীৰ বিদ্যুৎ-বিশ্লেষণ</li>
+</ul>
+</div>
+<div class="match-column">
+<div class="match-head">দ্বিতীয় স্তম্ভ</div>
+<ul class="match-list">
+<li>P. H₂ : O₂ = 2 : 1</li>
+<li>Q. জাৰণ</li>
+<li>R. উষ্মাধৰ্মী প্ৰক্ৰিয়া</li>
+<li>S. পোহৰৰ প্ৰভাৱত বিয়োজন</li>
+</ul>
+</div>
+</div>
+<div class="options-title">সঠিক মিলৰ ক্ৰম বাছনি কৰক:</div>
+<div class="options">
+<label class="option"><input type="radio" name="q10" value="ক"><span>(ক) ১–Q, ২–S, ৩–P, ৪–R</span></label>
+<label class="option"><input type="radio" name="q10" value="খ"><span>(খ) ১–S, ২–Q, ৩–R, ৪–P</span></label>
+<label class="option"><input type="radio" name="q10" value="গ"><span>(গ) ১–R, ২–P, ৩–Q, ৪–S</span></label>
+<label class="option"><input type="radio" name="q10" value="ঘ"><span>(ঘ) ১–P, ২–R, ৩–S, ৪–Q</span></label>
+</div>
+</div>
+
+</div>
+
+<div class="submit-area">
+<button type="button" class="submit-btn" onclick="submitQuiz()">✅ উত্তৰ জমা দিয়ক</button>
+</div>
+
+<div id="result">
+<div class="score-circle">
+<div id="score-text">০/১০</div>
+<div class="score-label">নম্বৰ</div>
+</div>
+<div id="percentage">০%</div>
+<div id="score-message"></div>
+</div>
+
+<div id="answer-review">
+<h2 class="review-heading">📖 উত্তৰ আৰু ব্যাখ্যা</h2>
+<div id="review-content"></div>
+<div class="retry-area">
+<button type="button" class="retry-btn" onclick="retryQuiz()">🔄 পুনৰ চেষ্টা কৰক</button>
+</div>
+</div>
+</div>
+
+<footer class="site-footer">
+<h3>🎓 LET'S SCORE</h3>
+<p>শিকা • বুজা • অনুশীলন কৰা • সফল হোৱা</p>
+<p>হাইস্কুল শিক্ষান্ত পৰীক্ষা ২০২৭ • দশম শ্ৰেণী বিজ্ঞান</p>
+<p>© ২০২৬ LET'S SCORE</p>
+</footer>
+</div>
+
+<script>
+const CORRECT_PASSWORD="letsscore207";
+
+const answers={
+q1:"ক",q2:"গ",q3:"খ",q4:"ঘ",q5:"খ",
+q6:"গ",q7:"ঘ",q8:"ক",q9:"গ",q10:"খ"
+};
+
+const explanations={
+q1:"Mg আৰু O₂ মিলি MgO সৃষ্টি কৰে, সেয়ে ই সংযোজন বিক্ৰিয়া। CaCO₃ ভাঙি CaO আৰু CO₂ সৃষ্টি কৰে, সেয়ে ই বিয়োজন। Fe-এ CuSO₄-ৰ পৰা Cu-কে অপসাৰণ কৰে, সেয়ে ই প্ৰতিস্থাপন। AgCl পোহৰৰ প্ৰভাৱত ভাঙি Ag উৎপন্ন কৰে।",
+q2:"CuSO₄ দ্ৰৱণ নীলা, FeSO₄ দ্ৰৱণ সেউজীয়া, Cu ধাতু ৰঙচুৱা-বাদামী আৰু MgO বগা।",
+q3:"CaO আৰু H₂O মিলি এটা নতুন পদাৰ্থ সৃষ্টি কৰে—সংযোজন। CaCO₃ ভাঙি দুটা পদাৰ্থ সৃষ্টি কৰে—বিয়োজন। Fe-এ Cu-কে অপসাৰণ কৰে—প্ৰতিস্থাপন। Na₂SO₄ আৰু BaCl₂-ৰ আয়নসমূহে পৰস্পৰ বিনিময় কৰে—দ্বি-প্ৰতিস্থাপন।",
+q4:"Mg দহনত বগা MgO সৃষ্টি হয়। Pb(NO₃)₂ গৰম কৰিলে মুগা NO₂ ওলায়। AgCl পোহৰত বিয়োজিত হৈ ধূসৰ Ag সৃষ্টি কৰে। লোহাৰ মামৰ মূলত জলযুক্ত লৌহ(III) অক্সাইড।",
+q5:"ব্লিচিং পাউডাৰ পানী বীজাণুমুক্ত কৰাত, বেকিং ছ’ডা পিঠা-ৰুটি বনোৱা আৰু অম্লতা কমোৱাত, ধোৱা ছ’ডা কাপোৰ ধোৱাত আৰু নাইট্ৰ’জেন খাদ্য নষ্ট হোৱা ধীৰ কৰাত ব্যৱহাৰ কৰা হয়।",
+q6:"Zn-এ HCl-ৰ সৈতে বিক্ৰিয়া কৰিলে H₂ উৎপন্ন হয়। Fe-এ CuSO₄-ৰ পৰা Cu অপসাৰণ কৰে। CaCO₃ বিয়োজিত হৈ CO₂ উৎপন্ন কৰে। AgCl-ৰ পোহৰত বিয়োজনত Cl₂ উৎপন্ন হয়।",
+q7:"CaO-এ পানীৰ সৈতে বিক্ৰিয়া কৰিলে তাপ মুক্ত হয়। প্ৰাকৃতিক গেছৰ দহনত তাপ আৰু পোহৰ মুক্ত হয়। শ্বসনত খাদ্যৰ ৰাসায়নিক শক্তি মুক্ত হয়। পানীৰ বিদ্যুৎ-বিশ্লেষণত বৈদ্যুতিক শক্তি প্ৰয়োজন হয়।",
+q8:"পোৰা চূণৰ সংকেত CaO, নিভোৱা চূণৰ Ca(OH)₂, ব্লিচিং পাউডাৰৰ CaOCl₂ আৰু বেকিং ছ’ডাৰ NaHCO₃।",
+q9:"লোহাত মামৰ ধৰাটো জাৰণৰ উদাহৰণ। CuO-ৰ পৰা Cu উৎপন্ন হোৱা বিজাৰণ। Zn-এ Cu-কে অপসাৰণ কৰাটো প্ৰতিস্থাপন। CaCO₃ ভাঙি CaO আৰু CO₂ হোৱা বিয়োজন।",
+q10:"AgCl সূৰ্যৰ পোহৰত বিয়োজিত হয়। খাদ্যৰ চৰ্বি বা তেল নষ্ট হোৱা জাৰণৰ ফল। শ্বসন উষ্মাধৰ্মী প্ৰক্ৰিয়া। পানীৰ বিদ্যুৎ-বিশ্লেষণত হাইড্ৰ’জেন আৰু অক্সিজেনৰ আয়তনৰ অনুপাত ২ : ১।"
+};
+
+const digitMap={"0":"০","1":"১","2":"২","3":"৩","4":"৪","5":"৫","6":"৬","7":"৭","8":"৮","9":"৯"};
+function assameseDigits(value){
+return String(value).replace(/[0-9]/g,function(d){return digitMap[d]});
+}
+
+function unlock(){
+const input=document.getElementById("pass");
+const error=document.getElementById("error");
+if(input.value.trim()===CORRECT_PASSWORD){
+document.getElementById("lock-screen").style.display="none";
+document.getElementById("content").style.display="block";
+error.textContent="";
+try{sessionStorage.setItem("letsScoreMatchUnlocked","true")}catch(e){}
+window.scrollTo(0,0);
+}else{
+error.textContent="❌ ভুল গোপন সংকেত! পুনৰ চেষ্টা কৰক।";
+input.value="";
+input.focus();
+}
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+const input=document.getElementById("pass");
+document.getElementById("unlockButton").addEventListener("click",unlock);
+input.addEventListener("keydown",function(e){
+if(e.key==="Enter"){e.preventDefault();unlock();}
+});
+try{
+if(sessionStorage.getItem("letsScoreMatchUnlocked")==="true"){
+document.getElementById("lock-screen").style.display="none";
+document.getElementById("content").style.display="block";
+}
+}catch(e){}
+});
+
+function updateProgress(){
+let answered=0;
+for(let i=1;i<=10;i++){
+if(document.querySelector('input[name="q'+i+'"]:checked'))answered++;
+}
+document.getElementById("progress-fill").style.width=(answered/10*100)+"%";
+document.getElementById("progress-text").textContent=assameseDigits(answered)+" / ১০";
+}
+
+document.addEventListener("change",function(e){
+if(e.target.matches('.option input[type="radio"]')){
+document.querySelectorAll('input[name="'+e.target.name+'"]').forEach(function(x){
+x.closest(".option").classList.remove("selected");
+});
+e.target.closest(".option").classList.add("selected");
+updateProgress();
+}
+});
+
+function submitQuiz(){
+let score=0,answered=0,reviewHTML="";
+for(let i=1;i<=10;i++){
+const selected=document.querySelector('input[name="q'+i+'"]:checked');
+const correct=answers["q"+i];
+let userAnswer="উত্তৰ দিয়া হোৱা নাই";
+if(selected){answered++;userAnswer="("+selected.value+")";}
+const isCorrect=selected&&selected.value===correct;
+if(isCorrect)score++;
+reviewHTML+=`
+<div class="review-card ${isCorrect?"correct":"wrong"}">
+<h3>প্ৰশ্ন ${assameseDigits(i)} ${isCorrect?"✅":"❌"}</h3>
+<p class="${isCorrect?"review-correct":"review-wrong"}">আপোনাৰ উত্তৰ: ${userAnswer}</p>
+<p class="review-correct">সঠিক উত্তৰ: (${correct})</p>
+<p class="review-explanation">💡 ${explanations["q"+i]}</p>
+</div>`;
+}
+const percentage=Math.round(score/10*100);
+document.getElementById("score-text").textContent=assameseDigits(score)+"/১০";
+document.getElementById("percentage").textContent=assameseDigits(percentage)+"%";
+let message=score===10?"🌟 অসাধাৰণ! সকলো উত্তৰ সঠিক।":
+score>=8?"🏆 অতি উত্তম! আপোনাৰ প্ৰস্তুতি ভাল।":
+score>=6?"👏 ভাল প্ৰচেষ্টা। ভুল হোৱা বিষয়সমূহ পুনৰ অধ্যয়ন কৰক।":
+score>=4?"📚 আৰু কিছু অনুশীলনৰ প্ৰয়োজন। প্ৰথম অধ্যায়টো পুনৰ অধ্যয়ন কৰক।":
+"📖 অধ্যায়টো পুনৰ ভালদৰে অধ্যয়ন কৰি আকৌ চেষ্টা কৰক।";
+if(answered<10)message+=" "+assameseDigits(10-answered)+"টা প্ৰশ্নৰ উত্তৰ দিয়া হোৱা নাই।";
+document.getElementById("score-message").textContent=message;
+document.getElementById("result").style.display="block";
+document.getElementById("answer-review").style.display="block";
+document.getElementById("review-content").innerHTML=reviewHTML;
+document.getElementById("progress-fill").style.width="100%";
+document.getElementById("result").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function retryQuiz(){
+document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+document.querySelectorAll(".option.selected").forEach(x=>x.classList.remove("selected"));
+document.getElementById("result").style.display="none";
+document.getElementById("answer-review").style.display="none";
+document.getElementById("review-content").innerHTML="";
+document.getElementById("progress-fill").style.width="0%";
+document.getElementById("progress-text").textContent="০ / ১০";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
