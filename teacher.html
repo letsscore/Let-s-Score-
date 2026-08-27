@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teacher Control | Let's Score</title><link rel="stylesheet" href="revisionary-test.css">
+</head><body>
+<header class="rt-header"><a class="rt-brand" href="index.html">🎓 LET'S SCORE</a><nav><a href="revisionary-test.html">Student Portal</a></nav></header>
+<main class="rt-page">
+<section id="login" class="rt-panel rt-auth">
+<div class="rt-big-icon">🔐</div><h1>Teacher Control</h1><p class="rt-muted">Sign in with your Supabase teacher account.</p>
+<input id="email" type="email" placeholder="Teacher email" autocomplete="username"><input id="password" type="password" placeholder="Password" autocomplete="current-password">
+<button id="loginBtn" class="rt-btn full">Sign In</button><small id="loginError"></small>
+</section>
+<section id="app" class="rt-hidden">
+<section class="rt-hero compact"><div class="rt-eyebrow">CONTROL PANEL</div><h1>Revisionary Test Manager</h1><p>Prepare tests in advance and start/stop each class whenever required.</p><button id="logoutBtn" class="rt-btn secondary">Sign Out</button></section>
+<section class="rt-panel"><div class="rt-heading"><div><h2>Test Status</h2><p class="rt-muted">Only LIVE tests are visible to students.</p></div></div>
+<div style="overflow:auto"><table class="rt-table"><thead><tr><th>Class</th><th>Title</th><th>Questions</th><th>Status</th><th>Action</th></tr></thead><tbody id="testRows"></tbody></table></div></section>
+<section class="rt-panel"><div class="rt-heading"><div><h2>Test Editor</h2><p class="rt-muted">Questions are stored as JSON. Answer is zero-based: 0=A, 1=B, 2=C, 3=D.</p></div><span id="liveLabel" class="rt-pill"></span></div>
+<label>Class</label><select id="classSelect"></select>
+<label>Test title</label><input id="titleInput" placeholder="Revisionary Test">
+<label>Duration (minutes)</label><input id="durationInput" type="number" min="1" max="180" value="30">
+<label>Questions JSON</label><textarea id="questionsInput" spellcheck="false"></textarea>
+<div class="rt-actions wrap"><button id="saveBtn" class="rt-btn">Save Test</button><button id="startBtn" class="rt-btn success">Save & Start</button><button id="stopBtn" class="rt-btn danger">Stop Test</button></div>
+<p class="rt-note">Example: [{"question":"প্ৰশ্ন","options":["ক","খ","গ","ঘ"],"answer":0}]</p>
+</section>
+</section>
+</main><div id="toast"></div>
+<script src="./supabase-config.js"></script><script src="./teacher.js"></script>
+</body></html>

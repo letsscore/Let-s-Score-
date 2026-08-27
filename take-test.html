@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="as"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Take Test | Let's Score</title><link rel="stylesheet" href="revisionary-test.css">
+</head><body>
+<header class="rt-header"><a class="rt-brand" href="index.html">🎓 LET'S SCORE</a><nav><a href="revisionary-test.html">← Classes</a></nav></header>
+<main class="rt-page">
+<div id="loading" class="rt-panel rt-center"><div class="rt-loader"></div><p>Loading test…</p></div>
+<div id="errorBox" class="rt-panel rt-center rt-hidden"><div class="rt-big-icon">🔒</div><h2>Test Unavailable</h2><p id="errorMsg" class="rt-muted"></p><a class="rt-btn" href="revisionary-test.html">Back to Classes</a></div>
+<section id="identity" class="rt-panel rt-auth rt-hidden">
+<div class="rt-big-icon">📝</div><h2 id="testTitle">Revisionary Test</h2><div id="testMeta" class="rt-meta"></div>
+<label>Student Name</label><input id="studentName" type="text" maxlength="80" placeholder="Enter your full name" autocomplete="name">
+<small id="identityError"></small><button id="beginBtn" class="rt-btn full">Begin Test →</button>
+</section>
+<section id="exam" class="rt-hidden">
+<div class="rt-panel rt-exam-head"><div><span class="rt-eyebrow" id="examClass"></span><h1 id="examTitle">Revisionary Test</h1><p class="rt-muted">Student: <span id="studentLabel"></span></p></div><div class="rt-timer"><small>TIME LEFT</small><strong id="timer">00:00</strong></div></div>
+<div class="rt-exam-layout"><section class="rt-panel"><div class="rt-qtop"><span>Question <b id="qNo">1</b> of <b id="totalQ">0</b></span><span>Select one answer</span></div><div class="rt-bar"><i id="progress"></i></div><h2 id="qText"></h2><div id="options" class="rt-options"></div><div class="rt-actions"><button id="prevBtn" class="rt-btn secondary" onclick="history.back()" type="button">Back</button><button id="nextBtn" class="rt-btn" onclick="window.rtNext()" type="button">Next</button></div></section>
+<aside class="rt-panel"><h3>Question Navigator</h3><div id="navGrid" class="rt-navgrid"></div><button class="rt-btn danger full" onclick="window.rtSubmit()" type="button">Submit Test</button></aside></div>
+</section>
+<section id="result" class="rt-panel rt-center rt-hidden"><div class="rt-big-icon">🏆</div><h2>Test Submitted</h2><div id="score" class="rt-score">0 / 0</div><p id="resultText"></p><p id="resultNote" class="rt-muted"></p><a class="rt-btn" href="revisionary-test.html">Back to Classes</a></section>
+</main><div id="toast"></div>
+<script src="./supabase-config.js"></script><script src="./take-test.js"></script>
+</body></html>
