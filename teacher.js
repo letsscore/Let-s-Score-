@@ -117,57 +117,54 @@ async function initSupabase() {
 }
 
 async function teacherLogin() {
-  const email = $("email")?.value.trim();
-  const password = $("password")?.value;
+  const email = document.getElementById("teacherEmail").value.trim();
+  const password = document.getElementById("teacherPassword").value;
 
-  if (!email) {
-    showLoginError("Please enter your teacher email.");
+  const errorBox = document.getElementById("loginError");
+  const button = document.querySelector("#teacherLoginForm button");
+
+  errorBox.textContent = "";
+  errorBox.classList.add("rt-hidden");
+
+  if (!email || !password) {
+    errorBox.textContent = "Please enter email and password.";
+    errorBox.classList.remove("rt-hidden");
     return;
-  }
-
-  if (!password) {
-    showLoginError("Please enter your password.");
-    return;
-  }
-
-  const button = $("loginBtn");
-
-  if (button) {
-    button.disabled = true;
-    button.textContent = "Signing in…";
   }
 
   try {
-    await initSupabase();
+    button.disabled = true;
+    button.textContent = "Signing in...";
 
-    const { data, error } =
-      await sb.auth.signInWithPassword({
-        email,
-        password
-      });
+    const { data, error } = await sb.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
-    if (error) {
-      console.error("Supabase login error:", error);
+    if (error) throw error;
 
-      let message = error.message || "Login failed.";
+    if (!data || !data.session) {
+      throw new Error("Login succeeded but no session was created.");
+    }
 
-      if (
-        error.message?.toLowerCase().includes("invalid login")
-      ) {
-        message =
-          "Invalid email or password. Check the password you just set in Supabase.";
+    window.location.href = "./teacher.html";
+  } catch (error) {
+    console.error("Teacher login error:", error);
+
+    let message = error.message || "Unable to sign in.";
+
+    if (message.toLowerCase().includes("failed to fetch")) {
+      message =
+        "Unable to connect to Supabase. Please check the Supabase URL, publishable key, and internet connection.";
+    }
+
+    errorBox.textContent = message;
+    errorBox.classList.remove("rt-hidden");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Sign In";
+  }
       }
-
-      showLoginError(message);
-      return;
-    }
-
-    if (!data?.session || !data?.user) {
-      showLoginError(
-        "Login succeeded but no active session was returned."
-      );
-      return;
-    }
 
     // Verify that this authenticated user is actually a Teacher.
     const { data: profile, error: profileError } =
