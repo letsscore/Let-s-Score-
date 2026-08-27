@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>LET'S SCORE | HSLC 2027 | Chapter 5 | 30 MCQ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans Assamese","Nirmala UI","Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0d1b35 45%,#111827);color:#fff;min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.site-header{position:sticky;top:0;z-index:1000;min-height:64px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(7,17,31,.97);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.logo{color:#38bdf8;text-decoration:none;font-size:22px;font-weight:800}.header-label{color:#94a3b8;font-size:11px;font-weight:700}
+.container{width:min(calc(100% - 10px),1000px);margin:6px auto 25px;background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.3)}
+#lock-screen{min-height:620px;display:flex;align-items:center;justify-content:center;padding:25px 14px;background:radial-gradient(circle at 20% 20%,rgba(14,165,233,.15),transparent 35%),radial-gradient(circle at 80% 80%,rgba(99,102,241,.16),transparent 35%)}
+.lock-card{width:100%;max-width:450px;padding:38px 24px;text-align:center;background:linear-gradient(145deg,rgba(30,41,59,.98),rgba(23,37,84,.97));border:1px solid rgba(56,189,248,.28);border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.lock-icon{font-size:52px;margin-bottom:12px}.lock-card h1{color:#38bdf8;font-size:29px}.lock-card h2{font-size:18px;margin:5px 0 14px}.lock-card p{color:#cbd5e1;font-size:14px;margin-bottom:20px}.password-row{display:flex;flex-direction:column;gap:10px}
+#pass{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;outline:none;text-align:center;font-size:16px}
+#pass:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.unlock-btn,.submit-btn{border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,#0284c7,#6366f1);color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+#error{min-height:22px;color:#f87171;font-size:14px;margin-top:10px}#content{display:none}
+.hero{padding:38px 18px 28px;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.18),transparent 32%),radial-gradient(circle at 85% 75%,rgba(139,92,246,.18),transparent 34%);border-bottom:1px solid rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:5px 13px;margin-bottom:12px;border-radius:30px;background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.22);color:#7dd3fc;font-size:11px;font-weight:800}.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.25}.hero p{color:#cbd5e1;font-size:15px}.hero .chapter{color:#7dd3fc;font-size:18px;font-weight:700;margin-top:7px}
+.progress-area{padding:14px 18px;background:rgba(2,6,23,.55);border-bottom:1px solid rgba(255,255,255,.06)}.progress-top{display:flex;justify-content:space-between;margin-bottom:6px;color:#94a3b8;font-size:12px}.progress-track{height:7px;border-radius:20px;background:rgba(255,255,255,.08);overflow:hidden}.progress-fill{width:0;height:100%;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);transition:width .15s}
+.instructions{margin:16px;padding:16px;border-radius:16px;background:rgba(30,41,59,.72);border:1px solid rgba(255,255,255,.08);border-left:4px solid #38bdf8}.instructions h3{color:#38bdf8;font-size:17px;margin-bottom:6px}.instructions p,.instructions li{color:#cbd5e1;font-size:13px}.instructions ul{padding-left:19px;margin-top:6px}
+.q-box{margin:0 15px 14px;padding:16px;border-radius:16px;background:linear-gradient(145deg,rgba(30,41,59,.96),rgba(23,37,84,.9));border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.16)}.q-number{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:20px;background:rgba(56,189,248,.1);color:#38bdf8;font-size:12px;font-weight:800}.q-title{font-size:15px;font-weight:700;margin-bottom:10px}.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}.option{display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);cursor:pointer}.option.selected{background:rgba(14,165,233,.12);border-color:rgba(56,189,248,.45)}.option input{margin-top:4px;accent-color:#38bdf8;flex-shrink:0}.option span{color:#e2e8f0;font-size:12.5px}
+.submit-area{text-align:center;padding:10px 15px 28px}.submit-btn{min-width:240px;border-radius:50px}
+#result{display:none;margin:0 15px 20px;padding:25px;text-align:center;border-radius:19px;background:linear-gradient(145deg,rgba(14,165,233,.12),rgba(99,102,241,.13));border:1px solid rgba(56,189,248,.25)}.score-circle{width:115px;height:115px;margin:0 auto 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;border:5px solid rgba(56,189,248,.25);background:rgba(15,23,42,.75)}#score-text{font-size:27px;font-weight:900}.score-label{color:#7dd3fc;font-size:10px}#percentage{color:#38bdf8;font-size:21px;font-weight:800}#score-message{color:#cbd5e1;font-size:13px;margin-top:5px}
+#answer-review{display:none;padding:0 15px 30px}.review-heading{text-align:center;color:#38bdf8;font-size:22px;margin-bottom:16px}.review-card{margin-bottom:10px;padding:15px;border-radius:14px;background:rgba(30,41,59,.86);border:1px solid rgba(255,255,255,.08)}.review-card.correct{border-left:4px solid #22c55e}.review-card.wrong{border-left:4px solid #ef4444}.review-card h3{font-size:14px;margin-bottom:6px}.review-card p{color:#cbd5e1;font-size:12.5px;margin:3px 0}.review-correct{color:#4ade80!important;font-weight:800}.review-wrong{color:#f87171!important;font-weight:800}.review-explanation{color:#7dd3fc!important;margin-top:7px!important}.retry-area{text-align:center;margin-top:17px}.retry-btn{padding:11px 25px;border-radius:30px;border:1px solid rgba(56,189,248,.3);background:rgba(56,189,248,.08);color:#7dd3fc;font-weight:700;cursor:pointer}
+.site-footer{padding:25px 18px;text-align:center;background:#070d19;border-top:1px solid rgba(255,255,255,.07)}.site-footer h3{color:#38bdf8;font-size:17px}.site-footer p{color:#64748b;font-size:11px;margin:2px}
+@media(max-width:700px){.header-label{display:none}.logo{font-size:19px}.container{border-radius:17px}.lock-card{padding:32px 18px}.hero{padding:32px 13px 25px}.hero h1{font-size:29px}.hero .chapter{font-size:16px}.instructions{margin:12px;padding:14px}.q-box{margin-left:11px;margin-right:11px;padding:14px}.options{grid-template-columns:1fr}.option{padding:9px}.option span{font-size:12px}.submit-area{padding-left:11px;padding-right:11px}.submit-btn{width:100%}#result{margin-left:11px;margin-right:11px}#answer-review{padding-left:11px;padding-right:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header"><a href="index.html" class="logo">🎓 LET'S SCORE</a><span class="header-label">SEBA HSLC 2027 • CLASS X</span></header>
+<div class="container">
+<div id="lock-screen"><div class="lock-card"><div class="lock-icon">🔐</div><h1>LET'S SCORE</h1><h2>HSLC 2027 Question Practice</h2><p>অধ্যায় ৫-ৰ ৩০টা MCQ প্ৰশ্ন অনুশীলন কৰিবলৈ Password প্ৰৱেশ কৰক।</p><div class="password-row"><input type="password" id="pass" placeholder="Password লিখক" autocomplete="off"><button type="button" class="unlock-btn" id="unlockButton">🔓 প্ৰৱেশ কৰক</button></div><div id="error"></div></div></div>
+<div id="content">
+<section class="hero"><div class="badge">SEBA HSLC 2027 • EXAM ORIENTED</div><h1>দশম শ্ৰেণী বিজ্ঞান</h1><p>৩০টা বহুনিৰ্বাচনী প্ৰশ্ন</p><p class="chapter">অধ্যায় ৫ — মৌলসমূহৰ পৰ্যায়বৃত্ত শ্ৰেণীবিভাজন</p></section>
+<div class="progress-area"><div class="progress-top"><span>Attempt Progress</span><span id="progress-text">0 / 30</span></div><div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div></div>
+<div class="instructions"><h3>📌 নিৰ্দেশনা</h3><p>প্ৰতিটো প্ৰশ্নৰ বাবে সঠিক উত্তৰ নিৰ্বাচন কৰক। প্ৰশ্নসমূহ মেণ্ডেলিভৰ পৰ্যায়বৃত্ত সাৰণী, আধুনিক পৰ্যায়বৃত্ত সূত্ৰ, গোট, পৰ্যায়, পাৰমাণৱিক আকাৰ, যোজ্যতা আৰু ধৰ্মৰ পৰ্যায়বৃত্ত পৰিৱৰ্তনৰ ওপৰত ভিত্তি কৰি প্ৰস্তুত কৰা হৈছে।</p><ul><li>মুঠ প্ৰশ্ন: <strong>৩০টা</strong></li><li>প্ৰতিটো প্ৰশ্ন: <strong>১ নম্বৰ</strong></li><li>মুঠ নম্বৰ: <strong>৩০</strong></li></ul></div>
+<div class="q-box"><span class="q-number">প্ৰশ্ন 1</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সারণীত মৌলসমূহক কিহৰ ক্ৰমবৰ্ধমান মান অনুসৰি সজোৱা হয়?</div><div class="options"><label class="option"><input type="radio" name="q1" value="A"><span>(ক) পাৰমাণৱিক ভৰ</span></label>
+<label class="option"><input type="radio" name="q1" value="B"><span>(খ) পাৰমাণৱিক সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q1" value="C"><span>(গ) ঘনত্ব</span></label>
+<label class="option"><input type="radio" name="q1" value="D"><span>(ঘ) যোজ্যতা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 2</span><div class="q-title">মেণ্ডেলিভে তেওঁৰ পর্যায়বৃত্ত সাৰণীত মূলতঃ কোনটো ৰাশি ব্যৱহাৰ কৰিছিল?</div><div class="options"><label class="option"><input type="radio" name="q2" value="A"><span>(ক) পাৰমাণৱিক সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q2" value="B"><span>(খ) পাৰমাণৱিক ভৰ</span></label>
+<label class="option"><input type="radio" name="q2" value="C"><span>(গ) নিউট্ৰনৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q2" value="D"><span>(ঘ) ইলেক্ট্ৰনৰ সংখ্যা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 3</span><div class="q-title">মেণ্ডেলিভৰ পর্যায়বৃত্ত সূত্ৰৰ মূল বক্তব্য আছিল—</div><div class="options"><label class="option"><input type="radio" name="q3" value="A"><span>(ক) মৌলৰ ধৰ্ম পাৰমাণৱিক ভৰৰ পর্যায়বৃত্ত ফলন</span></label>
+<label class="option"><input type="radio" name="q3" value="B"><span>(খ) মৌলৰ ধৰ্ম কেৱল ঘনত্বৰ ফলন</span></label>
+<label class="option"><input type="radio" name="q3" value="C"><span>(গ) সকলো মৌলৰ ধৰ্ম একে</span></label>
+<label class="option"><input type="radio" name="q3" value="D"><span>(ঘ) মৌলৰ ধৰ্ম নিউট্ৰনৰ সংখ্যাৰ ফলন</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 4</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সূত্ৰৰ মতে মৌলৰ ধৰ্ম কিহৰ পর্যায়বৃত্ত ফলন?</div><div class="options"><label class="option"><input type="radio" name="q4" value="A"><span>(ক) পাৰমাণৱিক ভৰ</span></label>
+<label class="option"><input type="radio" name="q4" value="B"><span>(খ) পাৰমাণৱিক সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q4" value="C"><span>(গ) ভৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q4" value="D"><span>(ঘ) নিউট্ৰনৰ সংখ্যা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 5</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সাৰণীত মুঠ কিমানটা পর্যায় আছে?</div><div class="options"><label class="option"><input type="radio" name="q5" value="A"><span>(ক) ৬টা</span></label>
+<label class="option"><input type="radio" name="q5" value="B"><span>(খ) ৭টা</span></label>
+<label class="option"><input type="radio" name="q5" value="C"><span>(গ) ৮টা</span></label>
+<label class="option"><input type="radio" name="q5" value="D"><span>(ঘ) ১৮টা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 6</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সাৰণীত মুঠ কিমানটা গোট আছে?</div><div class="options"><label class="option"><input type="radio" name="q6" value="A"><span>(ক) ৭টা</span></label>
+<label class="option"><input type="radio" name="q6" value="B"><span>(খ) ৮টা</span></label>
+<label class="option"><input type="radio" name="q6" value="C"><span>(গ) ১৮টা</span></label>
+<label class="option"><input type="radio" name="q6" value="D"><span>(ঘ) ২০টা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 7</span><div class="q-title">একেটা গোটত থকা মৌলসমূহৰ সাধাৰণতে কোনটো বৈশিষ্ট্য একে ধৰণৰ?</div><div class="options"><label class="option"><input type="radio" name="q7" value="A"><span>(ক) যোজ্য ইলেক্ট্ৰনৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q7" value="B"><span>(খ) নিউট্ৰনৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q7" value="C"><span>(গ) পৰমাণুৰ ভৰ</span></label>
+<label class="option"><input type="radio" name="q7" value="D"><span>(ঘ) কক্ষপথৰ সংখ্যা সদায় একে</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 8</span><div class="q-title">একে পর্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ গ'লে পাৰমাণৱিক সংখ্যা—</div><div class="options"><label class="option"><input type="radio" name="q8" value="A"><span>(ক) কমে</span></label>
+<label class="option"><input type="radio" name="q8" value="B"><span>(খ) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q8" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q8" value="D"><span>(ঘ) প্ৰথমে কমি পিছত বৃদ্ধি পায়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 9</span><div class="q-title">একে পর্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ পাৰমাণৱিক আকাৰ সাধাৰণতে—</div><div class="options"><label class="option"><input type="radio" name="q9" value="A"><span>(ক) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q9" value="B"><span>(খ) কমে</span></label>
+<label class="option"><input type="radio" name="q9" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q9" value="D"><span>(ঘ) প্ৰথমে বৃদ্ধি পায়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 10</span><div class="q-title">একে গোটত ওপৰৰ পৰা তললৈ গ'লে পাৰমাণৱিক আকাৰ—</div><div class="options"><label class="option"><input type="radio" name="q10" value="A"><span>(ক) কমে</span></label>
+<label class="option"><input type="radio" name="q10" value="B"><span>(খ) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q10" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q10" value="D"><span>(ঘ) শূন্য হয়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 11</span><div class="q-title">একে পর্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ ধাতৱ ধৰ্ম—</div><div class="options"><label class="option"><input type="radio" name="q11" value="A"><span>(ক) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q11" value="B"><span>(খ) কমে</span></label>
+<label class="option"><input type="radio" name="q11" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q11" value="D"><span>(ঘ) প্ৰথমে কমে আৰু পুনৰ বৃদ্ধি পায়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 12</span><div class="q-title">একে গোটত ওপৰৰ পৰা তললৈ ধাতৱ ধৰ্ম সাধাৰণতে—</div><div class="options"><label class="option"><input type="radio" name="q12" value="A"><span>(ক) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q12" value="B"><span>(খ) কমে</span></label>
+<label class="option"><input type="radio" name="q12" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q12" value="D"><span>(ঘ) সম্পূৰ্ণ নোহোৱা হয়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 13</span><div class="q-title">দ্বিতীয় পর্যায়ত থকা মৌলসমূহৰ সকলোৰে কিমানটা ইলেক্ট্ৰন কক্ষ থাকে?</div><div class="options"><label class="option"><input type="radio" name="q13" value="A"><span>(ক) ১টা</span></label>
+<label class="option"><input type="radio" name="q13" value="B"><span>(খ) ২টা</span></label>
+<label class="option"><input type="radio" name="q13" value="C"><span>(গ) ৩টা</span></label>
+<label class="option"><input type="radio" name="q13" value="D"><span>(ঘ) ৪টা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 14</span><div class="q-title">একে পর্যায়ত যোজ্য কক্ষত ইলেক্ট্ৰনৰ সংখ্যা সাধাৰণতে—</div><div class="options"><label class="option"><input type="radio" name="q14" value="A"><span>(ক) বাওঁফালৰ পৰা সোঁফাললৈ বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q14" value="B"><span>(খ) কমি যায়</span></label>
+<label class="option"><input type="radio" name="q14" value="C"><span>(গ) সদায় একে থাকে</span></label>
+<label class="option"><input type="radio" name="q14" value="D"><span>(ঘ) কোনো নিয়ম নাই</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 15</span><div class="q-title">গ্রুপ ১-ৰ মৌলসমূহক কি বুলি কোৱা হয়?</div><div class="options"><label class="option"><input type="radio" name="q15" value="A"><span>(ক) ক্ষাৰ ধাতু</span></label>
+<label class="option"><input type="radio" name="q15" value="B"><span>(খ) ক্ষাৰীয় মৃত্তিকা ধাতু</span></label>
+<label class="option"><input type="radio" name="q15" value="C"><span>(গ) হেল'জেন</span></label>
+<label class="option"><input type="radio" name="q15" value="D"><span>(ঘ) নিষ্ক্ৰিয় গেছ</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 16</span><div class="q-title">গ্রুপ ১৭-ৰ মৌলসমূহক কি বুলি কোৱা হয়?</div><div class="options"><label class="option"><input type="radio" name="q16" value="A"><span>(ক) ক্ষাৰ ধাতু</span></label>
+<label class="option"><input type="radio" name="q16" value="B"><span>(খ) হেল'জেন</span></label>
+<label class="option"><input type="radio" name="q16" value="C"><span>(গ) নিষ্ক্ৰিয় গেছ</span></label>
+<label class="option"><input type="radio" name="q16" value="D"><span>(ঘ) সংক্রমণ ধাতু</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 17</span><div class="q-title">গ্রুপ ১৮-ৰ মৌলসমূহক কি বুলি কোৱা হয়?</div><div class="options"><label class="option"><input type="radio" name="q17" value="A"><span>(ক) ক্ষাৰ ধাতু</span></label>
+<label class="option"><input type="radio" name="q17" value="B"><span>(খ) হেল'জেন</span></label>
+<label class="option"><input type="radio" name="q17" value="C"><span>(গ) নিষ্ক্ৰিয় বা মহৎ গেছ</span></label>
+<label class="option"><input type="radio" name="q17" value="D"><span>(ঘ) ক্ষাৰীয় মৃত্তিকা ধাতু</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 18</span><div class="q-title">গ্রুপ ১-ৰ মৌলসমূহৰ সাধাৰণ যোজ্যতা—</div><div class="options"><label class="option"><input type="radio" name="q18" value="A"><span>(ক) ০</span></label>
+<label class="option"><input type="radio" name="q18" value="B"><span>(খ) ১</span></label>
+<label class="option"><input type="radio" name="q18" value="C"><span>(গ) ২</span></label>
+<label class="option"><input type="radio" name="q18" value="D"><span>(ঘ) ৭</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 19</span><div class="q-title">গ্রুপ ১৭-ৰ মৌলসমূহৰ সাধাৰণ যোজ্যতা—</div><div class="options"><label class="option"><input type="radio" name="q19" value="A"><span>(ক) ১</span></label>
+<label class="option"><input type="radio" name="q19" value="B"><span>(খ) ২</span></label>
+<label class="option"><input type="radio" name="q19" value="C"><span>(গ) ৭</span></label>
+<label class="option"><input type="radio" name="q19" value="D"><span>(ঘ) ৮</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 20</span><div class="q-title">গ্রুপ ১৮-ৰ মৌলসমূহৰ সাধাৰণ যোজ্যতা—</div><div class="options"><label class="option"><input type="radio" name="q20" value="A"><span>(ক) ০</span></label>
+<label class="option"><input type="radio" name="q20" value="B"><span>(খ) ১</span></label>
+<label class="option"><input type="radio" name="q20" value="C"><span>(গ) ২</span></label>
+<label class="option"><input type="radio" name="q20" value="D"><span>(ঘ) ৮</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 21</span><div class="q-title">মেণ্ডেলিভে তেওঁৰ সাৰণীত খালী ঠাই ৰখাৰ এটা মুখ্য কাৰণ আছিল—</div><div class="options"><label class="option"><input type="radio" name="q21" value="A"><span>(ক) অজানা মৌলৰ বাবে স্থান ৰাখিবলৈ</span></label>
+<label class="option"><input type="radio" name="q21" value="B"><span>(খ) সকলো মৌল আঁতৰাবলৈ</span></label>
+<label class="option"><input type="radio" name="q21" value="C"><span>(গ) ধাতু বাদ দিবলৈ</span></label>
+<label class="option"><input type="radio" name="q21" value="D"><span>(ঘ) গেছ বাদ দিবলৈ</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 22</span><div class="q-title">মেণ্ডেলিভে অজানা মৌলৰ ধৰ্ম কেনেকৈ অনুমান কৰিব পাৰিছিল?</div><div class="options"><label class="option"><input type="radio" name="q22" value="A"><span>(ক) প্রতিবেশী মৌলৰ ধৰ্মৰ পৰা</span></label>
+<label class="option"><input type="radio" name="q22" value="B"><span>(খ) কেৱল ৰঙৰ পৰা</span></label>
+<label class="option"><input type="radio" name="q22" value="C"><span>(গ) কেৱল ঘনত্বৰ পৰা</span></label>
+<label class="option"><input type="radio" name="q22" value="D"><span>(ঘ) কোনো উপায় নাছিল</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 23</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সাৰণীত isotopes একেটা স্থানত থকাৰ মূল কাৰণ—</div><div class="options"><label class="option"><input type="radio" name="q23" value="A"><span>(ক) সিহঁতৰ পাৰমাণৱিক সংখ্যা একে</span></label>
+<label class="option"><input type="radio" name="q23" value="B"><span>(খ) সিহঁতৰ ভৰ সংখ্যা একে</span></label>
+<label class="option"><input type="radio" name="q23" value="C"><span>(গ) সিহঁতৰ নিউট্ৰন সংখ্যা একে</span></label>
+<label class="option"><input type="radio" name="q23" value="D"><span>(ঘ) সিহঁতৰ যোজ্যতা সদায় পৃথক</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 24</span><div class="q-title">হাইড্ৰ'জেনক পর্যায়বৃত্ত সাৰণীত বিশেষ স্থান দিয়াৰ কাৰণ—</div><div class="options"><label class="option"><input type="radio" name="q24" value="A"><span>(ক) ই ধাতু আৰু অধাতু দুয়োটাৰ সৈতে কিছু সাদৃশ্য দেখুৱায়</span></label>
+<label class="option"><input type="radio" name="q24" value="B"><span>(খ) ই কেৱল noble gas</span></label>
+<label class="option"><input type="radio" name="q24" value="C"><span>(গ) ইয়াৰ কোনো ইলেক্ট্ৰন নাই</span></label>
+<label class="option"><input type="radio" name="q24" value="D"><span>(ঘ) ই সদায় দ্বিযোজী</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 25</span><div class="q-title">একে গোটৰ মৌলসমূহৰ ৰাসায়নিক ধৰ্মৰ সাদৃশ্যৰ মূল কাৰণ—</div><div class="options"><label class="option"><input type="radio" name="q25" value="A"><span>(ক) যোজ্য ইলেক্ট্ৰনৰ একে সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q25" value="B"><span>(খ) একে পাৰমাণৱিক ভৰ</span></label>
+<label class="option"><input type="radio" name="q25" value="C"><span>(গ) একে নিউট্ৰনৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q25" value="D"><span>(ঘ) একে পৰমাণুৰ আকাৰ</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 26</span><div class="q-title">অধাতুৰ পৰা ধাতুলৈ ধৰ্মৰ পৰিৱৰ্তন সাধাৰণতে পর্যায়বৃত্ত সাৰণীৰ কোন দিশত দেখা যায়?</div><div class="options"><label class="option"><input type="radio" name="q26" value="A"><span>(ক) পর্যায়ত বাওঁৰ পৰা সোঁলৈ</span></label>
+<label class="option"><input type="radio" name="q26" value="B"><span>(খ) গোটত ওপৰৰ পৰা তললৈ</span></label>
+<label class="option"><input type="radio" name="q26" value="C"><span>(গ) একে পর্যায়ত সোঁৰ পৰা বাওঁলৈ</span></label>
+<label class="option"><input type="radio" name="q26" value="D"><span>(ঘ) কোনো দিশত নহয়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 27</span><div class="q-title">অধাতৱ ধৰ্ম একে পর্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ—</div><div class="options"><label class="option"><input type="radio" name="q27" value="A"><span>(ক) বৃদ্ধি পায়</span></label>
+<label class="option"><input type="radio" name="q27" value="B"><span>(খ) কমে</span></label>
+<label class="option"><input type="radio" name="q27" value="C"><span>(গ) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q27" value="D"><span>(ঘ) শূন্য হয়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 28</span><div class="q-title">একেটা গোটত ওপৰৰ পৰা তললৈ যোৱাৰ সময়ত যোজ্য ইলেক্ট্ৰনৰ সংখ্যা সাধাৰণতে—</div><div class="options"><label class="option"><input type="radio" name="q28" value="A"><span>(ক) একে থাকে</span></label>
+<label class="option"><input type="radio" name="q28" value="B"><span>(খ) সদায় দুগুণ হয়</span></label>
+<label class="option"><input type="radio" name="q28" value="C"><span>(গ) সদায় অর্ধেক হয়</span></label>
+<label class="option"><input type="radio" name="q28" value="D"><span>(ঘ) শূন্য হয়</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 29</span><div class="q-title">মেণ্ডেলিভৰ সাৰণীৰ এটা উল্লেখযোগ্য সীমাবদ্ধতা আছিল—</div><div class="options"><label class="option"><input type="radio" name="q29" value="A"><span>(ক) isotopes-ৰ স্থান ব্যাখ্যা কৰিব নোৱাৰা</span></label>
+<label class="option"><input type="radio" name="q29" value="B"><span>(খ) কোনো মৌল সজাব নোৱাৰা</span></label>
+<label class="option"><input type="radio" name="q29" value="C"><span>(গ) সকলো গেছ বাদ দিয়া</span></label>
+<label class="option"><input type="radio" name="q29" value="D"><span>(ঘ) ধাতু চিনাক্ত কৰিব নোৱাৰা</span></label></div></div><div class="q-box"><span class="q-number">প্ৰশ্ন 30</span><div class="q-title">আধুনিক পর্যায়বৃত্ত সাৰণীত period number-এ কি সূচায়?</div><div class="options"><label class="option"><input type="radio" name="q30" value="A"><span>(ক) occupied electron shells-ৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q30" value="B"><span>(খ) neutron-ৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q30" value="C"><span>(গ) valency-ৰ সংখ্যা</span></label>
+<label class="option"><input type="radio" name="q30" value="D"><span>(ঘ) proton আৰু neutron-ৰ যোগফল</span></label></div></div>
+<div class="submit-area"><button type="button" class="submit-btn" onclick="submitQuiz()">✅ উত্তৰ জমা দিয়ক</button></div>
+<div id="result"><div class="score-circle"><div id="score-text">0/30</div><div class="score-label">SCORE</div></div><div id="percentage">0%</div><div id="score-message"></div></div>
+<div id="answer-review"><h2 class="review-heading">📖 উত্তৰ আৰু ব্যাখ্যা</h2><div id="review-content"></div><div class="retry-area"><button type="button" class="retry-btn" onclick="retryQuiz()">🔄 পুনৰ চেষ্টা কৰক</button></div></div>
+</div>
+<footer class="site-footer"><h3>🎓 LET'S SCORE</h3><p>Learn • Understand • Practice • Score</p><p>SEBA HSLC 2027 • Class X Science</p><p>© 2026 LET'S SCORE</p></footer>
+</div>
+<script>
+const CORRECT_PASSWORD="letsscore207";
+function unlock(){
+const input=document.getElementById("pass"),error=document.getElementById("error");
+if(input.value.trim()===CORRECT_PASSWORD){
+document.getElementById("lock-screen").style.display="none";document.getElementById("content").style.display="block";error.textContent="";
+try{sessionStorage.setItem("letsScoreCh5PeriodicUnlocked","true")}catch(e){}window.scrollTo(0,0);
+}else{error.textContent="❌ ভুল পাছৱৰ্ড! পুনৰ চেষ্টা কৰক।";input.value="";input.focus();}
+}
+document.addEventListener("DOMContentLoaded",function(){
+const input=document.getElementById("pass");document.getElementById("unlockButton").addEventListener("click",unlock);
+input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();unlock()}});
+try{if(sessionStorage.getItem("letsScoreCh5PeriodicUnlocked")==="true"){document.getElementById("lock-screen").style.display="none";document.getElementById("content").style.display="block";}}catch(e){}
+});
+const answers={q1:"B",q2:"B",q3:"A",q4:"B",q5:"B",q6:"C",q7:"A",q8:"B",q9:"B",q10:"B",q11:"B",q12:"A",q13:"B",q14:"A",q15:"A",q16:"B",q17:"C",q18:"B",q19:"A",q20:"A",q21:"A",q22:"A",q23:"A",q24:"A",q25:"A",q26:"C",q27:"A",q28:"A",q29:"A",q30:"A"};const explanations={q1:'আধুনিক পর্যায়বৃত্ত সূত্ৰ অনুসৰি মৌলসমূহ পাৰমাণৱিক সংখ্যাৰ ক্ৰমবৰ্ধমান মান অনুসৰি সজোৱা হয়।',q2:'মেণ্ডেলিভে মৌলসমূহক পাৰমাণৱিক ভৰৰ ক্ৰম অনুসৰি সজাইছিল।',q3:'মেণ্ডেলিভৰ মতে মৌলসমূহৰ ভৌতিক আৰু ৰাসায়নিক ধৰ্ম পাৰমাণৱিক ভৰৰ পর্যায়বৃত্ত ফলন।',q4:'আধুনিক পর্যায়বৃত্ত সূত্ৰত পাৰমাণৱিক সংখ্যাই মৌলৰ ধৰ্ম নিৰ্ধাৰণৰ ভিত্তি।',q5:'আধুনিক পর্যায়বৃত্ত সাৰণীত ৭টা পর্যায় আছে।',q6:'আধুনিক পর্যায়বৃত্ত সাৰণীত ১৮টা গোট আছে।',q7:'একে গোটৰ মুখ্য গোটৰ মৌলসমূহৰ যোজ্য কক্ষৰ ইলেক্ট্ৰনৰ বিন্যাসত সাদৃশ্য থাকে।',q8:'একে পর্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ পাৰমাণৱিক সংখ্যা এক এককৈ বৃদ্ধি পায়।',q9:'নিউক্লিয়াৰ আকৰ্ষণ বৃদ্ধি পোৱাৰ বাবে একে পর্যায়ত পাৰমাণৱিক ব্যাসাৰ্ধ সাধাৰণতে কমে।',q10:'প্ৰতিটো তলৰ পর্যায়ত নতুন ইলেক্ট্ৰন কক্ষ যোগ হয়, সেয়ে পাৰমাণৱিক আকাৰ বৃদ্ধি পায়।',q11:'বাওঁফালৰ পৰা সোঁফাললৈ ধাতৱ ধৰ্ম হ্ৰাস পায় আৰু অধাতৱ ধৰ্ম বৃদ্ধি পায়।',q12:'তললৈ যোৱাৰ লগে লগে পৰমাণুৰ আকাৰ বৃদ্ধি পোৱাত ইলেক্ট্ৰন ত্যাগ সহজ হয়; সেয়ে ধাতৱ ধৰ্ম বৃদ্ধি পায়।',q13:'দ্বিতীয় পর্যায়ৰ সকলো মৌলৰ দুটা ইলেক্ট্ৰন কক্ষ থাকে।',q14:'মুখ্য গোটৰ মৌলত একে পর্যায়ত যোজ্য ইলেক্ট্ৰনৰ সংখ্যা ১ৰ পৰা ৮লৈ বৃদ্ধি পায়।',q15:'গ্রুপ ১-ৰ ধাতুসমূহক alkali metals বা ক্ষাৰ ধাতু বুলি কোৱা হয়।',q16:"গ্রুপ ১৭-ৰ মৌলসমূহ হেল'জেন।",q17:'গ্রুপ ১৮-ৰ মৌলসমূহৰ যোজ্য কক্ষ পূৰ্ণ, সেয়ে ইহঁতক noble/inert gases বুলি কোৱা হয়।',q18:'এটা যোজ্য ইলেক্ট্ৰন থকাৰ বাবে group 1 মৌলসমূহে সাধাৰণতে ১টা ইলেক্ট্ৰন ত্যাগ কৰে।',q19:'যোজ্য কক্ষ পূৰ্ণ কৰিবলৈ group 17 মৌলসমূহে সাধাৰণতে ১টা ইলেক্ট্ৰন গ্ৰহণ কৰে; সেয়ে যোজ্যতা ১।',q20:'নিষ্ক্ৰিয় গেছৰ যোজ্য কক্ষ পূৰ্ণ বা স্থিৰ, সেয়ে সাধাৰণ যোজ্যতা ০।',q21:'মেণ্ডেলিভে তেতিয়া আৱিষ্কাৰ নোহোৱা মৌলৰ অস্তিত্ব অনুমান কৰি খালী ঠাই ৰাখিছিল।',q22:'মেণ্ডেলিভে সাৰণীৰ স্থান আৰু ওচৰৰ মৌলসমূহৰ ধৰ্মৰ ভিত্তিত নতুন মৌলৰ ধৰ্ম অনুমান কৰিছিল।',q23:'একেটা মৌলৰ isotopes-ৰ পাৰমাণৱিক সংখ্যা একে, সেয়ে পর্যায়বৃত্ত সাৰণীত একেটা স্থান পায়।',q24:"হাইড্ৰ'জেনৰ ধৰ্ম group 1 আৰু group 17-ৰ সৈতে কিছু সাদৃশ্য দেখুৱায়, সেয়ে ইয়াৰ স্থান বিশেষ।",q25:'যোজ্য ইলেক্ট্ৰনৰ বিন্যাসত সাদৃশ্যই ৰাসায়নিক ধৰ্মত সাদৃশ্য আনে।',q26:"একে পর্যায়ত সোঁফালৰ পৰা বাওঁফাললৈ গ'লে ধাতৱ ধৰ্ম বৃদ্ধি পায়।",q27:'বাওঁৰ পৰা সোঁলৈ ইলেক্ট্ৰন গ্ৰহণৰ প্ৰৱণতা বৃদ্ধি পোৱাত অধাতৱ ধৰ্ম বৃদ্ধি পায়।',q28:'একে গোটৰ মুখ্য গোটৰ মৌলসমূহৰ যোজ্য ইলেক্ট্ৰনৰ সংখ্যা সাধাৰণতে একে থাকে।',q29:'Isotopes-ৰ পাৰমাণৱিক ভৰ বেলেগ কিন্তু ৰাসায়নিক ধৰ্ম একে; মেণ্ডেলিভৰ ভৰ-ভিত্তিক সাৰণীত ইয়াৰ স্থান স্পষ্ট নাছিল।',q30:'এটা মৌলৰ period number সাধাৰণতে ইয়াৰ পৰমাণুত থকা occupied electron shells-ৰ সংখ্যাৰ সৈতে সম্পৰ্কিত।'};
+function updateProgress(){
+let n=0;for(let i=1;i<=30;i++)if(document.querySelector('input[name="q'+i+'"]:checked'))n++;
+document.getElementById("progress-fill").style.width=(n/30*100)+"%";document.getElementById("progress-text").textContent=n+" / 30";
+}
+document.addEventListener("change",e=>{if(e.target.matches('input[type="radio"]')){document.querySelectorAll('input[name="'+e.target.name+'"]').forEach(x=>x.closest(".option").classList.remove("selected"));e.target.closest(".option").classList.add("selected");updateProgress();}});
+function submitQuiz(){
+let score=0,answered=0,html="";
+for(let i=1;i<=30;i++){const selected=document.querySelector('input[name="q'+i+'"]:checked');const correct=answers["q"+i];let user="উত্তৰ দিয়া হোৱা নাই";if(selected){answered++;user="("+selected.value+")";}const ok=selected&&selected.value===correct;if(ok)score++;
+html+=`<div class="review-card ${ok?"correct":"wrong"}"><h3>প্ৰশ্ন ${i} ${ok?"✅":"❌"}</h3><p class="${ok?"review-correct":"review-wrong"}">আপোনাৰ উত্তৰ: ${user}</p><p class="review-correct">সঠিক উত্তৰ: (${correct})</p><p class="review-explanation">💡 ${explanations["q"+i]}</p></div>`;}
+const pct=Math.round(score/30*100);document.getElementById("score-text").textContent=score+"/30";document.getElementById("percentage").textContent=pct+"%";
+let msg=score===30?"🌟 অসাধাৰণ! সকলো উত্তৰ সঠিক।":score>=24?"🏆 অতি উত্তম! HSLC 2027-ৰ বাবে আপোনাৰ প্ৰস্তুতি ভাল।":score>=18?"👏 ভাল প্ৰচেষ্টা। ভুল হোৱা ধাৰণাসমূহ পুনৰ চাওক।":score>=12?"📚 আৰু কিছু অনুশীলন আৰু পুনৰাবৃত্তি কৰক।":"📖 অধ্যায়টো পুনৰ ভালদৰে অধ্যয়ন কৰি আকৌ চেষ্টা কৰক।";
+if(answered<30)msg+=" "+(30-answered)+"টা প্ৰশ্নৰ উত্তৰ দিয়া হোৱা নাই।";
+document.getElementById("score-message").textContent=msg;document.getElementById("result").style.display="block";document.getElementById("answer-review").style.display="block";document.getElementById("review-content").innerHTML=html;document.getElementById("progress-fill").style.width="100%";document.getElementById("result").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function retryQuiz(){
+document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);document.querySelectorAll(".option.selected").forEach(x=>x.classList.remove("selected"));
+document.getElementById("result").style.display="none";document.getElementById("answer-review").style.display="none";document.getElementById("review-content").innerHTML="";
+document.getElementById("progress-fill").style.width="0%";document.getElementById("progress-text").textContent="0 / 30";window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body></html>
