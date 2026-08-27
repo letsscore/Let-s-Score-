@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="as"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#07111f">
+<title>LET'S SCORE | HSLC 2027 | Chapter 5 | 15 Assertion Reason</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans Assamese","Nirmala UI","Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0d1b35 45%,#111827);color:#fff;min-height:100vh;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.site-header{position:sticky;top:0;z-index:1000;min-height:64px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(7,17,31,.97);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.logo{color:#38bdf8;text-decoration:none;font-size:22px;font-weight:800}.header-label{color:#94a3b8;font-size:11px;font-weight:700}
+.container{width:min(calc(100% - 10px),1000px);margin:6px auto 25px;background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.3)}
+#lock-screen{min-height:620px;display:flex;align-items:center;justify-content:center;padding:25px 14px;background:radial-gradient(circle at 20% 20%,rgba(14,165,233,.15),transparent 35%),radial-gradient(circle at 80% 80%,rgba(99,102,241,.16),transparent 35%)}
+.lock-card{width:100%;max-width:450px;padding:38px 24px;text-align:center;background:linear-gradient(145deg,rgba(30,41,59,.98),rgba(23,37,84,.97));border:1px solid rgba(56,189,248,.28);border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.lock-icon{font-size:52px;margin-bottom:12px}.lock-card h1{color:#38bdf8;font-size:29px}.lock-card h2{font-size:18px;margin:5px 0 14px}.lock-card p{color:#cbd5e1;font-size:14px;margin-bottom:20px}.password-row{display:flex;flex-direction:column;gap:10px}
+#pass{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;outline:none;text-align:center;font-size:16px}#pass:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.unlock-btn{border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,#0284c7,#6366f1);color:#fff;font-size:16px;font-weight:800;cursor:pointer}#error{min-height:22px;color:#f87171;font-size:14px;margin-top:10px}#content{display:none}
+.hero{padding:38px 18px 28px;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.18),transparent 32%),radial-gradient(circle at 85% 75%,rgba(139,92,246,.18),transparent 34%);border-bottom:1px solid rgba(255,255,255,.07)}
+.badge{display:inline-block;padding:5px 13px;margin-bottom:12px;border-radius:30px;background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.22);color:#7dd3fc;font-size:11px;font-weight:800}.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.25}.hero p{color:#cbd5e1;font-size:15px}.hero .chapter{color:#7dd3fc;font-size:18px;font-weight:700;margin-top:7px}
+.instructions{margin:16px;padding:16px;border-radius:16px;background:rgba(30,41,59,.72);border:1px solid rgba(255,255,255,.08);border-left:4px solid #38bdf8}.instructions h3{color:#38bdf8;font-size:17px;margin-bottom:6px}.instructions p,.instructions li{color:#cbd5e1;font-size:13px}.instructions ul{padding-left:19px;margin-top:6px}
+.q-box{margin:0 15px 16px;padding:18px;border-radius:17px;background:linear-gradient(145deg,rgba(30,41,59,.96),rgba(23,37,84,.9));border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.16)}
+.q-number{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:20px;background:rgba(56,189,248,.1);color:#38bdf8;font-size:12px;font-weight:800}.statement{margin:8px 0;padding:13px 14px;border-radius:12px;font-size:14px}.assertion{background:rgba(56,189,248,.06);border-left:4px solid #38bdf8}.reason{background:rgba(139,92,246,.07);border-left:4px solid #8b5cf6}.statement strong{color:#7dd3fc}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.option{padding:10px 11px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#cbd5e1}
+.answer{margin-top:11px;padding:11px 13px;border-radius:10px;background:rgba(34,197,94,.07);border-left:3px solid #22c55e;color:#d1fae5;font-size:12.5px}.answer strong{color:#4ade80}
+.site-footer{padding:25px 18px;text-align:center;background:#070d19;border-top:1px solid rgba(255,255,255,.07)}.site-footer h3{color:#38bdf8;font-size:17px}.site-footer p{color:#64748b;font-size:11px;margin:2px}
+@media(max-width:700px){.header-label{display:none}.logo{font-size:19px}.container{border-radius:17px}.lock-card{padding:32px 18px}.hero{padding:32px 13px 25px}.hero h1{font-size:29px}.hero .chapter{font-size:16px}.instructions{margin:12px;padding:14px}.q-box{margin-left:11px;margin-right:11px;padding:14px}.statement{font-size:13px}.options{grid-template-columns:1fr}.option{font-size:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head>
+<body>
+<header class="site-header"><a href="index.html" class="logo">🎓 LET'S SCORE</a><span class="header-label">SEBA HSLC 2027 • CLASS X</span></header>
+<div class="container">
+<div id="lock-screen"><div class="lock-card"><div class="lock-icon">🔐</div><h1>LET'S SCORE</h1><h2>HSLC 2027 Question Practice</h2><p>অধ্যায় ৫-ৰ ১৫টা অভিকথন–কাৰণধৰ্মী প্ৰশ্ন চাবলৈ Password প্ৰৱেশ কৰক।</p><div class="password-row"><input type="password" id="pass" placeholder="Password লিখক" autocomplete="off"><button type="button" class="unlock-btn" id="unlockButton">🔓 প্ৰৱেশ কৰক</button></div><div id="error"></div></div></div>
+<div id="content">
+<section class="hero"><div class="badge">SEBA HSLC 2027 • EXAM ORIENTED</div><h1>দশম শ্ৰেণী বিজ্ঞান</h1><p>১৫টা অভিকথন–কাৰণধৰ্মী প্ৰশ্ন</p><p class="chapter">অধ্যায় ৫ — মৌলসমূহৰ পৰ্যায়বৃত্ত শ্ৰেণীবিভাজন</p></section>
+<div class="instructions"><h3>📌 নিৰ্দেশনা</h3><p>প্ৰতিটো প্ৰশ্নত অভিকথন (A) আৰু কাৰণ (R) দিয়া আছে। দুয়োটা বক্তব্য সঁচা নে মিছা আৰু কাৰণে অভিকথনৰ সঠিক ব্যাখ্যা কৰে নে নকৰে—সেই অনুসৰি বিকল্প বাছনি কৰক। সঠিক বিকল্পৰ স্থান ইচ্ছাকৃতভাৱে বিভিন্ন ধৰণে সজোৱা হৈছে।</p><ul><li>মুঠ প্ৰশ্ন: <strong>১৫টা</strong></li><li>প্ৰশ্নৰ ধৰণ: <strong>অভিকথন–কাৰণ</strong></li><li>লক্ষ্য: <strong>HSLC 2027</strong></li></ul></div>
+<article class="q-box"><span class="q-number">প্ৰশ্ন 1</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> আধুনিক পৰ্যায়বৃত্ত সাৰণীত মৌলসমূহ পাৰমাণৱিক সংখ্যাৰ ক্ৰমবৰ্ধমান মান অনুসৰি সজোৱা হয়।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> পাৰমাণৱিক সংখ্যাই পৰমাণুৰ নিউক্লিয়াছত থকা প্ৰ'টনৰ সংখ্যা বুজায়।</div>
+<div class="options"><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 2</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> একে গোটৰ মৌলসমূহৰ ৰাসায়নিক ধৰ্মত সাদৃশ্য থাকে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> একে গোটৰ মুখ্য গোটৰ মৌলসমূহৰ যোজ্য ইলেক্ট্ৰনৰ সংখ্যা সাধাৰণতে একে।</div>
+<div class="options"><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (খ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 3</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> একে পৰ্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ পাৰমাণৱিক আকাৰ সাধাৰণতে কমে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> একেটা পৰ্যায়ত ইলেক্ট্ৰন একেটা মুখ্য কক্ষত যোগ হয় আৰু নিউক্লীয় আকৰ্ষণ বৃদ্ধি পায়।</div>
+<div class="options"><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (গ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 4</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> একে গোটত ওপৰৰ পৰা তললৈ পাৰমাণৱিক আকাৰ বৃদ্ধি পায়।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> তললৈ যোৱাৰ লগে লগে নতুন ইলেক্ট্ৰন কক্ষ যোগ হয়।</div>
+<div class="options"><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ঘ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 5</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> একে পৰ্যায়ত বাওঁফালৰ পৰা সোঁফাললৈ ধাতৱ ধৰ্ম সাধাৰণতে কমে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> সোঁফাললৈ যোৱাৰ লগে লগে ইলেক্ট্ৰন ত্যাগ কৰাটো অধিক কঠিন হয়।</div>
+<div class="options"><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (খ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 6</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> একে গোটত ওপৰৰ পৰা তললৈ ধাতৱ ধৰ্ম সাধাৰণতে বৃদ্ধি পায়।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> পৰমাণুৰ আকাৰ বৃদ্ধি পোৱাৰ বাবে যোজ্য ইলেক্ট্ৰন ত্যাগ কৰাটো সহজ হয়।</div>
+<div class="options"><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (গ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 7</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> সমস্থানিকসমূহে আধুনিক পৰ্যায়বৃত্ত সাৰণীত একেটা স্থান লাভ কৰে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> একে মৌলৰ সমস্থানিকসমূহৰ পাৰমাণৱিক সংখ্যা একে।</div>
+<div class="options"><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ঘ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 8</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> মেণ্ডেলিভে তেওঁৰ পৰ্যায়বৃত্ত সাৰণীত কিছুমান ঠাই খালী ৰাখিছিল।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> তেওঁ তেতিয়া আৱিষ্কাৰ নোহোৱা মৌলৰ অস্তিত্বৰ সম্ভাৱনা অনুমান কৰিছিল।</div>
+<div class="options"><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 9</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> মেণ্ডেলিভৰ সাৰণীত সমস্থানিকৰ স্থানৰ সমস্যা আছিল।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> মেণ্ডেলিভৰ সাৰণী পাৰমাণৱিক ভৰৰ ক্ৰমৰ ওপৰত ভিত্তি কৰি গঠিত আছিল।</div>
+<div class="options"><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (গ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 10</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> গোট ১৮ৰ মৌলসমূহৰ ৰাসায়নিক সক্ৰিয়তা অতি কম।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> ইহঁতৰ বহিঃতম ইলেক্ট্ৰন কক্ষ সাধাৰণতে স্থিৰ বা পূৰ্ণ।</div>
+<div class="options"><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ঘ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 11</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> হাইড্ৰ'জেনক পৰ্যায়বৃত্ত সাৰণীত বিশেষ স্থান দিয়া হয়।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> ই গোট ১ৰ দৰে এটা ইলেক্ট্ৰন ত্যাগ কৰিব পাৰে আৰু গোট ১৭ৰ দৰে এটা ইলেক্ট্ৰন গ্ৰহণ কৰিব পাৰে।</div>
+<div class="options"><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (খ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 12</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> তৃতীয় পৰ্যায়ৰ মৌলসমূহৰ পৰমাণুত তিনিটা ইলেক্ট্ৰন কক্ষ থাকে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> পৰ্যায় সংখ্যাই পৰমাণুত থকা ইলেক্ট্ৰন কক্ষৰ সংখ্যাৰ সৈতে সম্পৰ্ক দেখুৱায়।</div>
+<div class="options"><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 13</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> গোট ১ৰ মৌলসমূহৰ সাধাৰণ যোজ্যতা ১।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> ইহঁতৰ বহিঃতম কক্ষত সাধাৰণতে এটা যোজ্য ইলেক্ট্ৰন থাকে।</div>
+<div class="options"><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (গ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 14</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> গোট ১৭ৰ মৌলসমূহৰ অধাতৱ ধৰ্ম প্ৰবল।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> ইহঁতে স্থিৰ ইলেক্ট্ৰনীয় বিন্যাস লাভ কৰিবলৈ এটা ইলেক্ট্ৰন গ্ৰহণ কৰাৰ প্ৰৱণতা দেখুৱায়।</div>
+<div class="options"><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (ঘ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article><article class="q-box"><span class="q-number">প্ৰশ্ন 15</span>
+<div class="statement assertion"><strong>অভিকথন (A):</strong> আধুনিক পৰ্যায়বৃত্ত সাৰণী মেণ্ডেলিভৰ সাৰণীৰ এটা গুৰুত্বপূৰ্ণ সীমাবদ্ধতা সমাধান কৰে।</div>
+<div class="statement reason"><strong>কাৰণ (R):</strong> আধুনিক সাৰণী পাৰমাণৱিক সংখ্যাৰ ওপৰত ভিত্তি কৰি গঠিত।</div>
+<div class="options"><div class="option">খ) A আৰু R দুয়োটা সঁচা, কিন্তু R-এ A-ৰ সঠিক ব্যাখ্যা নকৰে।</div><div class="option">ক) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div><div class="option">গ) A সঁচা, কিন্তু R মিছা।</div><div class="option">ঘ) A মিছা, কিন্তু R সঁচা।</div></div>
+<div class="answer"><strong>সঠিক উত্তৰ:</strong> (খ) A আৰু R দুয়োটা সঁচা আৰু R-এ A-ৰ সঠিক ব্যাখ্যা কৰে।</div>
+</article>
+</div>
+<footer class="site-footer"><h3>🎓 LET'S SCORE</h3><p>Learn • Understand • Practice • Score</p><p>SEBA HSLC 2027 • Class X Science</p><p>© 2026 LET'S SCORE</p></footer>
+</div>
+<script>
+const CORRECT_PASSWORD="letsscore207";
+function unlock(){
+const input=document.getElementById("pass"),error=document.getElementById("error");
+if(input.value.trim()===CORRECT_PASSWORD){
+document.getElementById("lock-screen").style.display="none";document.getElementById("content").style.display="block";error.textContent="";
+try{sessionStorage.setItem("letsScoreCh5AssertionUnlocked","true")}catch(e){}window.scrollTo(0,0);
+}else{error.textContent="❌ ভুল পাছৱৰ্ড! পুনৰ চেষ্টা কৰক।";input.value="";input.focus();}
+}
+document.addEventListener("DOMContentLoaded",function(){
+const input=document.getElementById("pass");document.getElementById("unlockButton").addEventListener("click",unlock);
+input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();unlock()}});
+try{if(sessionStorage.getItem("letsScoreCh5AssertionUnlocked")==="true"){document.getElementById("lock-screen").style.display="none";document.getElementById("content").style.display="block";}}catch(e){}
+});
+</script></body></html>
