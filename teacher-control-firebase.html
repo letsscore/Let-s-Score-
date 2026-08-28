@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher Control | Let's Score</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:#f8fafc;line-height:1.55}
+header{background:#0b1729;border-bottom:1px solid #263756;padding:16px}
+.header-inner{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.logo{color:#38bdf8;font-weight:900;font-size:22px;text-decoration:none}
+nav a{color:#dbeafe;text-decoration:none;margin-left:14px;font-size:13px}
+main{max-width:1050px;margin:auto;padding:25px 16px 60px}
+h1{font-size:clamp(28px,6vw,44px);margin:8px 0}
+h2{color:#bae6fd}
+.subtitle{color:#aebbd0}
+.card{background:#12213a;border:1px solid #2b3d5c;border-radius:18px;padding:20px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label{display:block;font-weight:700;margin:12px 0 6px}
+input,textarea,select{width:100%;padding:12px;border-radius:9px;border:1px solid #405575;background:#081426;color:#fff;font-size:15px}
+textarea{min-height:90px;resize:vertical}
+button{border:0;border-radius:9px;padding:11px 16px;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-weight:900;cursor:pointer;margin:7px 5px 0 0}
+button.danger{background:#b91c1c}
+button.secondary{background:#334155}
+.status{padding:10px 12px;border-radius:9px;margin-top:12px;background:#0b182b;border:1px solid #263756}
+.live{color:#86efac}.offline{color:#fca5a5}
+.question{border:1px solid #304362;background:#0d1b31;padding:15px;border-radius:13px;margin:12px 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.small{font-size:12px;color:#aebbd0}
+.result{border-top:1px solid #304362;padding:10px 0}
+.hidden{display:none}
+@media(max-width:600px){.row{grid-template-columns:1fr}.header-inner{align-items:flex-start}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-inner">
+<a class="logo" href="index.html">🎓 LET'S SCORE</a>
+<nav>
+<a href="index.html">Home</a>
+<a href="revisionary-test.html">Revisionary Test</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section>
+<div class="small">NEW WEBSITE • TEACHER CONTROL</div>
+<h1>Revisionary Test Control</h1>
+<p class="subtitle">Teacher dashboard for Class X, Class XI and Class XII only.</p>
+</section>
+
+<section class="card">
+<h2>1. Test Setup</h2>
+
+<div class="grid">
+<div>
+<label for="classSelect">Class</label>
+<select id="classSelect">
+<option value="classX">Class X</option>
+<option value="classXI">Class XI</option>
+<option value="classXII">Class XII</option>
+</select>
+</div>
+<div>
+<label for="testId">Test ID</label>
+<input id="testId" placeholder="e.g. weekly-test-01">
+</div>
+</div>
+
+<label for="testTitle">Test Title</label>
+<input id="testTitle" placeholder="e.g. Weekly Revision Test 1">
+
+<div class="row">
+<div>
+<label for="duration">Duration (minutes)</label>
+<input id="duration" type="number" min="1" value="30">
+</div>
+<div>
+<label for="maxMarks">Marks per question</label>
+<input id="maxMarks" type="number" min="1" value="1">
+</div>
+</div>
+
+<label for="instructions">Instructions</label>
+<textarea id="instructions" placeholder="Write instructions for students..."></textarea>
+</section>
+
+<section class="card">
+<h2>2. Questions</h2>
+<p class="small">Add MCQs. Select the correct option for every question.</p>
+<div id="questions"></div>
+<button type="button" onclick="addQuestion()">+ Add Question</button>
+</section>
+
+<section class="card">
+<h2>3. Test Status</h2>
+<div class="grid">
+<button onclick="saveTest()">Save Test</button>
+<button onclick="loadTest()" class="secondary">Load Test</button>
+<button onclick="setLive(true)">Make LIVE</button>
+<button onclick="setLive(false)" class="danger">Stop Test</button>
+</div>
+<div id="status" class="status">Firebase not connected yet.</div>
+</section>
+
+<section class="card">
+<h2>4. Student Results</h2>
+<p class="small">Results are loaded from the selected class and test.</p>
+<button onclick="loadResults()">Load Results</button>
+<div id="results"></div>
+</section>
+
+<section class="card">
+<h2>Database Structure</h2>
+<p class="small">The new system uses only these three class branches:</p>
+<pre style="white-space:pre-wrap;color:#bae6fd">revisionaryTests
+├── classX
+├── classXI
+└── classXII
+
+results
+├── classX
+├── classXI
+└── classXII</pre>
+<p class="small">Old Class VI–IX test pages are not referenced by this dashboard.</p>
+</section>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getDatabase, ref, set, get, update, push } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain: "lets-score-revisionary-test.firebaseapp.com",
+  databaseURL: "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId: "lets-score-revisionary-test",
+  storageBucket: "lets-score-revisionary-test.firebasestorage.app"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const statusBox=document.getElementById("status");
+statusBox.innerHTML='<span class="live">Firebase connected.</span>';
+
+window.addQuestion=function(data={}){
+  const box=document.createElement("div");
+  box.className="question";
+  box.innerHTML=`
+    <div class="row">
+      <div>
+        <label>Question</label>
+        <textarea class="qtext" placeholder="Enter question">${escapeHtml(data.question||"")}</textarea>
+      </div>
+      <div>
+        <label>Correct Option</label>
+        <select class="correct">
+          <option value="A" ${data.correct==="A"?"selected":""}>A</option>
+          <option value="B" ${data.correct==="B"?"selected":""}>B</option>
+          <option value="C" ${data.correct==="C"?"selected":""}>C</option>
+          <option value="D" ${data.correct==="D"?"selected":""}>D</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <input class="optA" placeholder="Option A" value="${escapeAttr(data.options?.A||"")}">
+      <input class="optB" placeholder="Option B" value="${escapeAttr(data.options?.B||"")}">
+      <input class="optC" placeholder="Option C" value="${escapeAttr(data.options?.C||"")}">
+      <input class="optD" placeholder="Option D" value="${escapeAttr(data.options?.D||"")}">
+    </div>
+    <button type="button" class="danger" onclick="this.parentElement.remove()">Remove</button>`;
+  document.getElementById("questions").appendChild(box);
+};
+
+function collectQuestions(){
+  return [...document.querySelectorAll(".question")].map((q,i)=>({
+    number:i+1,
+    question:q.querySelector(".qtext").value.trim(),
+    options:{
+      A:q.querySelector(".optA").value.trim(),
+      B:q.querySelector(".optB").value.trim(),
+      C:q.querySelector(".optC").value.trim(),
+      D:q.querySelector(".optD").value.trim()
+    },
+    correct:q.querySelector(".correct").value
+  }));
+}
+
+function getPath(){
+  const cls=document.getElementById("classSelect").value;
+  const id=document.getElementById("testId").value.trim();
+  if(!id) throw new Error("Enter a Test ID.");
+  return `revisionaryTests/${cls}/${id}`;
+}
+
+window.saveTest=async function(){
+  try{
+    const path=getPath();
+    const data={
+      class:document.getElementById("classSelect").value,
+      title:document.getElementById("testTitle").value.trim(),
+      duration:Number(document.getElementById("duration").value)||30,
+      marksPerQuestion:Number(document.getElementById("maxMarks").value)||1,
+      instructions:document.getElementById("instructions").value.trim(),
+      questions:collectQuestions(),
+      live:false,
+      updatedAt:Date.now()
+    };
+    await set(ref(db,path),data);
+    statusBox.innerHTML='<span class="live">Test saved successfully. It is NOT LIVE.</span>';
+  }catch(e){statusBox.textContent=e.message}
+};
+
+window.loadTest=async function(){
+  try{
+    const path=getPath();
+    const snap=await get(ref(db,path));
+    if(!snap.exists()){statusBox.textContent="Test not found.";return}
+    const d=snap.val();
+    document.getElementById("testTitle").value=d.title||"";
+    document.getElementById("duration").value=d.duration||30;
+    document.getElementById("maxMarks").value=d.marksPerQuestion||1;
+    document.getElementById("instructions").value=d.instructions||"";
+    document.getElementById("questions").innerHTML="";
+    Object.values(d.questions||{}).forEach(addQuestion);
+    statusBox.innerHTML=d.live?'<span class="live">Test loaded — LIVE.</span>':'Test loaded — NOT LIVE.';
+  }catch(e){statusBox.textContent=e.message}
+};
+
+window.setLive=async function(value){
+  try{
+    const path=getPath();
+    await update(ref(db,path),{live:value,updatedAt:Date.now()});
+    statusBox.innerHTML=value?'<span class="live">TEST IS NOW LIVE.</span>':'<span class="offline">TEST STOPPED.</span>';
+  }catch(e){statusBox.textContent=e.message}
+};
+
+window.loadResults=async function(){
+  const results=document.getElementById("results");
+  try{
+    const cls=document.getElementById("classSelect").value;
+    const id=document.getElementById("testId").value.trim();
+    if(!id){results.textContent="Enter a Test ID.";return}
+    const snap=await get(ref(db,`results/${cls}/${id}`));
+    if(!snap.exists()){results.textContent="No submitted results found.";return}
+    results.innerHTML="";
+    Object.entries(snap.val()).forEach(([key,r])=>{
+      const div=document.createElement("div");
+      div.className="result";
+      div.innerHTML=`<strong>${escapeHtml(r.name||"Student")}</strong>
+      — Score: ${escapeHtml(String(r.score??"—"))}
+      <div class="small">${escapeHtml(r.submittedAt?new Date(r.submittedAt).toLocaleString():"")}</div>`;
+      results.appendChild(div);
+    });
+  }catch(e){results.textContent=e.message}
+};
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function escapeAttr(s){return escapeHtml(s)}
+addQuestion();
+</script>
+</body>
+</html>
