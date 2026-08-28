@@ -1,106 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Class XI Test | Let's Score</title>
-<style>
-:root{--bg:#081426;--card:#14213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#0ea5e9;--violet:#6366f1;--red:#ef4444;--green:#22c55e}
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(135deg,#06101f,#101a35);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
-.wrap{max-width:900px;margin:auto;padding:28px 16px 60px}
-.brand{font-size:25px;font-weight:800;color:#38bdf8;margin-bottom:25px}
-.card{background:rgba(20,33,58,.96);border:1px solid var(--line);border-radius:24px;padding:24px;margin-top:18px}
-.center{text-align:center}
-.tag{color:#38bdf8;font-size:13px;letter-spacing:1.5px}
-h1{font-size:clamp(34px,8vw,56px);margin:10px 0}
-.muted{color:var(--muted);line-height:1.6}
-.status{display:inline-block;padding:8px 14px;border-radius:999px;font-weight:800;background:#3b1721;color:#fca5a5}
-.live{background:#10351f;color:#86efac}
-.btn{display:inline-block;margin-top:18px;padding:13px 20px;border-radius:13px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));font-weight:800}
-.notice{padding:16px;border-radius:14px;background:#101d33;border:1px solid var(--line);margin-top:18px}
-.question{padding:18px;border:1px solid var(--line);border-radius:16px;margin:15px 0;background:#101d33}
-.option{display:block;margin:10px 0;padding:10px;border-radius:10px;background:#172640}
-button{border:0;border-radius:13px;padding:13px 20px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));font-weight:800}
-.hidden{display:none}
-</style>
-</head>
-<body>
-<main class="wrap">
-<div class="brand">🎓 LET'S SCORE</div>
-
-<section id="loading" class="card center">
-  <p class="muted">Checking test status...</p>
-</section>
-
-<section id="locked" class="card center hidden">
-  <div class="tag">CLASS XI</div>
-  <h1>Revisionary Test</h1>
-  <div class="status">● TEST NOT STARTED</div>
-  <p class="muted">The teacher has not started this test yet.</p>
-  <a class="btn" href="revisionary-test.html">Back to Revisionary Tests</a>
-</section>
-
-<section id="test" class="hidden">
-  <div class="card center">
-    <div class="tag">CLASS XI • TEST LIVE</div>
-    <h1>Revisionary Test</h1>
-    <div class="status live">● TEST LIVE</div>
-    <p class="muted">This test has been opened by the teacher.</p>
-  </div>
-
-  <div class="card">
-    <h2>Question Paper</h2>
-    <div id="questions"></div>
-    <div class="notice">
-      <strong>Questions are not added yet.</strong>
-      <p class="muted">This page is ready. The required question paper can be added later without changing the Firebase teacher-control system.</p>
-    </div>
-    <a class="btn" href="revisionary-test.html">Back to Revisionary Tests</a>
-  </div>
-</section>
-</main>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Class XI Revisionary Test | Let's Score</title><style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#07111f,#0d1930);color:#f8fafc;font-family:Arial,sans-serif;line-height:1.6}
+.wrap{max-width:900px;margin:auto;padding:18px 16px 50px}.nav{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #263756}.nav a{color:#38bdf8;text-decoration:none;font-weight:800;margin-left:12px}
+.hero{text-align:center;padding:35px 0 25px}.muted{color:#b9c5d8}.card{background:#12213a;border:1px solid #263756;border-radius:18px;padding:20px;margin:16px 0}
+input{width:100%;padding:12px;border-radius:9px;border:1px solid #405575;background:#081426;color:#fff;margin:7px 0 14px}
+button,.btn{border:0;border-radius:9px;padding:11px 15px;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;text-decoration:none;cursor:pointer}
+.option{display:block;width:100%;text-align:left;background:#0d1b31;border:1px solid #304362;margin:9px 0;padding:13px;border-radius:10px;color:#fff}
+.option.selected{border-color:#38bdf8}.correct{border-color:#4ade80!important}.wrong{border-color:#fb7185!important}
+.status{padding:11px;border-radius:9px;background:#ffffff08}.live{color:#86efac}.closed{color:#fca5a5}
+.result{font-size:28px;font-weight:900}.review{margin:12px 0;padding:15px;border-radius:12px;background:#0d1b31;border:1px solid #304362}
+</style></head>
+<body><main class="wrap"><div class="nav"><a href="index.html">🎓 LET'S SCORE</a><span><a href="revisionary-test.html">Tests</a></span></div>
+<section class="hero"><div class="muted">REVISIONARY TEST • CLASS XI</div><h1 id="title">Loading test…</h1><div id="status" class="status">Checking test status…</div></section>
+<section id="login" class="card"><h2>Student Details</h2><label>Name</label><input id="name" placeholder="Enter your name"><button id="startBtn">Continue</button></section>
+<section id="test" class="card" style="display:none"></section>
+<section id="result" class="card" style="display:none"></section></main>
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getDatabase,ref,onValue} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
-import {firebaseConfig} from './firebase-config-module.js';
-
-initializeApp(firebaseConfig);
-const db=getDatabase();
-const className='XI';
-
-const loading=document.getElementById('loading');
-const locked=document.getElementById('locked');
-const test=document.getElementById('test');
-
-onValue(ref(db,'tests/'+className), snap => {
-  const live = snap.val()?.started === true;
-  loading.classList.add('hidden');
-  locked.classList.toggle('hidden', live);
-  test.classList.toggle('hidden', !live);
-}, error => {
-  loading.classList.add('hidden');
-  locked.classList.remove('hidden');
-  locked.querySelector('.muted').textContent='Unable to check test status. Please try again.';
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getDatabase,ref,onValue,push,set} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+const firebaseConfig=const firebaseConfig = {
+  apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain: "lets-score-revisionary-test.firebaseapp.com",
+  databaseURL: "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId: "lets-score-revisionary-test",
+  storageBucket: "lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId: "629595293837",
+  appId: "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+;
+const app=initializeApp(firebaseConfig),db=getDatabase(app);
+const CLASS="classxi";
+const testBox=document.getElementById("test"), statusBox=document.getElementById("status");
+let currentTest=null, answers={}, studentName="";
+onValue(ref(db,`revisionaryTests/${CLASS}`),snap=>{
+ const data=snap.val()||{};
+ const entries=Object.entries(data).filter(([_,v])=>v && v.live===true);
+ if(!entries.length){statusBox.innerHTML='<span class="closed">● TEST NOT LIVE</span>';document.getElementById("title").textContent="Revisionary Test";return;}
+ const [id,test]=entries[0]; currentTest={id,...test};
+ document.getElementById("title").textContent=test.title||`Class XI Revisionary Test`;
+ statusBox.innerHTML='<span class="live">● TEST LIVE</span>';
 });
-
-// Add the question paper later here.
-// Example structure:
-// const questions = [
-//   { question: "Question text", options: ["A", "B", "C", "D"], answer: 0 }
-// ];
-const questions = [];
-
-const qbox=document.getElementById('questions');
-if (questions.length) {
-  qbox.innerHTML=questions.map((q,i)=>`
-    <div class="question">
-      <strong>${i+1}. ${q.question}</strong>
-      ${q.options.map((o,j)=>`<label class="option"><input type="radio" name="q${i}"> ${o}</label>`).join('')}
-    </div>
-  `).join('');
+document.getElementById("startBtn").onclick=()=>{
+ studentName=document.getElementById("name").value.trim();
+ if(!studentName){alert("Please enter your name.");return;}
+ if(!currentTest){alert("Test is not live.");return;}
+ document.getElementById("login").style.display="none"; testBox.style.display="block"; renderTest();
+};
+function renderTest(){
+ const qs=Object.values(currentTest.questions||{});
+ testBox.innerHTML=`<h2>${escape(currentTest.title||"Revisionary Test")}</h2><p class="muted">${escape(currentTest.instructions||"")}</p><div id="questions"></div><button id="submit">Submit Test</button>`;
+ const qbox=document.getElementById("questions");
+ qs.forEach((q,i)=>{
+  const d=document.createElement("div");d.className="review";
+  d.innerHTML=`<strong>${i+1}. ${escape(q.question)}</strong>`;
+  ["A","B","C","D"].forEach(o=>{
+   const b=document.createElement("button");b.className="option";b.textContent=`${o}. ${q.options?.[o]||""}`;
+   b.onclick=()=>{answers[i]=o;d.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");};
+   d.appendChild(b);
+  });qbox.appendChild(d);
+ });
+ document.getElementById("submit").onclick=submitTest;
 }
-</script>
-</body>
-</html>
+async function submitTest(){
+ if(!currentTest)return;
+ const qs=Object.values(currentTest.questions||{});let score=0,wrong=[];
+ qs.forEach((q,i)=>{if(answers[i]===q.correct)score++;else wrong.push({number:i+1,question:q.question,yourAnswer:answers[i]||"Not answered",correct:q.correct});});
+ const resultRef=push(ref(db,`results/${CLASS}/${currentTest.id}`));
+ const result={name:studentName,score,maxMarks:qs.length,wrongAnswers:wrong,submittedAt:Date.now()};
+ try{await set(resultRef,result);showResult(result,qs);}catch(e){alert("Could not submit result. Check Firebase database rules.");}
+}
+function showResult(r,qs){
+ testBox.style.display="none";const box=document.getElementById("result");box.style.display="block";
+ box.innerHTML=`<h2>Test Submitted</h2><div class="result">${r.score} / ${r.maxMarks}</div><p class="muted">${r.wrongAnswers.length} wrong / unanswered</p><h3>Wrong Answers</h3>`;
+ if(!r.wrongAnswers.length)box.innerHTML+="<p class='live'>Excellent! All answers are correct.</p>";
+ r.wrongAnswers.forEach(w=>{box.innerHTML+=`<div class="review"><strong>Q${w.number}. ${escape(w.question)}</strong><br>Your answer: ${escape(w.yourAnswer)}<br>Correct answer: ${escape(w.correct)}</div>`;});
+}
+function escape(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+</script></body></html>

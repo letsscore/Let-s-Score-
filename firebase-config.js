@@ -1,6 +1,3 @@
-// Firebase configuration for the Let's Score web app.
-// This file contains only Firebase web configuration values; never put
-// Firebase Admin/service-account credentials here.
 const firebaseConfig = {
   apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
   authDomain: "lets-score-revisionary-test.firebaseapp.com",
