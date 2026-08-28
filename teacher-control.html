@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher Control | Let's Score</title>
+<style>
+:root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--green:#4ade80;--red:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.6}.wrap{max-width:1000px;margin:auto;padding:0 16px 50px}
+nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}.navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:13px;font-weight:700;font-size:13px}
+.hero{text-align:center;padding:45px 0 28px}.kicker{color:var(--blue);font-weight:900;letter-spacing:1.3px;font-size:13px}.hero h1{font-size:clamp(34px,7vw,55px);margin:8px 0}.muted{color:var(--muted)}
+.card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}.class-card{background:#ffffff05;border:1px solid #ffffff12;border-radius:16px;padding:18px}.class-card h2{margin:0 0 6px}.status{font-weight:900;margin:8px 0}.live{color:var(--green)}.off{color:#94a3b8}
+button{border:0;border-radius:10px;padding:11px 16px;color:#fff;font-weight:900;cursor:pointer;margin:5px 5px 0 0}.start{background:#16a34a}.stop{background:#dc2626}.disabled{opacity:.45;cursor:not-allowed}.message{padding:13px;border-radius:11px;background:#ffffff08;color:var(--muted);margin-top:15px}.warning{color:#fbbf24}
+footer{border-top:1px solid #ffffff14;padding:25px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav><div class="navin">
+<a class="logo" href="index.html">🎓 LET'S SCORE</a>
+<div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="revisionary-test.html">Tests</a></div>
+</div></nav>
+
+<main class="wrap">
+<section class="hero">
+<div class="kicker">TEACHER CONTROL</div>
+<h1>Revisionary Test Control</h1>
+<p class="muted">Start or stop the test for each class.</p>
+</section>
+
+<section class="card">
+<h2>🎓 Class Test Control</h2>
+<p class="muted">The controls below update the Firebase <code>tests</code> collection used by the student Revisionary Test page.</p>
+<p class="warning"><strong>Important:</strong> only use this page as the teacher. Keep your Firebase security rules configured so students cannot change test status.</p>
+<div id="grid" class="grid"></div>
+<div id="message" class="message">Connecting to Firebase…</div>
+</section>
+</main>
+
+<footer>LET'S SCORE<br>Teacher Control • Revisionary Tests</footer>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getDatabase,ref,onValue,set} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain:"lets-score-revisionary-test.firebaseapp.com",
+  databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId:"lets-score-revisionary-test",
+  storageBucket:"lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId:"629595293837",
+  appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const classes=["VI","VII","VIII","IX","X","XI","XII"];
+const grid=document.getElementById("grid");
+const message=document.getElementById("message");
+
+function render(data){
+  grid.innerHTML=classes.map(c=>{
+    const live=data?.[c]?.started===true;
+    return `
+      <article class="class-card">
+        <h2>Class ${c}</h2>
+        <div class="status ${live?"live":"off"}">
+          ${live?"● TEST LIVE":"● TEST NOT STARTED"}
+        </div>
+        <button class="start" data-class="${c}" data-action="start" ${live?"disabled class='disabled'":""}>
+          Start Test
+        </button>
+        <button class="stop" data-class="${c}" data-action="stop" ${live?"":"disabled class='disabled'"}>
+          Stop Test
+        </button>
+      </article>`;
+  }).join("");
+
+  grid.querySelectorAll("button").forEach(btn=>{
+    btn.addEventListener("click",async()=>{
+      const c=btn.dataset.class;
+      const action=btn.dataset.action;
+      if(action==="start"){
+        if(!confirm("Start the test for Class "+c+"?")) return;
+      }else{
+        if(!confirm("Stop the test for Class "+c+"?")) return;
+      }
+      try{
+        await set(ref(db,"tests/"+c),{started:action==="start"});
+        message.textContent="Class "+c+" test status updated successfully.";
+      }catch(error){
+        console.error(error);
+        message.textContent="Could not update the test. Check Firebase permissions.";
+      }
+    });
+  });
+}
+
+onValue(ref(db,"tests"),snap=>{
+  render(snap.val()||{});
+  message.textContent="Firebase connected. Select a class to control its test.";
+},error=>{
+  console.error(error);
+  message.textContent="Firebase connection failed. Check configuration and database rules.";
+});
+</script>
+</body>
+</html>
