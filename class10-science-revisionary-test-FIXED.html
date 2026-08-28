@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Revisionary Test | Let's Score</title>
+<style>
+:root{--bg:#081426;--card:#14213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#06101f,#101a35);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:28px 16px 50px}
+.brand{font-size:25px;font-weight:800;color:#38bdf8}
+.hero{text-align:center;padding:55px 0 30px}
+.tag{color:#38bdf8;font-size:13px;letter-spacing:1.5px}
+.hero h1{font-size:clamp(38px,8vw,65px);margin:10px 0}
+.muted{color:var(--muted);line-height:1.5}
+.card{background:rgba(20,33,58,.95);border:1px solid var(--line);border-radius:24px;padding:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.test{background:#101d33;border:1px solid var(--line);border-radius:18px;padding:20px}
+.test h2{margin:0 0 8px}
+.status{font-weight:800;color:#fca5a5}
+.live{color:#86efac}
+.btn{display:inline-block;margin-top:16px;padding:12px 18px;border-radius:12px;text-decoration:none;color:white;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:800}
+.disabled{opacity:.45;pointer-events:none}
+.error{color:#fbbf24;font-weight:700}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="brand">🎓 LET'S SCORE</div>
+
+<section class="hero">
+<div class="tag">TEACHER-CONTROLLED • CLASSES X–XII</div>
+<h1>Revisionary Test</h1>
+<p class="muted">Choose your class. A test becomes accessible only when the teacher starts it.</p>
+</section>
+
+<section class="card">
+<div id="grid" class="grid"></div>
+</section>
+</main>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import {getDatabase,ref,onValue} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
+
+const firebaseConfig={
+apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+authDomain:"lets-score-revisionary-test.firebaseapp.com",
+databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+projectId:"lets-score-revisionary-test",
+storageBucket:"lets-score-revisionary-test.firebasestorage.app",
+messagingSenderId:"629595293837",
+appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const classes=['X','XI','XII'];
+const grid=document.getElementById('grid');
+
+function render(classesData){
+  grid.innerHTML=classes.map(c=>{
+    const live=classesData?.[c]?.started===true;
+    const links={X:'class10-science-test.html',XI:'class11-science-test.html',XII:'class12-science-test.html'};
+    return `<article class="test">
+      <h2>Class ${c}</h2>
+      <div class="status ${live?'live':''}">${live?'● TEST LIVE':'● TEST NOT STARTED'}</div>
+      ${live
+        ?`<a class="btn" href="${links[c]}">Enter Test</a>`
+        :`<a class="btn disabled" href="#">Test Locked</a>`}
+    </article>`;
+  }).join('');
+}
+
+render({});
+
+onValue(ref(db,'tests'), snap=>{
+  render(snap.val()||{});
+}, error=>{
+  console.error(error);
+  grid.innerHTML=`<article class="test"><h2>Revisionary Test</h2><div class="error">Firebase status load failed.</div><p class="muted">Please refresh the page.</p></article>`;
+});
+</script>
+</body>
+</html>
