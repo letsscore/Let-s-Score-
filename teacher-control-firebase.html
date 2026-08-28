@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Score — Teacher Control</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:#f8fafc}
+.wrap{max-width:720px;margin:auto;padding:20px}
+.card{background:#111d31;border:1px solid #ffffff18;border-radius:18px;padding:20px;margin:15px 0;box-shadow:0 10px 28px #0005}
+h1{margin:0 0 8px;color:#7dd3fc}
+h2{color:#93c5fd}
+label{display:block;margin:12px 0 6px;font-weight:700}
+input,select{width:100%;padding:12px;border-radius:9px;border:1px solid #ffffff25;background:#020617;color:#fff}
+button{width:100%;padding:13px;margin-top:10px;border:0;border-radius:10px;color:#fff;background:#2563eb;font-weight:800;font-size:16px;cursor:pointer}
+button.stop{background:#dc2626}
+button.secondary{background:#475569}
+.status{padding:15px;border-radius:12px;background:#ffffff08;margin:12px 0;font-size:18px;font-weight:800}
+.live{color:#4ade80}.off{color:#f87171}
+.msg{margin-top:10px;color:#fbbf24;min-height:24px}
+.hidden{display:none}
+.small{color:#cbd5e1;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card" id="loginCard">
+<h1>Let's Score</h1>
+<h2>Teacher Control</h2>
+<p class="small">Firebase Authentication is required. Use the teacher account created in Firebase Authentication.</p>
+
+<label>Email</label>
+<input id="email" type="email" autocomplete="username" placeholder="Teacher email">
+
+<label>Password</label>
+<input id="password" type="password" autocomplete="current-password" placeholder="Password">
+
+<button id="loginBtn">Teacher Login</button>
+<div class="msg" id="loginMsg"></div>
+</div>
+
+<div class="card hidden" id="controlCard">
+<h1>Teacher Control Panel</h1>
+
+<div class="status">
+Status:
+<span id="statusText" class="off">Loading...</span>
+</div>
+
+<label>Test</label>
+<select id="testId">
+<option value="class10-science-revisionary-test">Class 10 Science — 50 Marks</option>
+</select>
+
+<button id="startBtn">START TEST</button>
+<button id="stopBtn" class="stop">STOP TEST</button>
+<button id="logoutBtn" class="secondary">LOG OUT</button>
+
+<div class="msg" id="controlMsg"></div>
+
+<p class="small">
+When START TEST is pressed, Firebase changes the live status.
+The student page can then read this status and allow the test.
+</p>
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+/* Your existing Firebase project */
+const firebaseConfig = {
+  apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain: "lets-score-revisionary-test.firebaseapp.com",
+  databaseURL: "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId: "lets-score-revisionary-test",
+  storageBucket: "lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId: "629595293837",
+  appId: "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const loginCard = document.getElementById("loginCard");
+const controlCard = document.getElementById("controlCard");
+const loginMsg = document.getElementById("loginMsg");
+const controlMsg = document.getElementById("controlMsg");
+const statusText = document.getElementById("statusText");
+const testId = document.getElementById("testId");
+
+document.getElementById("loginBtn").onclick = async () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    loginMsg.textContent = "Enter teacher email and password.";
+    return;
+  }
+
+  loginMsg.textContent = "Logging in...";
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    loginMsg.textContent = "";
+  } catch (error) {
+    console.error(error);
+    loginMsg.textContent = "Login failed. Check the teacher email/password and Firebase Authentication.";
+  }
+};
+
+document.getElementById("startBtn").onclick = async () => {
+  const id = testId.value;
+  controlMsg.textContent = "Starting test...";
+  try {
+    await set(ref(db, "examControl/" + id), {
+      active: true,
+      title: "Class 10 Science — 50 Marks",
+      startedAt: Date.now()
+    });
+    controlMsg.textContent = "Test started successfully.";
+  } catch (error) {
+    console.error(error);
+    controlMsg.textContent = "Could not start test. Check Firebase Realtime Database Rules.";
+  }
+};
+
+document.getElementById("stopBtn").onclick = async () => {
+  const id = testId.value;
+  if (!confirm("Stop this test for students?")) return;
+
+  controlMsg.textContent = "Stopping test...";
+  try {
+    await set(ref(db, "examControl/" + id), {
+      active: false,
+      title: "Class 10 Science — 50 Marks",
+      stoppedAt: Date.now()
+    });
+    controlMsg.textContent = "Test stopped.";
+  } catch (error) {
+    console.error(error);
+    controlMsg.textContent = "Could not stop test. Check Firebase Realtime Database Rules.";
+  }
+};
+
+document.getElementById("logoutBtn").onclick = () => signOut(auth);
+
+function watchExam(id) {
+  onValue(ref(db, "examControl/" + id), snap => {
+    const data = snap.val();
+    if (data && data.active === true) {
+      statusText.textContent = "LIVE / STARTED";
+      statusText.className = "live";
+    } else {
+      statusText.textContent = "STOPPED";
+      statusText.className = "off";
+    }
+  });
+}
+
+testId.onchange = () => watchExam(testId.value);
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    loginCard.classList.add("hidden");
+    controlCard.classList.remove("hidden");
+    watchExam(testId.value);
+  } else {
+    loginCard.classList.remove("hidden");
+    controlCard.classList.add("hidden");
+  }
+});
+</script>
+</body>
+</html>
