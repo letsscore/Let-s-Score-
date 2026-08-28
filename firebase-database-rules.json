@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "tests": {
+      ".read": true,
+      ".write": "auth != null && auth.uid === 'f4042a77-29dd-40bb-bc78-4938dbb96312'"
+    }
+  }
+}

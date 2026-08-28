@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher Control | Let's Score</title>
+<style>
+:root{--bg:#081426;--card:#14213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#0ea5e9;--violet:#6366f1;--red:#ef4444;--green:#22c55e}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#06101f,#101a35);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}.wrap{max-width:1000px;margin:auto;padding:28px 16px 50px}.brand{font-size:25px;font-weight:800;color:#38bdf8;margin-bottom:25px}.card{background:rgba(20,33,58,.95);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 12px 35px #0005}.login{max-width:520px;margin:60px auto}.tag{color:#38bdf8;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}.title{font-size:38px;margin:8px 0 10px}.muted{color:var(--muted);line-height:1.5}label{display:block;margin:18px 0 7px;color:#dbeafe;font-weight:700}input{width:100%;padding:15px;border:1px solid #334155;border-radius:13px;background:#030817;color:white;font-size:16px}button{border:0;border-radius:13px;padding:13px 18px;font-weight:800;color:white;background:linear-gradient(135deg,var(--blue),var(--violet));cursor:pointer}button.secondary{background:#26344f}button.danger{background:#7f1d1d}.full{width:100%;margin-top:20px}.error{margin-top:15px;padding:12px;border-radius:12px;background:#3b1721;border:1px solid #7f1d1d;color:#fecaca;display:none}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.test{background:#101d33;border:1px solid var(--line);border-radius:18px;padding:18px}.test h3{margin:0 0 8px;font-size:23px}.status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;font-size:13px;font-weight:800;background:#3b1721;color:#fca5a5}.status.live{background:#10351f;color:#86efac}.actions{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}.hidden{display:none}.info{margin-top:15px;color:#94a3b8;font-size:13px}
+</style>
+</head><body><main class="wrap">
+<div class="brand">🎓 LET'S SCORE</div>
+<section id="login" class="card login"><div class="tag">Secure Teacher Access</div><div class="title">Teacher Control</div><p class="muted">Sign in with your Firebase Email/Password account. Only the authorized teacher account can change test status.</p><form id="loginForm"><label>Email</label><input id="email" type="email" autocomplete="username" required><label>Password</label><input id="password" type="password" autocomplete="current-password" required><button class="full" type="submit">Sign In</button></form><div id="loginError" class="error"></div></section>
+<section id="dashboard" class="hidden"><div class="top"><div><div class="tag">Teacher Dashboard</div><h1 style="margin:6px 0">Revisionary Test Control</h1><div id="userEmail" class="muted"></div></div><button id="logout" class="secondary">Sign Out</button></div><div class="card"><p class="muted">Start or stop a revisionary test. Changes are saved to Firebase Realtime Database and appear on the student portal.</p><div id="grid" class="grid"></div><div class="info">Authorized teacher UID is enforced by Firebase Database Rules.</div></div></section>
+</main>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+import {getDatabase,ref,onValue,set} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
+import {firebaseConfig} from './firebase-config-module.js';
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+const TEACHER_UID='f4042a77-29dd-40bb-bc78-4938dbb96312';
+const classes=['VI','VII','VIII','IX','X','XI','XII'];
+const login=document.getElementById('login'),dash=document.getElementById('dashboard'),grid=document.getElementById('grid'),err=document.getElementById('loginError');
+function showError(m){err.textContent=m;err.style.display='block'}
+function render(data={}){grid.innerHTML=classes.map(c=>{const live=data[c]?.started===true;return `<article class="test"><h3>Class ${c}</h3><span class="status ${live?'live':''}">${live?'● TEST LIVE':'● TEST NOT STARTED'}</span><div class="actions"><button data-c="${c}" data-v="true">${live?'Restart Test':'Start Test'}</button><button class="danger" data-c="${c}" data-v="false" ${live?'':'disabled'}>Stop Test</button></div></article>`}).join('');grid.querySelectorAll('button').forEach(b=>b.onclick=async()=>{const c=b.dataset.c,v=b.dataset.v==='true';try{await set(ref(db,'tests/'+c),{started:v,updatedAt:Date.now()});}catch(e){alert('Could not save: '+e.message)}})}
+document.getElementById('loginForm').onsubmit=async e=>{e.preventDefault();err.style.display='none';try{await signInWithEmailAndPassword(auth,email.value.trim(),password.value)}catch(e){showError('Sign in failed: '+e.message)}};
+document.getElementById('logout').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,user=>{if(!user){login.classList.remove('hidden');dash.classList.add('hidden');return}if(user.uid!==TEACHER_UID){signOut(auth);showError('This account is not authorized as the teacher.');return}login.classList.add('hidden');dash.classList.remove('hidden');document.getElementById('userEmail').textContent=user.email||'';onValue(ref(db,'tests'),snap=>render(snap.val()||{}),e=>alert('Database error: '+e.message));});
+</script></body></html>
