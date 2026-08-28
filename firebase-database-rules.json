@@ -2,7 +2,11 @@
   "rules": {
     "tests": {
       ".read": true,
-      ".write": "auth != null && auth.uid === 'f4042a77-29dd-40bb-bc78-4938dbb96312'"
+      ".write": "auth != null && auth.token.email == 'abidurhussain2@gmail.com'"
+    },
+    "results": {
+      ".read": "auth != null && auth.token.email == 'abidurhussain2@gmail.com'",
+      ".write": "auth != null"
     }
   }
 }

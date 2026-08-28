@@ -18,12 +18,12 @@ import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from 'htt
 import {getDatabase,ref,onValue,set} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
 import {firebaseConfig} from './firebase-config-module.js';
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
-const TEACHER_UID='f4042a77-29dd-40bb-bc78-4938dbb96312';
+const TEACHER_EMAIL='abidurhussain2@gmail.com';
 const classes=['VI','VII','VIII','IX','X','XI','XII'];
 const login=document.getElementById('login'),dash=document.getElementById('dashboard'),grid=document.getElementById('grid'),err=document.getElementById('loginError');
 function showError(m){err.textContent=m;err.style.display='block'}
 function render(data={}){grid.innerHTML=classes.map(c=>{const live=data[c]?.started===true;return `<article class="test"><h3>Class ${c}</h3><span class="status ${live?'live':''}">${live?'● TEST LIVE':'● TEST NOT STARTED'}</span><div class="actions"><button data-c="${c}" data-v="true">${live?'Restart Test':'Start Test'}</button><button class="danger" data-c="${c}" data-v="false" ${live?'':'disabled'}>Stop Test</button></div></article>`}).join('');grid.querySelectorAll('button').forEach(b=>b.onclick=async()=>{const c=b.dataset.c,v=b.dataset.v==='true';try{await set(ref(db,'tests/'+c),{started:v,updatedAt:Date.now()});}catch(e){alert('Could not save: '+e.message)}})}
 document.getElementById('loginForm').onsubmit=async e=>{e.preventDefault();err.style.display='none';try{await signInWithEmailAndPassword(auth,email.value.trim(),password.value)}catch(e){showError('Sign in failed: '+e.message)}};
 document.getElementById('logout').onclick=()=>signOut(auth);
-onAuthStateChanged(auth,user=>{if(!user){login.classList.remove('hidden');dash.classList.add('hidden');return}if(user.uid!==TEACHER_UID){signOut(auth);showError('This account is not authorized as the teacher.');return}login.classList.add('hidden');dash.classList.remove('hidden');document.getElementById('userEmail').textContent=user.email||'';onValue(ref(db,'tests'),snap=>render(snap.val()||{}),e=>alert('Database error: '+e.message));});
+onAuthStateChanged(auth,user=>{if(!user){login.classList.remove('hidden');dash.classList.add('hidden');return}if((user.email||'').toLowerCase()!==TEACHER_EMAIL){signOut(auth);showError('This account is not authorized as the teacher.');return}login.classList.add('hidden');dash.classList.remove('hidden');document.getElementById('userEmail').textContent=user.email||'';onValue(ref(db,'tests'),snap=>render(snap.val()||{}),e=>alert('Database error: '+e.message));});
 </script></body></html>
