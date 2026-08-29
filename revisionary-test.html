@@ -2,43 +2,269 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Revisionary Test | Let's Score</title>
+
 <style>
-:root{--bg:#081426;--card:#14213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8}
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(135deg,#06101f,#101a35);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
-.wrap{max-width:1000px;margin:auto;padding:28px 16px 50px}
-.brand{font-size:25px;font-weight:800;color:#38bdf8}
-.hero{text-align:center;padding:55px 0 30px}
-.tag{color:#38bdf8;font-size:13px;letter-spacing:1.5px}
-.hero h1{font-size:clamp(38px,8vw,65px);margin:10px 0}
-.muted{color:var(--muted);line-height:1.5}
-.card{background:rgba(20,33,58,.95);border:1px solid var(--line);border-radius:24px;padding:22px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.test{background:#101d33;border:1px solid var(--line);border-radius:18px;padding:20px}
-.test h2{margin:0 0 8px}
-.status{font-weight:800;color:#fca5a5}
-.live{color:#86efac}
-.btn{display:inline-block;margin-top:16px;padding:12px 18px;border-radius:12px;text-decoration:none;color:white;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:800}
-.disabled{opacity:.45;pointer-events:none}
-.error{color:#fbbf24;font-weight:700}
+
+:root{
+    --bg:#071426;
+    --card:#142642;
+    --card2:#0d1d34;
+    --line:#29415f;
+    --text:#f8fafc;
+    --muted:#b9c7da;
+    --blue:#0ea5e9;
+    --indigo:#6366f1;
+    --green:#22c55e;
+    --red:#ef4444;
+    --gold:#fbbf24;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:linear-gradient(135deg,#06101f,#101d36);
+    color:var(--text);
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+}
+
+.wrap{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.brand{
+    font-size:25px;
+    font-weight:800;
+    color:#38bdf8;
+}
+
+.hero{
+    text-align:center;
+    padding:55px 0 35px;
+}
+
+.kicker{
+    color:#38bdf8;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.hero h1{
+    font-size:clamp(42px,9vw,70px);
+    margin:12px 0;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.6;
+    max-width:720px;
+    margin:auto;
+}
+
+.card{
+    background:rgba(20,38,66,.97);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:25px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+}
+
+.test-card{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px;
+}
+
+.test-card h2{
+    margin:0 0 12px;
+    font-size:27px;
+}
+
+.status{
+    font-weight:800;
+    font-size:18px;
+    color:#f87171;
+}
+
+.status.live{
+    color:#4ade80;
+}
+
+.status.loading{
+    color:#fbbf24;
+}
+
+.test-name{
+    color:var(--muted);
+    margin-top:12px;
+    line-height:1.5;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:18px;
+    padding:13px 20px;
+    border-radius:12px;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(135deg,var(--blue),var(--indigo));
+    font-weight:800;
+}
+
+.locked{
+    opacity:.45;
+    pointer-events:none;
+}
+
+.error{
+    color:#fbbf24;
+    font-weight:800;
+    line-height:1.5;
+}
+
+.info{
+    margin-top:20px;
+    padding:18px;
+    border-radius:15px;
+    background:#09182c;
+    color:var(--muted);
+    line-height:1.6;
+}
+
+footer{
+    border-top:1px solid #ffffff14;
+    text-align:center;
+    color:var(--muted);
+    padding:28px 10px;
+    margin-top:40px;
+}
+
+@media(max-width:600px){
+
+    .wrap{
+        width:92%;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .hero{
+        padding-top:40px;
+    }
+
+    .test-card{
+        padding:20px;
+    }
+
+    .btn{
+        width:100%;
+        text-align:center;
+    }
+}
+
 </style>
 </head>
+
+
 <body>
-<main class="wrap">
-<div class="brand">🎓 LET'S SCORE</div>
 
-<section class="hero">
-<div class="tag">TEACHER-CONTROLLED • CLASSES X–XII</div>
-<h1>Revisionary Test</h1>
-<p class="muted">Choose your class. A test becomes accessible only when the teacher starts it.</p>
-</section>
+<div class="wrap">
 
-<section class="card">
-<div id="grid" class="grid"></div>
-</section>
-</main>
+    <div class="brand">
+        🎓 LET'S SCORE
+    </div>
+
+
+    <section class="hero">
+
+        <div class="kicker">
+            TEACHER-CONTROLLED • CLASSES X–XII
+        </div>
+
+        <h1>
+            Revisionary Test
+        </h1>
+
+        <p>
+            Choose your class. A test becomes accessible only when
+            the teacher starts it.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <div id="grid" class="grid">
+
+            <!-- Loading cards -->
+
+            <article class="test-card">
+                <h2>Class X</h2>
+                <div class="status loading">
+                    ● CHECKING TEST STATUS...
+                </div>
+            </article>
+
+            <article class="test-card">
+                <h2>Class XI</h2>
+                <div class="status loading">
+                    ● CHECKING TEST STATUS...
+                </div>
+            </article>
+
+            <article class="test-card">
+                <h2>Class XII</h2>
+                <div class="status loading">
+                    ● CHECKING TEST STATUS...
+                </div>
+            </article>
+
+        </div>
+
+
+        <div class="info">
+
+            <strong>How it works</strong><br><br>
+
+            The teacher controls when each revisionary test is
+            available. A class can enter its test only after the
+            teacher starts it.
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<footer>
+
+    <strong>LET'S SCORE</strong><br>
+
+    Learn • Revise • Practise • Score
+
+</footer>
+
+
 
 <script type="module">
 
@@ -53,9 +279,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
 const firebaseConfig = {
 
-    apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+    apiKey:
+        "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
 
     authDomain:
         "lets-score-revisionary-test.firebaseapp.com",
@@ -74,38 +305,41 @@ const firebaseConfig = {
 
     appId:
         "1:629595293837:web:b0fd9e83f22651cd577ac4"
+
 };
 
 
-const app = initializeApp(firebaseConfig);
+/* =========================================
+   INITIALISE FIREBASE
+========================================= */
 
-const db = getDatabase(app);
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getDatabase(app);
 
 
-/*
-   NEW WEBSITE TEST CONTROL
-
-   Class X  -> test-x.html
-   Class XI -> test-xi.html
-   Class XII -> test-xii.html
-*/
+/* =========================================
+   TEST CONFIGURATION
+========================================= */
 
 const tests = {
 
-    classX: {
-        name: "Class X",
+    X: {
+        title: "Class X",
         path: "examControl/classX",
         page: "test-x.html"
     },
 
-    classXI: {
-        name: "Class XI",
+    XI: {
+        title: "Class XI",
         path: "examControl/classXI",
         page: "test-xi.html"
     },
 
-    classXII: {
-        name: "Class XII",
+    XII: {
+        title: "Class XII",
         path: "examControl/classXII",
         page: "test-xii.html"
     }
@@ -113,82 +347,307 @@ const tests = {
 };
 
 
-function checkTestStatus(classKey, callback) {
+const grid =
+    document.getElementById("grid");
 
-    const test = tests[classKey];
+
+/* =========================================
+   RENDER ONE TEST
+========================================= */
+
+function renderTest(className, live) {
+
+    const test =
+        tests[className];
 
     if (!test) {
-        callback(false, "Invalid class.");
-        return;
+        return "";
     }
 
-    const testRef = ref(db, test.path);
 
-    onValue(
-        testRef,
+    if (live) {
 
-        snapshot => {
+        return `
 
-            const data = snapshot.val();
+        <article class="test-card">
 
-            const live =
-                data &&
-                data.live === true;
+            <h2>${test.title}</h2>
 
-            callback(live, null);
+            <div class="status live">
+                ● TEST LIVE
+            </div>
 
-        },
+            <div class="test-name">
+                Your teacher has started this test.
+            </div>
 
-        error => {
+            <a
+                class="btn"
+                href="${test.page}"
+            >
+                ▶ ENTER TEST
+            </a>
 
-            console.error(
-                "Firebase status error:",
-                error
-            );
+        </article>
 
-            callback(
-                false,
-                "Firebase status load failed."
-            );
+        `;
 
-        }
-    );
+    }
+
+
+    return `
+
+    <article class="test-card">
+
+        <h2>${test.title}</h2>
+
+        <div class="status">
+            ● TEST NOT STARTED
+        </div>
+
+        <div class="test-name">
+            The test will become available when the
+            teacher starts it.
+        </div>
+
+        <a
+            class="btn locked"
+            href="#"
+        >
+            TEST LOCKED
+        </a>
+
+    </article>
+
+    `;
+
 }
 
 
-/*
-   EXAMPLE:
-   Check Class X
-*/
+/* =========================================
+   RENDER ALL TESTS
+========================================= */
 
-checkTestStatus(
-    "classX",
-    (live, error) => {
+function renderAll(statusData) {
 
-        if (error) {
+    grid.innerHTML =
 
-            console.error(error);
+        renderTest(
+            "X",
+            statusData.X === true
+        )
 
-            return;
-        }
+        +
 
-        if (live) {
+        renderTest(
+            "XI",
+            statusData.XI === true
+        )
 
-            console.log(
-                "Class X test is LIVE"
-            );
+        +
 
-        } else {
+        renderTest(
+            "XII",
+            statusData.XII === true
+        );
 
-            console.log(
-                "Class X test is NOT LIVE"
-            );
+}
 
-        }
+
+/* =========================================
+   INITIAL STATE
+========================================= */
+
+renderAll({
+    X:false,
+    XI:false,
+    XII:false
+});
+
+
+/* =========================================
+   LISTEN TO FIREBASE
+========================================= */
+
+const paths = {
+
+    X:
+        ref(db, "examControl/classX"),
+
+    XI:
+        ref(db, "examControl/classXI"),
+
+    XII:
+        ref(db, "examControl/classXII")
+
+};
+
+
+const status = {
+
+    X:false,
+    XI:false,
+    XII:false
+
+};
+
+
+let loaded = {
+
+    X:false,
+    XI:false,
+    XII:false
+
+};
+
+
+function updatePage() {
+
+    renderAll(status);
+
+}
+
+
+/* =========================================
+   CLASS X
+========================================= */
+
+onValue(
+
+    paths.X,
+
+    snapshot => {
+
+        const data =
+            snapshot.val();
+
+        status.X =
+            data &&
+            data.live === true;
+
+        loaded.X = true;
+
+        updatePage();
+
+    },
+
+    error => {
+
+        console.error(
+            "Class X Firebase error:",
+            error
+        );
+
+        showFirebaseError();
 
     }
+
 );
 
+
+/* =========================================
+   CLASS XI
+========================================= */
+
+onValue(
+
+    paths.XI,
+
+    snapshot => {
+
+        const data =
+            snapshot.val();
+
+        status.XI =
+            data &&
+            data.live === true;
+
+        loaded.XI = true;
+
+        updatePage();
+
+    },
+
+    error => {
+
+        console.error(
+            "Class XI Firebase error:",
+            error
+        );
+
+        showFirebaseError();
+
+    }
+
+);
+
+
+/* =========================================
+   CLASS XII
+========================================= */
+
+onValue(
+
+    paths.XII,
+
+    snapshot => {
+
+        const data =
+            snapshot.val();
+
+        status.XII =
+            data &&
+            data.live === true;
+
+        loaded.XII = true;
+
+        updatePage();
+
+    },
+
+    error => {
+
+        console.error(
+            "Class XII Firebase error:",
+            error
+        );
+
+        showFirebaseError();
+
+    }
+
+);
+
+
+/* =========================================
+   ERROR DISPLAY
+========================================= */
+
+function showFirebaseError() {
+
+    grid.innerHTML = `
+
+        <article class="test-card">
+
+            <h2>Revisionary Test</h2>
+
+            <div class="error">
+                Firebase connection failed.
+            </div>
+
+            <div class="test-name">
+                Please refresh the page. If the problem
+                continues, check the Firebase database
+                rules.
+            </div>
+
+        </article>
+
+    `;
+
+}
+
 </script>
+
 </body>
 </html>
