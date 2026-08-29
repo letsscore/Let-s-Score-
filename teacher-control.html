@@ -2,981 +2,835 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Teacher Control | Let's Score</title>
 
 <style>
-*{box-sizing:border-box}
+:root{
+    --bg:#071426;
+    --card:#142642;
+    --card2:#0d1d34;
+    --line:#29415f;
+    --text:#f8fafc;
+    --muted:#b9c7da;
+    --blue:#0ea5e9;
+    --indigo:#6366f1;
+    --green:#22c55e;
+    --red:#ef4444;
+    --gold:#fbbf24;
+}
+
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    background:#071426;
-    color:#f5f7fb;
+    background:linear-gradient(135deg,#06101f,#101d36);
+    color:var(--text);
     font-family:Arial,sans-serif;
+    min-height:100vh;
 }
 
-.container{
-    max-width:850px;
+.wrap{
+    width:min(950px,92%);
     margin:auto;
-    padding:25px 16px 50px;
+    padding:25px 0 50px;
 }
 
-header{
+.brand{
     text-align:center;
-    padding:35px 10px;
+    color:#38bdf8;
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:1px;
 }
 
-.label{
-    color:#20bdf3;
+.hero{
+    text-align:center;
+    padding:45px 10px 30px;
+}
+
+.kicker{
+    color:#38bdf8;
     font-size:14px;
     letter-spacing:2px;
-    font-weight:bold;
+    font-weight:700;
 }
 
-h1{
-    font-size:42px;
-    margin:10px 0;
+.hero h1{
+    font-size:clamp(38px,8vw,62px);
+    margin:12px 0;
 }
 
-.subtitle{
-    color:#b9c7da;
+.hero p{
+    color:var(--muted);
     font-size:18px;
+    line-height:1.6;
 }
 
 .card{
-    background:#132541;
-    border:1px solid #29405f;
-    border-radius:22px;
+    background:rgba(20,38,66,.97);
+    border:1px solid var(--line);
+    border-radius:24px;
     padding:25px;
-    margin:20px 0;
+    margin-bottom:22px;
 }
 
-h2{
+.card h2{
     margin-top:0;
+    font-size:27px;
+}
+
+.small{
+    color:var(--muted);
+    line-height:1.6;
 }
 
 label{
     display:block;
-    margin-top:15px;
-    margin-bottom:6px;
-    color:#dbe7f5;
-    font-weight:bold;
+    margin:15px 0 7px;
+    color:#dbeafe;
+    font-weight:700;
 }
 
-input,select,textarea{
+input,select{
     width:100%;
-    padding:13px;
-    border-radius:9px;
-    border:1px solid #415879;
-    background:#09172a;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #405a7d;
+    background:#09182c;
     color:white;
     font-size:16px;
+    outline:none;
 }
 
-textarea{
-    min-height:100px;
+input:focus,select:focus{
+    border-color:#38bdf8;
 }
 
 button{
     border:0;
-    border-radius:10px;
+    border-radius:12px;
     padding:13px 20px;
-    margin:10px 6px 0 0;
     color:white;
-    background:linear-gradient(135deg,#0ea5e9,#6366f1);
-    font-size:15px;
-    font-weight:bold;
+    font-size:16px;
+    font-weight:800;
     cursor:pointer;
+    background:linear-gradient(135deg,var(--blue),var(--indigo));
+    margin-top:15px;
+}
+
+button:hover{
+    opacity:.9;
 }
 
 .stop{
-    background:#b91c1c;
+    background:var(--red);
 }
 
 .secondary{
     background:#334155;
 }
 
+.hidden{
+    display:none!important;
+}
+
+.status-box{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-top:20px;
+}
+
 .status{
-    margin-top:18px;
-    padding:14px;
-    border-radius:10px;
-    background:#0a182b;
-    color:#b9c7da;
+    font-size:20px;
+    font-weight:800;
+    margin:8px 0;
 }
 
-.success{
-    color:#86efac;
+.live{
+    color:#4ade80;
 }
 
-.error{
-    color:#fca5a5;
+.off{
+    color:#f87171;
 }
 
-.question{
-    background:#0b1a30;
-    border:1px solid #304766;
-    padding:18px;
-    border-radius:14px;
+.class-card{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
     margin-top:15px;
 }
 
-.hidden{
-    display:none;
+.class-card h3{
+    margin:0 0 8px;
+    font-size:23px;
 }
 
-.small{
-    color:#9eacc0;
+.class-card p{
+    color:var(--muted);
+}
+
+.class-status{
+    font-weight:800;
+    margin:12px 0;
+}
+
+.message{
+    min-height:25px;
+    margin-top:15px;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.teacher-info{
+    color:#93c5fd;
     font-size:13px;
+    margin-top:10px;
+    word-break:break-all;
 }
 
 footer{
+    border-top:1px solid #ffffff15;
     text-align:center;
-    margin-top:40px;
-    color:#9eacc0;
+    color:var(--muted);
+    padding:25px 10px;
+    margin-top:30px;
 }
 
 @media(max-width:600px){
-    h1{font-size:34px}
+    .card{
+        padding:20px;
+        border-radius:20px;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
+    button{
+        width:100%;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrap">
 
-<header>
-<div class="label">TEACHER CONTROL</div>
-<h1>Revisionary Test Control</h1>
-<div class="subtitle">
-Class X • Class XI • Class XII
-</div>
-</header>
+    <div class="brand">🎓 LET'S SCORE</div>
 
-<!-- LOGIN -->
-
-<section id="loginBox" class="card">
-
-<h2>🔐 Teacher Login</h2>
-
-<p class="small">
-Only the authorised Let's Score teacher account can control tests.
-</p>
-
-<label>Email</label>
-<input
-    id="email"
-    type="email"
-    placeholder="Teacher email"
->
-
-<label>Password</label>
-<input
-    id="password"
-    type="password"
-    placeholder="Password"
->
-
-<button id="loginBtn">
-Sign In
-</button>
-
-<div id="loginStatus" class="status">
-Not signed in.
-</div>
-
-</section>
+    <section class="hero">
+        <div class="kicker">TEACHER CONTROL</div>
+        <h1>Revisionary Test Control</h1>
+        <p>
+            Start or stop revisionary tests for Class X, Class XI and Class XII.
+        </p>
+    </section>
 
 
-<!-- CONTROL PANEL -->
+    <!-- LOGIN -->
+    <section id="loginCard" class="card">
 
-<section id="controlPanel" class="hidden">
+        <h2>🔐 Teacher Login</h2>
 
-<div class="card">
+        <p class="small">
+            Sign in with the authorised teacher Firebase account.
+        </p>
 
-<h2>🎓 Test Control</h2>
+        <label for="email">Teacher Email</label>
+        <input
+            id="email"
+            type="email"
+            autocomplete="username"
+            placeholder="Enter teacher email"
+        >
 
-<div id="authStatus" class="status"></div>
+        <label for="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter password"
+        >
 
-<label>Class</label>
+        <button id="loginBtn">
+            Teacher Login
+        </button>
 
-<select id="classSelect">
+        <div id="loginMessage" class="message"></div>
 
-<option value="classX">
-Class X
-</option>
-
-<option value="classXI">
-Class XI
-</option>
-
-<option value="classXII">
-Class XII
-</option>
-
-</select>
-
-
-<label>Test ID</label>
-
-<input
-    id="testId"
-    placeholder="weekly-test-01"
->
+    </section>
 
 
-<label>Test Title</label>
+    <!-- CONTROL PANEL -->
+    <section id="controlPanel" class="hidden">
 
-<input
-    id="testTitle"
-    placeholder="Weekly Revision Test 1"
->
+        <section class="card">
+
+            <h2>🎓 Test Control</h2>
+
+            <p class="small">
+                Select the class and control whether its existing test paper
+                is currently live for students.
+            </p>
+
+            <label for="classSelect">Select Class</label>
+
+            <select id="classSelect">
+                <option value="classX">Class X</option>
+                <option value="classXI">Class XI</option>
+                <option value="classXII">Class XII</option>
+            </select>
+
+            <div class="status-box">
+
+                <div>Current Test Status</div>
+
+                <div id="currentStatus" class="status off">
+                    ● TEST NOT LIVE
+                </div>
+
+                <button id="startBtn">
+                    ▶ START TEST
+                </button>
+
+                <button id="stopBtn" class="stop">
+                    ■ STOP TEST
+                </button>
+
+                <div id="controlMessage" class="message"></div>
+
+            </div>
+
+        </section>
 
 
-<label>Duration (minutes)</label>
+        <!-- LIVE STATUS -->
+        <section class="card">
 
-<input
-    id="duration"
-    type="number"
-    value="30"
-    min="1"
->
+            <h2>📊 Class Test Status</h2>
+
+            <div class="class-card">
+                <h3>Class X</h3>
+                <div id="statusX" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-x.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XI</h3>
+                <div id="statusXI" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xi.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XII</h3>
+                <div id="statusXII" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xii.html</strong>
+                </p>
+            </div>
+
+        </section>
 
 
-<label>Instructions</label>
+        <section class="card">
 
-<textarea
-    id="instructions"
-    placeholder="Instructions for students"
-></textarea>
+            <h2>👤 Teacher Account</h2>
 
-</div>
+            <div id="teacherInfo" class="teacher-info"></div>
 
+            <button id="logoutBtn" class="secondary">
+                Log Out
+            </button>
 
-<div class="card">
+        </section>
 
-<h2>📝 Questions</h2>
-
-<div id="questions"></div>
-
-<button onclick="addQuestion()">
-+ Add Question
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🚦 Test Status</h2>
-
-<button onclick="saveTest()">
-Save Test
-</button>
-
-<button onclick="loadTest()" class="secondary">
-Load Test
-</button>
-
-<br>
-
-<button onclick="makeLive()">
-MAKE LIVE
-</button>
-
-<button onclick="stopTest()" class="stop">
-STOP TEST
-</button>
-
-<div id="controlStatus" class="status">
-Ready.
-</div>
+    </section>
 
 </div>
-
-
-<div class="card">
-
-<button onclick="logout()" class="secondary">
-Sign Out
-</button>
-
-</div>
-
-</section>
 
 
 <footer>
-LET'S SCORE<br>
-Teacher Control • Revisionary Tests
+    <strong>LET'S SCORE</strong><br>
+    Teacher Control • Revisionary Tests
 </footer>
-
-</div>
 
 
 <script type="module">
 
 import {
-initializeApp
+    initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged,
-signOut
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-getDatabase,
-ref,
-set,
-get,
-update
+    getDatabase,
+    ref,
+    set,
+    onValue
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-/* ==============================
-   EXISTING LET'S SCORE FIREBASE
-   ============================== */
+/* ================================
+   FIREBASE CONFIGURATION
+================================ */
 
 const firebaseConfig = {
 
-apiKey:
-"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+    apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
 
-authDomain:
-"lets-score-revisionary-test.firebaseapp.com",
+    authDomain:
+        "lets-score-revisionary-test.firebaseapp.com",
 
-databaseURL:
-"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+    databaseURL:
+        "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
 
-projectId:
-"lets-score-revisionary-test",
+    projectId:
+        "lets-score-revisionary-test",
 
-storageBucket:
-"lets-score-revisionary-test.firebasestorage.app"
+    storageBucket:
+        "lets-score-revisionary-test.firebasestorage.app",
 
+    messagingSenderId:
+        "629595293837",
+
+    appId:
+        "1:629595293837:web:b0fd9e83f22651cd577ac4"
 };
 
 
-/* ==============================
-   TEACHER UID
-   ============================== */
+/* ================================
+   INITIALISE FIREBASE
+================================ */
 
-const TEACHER_UID =
-"LfkeX239CtakaSIBAV8oBCiG2pR2";
+const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
 
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-const db =
-getDatabase(app);
+const db = getDatabase(app);
 
 
-/* ==============================
-   LOGIN
-   ============================== */
+/* ================================
+   ELEMENTS
+================================ */
 
-document
-.getElementById("loginBtn")
-.onclick = async function(){
-
-const email =
-document.getElementById("email").value.trim();
-
-const password =
-document.getElementById("password").value;
-
-const status =
-document.getElementById("loginStatus");
-
-if(!email || !password){
-
-status.innerHTML =
-'<span class="error">Enter email and password.</span>';
-
-return;
-}
-
-try{
-
-const credential =
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-if(
-credential.user.uid !== TEACHER_UID
-){
-
-await signOut(auth);
-
-status.innerHTML =
-'<span class="error">This account is not authorised as teacher.</span>';
-
-return;
-}
-
-status.innerHTML =
-'<span class="success">Teacher authenticated successfully.</span>';
-
-}
-
-catch(error){
-
-console.error(error);
-
-status.innerHTML =
-'<span class="error">Login failed: ' +
-escapeHTML(error.message) +
-'</span>';
-
-}
-
-};
-
-
-/* ==============================
-   AUTH STATE
-   ============================== */
-
-onAuthStateChanged(
-auth,
-function(user){
-
-const loginBox =
-document.getElementById("loginBox");
+const loginCard =
+    document.getElementById("loginCard");
 
 const controlPanel =
-document.getElementById("controlPanel");
+    document.getElementById("controlPanel");
 
-if(
-user &&
-user.uid === TEACHER_UID
-){
+const emailInput =
+    document.getElementById("email");
 
-loginBox.classList.add("hidden");
+const passwordInput =
+    document.getElementById("password");
 
-controlPanel.classList.remove("hidden");
+const loginMessage =
+    document.getElementById("loginMessage");
 
-document
-.getElementById("authStatus")
-.innerHTML =
-'<span class="success">✓ Teacher authenticated</span>';
+const controlMessage =
+    document.getElementById("controlMessage");
 
-}
-else{
+const classSelect =
+    document.getElementById("classSelect");
 
-loginBox.classList.remove("hidden");
+const currentStatus =
+    document.getElementById("currentStatus");
 
-controlPanel.classList.add("hidden");
+const teacherInfo =
+    document.getElementById("teacherInfo");
 
-}
+
+/* ================================
+   FIREBASE PATHS
+================================ */
+
+const testPaths = {
+
+    classX:
+        "examControl/classX",
+
+    classXI:
+        "examControl/classXI",
+
+    classXII:
+        "examControl/classXII"
+
+};
+
+
+/* ================================
+   LOGIN
+================================ */
+
+document.getElementById("loginBtn")
+.addEventListener("click", async () => {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    if (!email || !password) {
+
+        loginMessage.textContent =
+            "Please enter email and password.";
+
+        return;
+    }
+
+    loginMessage.textContent =
+        "Signing in...";
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        loginMessage.textContent =
+            "";
+
+    } catch (error) {
+
+        console.error(error);
+
+        loginMessage.textContent =
+            "Login failed: " + error.message;
+
+    }
 
 });
 
 
-/* ==============================
-   QUESTIONS
-   ============================== */
+/* ================================
+   AUTH STATE
+================================ */
 
-window.addQuestion =
-function(data = {}){
+onAuthStateChanged(auth, user => {
 
-const box =
-document.createElement("div");
+    if (user) {
 
-box.className =
-"question";
+        loginCard.classList.add("hidden");
 
-box.innerHTML = `
+        controlPanel.classList.remove("hidden");
 
-<label>Question</label>
+        teacherInfo.textContent =
+            "Signed in as: " + user.email;
 
-<textarea class="q"
-placeholder="Enter question">${escapeHTML(
-data.question || ""
-)}</textarea>
+        startStatusListeners();
 
-<label>Option A</label>
+    } else {
 
-<input class="a"
-value="${escapeAttr(
-data.options?.A || ""
-)}">
+        loginCard.classList.remove("hidden");
 
-<label>Option B</label>
+        controlPanel.classList.add("hidden");
 
-<input class="b"
-value="${escapeAttr(
-data.options?.B || ""
-)}">
+        teacherInfo.textContent =
+            "";
 
-<label>Option C</label>
+    }
 
-<input class="c"
-value="${escapeAttr(
-data.options?.C || ""
-)}">
+});
 
-<label>Option D</label>
 
-<input class="d"
-value="${escapeAttr(
-data.options?.D || ""
-)}">
+/* ================================
+   START TEST
+================================ */
 
-<label>Correct Option</label>
+document.getElementById("startBtn")
+.addEventListener("click", async () => {
 
-<select class="correct">
+    const selectedClass =
+        classSelect.value;
 
-<option ${
-data.correct === "A"
-? "selected"
-: ""
-}>A</option>
+    try {
 
-<option ${
-data.correct === "B"
-? "selected"
-: ""
-}>B</option>
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: true
+            }
+        );
 
-<option ${
-data.correct === "C"
-? "selected"
-: ""
-}>C</option>
+        controlMessage.textContent =
+            "✓ Test started successfully.";
 
-<option ${
-data.correct === "D"
-? "selected"
-: ""
-}>D</option>
+    } catch (error) {
 
-</select>
+        console.error(error);
 
-<br>
+        controlMessage.textContent =
+            "Unable to start test: " +
+            error.message;
 
-<button
-class="stop"
-onclick="this.parentElement.remove()">
-Remove Question
-</button>
+    }
 
-`;
+});
 
-document
-.getElementById("questions")
-.appendChild(box);
 
-};
-
-
-/* ==============================
-   COLLECT QUESTIONS
-   ============================== */
-
-function collectQuestions(){
-
-return [
-
-...document
-.querySelectorAll(".question")
-
-].map(
-
-(box,index)=>({
-
-number:index+1,
-
-question:
-box.querySelector(".q").value.trim(),
-
-options:{
-
-A:
-box.querySelector(".a").value.trim(),
-
-B:
-box.querySelector(".b").value.trim(),
-
-C:
-box.querySelector(".c").value.trim(),
-
-D:
-box.querySelector(".d").value.trim()
-
-},
-
-correct:
-box.querySelector(".correct").value
-
-})
-
-);
-
-}
-
-
-/* ==============================
-   DATABASE PATH
-   ============================== */
-
-function testPath(){
-
-const cls =
-document.getElementById("classSelect").value;
-
-const id =
-document.getElementById("testId").value.trim();
-
-if(!id){
-
-throw new Error(
-"Please enter Test ID."
-);
-
-}
-
-return
-`revisionaryTests/${cls}/${id}`;
-
-}
-
-
-/* ==============================
-   SAVE TEST
-   ============================== */
-
-window.saveTest =
-async function(){
-
-try{
-
-if(!auth.currentUser ||
-auth.currentUser.uid !== TEACHER_UID){
-
-throw new Error(
-"Teacher authentication required."
-);
-
-}
-
-await set(
-
-ref(db,testPath()),
-
-{
-
-class:
-document.getElementById("classSelect").value,
-
-title:
-document.getElementById("testTitle").value.trim(),
-
-duration:
-Number(
-document.getElementById("duration").value
-) || 30,
-
-instructions:
-document.getElementById("instructions").value.trim(),
-
-questions:
-collectQuestions(),
-
-live:false,
-
-updatedAt:
-Date.now()
-
-}
-
-);
-
-showStatus(
-"Test saved successfully. It is NOT LIVE.",
-"success"
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-showStatus(
-error.message,
-"error"
-);
-
-}
-
-};
-
-
-/* ==============================
-   LOAD TEST
-   ============================== */
-
-window.loadTest =
-async function(){
-
-try{
-
-const snapshot =
-await get(
-ref(db,testPath())
-);
-
-if(!snapshot.exists()){
-
-showStatus(
-"Test not found.",
-"error"
-);
-
-return;
-
-}
-
-const data =
-snapshot.val();
-
-document
-.getElementById("testTitle")
-.value =
-data.title || "";
-
-document
-.getElementById("duration")
-.value =
-data.duration || 30;
-
-document
-.getElementById("instructions")
-.value =
-data.instructions || "";
-
-document
-.getElementById("questions")
-.innerHTML = "";
-
-if(data.questions){
-
-Object
-.values(data.questions)
-.forEach(addQuestion);
-
-}
-
-showStatus(
-
-data.live
-? "Test loaded — currently LIVE."
-: "Test loaded — currently NOT LIVE.",
-
-data.live
-? "success"
-: ""
-
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-showStatus(
-error.message,
-"error"
-);
-
-}
-
-};
-
-
-/* ==============================
-   MAKE LIVE
-   ============================== */
-
-window.makeLive =
-async function(){
-
-try{
-
-if(!auth.currentUser ||
-auth.currentUser.uid !== TEACHER_UID){
-
-throw new Error(
-"Teacher authentication required."
-);
-
-}
-
-await update(
-
-ref(db,testPath()),
-
-{
-
-live:true,
-
-updatedAt:
-Date.now()
-
-}
-
-);
-
-showStatus(
-"✓ TEST IS NOW LIVE.",
-"success"
-);
-
-}
-
-catch(error){
-
-showStatus(
-error.message,
-"error"
-);
-
-}
-
-};
-
-
-/* ==============================
+/* ================================
    STOP TEST
-   ============================== */
+================================ */
 
-window.stopTest =
-async function(){
+document.getElementById("stopBtn")
+.addEventListener("click", async () => {
 
-try{
+    const selectedClass =
+        classSelect.value;
 
-if(!auth.currentUser ||
-auth.currentUser.uid !== TEACHER_UID){
+    try {
 
-throw new Error(
-"Teacher authentication required."
-);
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: false
+            }
+        );
 
-}
+        controlMessage.textContent =
+            "✓ Test stopped successfully.";
 
-await update(
+    } catch (error) {
 
-ref(db,testPath()),
+        console.error(error);
 
-{
+        controlMessage.textContent =
+            "Unable to stop test: " +
+            error.message;
 
-live:false,
-
-updatedAt:
-Date.now()
-
-}
-
-);
-
-showStatus(
-"TEST STOPPED.",
-"error"
-);
-
-}
-
-catch(error){
-
-showStatus(
-error.message,
-"error"
-);
-
-}
-
-};
-
-
-/* ==============================
-   LOGOUT
-   ============================== */
-
-window.logout =
-function(){
-
-signOut(auth);
-
-};
-
-
-/* ==============================
-   STATUS
-   ============================== */
-
-function showStatus(message,type){
-
-document
-.getElementById("controlStatus")
-.innerHTML =
-`<span class="${type}">
-${escapeHTML(message)}
-</span>`;
-
-}
-
-
-/* ==============================
-   SECURITY HELPERS
-   ============================== */
-
-function escapeHTML(value){
-
-return String(value ?? "")
-.replace(
-/[&<>"']/g,
-
-function(char){
-
-return {
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[char];
+    }
 
 });
 
+
+/* ================================
+   DISPLAY SELECTED STATUS
+================================ */
+
+function updateSelectedStatus(data) {
+
+    const live =
+        data && data.live === true;
+
+    if (live) {
+
+        currentStatus.textContent =
+            "● TEST LIVE";
+
+        currentStatus.className =
+            "status live";
+
+    } else {
+
+        currentStatus.textContent =
+            "● TEST NOT LIVE";
+
+        currentStatus.className =
+            "status off";
+
+    }
+
 }
 
 
-function escapeAttr(value){
+/* ================================
+   STATUS LISTENERS
+================================ */
 
-return escapeHTML(value);
+function startStatusListeners() {
+
+    Object.keys(testPaths).forEach(className => {
+
+        onValue(
+            ref(db, testPaths[className]),
+
+            snapshot => {
+
+                const data =
+                    snapshot.val() || {};
+
+                const live =
+                    data.live === true;
+
+                updateClassStatus(
+                    className,
+                    live
+                );
+
+                if (
+                    classSelect.value ===
+                    className
+                ) {
+
+                    updateSelectedStatus(data);
+
+                }
+
+            },
+
+            error => {
+
+                console.error(
+                    "Firebase read error:",
+                    error
+                );
+
+            }
+        );
+
+    });
 
 }
 
 
-/* Start with one question */
+/* ================================
+   CLASS STATUS DISPLAY
+================================ */
 
-addQuestion();
+function updateClassStatus(
+    className,
+    live
+) {
+
+    let element;
+
+    if (className === "classX") {
+
+        element =
+            document.getElementById("statusX");
+
+    }
+
+    if (className === "classXI") {
+
+        element =
+            document.getElementById("statusXI");
+
+    }
+
+    if (className === "classXII") {
+
+        element =
+            document.getElementById("statusXII");
+
+    }
+
+    if (!element) return;
+
+    if (live) {
+
+        element.textContent =
+            "● TEST LIVE";
+
+        element.className =
+            "class-status live";
+
+    } else {
+
+        element.textContent =
+            "● TEST NOT LIVE";
+
+        element.className =
+            "class-status off";
+
+    }
+
+}
+
+
+/* ================================
+   CLASS SELECTION
+================================ */
+
+classSelect.addEventListener(
+    "change",
+    async () => {
+
+        const selectedClass =
+            classSelect.value;
+
+        try {
+
+            const snapshot =
+                await new Promise(
+                    (resolve, reject) => {
+
+                        onValue(
+                            ref(
+                                db,
+                                testPaths[
+                                    selectedClass
+                                ]
+                            ),
+                            resolve,
+                            {
+                                onlyOnce:true
+                            }
+                        );
+
+                    }
+                );
+
+            updateSelectedStatus(
+                snapshot.val() || {}
+            );
+
+            controlMessage.textContent =
+                "";
+
+        } catch (error) {
+
+            console.error(error);
+
+            controlMessage.textContent =
+                "Unable to read test status.";
+
+        }
+
+    }
+);
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+});
+
 
 </script>
 
