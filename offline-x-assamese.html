@@ -1,43 +1,1183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Class X Offline Course | Let's Score</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Class X Assamese Medium Offline Course | Let's Score</title>
+
 <style>
-:root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--indigo:#818cf8;--gold:#fbbf24}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}
-.wrap{max-width:1000px;margin:auto;padding:0 16px 50px}nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}
-.navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:14px;font-weight:700;font-size:13px}
-.hero{text-align:center;padding:50px 0 30px}.kicker{color:var(--indigo);font-weight:900;letter-spacing:1.5px;font-size:13px}h1{font-size:clamp(34px,7vw,58px);margin:8px 0}.muted{color:var(--muted)}
-.card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.item{background:#ffffff06;border:1px solid #ffffff12;border-radius:15px;padding:18px}.item strong{font-size:17px;color:#e0f2fe}
-.pay{border-left:4px solid var(--gold)}.note{color:#fbbf24}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900}
-footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var(--muted)}
-</style></head>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:linear-gradient(145deg,#07111f,#0d1930);
+  color:#f8fafc;
+  font-family:Arial,sans-serif;
+  line-height:1.65
+}
+
+.wrap{
+  max-width:1000px;
+  margin:auto;
+  padding:0 16px 50px
+}
+
+nav{
+  border-bottom:1px solid #ffffff14;
+  background:#07111fee;
+  padding:14px 0
+}
+
+.navin{
+  max-width:1000px;
+  margin:auto;
+  padding:0 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px
+}
+
+.logo{
+  color:#38bdf8;
+  font-size:23px;
+  font-weight:900;
+  text-decoration:none
+}
+
+nav a{
+  color:#e2e8f0;
+  text-decoration:none;
+  margin-left:14px;
+  font-weight:700;
+  font-size:13px
+}
+
+.hero{
+  text-align:center;
+  padding:50px 0 30px
+}
+
+.kicker{
+  color:#818cf8;
+  font-weight:900;
+  letter-spacing:1.5px;
+  font-size:13px
+}
+
+h1{
+  font-size:clamp(34px,7vw,58px);
+  margin:8px 0
+}
+
+h2{
+  margin-top:0
+}
+
+.muted{
+  color:#b9c5d8
+}
+
+.card{
+  background:rgba(18,33,58,.97);
+  border:1px solid #263756;
+  border-radius:20px;
+  padding:22px;
+  margin:16px 0
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px
+}
+
+.item{
+  background:#ffffff06;
+  border:1px solid #ffffff12;
+  border-radius:15px;
+  padding:18px
+}
+
+.item strong{
+  font-size:17px;
+  color:#e0f2fe
+}
+
+.pay{
+  border-left:4px solid #fbbf24
+}
+
+.price{
+  font-size:32px;
+  font-weight:900;
+  color:#4ade80
+}
+
+.advance{
+  font-size:28px;
+  font-weight:900;
+  color:#fbbf24
+}
+
+.balance{
+  color:#b9c5d8
+}
+
+label{
+  display:block;
+  margin-top:13px;
+  margin-bottom:5px;
+  font-weight:700
+}
+
+input,textarea{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #405575;
+  background:#081426;
+  color:#fff;
+  font-size:16px
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical
+}
+
+.btn{
+  display:inline-block;
+  margin-top:14px;
+  padding:13px 18px;
+  border:0;
+  border-radius:10px;
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  font-weight:900;
+  cursor:pointer
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed
+}
+
+.green{
+  background:linear-gradient(135deg,#16a34a,#22c55e)
+}
+
+.whatsapp{
+  background:#16a34a
+}
+
+.qrbox{
+  text-align:center;
+  background:#f8fafc;
+  padding:18px;
+  border-radius:15px;
+  margin:18px auto;
+  max-width:300px
+}
+
+#qrcode{
+  display:flex;
+  justify-content:center;
+  align-items:center
+}
+
+#qrcode img{
+  margin:auto
+}
+
+.upi{
+  background:#081426;
+  border:1px solid #304362;
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  margin:14px 0
+}
+
+.success{
+  background:#064e3b;
+  border:1px solid #10b981;
+  color:#d1fae5;
+  padding:18px;
+  border-radius:14px;
+  text-align:center
+}
+
+.error{
+  background:#450a0a;
+  border:1px solid #ef4444;
+  color:#fecaca;
+  padding:14px;
+  border-radius:12px;
+  margin-top:15px
+}
+
+.hidden{
+  display:none!important
+}
+
+.small{
+  font-size:13px
+}
+
+footer{
+  border-top:1px solid #ffffff14;
+  padding:25px 0;
+  text-align:center;
+  color:#b9c5d8
+}
+
+.notice{
+  background:#ffffff06;
+  border:1px solid #ffffff12;
+  border-radius:12px;
+  padding:14px;
+  margin-top:15px
+}
+</style>
+</head>
+
 <body>
-<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="revisionary-test.html">Tests</a></div></div></nav>
+
+<nav>
+  <div class="navin">
+    <a class="logo" href="index.html">🎓 LET'S SCORE</a>
+
+    <div>
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="revisionary-test.html">Tests</a>
+    </div>
+  </div>
+</nav>
+
 <main class="wrap">
-<section class="hero"><div class="kicker">OFFLINE COURSE • ASSAMESE MEDIUM</div><h1>Class X Offline Course</h1><p class="muted">Classroom learning with structured study and examination preparation.</p></section>
 
-<section class="card"><h2>Course Includes</h2>
-<div class="grid">
-<div class="item"><strong>📖 Notes</strong><p class="muted">Structured study material.</p></div>
-<div class="item"><strong>📘 NCERT Solutions</strong><p class="muted">NCERT-focused solutions.</p></div>
-<div class="item"><strong>🎥 Videos</strong><p class="muted">Video support for learning.</p></div>
-<div class="item"><strong>📝 Weekly Revisionary Tests</strong><p class="muted">Regular examination practice.</p></div>
-<div class="item"><strong>📄 5 Model Question Paper Sets</strong><p class="muted">Model papers for preparation.</p></div>
-</div></section>
+<section class="hero">
 
-<section class="card pay"><h2>💳 Admission & Payment</h2>
-<p class="muted">This is a paid offline course. UPI payment and admission details will be added here.</p>
-<p class="note"><strong>Course Fee: To be announced</strong></p>
-<a class="btn" href="contact.html">Enquire / Admission</a></section>
+  <div class="kicker">
+    OFFLINE COURSE • ASSAMESE MEDIUM
+  </div>
 
-<section class="card"><h2>📝 Revisionary Tests</h2><p class="muted">Weekly tests can be accessed through the teacher-controlled Revisionary Test system when the teacher starts a test.</p>
-<a class="btn" href="revisionary-test.html">Open Revisionary Tests</a></section>
+  <h1>Class X Offline Course</h1>
 
-<section class="card"><h2>Resource Integration</h2><p class="muted">The actual notes, NCERT solutions, videos and model papers will be connected here as you provide their HTML content. Nothing from the old website is being assumed or copied automatically.</p>
-<a class="btn" href="courses.html">← Back to Courses</a></section>
+  <p class="muted">
+    Complete syllabus classroom programme for Class X Assamese Medium students.
+  </p>
+
+</section>
+
+
+<section class="card">
+
+  <h2>📚 Full Syllabus Course</h2>
+
+  <div class="grid">
+
+    <div class="item">
+      <strong>📖 Complete Syllabus</strong>
+      <p class="muted">
+        Systematic coverage of the complete Class X syllabus.
+      </p>
+    </div>
+
+    <div class="item">
+      <strong>📝 Revisionary Tests</strong>
+      <p class="muted">
+        Regular examination-oriented revision and practice.
+      </p>
+    </div>
+
+    <div class="item">
+      <strong>📘 Study Material</strong>
+      <p class="muted">
+        Structured learning support and preparation material.
+      </p>
+    </div>
+
+    <div class="item">
+      <strong>📄 Model Question Papers</strong>
+      <p class="muted">
+        Practice through model question paper sets.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="card pay">
+
+  <h2>💰 Course Fee</h2>
+
+  <p class="muted">
+    Full syllabus Class X Assamese Medium offline course
+  </p>
+
+  <div class="price">
+    ₹2,599
+  </div>
+
+  <p>
+    <strong>Full Course Fee</strong>
+  </p>
+
+  <hr style="border-color:#ffffff15">
+
+  <div class="advance">
+    ₹699
+  </div>
+
+  <p>
+    <strong>Advance Payment at Admission</strong>
+  </p>
+
+  <p class="balance">
+    Remaining course fee after admission:
+    <strong>₹1,900</strong>
+  </p>
+
+</section>
+
+
+<section class="card" id="admissionSection">
+
+  <h2>📝 Admission Form</h2>
+
+  <p class="muted">
+    Please enter the student's details carefully before making the admission payment.
+  </p>
+
+
+  <label for="studentName">
+    Student Name *
+  </label>
+
+  <input
+    id="studentName"
+    type="text"
+    placeholder="Enter student's full name"
+    autocomplete="name"
+  >
+
+
+  <label for="fatherName">
+    Father's Name *
+  </label>
+
+  <input
+    id="fatherName"
+    type="text"
+    placeholder="Enter father's name"
+  >
+
+
+  <label for="village">
+    Village *
+  </label>
+
+  <input
+    id="village"
+    type="text"
+    placeholder="Enter village"
+  >
+
+
+  <label for="school">
+    School *
+  </label>
+
+  <input
+    id="school"
+    type="text"
+    placeholder="Enter school name"
+  >
+
+
+  <label for="rollNo">
+    Roll No. *
+  </label>
+
+  <input
+    id="rollNo"
+    type="text"
+    placeholder="Enter roll number"
+  >
+
+
+  <label for="mobile">
+    Mobile Number *
+  </label>
+
+  <input
+    id="mobile"
+    type="tel"
+    inputmode="numeric"
+    maxlength="10"
+    placeholder="10-digit mobile number"
+  >
+
+
+  <label for="aim">
+    AIM in Life *
+  </label>
+
+  <textarea
+    id="aim"
+    placeholder="What does the student want to become?"
+  ></textarea>
+
+
+  <button
+    class="btn"
+    id="generatePayment"
+    type="button"
+  >
+    Continue to Payment — ₹699
+  </button>
+
+
+  <div id="formError" class="error hidden"></div>
+
+</section>
+
+
+<section
+  class="card hidden"
+  id="paymentSection"
+>
+
+  <h2>💳 Admission Payment</h2>
+
+  <div class="upi">
+
+    <p>
+      <strong>Admission Advance</strong>
+    </p>
+
+    <div class="advance">
+      ₹699
+    </div>
+
+    <p>
+      Pay through <strong>any UPI app</strong>
+    </p>
+
+    <p>
+      UPI ID:
+      <strong id="upiText">
+        hussain.abidur@ybl
+      </strong>
+    </p>
+
+  </div>
+
+
+  <div class="qrbox">
+
+    <p style="color:#111827;font-weight:800">
+      Scan this QR with any UPI app
+    </p>
+
+    <div id="qrcode"></div>
+
+    <p
+      id="qrStudent"
+      style="color:#111827;font-size:13px"
+    ></p>
+
+  </div>
+
+
+  <a
+    id="upiButton"
+    class="btn green"
+    href="#"
+  >
+    📱 Pay ₹699 with UPI App
+  </a>
+
+
+  <div class="notice">
+
+    <strong>Payment Instructions</strong>
+
+    <p class="muted small">
+      1. Pay exactly ₹699 using the QR code or UPI button.
+      <br>
+      2. Complete the UPI payment.
+      <br>
+      3. Click the button below after successful payment.
+      <br>
+      4. Your admission details will be recorded.
+      <br>
+      5. Send the payment receipt through WhatsApp for verification.
+    </p>
+
+  </div>
+
+
+  <button
+    class="btn"
+    id="submitAdmission"
+    type="button"
+  >
+    ✅ Payment Completed — Submit Admission
+  </button>
+
+
+  <div
+    id="paymentError"
+    class="error hidden"
+  ></div>
+
+</section>
+
+
+<section
+  class="card hidden"
+  id="successSection"
+>
+
+  <div class="success">
+
+    <h2>🎉 Congratulations!</h2>
+
+    <p>
+      Your admission request has been submitted successfully.
+    </p>
+
+    <p>
+      Please send your <strong>₹699 payment receipt</strong>
+      on WhatsApp for payment verification.
+    </p>
+
+    <a
+      id="whatsappButton"
+      class="btn whatsapp"
+      href="#"
+      target="_blank"
+      rel="noopener"
+    >
+      💬 Send Payment Receipt on WhatsApp
+    </a>
+
+    <p class="small">
+      WhatsApp: 7002137940
+    </p>
+
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <h2>📞 Admission Help</h2>
+
+  <p class="muted">
+    For payment or admission-related assistance, contact:
+  </p>
+
+  <p>
+    <strong>WhatsApp: 7002137940</strong>
+  </p>
+
+  <p>
+    <strong>UPI: hussain.abidur@ybl</strong>
+  </p>
+
+</section>
+
+
 </main>
-<footer>LET'S SCORE<br>Learn • Revise • Practise • Score</footer>
-</body></html>
+
+
+<footer>
+  LET'S SCORE<br>
+  Learn • Revise • Practise • Score
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* =========================================
+   FIREBASE
+   ========================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+
+  authDomain:
+    "lets-score-revisionary-test.firebaseapp.com",
+
+  databaseURL:
+    "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+
+  projectId:
+    "lets-score-revisionary-test",
+
+  storageBucket:
+    "lets-score-revisionary-test.firebasestorage.app",
+
+  messagingSenderId:
+    "629595293837",
+
+  appId:
+    "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+/* =========================================
+   COURSE SETTINGS
+   ========================================= */
+
+const COURSE =
+  "Class X Assamese Medium Offline Course";
+
+const ADVANCE_AMOUNT = 699;
+
+const FULL_FEE = 2599;
+
+const UPI_ID =
+  "hussain.abidur@ybl";
+
+const WHATSAPP =
+  "917002137940";
+
+
+/* =========================================
+   ELEMENTS
+   ========================================= */
+
+const studentName =
+  document.getElementById("studentName");
+
+const fatherName =
+  document.getElementById("fatherName");
+
+const village =
+  document.getElementById("village");
+
+const school =
+  document.getElementById("school");
+
+const rollNo =
+  document.getElementById("rollNo");
+
+const mobile =
+  document.getElementById("mobile");
+
+const aim =
+  document.getElementById("aim");
+
+const generatePayment =
+  document.getElementById("generatePayment");
+
+const paymentSection =
+  document.getElementById("paymentSection");
+
+const successSection =
+  document.getElementById("successSection");
+
+const formError =
+  document.getElementById("formError");
+
+const paymentError =
+  document.getElementById("paymentError");
+
+const submitAdmission =
+  document.getElementById("submitAdmission");
+
+const upiButton =
+  document.getElementById("upiButton");
+
+const whatsappButton =
+  document.getElementById("whatsappButton");
+
+const qrStudent =
+  document.getElementById("qrStudent");
+
+const qrCode =
+  document.getElementById("qrcode");
+
+
+/* =========================================
+   TEMPORARY STUDENT DATA
+   ========================================= */
+
+let admissionData = null;
+
+
+/* =========================================
+   HELPERS
+   ========================================= */
+
+function showError(element, message){
+
+  element.textContent = message;
+
+  element.classList.remove("hidden");
+
+}
+
+
+function hideError(element){
+
+  element.textContent = "";
+
+  element.classList.add("hidden");
+
+}
+
+
+function clean(value){
+
+  return String(value || "").trim();
+
+}
+
+
+/* =========================================
+   VALIDATE FORM
+   ========================================= */
+
+function validateForm(){
+
+  const name =
+    clean(studentName.value);
+
+  const father =
+    clean(fatherName.value);
+
+  const villageValue =
+    clean(village.value);
+
+  const schoolValue =
+    clean(school.value);
+
+  const roll =
+    clean(rollNo.value);
+
+  const phone =
+    clean(mobile.value);
+
+  const aimValue =
+    clean(aim.value);
+
+
+  if(!name){
+
+    showError(
+      formError,
+      "Please enter student's name."
+    );
+
+    return false;
+  }
+
+
+  if(!father){
+
+    showError(
+      formError,
+      "Please enter father's name."
+    );
+
+    return false;
+  }
+
+
+  if(!villageValue){
+
+    showError(
+      formError,
+      "Please enter village."
+    );
+
+    return false;
+  }
+
+
+  if(!schoolValue){
+
+    showError(
+      formError,
+      "Please enter school name."
+    );
+
+    return false;
+  }
+
+
+  if(!roll){
+
+    showError(
+      formError,
+      "Please enter roll number."
+    );
+
+    return false;
+  }
+
+
+  if(!/^[0-9]{10}$/.test(phone)){
+
+    showError(
+      formError,
+      "Please enter a valid 10-digit mobile number."
+    );
+
+    return false;
+  }
+
+
+  if(!aimValue){
+
+    showError(
+      formError,
+      "Please enter AIM in life."
+    );
+
+    return false;
+  }
+
+
+  hideError(formError);
+
+  return true;
+
+}
+
+
+/* =========================================
+   CREATE UPI PAYMENT DATA
+   ========================================= */
+
+function createUPILink(){
+
+  const student =
+    admissionData.name;
+
+  const transactionNote =
+    `${COURSE} - ${student} - Roll ${admissionData.rollNo}`;
+
+
+  const params =
+    new URLSearchParams({
+
+      pa: UPI_ID,
+
+      pn: "Let's Score",
+
+      am: ADVANCE_AMOUNT.toFixed(2),
+
+      cu: "INR",
+
+      tn: transactionNote
+
+    });
+
+
+  return `upi://pay?${params.toString()}`;
+
+}
+
+
+/* =========================================
+   GENERATE QR
+   ========================================= */
+
+function generateQR(){
+
+  qrCode.innerHTML = "";
+
+  const upiLink =
+    createUPILink();
+
+
+  new QRCode(qrCode, {
+
+    text: upiLink,
+
+    width: 240,
+
+    height: 240,
+
+    colorDark: "#000000",
+
+    colorLight: "#ffffff",
+
+    correctLevel:
+      QRCode.CorrectLevel.H
+
+  });
+
+
+  qrStudent.textContent =
+    `${admissionData.name} • ₹${ADVANCE_AMOUNT}`;
+
+}
+
+
+/* =========================================
+   CONTINUE TO PAYMENT
+   ========================================= */
+
+generatePayment.onclick = () => {
+
+  if(!validateForm()){
+
+    return;
+  }
+
+
+  admissionData = {
+
+    name:
+      clean(studentName.value),
+
+    fatherName:
+      clean(fatherName.value),
+
+    village:
+      clean(village.value),
+
+    school:
+      clean(school.value),
+
+    rollNo:
+      clean(rollNo.value),
+
+    mobile:
+      clean(mobile.value),
+
+    aim:
+      clean(aim.value)
+
+  };
+
+
+  generateQR();
+
+
+  const upiLink =
+    createUPILink();
+
+
+  upiButton.href =
+    upiLink;
+
+
+  paymentSection.classList.remove(
+    "hidden"
+  );
+
+
+  paymentSection.scrollIntoView({
+
+    behavior:"smooth",
+
+    block:"start"
+
+  });
+
+};
+
+
+/* =========================================
+   SUBMIT ADMISSION
+   ========================================= */
+
+submitAdmission.onclick =
+  async () => {
+
+    if(!admissionData){
+
+      showError(
+        paymentError,
+        "Please complete the admission form first."
+      );
+
+      return;
+    }
+
+
+    hideError(paymentError);
+
+
+    submitAdmission.disabled = true;
+
+    submitAdmission.textContent =
+      "Submitting admission...";
+
+
+    try{
+
+      /*
+        Records are stored as:
+
+        admissions
+          classXAssamese
+            uniqueAdmissionId
+      */
+
+      const admissionRef =
+        push(
+          ref(
+            db,
+            "admissions/classXAssamese"
+          )
+        );
+
+
+      const record = {
+
+        course:
+          COURSE,
+
+        studentName:
+          admissionData.name,
+
+        fatherName:
+          admissionData.fatherName,
+
+        village:
+          admissionData.village,
+
+        school:
+          admissionData.school,
+
+        rollNo:
+          admissionData.rollNo,
+
+        mobile:
+          admissionData.mobile,
+
+        aim:
+          admissionData.aim,
+
+        fullCourseFee:
+          FULL_FEE,
+
+        advanceAmount:
+          ADVANCE_AMOUNT,
+
+        remainingAmount:
+          FULL_FEE - ADVANCE_AMOUNT,
+
+        paymentStatus:
+          "Payment receipt pending verification",
+
+        admissionStatus:
+          "Admission request submitted",
+
+        submittedAt:
+          Date.now()
+
+      };
+
+
+      await set(
+        admissionRef,
+        record
+      );
+
+
+      const whatsappMessage =
+        `Hello Let's Score,%0A%0A` +
+        `I have paid ₹699 advance for Class X Assamese Medium Offline Course.%0A%0A` +
+        `Student: ${encodeURIComponent(admissionData.name)}%0A` +
+        `Father: ${encodeURIComponent(admissionData.fatherName)}%0A` +
+        `School: ${encodeURIComponent(admissionData.school)}%0A` +
+        `Roll No: ${encodeURIComponent(admissionData.rollNo)}%0A%0A` +
+        `I am sending the payment receipt for verification.`;
+
+
+      whatsappButton.href =
+        `https://wa.me/${WHATSAPP}?text=${whatsappMessage}`;
+
+
+      paymentSection.classList.add(
+        "hidden"
+      );
+
+      document
+        .getElementById("admissionSection")
+        .classList.add("hidden");
+
+
+      successSection.classList.remove(
+        "hidden"
+      );
+
+
+      successSection.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"start"
+
+      });
+
+
+    }catch(error){
+
+      console.error(
+        "Admission submission error:",
+        error
+      );
+
+
+      showError(
+
+        paymentError,
+
+        "Admission could not be submitted. Please check your internet connection and try again."
+
+      );
+
+
+      submitAdmission.disabled = false;
+
+      submitAdmission.textContent =
+        "✅ Payment Completed — Submit Admission";
+
+    }
+
+  };
+
+</script>
+
+</body>
+</html>
