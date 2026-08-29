@@ -41,46 +41,154 @@ body{margin:0;background:linear-gradient(135deg,#06101f,#101a35);color:var(--tex
 </main>
 
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getDatabase,ref,onValue} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
 
-const firebaseConfig={
-apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
-authDomain:"lets-score-revisionary-test.firebaseapp.com",
-databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
-projectId:"lets-score-revisionary-test",
-storageBucket:"lets-score-revisionary-test.firebasestorage.app",
-messagingSenderId:"629595293837",
-appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+
+    authDomain:
+        "lets-score-revisionary-test.firebaseapp.com",
+
+    databaseURL:
+        "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+
+    projectId:
+        "lets-score-revisionary-test",
+
+    storageBucket:
+        "lets-score-revisionary-test.firebasestorage.app",
+
+    messagingSenderId:
+        "629595293837",
+
+    appId:
+        "1:629595293837:web:b0fd9e83f22651cd577ac4"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-const classes=['X','XI','XII'];
-const grid=document.getElementById('grid');
 
-function render(classesData){
-  grid.innerHTML=classes.map(c=>{
-    const live=classesData?.[c]?.started===true;
-    const links={X:'class10-science-test.html',XI:'class11-science-test.html',XII:'class12-science-test.html'};
-    return `<article class="test">
-      <h2>Class ${c}</h2>
-      <div class="status ${live?'live':''}">${live?'● TEST LIVE':'● TEST NOT STARTED'}</div>
-      ${live
-        ?`<a class="btn" href="${links[c]}">Enter Test</a>`
-        :`<a class="btn disabled" href="#">Test Locked</a>`}
-    </article>`;
-  }).join('');
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+/*
+   NEW WEBSITE TEST CONTROL
+
+   Class X  -> test-x.html
+   Class XI -> test-xi.html
+   Class XII -> test-xii.html
+*/
+
+const tests = {
+
+    classX: {
+        name: "Class X",
+        path: "examControl/classX",
+        page: "test-x.html"
+    },
+
+    classXI: {
+        name: "Class XI",
+        path: "examControl/classXI",
+        page: "test-xi.html"
+    },
+
+    classXII: {
+        name: "Class XII",
+        path: "examControl/classXII",
+        page: "test-xii.html"
+    }
+
+};
+
+
+function checkTestStatus(classKey, callback) {
+
+    const test = tests[classKey];
+
+    if (!test) {
+        callback(false, "Invalid class.");
+        return;
+    }
+
+    const testRef = ref(db, test.path);
+
+    onValue(
+        testRef,
+
+        snapshot => {
+
+            const data = snapshot.val();
+
+            const live =
+                data &&
+                data.live === true;
+
+            callback(live, null);
+
+        },
+
+        error => {
+
+            console.error(
+                "Firebase status error:",
+                error
+            );
+
+            callback(
+                false,
+                "Firebase status load failed."
+            );
+
+        }
+    );
 }
 
-render({});
 
-onValue(ref(db,'tests'), snap=>{
-  render(snap.val()||{});
-}, error=>{
-  console.error(error);
-  grid.innerHTML=`<article class="test"><h2>Revisionary Test</h2><div class="error">Firebase status load failed.</div><p class="muted">Please refresh the page.</p></article>`;
-});
+/*
+   EXAMPLE:
+   Check Class X
+*/
+
+checkTestStatus(
+    "classX",
+    (live, error) => {
+
+        if (error) {
+
+            console.error(error);
+
+            return;
+        }
+
+        if (live) {
+
+            console.log(
+                "Class X test is LIVE"
+            );
+
+        } else {
+
+            console.log(
+                "Class X test is NOT LIVE"
+            );
+
+        }
+
+    }
+);
+
 </script>
 </body>
 </html>
