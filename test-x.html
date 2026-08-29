@@ -297,6 +297,291 @@ function renderTest() {
   });
 
 
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* ================================
+   FIREBASE
+   ================================ */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain: "lets-score-revisionary-test.firebaseapp.com",
+  databaseURL: "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId: "lets-score-revisionary-test",
+  storageBucket: "lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId: "629595293837",
+  appId: "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+
+/* IMPORTANT — ONLY ONE CLASS CONSTANT */
+
+const CLASS = "classX";
+
+
+/* ================================
+   ELEMENTS
+   ================================ */
+
+const titleBox = document.getElementById("title");
+const statusBox = document.getElementById("status");
+const loginBox = document.getElementById("login");
+const testBox = document.getElementById("test");
+const resultBox = document.getElementById("result");
+const nameInput = document.getElementById("name");
+const startBtn = document.getElementById("startBtn");
+
+
+/* ================================
+   STATE
+   ================================ */
+
+let currentTest = null;
+let answers = {};
+let studentName = "";
+let firebaseReady = false;
+
+
+/* ================================
+   INITIAL STATE
+   ================================ */
+
+startBtn.disabled = true;
+
+statusBox.textContent = "Checking test status…";
+
+
+/* ================================
+   FIREBASE TEST LISTENER
+   ================================ */
+
+const classRef = ref(db, `revisionaryTests/${CLASS}`);
+
+onValue(
+  classRef,
+
+  (snapshot) => {
+
+    firebaseReady = true;
+
+    const data = snapshot.val() || {};
+
+    const liveTests = Object.entries(data)
+      .filter(([id, test]) => {
+        return test &&
+               (test.live === true || test.live === "true");
+      });
+
+
+    /* No live test */
+
+    if (liveTests.length === 0) {
+
+      currentTest = null;
+
+      titleBox.textContent = "Revisionary Test";
+
+      statusBox.innerHTML =
+        '<span class="closed">● TEST NOT LIVE</span>';
+
+      startBtn.disabled = false;
+
+      return;
+    }
+
+
+    /* First live test */
+
+    const [testId, testData] = liveTests[0];
+
+    currentTest = {
+      id: testId,
+      ...testData
+    };
+
+
+    titleBox.textContent =
+      testData.title || "Class X Revisionary Test";
+
+    statusBox.innerHTML =
+      '<span class="live">● TEST LIVE</span>';
+
+    startBtn.disabled = false;
+
+  },
+
+  (error) => {
+
+    console.error("Firebase status error:", error);
+
+    firebaseReady = false;
+
+    currentTest = null;
+
+    titleBox.textContent = "Revisionary Test";
+
+    statusBox.innerHTML =
+      '<span class="closed">Firebase status could not be loaded.</span>';
+
+    startBtn.disabled = true;
+  }
+);
+
+
+/* ================================
+   CONTINUE
+   ================================ */
+
+startBtn.onclick = () => {
+
+  studentName = nameInput.value.trim();
+
+  if (!studentName) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  if (!firebaseReady) {
+    alert("Firebase status is not available. Please refresh the page.");
+    return;
+  }
+
+  if (!currentTest) {
+    alert("The Class X test is not live.");
+    return;
+  }
+
+
+  loginBox.style.display = "none";
+  testBox.style.display = "block";
+
+  answers = {};
+
+  renderTest();
+};
+
+
+/* ================================
+   RENDER EXISTING QUESTION PAPER
+   ================================ */
+
+function renderTest() {
+
+  const rawQuestions = currentTest.questions || {};
+
+  const questions = Array.isArray(rawQuestions)
+    ? rawQuestions
+    : Object.values(rawQuestions);
+
+
+  if (!questions.length) {
+
+    testBox.innerHTML = `
+      <h2>${escapeHtml(
+        currentTest.title || "Class X Revisionary Test"
+      )}</h2>
+
+      <p class="closed">
+        No questions are available in this test paper.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  testBox.innerHTML = `
+
+    <h2>
+      ${escapeHtml(
+        currentTest.title || "Class X Revisionary Test"
+      )}
+    </h2>
+
+    <p class="muted">
+      ${escapeHtml(currentTest.instructions || "")}
+    </p>
+
+    <div id="questions"></div>
+
+    <button id="submit">
+      Submit Test
+    </button>
+  `;
+
+
+  const questionBox =
+    document.getElementById("questions");
+
+
+  questions.forEach((q, index) => {
+
+    const questionCard =
+      document.createElement("div");
+
+    questionCard.className = "review";
+
+
+    const questionTitle =
+      document.createElement("strong");
+
+    questionTitle.textContent =
+      `${index + 1}. ${q.question || ""}`;
+
+    questionCard.appendChild(questionTitle);
+
+
+    ["A", "B", "C", "D"].forEach(option => {
+
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+
+      button.className = "option";
+
+      button.textContent =
+        `${option}. ${q.options?.[option] || ""}`;
+
+
+      button.onclick = () => {
+
+        answers[index] = option;
+
+        questionCard
+          .querySelectorAll(".option")
+          .forEach(b => {
+            b.classList.remove("selected");
+          });
+
+        button.classList.add("selected");
+      };
+
+
+      questionCard.appendChild(button);
+
+    });
+
+
+    questionBox.appendChild(questionCard);
+
+  });
+
+
   document.getElementById("submit").onclick =
     submitTest;
 }
@@ -311,11 +596,17 @@ async function submitTest() {
   if (!currentTest) return;
 
 
+  const rawQuestions =
+    currentTest.questions || {};
+
   const questions =
-    Object.values(currentTest.questions || {});
+    Array.isArray(rawQuestions)
+      ? rawQuestions
+      : Object.values(rawQuestions);
 
 
   let score = 0;
+
   const wrong = [];
 
 
@@ -324,7 +615,14 @@ async function submitTest() {
     const selected =
       answers[index];
 
-    if (selected === q.correct) {
+    const correct =
+      String(q.correct || "").toUpperCase();
+
+
+    if (
+      selected &&
+      String(selected).toUpperCase() === correct
+    ) {
 
       score++;
 
@@ -341,7 +639,7 @@ async function submitTest() {
           selected || "Not answered",
 
         correct:
-          q.correct || ""
+          correct
 
       });
 
@@ -388,7 +686,7 @@ async function submitTest() {
     );
 
     alert(
-      "Could not submit result. Please check your internet connection and try again."
+      "Could not submit result. Please check your internet connection."
     );
 
   }
@@ -473,7 +771,7 @@ function showResult(result) {
 
 
 /* ================================
-   HTML ESCAPE
+   ESCAPE HTML
    ================================ */
 
 function escapeHtml(value) {
