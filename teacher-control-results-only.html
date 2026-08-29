@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Control | Let's Score</title>
+
+<style>
+:root{
+    --bg:#071426;
+    --card:#142642;
+    --card2:#0d1d34;
+    --line:#29415f;
+    --text:#f8fafc;
+    --muted:#b9c7da;
+    --blue:#0ea5e9;
+    --indigo:#6366f1;
+    --green:#22c55e;
+    --red:#ef4444;
+    --gold:#fbbf24;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:linear-gradient(135deg,#06101f,#101d36);
+    color:var(--text);
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+}
+
+.wrap{
+    width:min(950px,92%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.brand{
+    text-align:center;
+    color:#38bdf8;
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.hero{
+    text-align:center;
+    padding:45px 10px 30px;
+}
+
+.kicker{
+    color:#38bdf8;
+    font-size:14px;
+    letter-spacing:2px;
+    font-weight:700;
+}
+
+.hero h1{
+    font-size:clamp(38px,8vw,62px);
+    margin:12px 0;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.6;
+}
+
+.card{
+    background:rgba(20,38,66,.97);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:25px;
+    margin-bottom:22px;
+}
+
+.card h2{
+    margin-top:0;
+    font-size:27px;
+}
+
+.small{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+label{
+    display:block;
+    margin:15px 0 7px;
+    color:#dbeafe;
+    font-weight:700;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #405a7d;
+    background:#09182c;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#38bdf8;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:13px 20px;
+    color:white;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--blue),var(--indigo));
+    margin-top:15px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.stop{
+    background:var(--red);
+}
+
+.secondary{
+    background:#334155;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.status-box{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.status{
+    font-size:20px;
+    font-weight:800;
+    margin:8px 0;
+}
+
+.live{
+    color:#4ade80;
+}
+
+.off{
+    color:#f87171;
+}
+
+.class-card{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-top:15px;
+}
+
+.class-card h3{
+    margin:0 0 8px;
+    font-size:23px;
+}
+
+.class-card p{
+    color:var(--muted);
+}
+
+.class-status{
+    font-weight:800;
+    margin:12px 0;
+}
+
+.message{
+    min-height:25px;
+    margin-top:15px;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.teacher-info{
+    color:#93c5fd;
+    font-size:13px;
+    margin-top:10px;
+    word-break:break-all;
+}
+
+footer{
+    border-top:1px solid #ffffff15;
+    text-align:center;
+    color:var(--muted);
+    padding:25px 10px;
+    margin-top:30px;
+}
+
+/* RESULTS DISPLAY ONLY */
+.results-table-wrap{overflow-x:auto;margin-top:18px}
+.results-table{width:100%;border-collapse:collapse;background:#0d1d34;border:1px solid #29415f}
+.results-table th,.results-table td{border:1px solid #29415f;padding:10px 9px;text-align:left;white-space:nowrap}
+.results-table th{color:#bae6fd;background:#09182c}
+.result-score{font-weight:900;color:#4ade80}
+
+@media(max-width:600px){
+    .card{
+        padding:20px;
+        border-radius:20px;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
+    button{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="brand">🎓 LET'S SCORE</div>
+
+    <section class="hero">
+        <div class="kicker">TEACHER CONTROL</div>
+        <h1>Revisionary Test Control</h1>
+        <p>
+            Start or stop revisionary tests for Class X, Class XI and Class XII.
+        </p>
+    </section>
+
+
+    <!-- LOGIN -->
+    <section id="loginCard" class="card">
+
+        <h2>🔐 Teacher Login</h2>
+
+        <p class="small">
+            Sign in with the authorised teacher Firebase account.
+        </p>
+
+        <label for="email">Teacher Email</label>
+        <input
+            id="email"
+            type="email"
+            autocomplete="username"
+            placeholder="Enter teacher email"
+        >
+
+        <label for="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter password"
+        >
+
+        <button id="loginBtn">
+            Teacher Login
+        </button>
+
+        <div id="loginMessage" class="message"></div>
+
+    </section>
+
+
+    <!-- CONTROL PANEL -->
+    <section id="controlPanel" class="hidden">
+
+        <section class="card">
+
+            <h2>🎓 Test Control</h2>
+
+            <p class="small">
+                Select the class and control whether its existing test paper
+                is currently live for students.
+            </p>
+
+            <label for="classSelect">Select Class</label>
+
+            <select id="classSelect">
+                <option value="classX">Class X</option>
+                <option value="classXI">Class XI</option>
+                <option value="classXII">Class XII</option>
+            </select>
+
+            <div class="status-box">
+
+                <div>Current Test Status</div>
+
+                <div id="currentStatus" class="status off">
+                    ● TEST NOT LIVE
+                </div>
+
+                <button id="startBtn">
+                    ▶ START TEST
+                </button>
+
+                <button id="stopBtn" class="stop">
+                    ■ STOP TEST
+                </button>
+
+                <div id="controlMessage" class="message"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIVE STATUS -->
+        <section class="card">
+
+            <h2>📊 Class Test Status</h2>
+
+            <div class="class-card">
+                <h3>Class X</h3>
+                <div id="statusX" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-x.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XI</h3>
+                <div id="statusXI" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xi.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XII</h3>
+                <div id="statusXII" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xii.html</strong>
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- STUDENT RESULTS DISPLAY ONLY -->
+        <section class="card" id="studentResultsSection">
+            <h2>📊 Student Results</h2>
+            <p class="small">View submitted scores for each student.</p>
+            <label for="resultClassSelect">Select Class</label>
+            <select id="resultClassSelect">
+                <option value="classX">Class X</option>
+                <option value="classXI">Class XI</option>
+                <option value="classXII">Class XII</option>
+            </select>
+            <button id="loadResultsBtn">LOAD RESULTS</button>
+            <div id="resultsMessage" class="message">
+                Select a class and load student results.
+            </div>
+            <div id="resultsTable"></div>
+        </section>
+
+        <section class="card">
+
+            <h2>👤 Teacher Account</h2>
+
+            <div id="teacherInfo" class="teacher-info"></div>
+
+            <button id="logoutBtn" class="secondary">
+                Log Out
+            </button>
+
+        </section>
+
+    </section>
+
+</div>
+
+
+<footer>
+    <strong>LET'S SCORE</strong><br>
+    Teacher Control • Revisionary Tests
+</footer>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue,
+    get
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* ================================
+   FIREBASE CONFIGURATION
+================================ */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+
+    authDomain:
+        "lets-score-revisionary-test.firebaseapp.com",
+
+    databaseURL:
+        "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+
+    projectId:
+        "lets-score-revisionary-test",
+
+    storageBucket:
+        "lets-score-revisionary-test.firebasestorage.app",
+
+    messagingSenderId:
+        "629595293837",
+
+    appId:
+        "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+
+/* ================================
+   INITIALISE FIREBASE
+================================ */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+
+/* ================================
+   ELEMENTS
+================================ */
+
+const loginCard =
+    document.getElementById("loginCard");
+
+const controlPanel =
+    document.getElementById("controlPanel");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const controlMessage =
+    document.getElementById("controlMessage");
+
+const classSelect =
+    document.getElementById("classSelect");
+
+const currentStatus =
+    document.getElementById("currentStatus");
+
+const teacherInfo =
+    document.getElementById("teacherInfo");
+
+
+/* ================================
+   FIREBASE PATHS
+================================ */
+
+const testPaths = {
+
+    classX:
+        "examControl/classX",
+
+    classXI:
+        "examControl/classXI",
+
+    classXII:
+        "examControl/classXII"
+
+};
+
+
+/* ================================
+   LOGIN
+================================ */
+
+document.getElementById("loginBtn")
+.addEventListener("click", async () => {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    if (!email || !password) {
+
+        loginMessage.textContent =
+            "Please enter email and password.";
+
+        return;
+    }
+
+    loginMessage.textContent =
+        "Signing in...";
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        loginMessage.textContent =
+            "";
+
+    } catch (error) {
+
+        console.error(error);
+
+        loginMessage.textContent =
+            "Login failed: " + error.message;
+
+    }
+
+});
+
+
+/* ================================
+   AUTH STATE
+================================ */
+
+onAuthStateChanged(auth, user => {
+
+    if (user) {
+
+        loginCard.classList.add("hidden");
+
+        controlPanel.classList.remove("hidden");
+
+        teacherInfo.textContent =
+            "Signed in as: " + user.email;
+
+        startStatusListeners();
+
+    } else {
+
+        loginCard.classList.remove("hidden");
+
+        controlPanel.classList.add("hidden");
+
+        teacherInfo.textContent =
+            "";
+
+    }
+
+});
+
+
+/* ================================
+   START TEST
+================================ */
+
+document.getElementById("startBtn")
+.addEventListener("click", async () => {
+
+    const selectedClass =
+        classSelect.value;
+
+    try {
+
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: true
+            }
+        );
+
+        controlMessage.textContent =
+            "✓ Test started successfully.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        controlMessage.textContent =
+            "Unable to start test: " +
+            error.message;
+
+    }
+
+});
+
+
+/* ================================
+   STOP TEST
+================================ */
+
+document.getElementById("stopBtn")
+.addEventListener("click", async () => {
+
+    const selectedClass =
+        classSelect.value;
+
+    try {
+
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: false
+            }
+        );
+
+        controlMessage.textContent =
+            "✓ Test stopped successfully.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        controlMessage.textContent =
+            "Unable to stop test: " +
+            error.message;
+
+    }
+
+});
+
+
+/* ================================
+   DISPLAY SELECTED STATUS
+================================ */
+
+function updateSelectedStatus(data) {
+
+    const live =
+        data && data.live === true;
+
+    if (live) {
+
+        currentStatus.textContent =
+            "● TEST LIVE";
+
+        currentStatus.className =
+            "status live";
+
+    } else {
+
+        currentStatus.textContent =
+            "● TEST NOT LIVE";
+
+        currentStatus.className =
+            "status off";
+
+    }
+
+}
+
+
+/* ================================
+   STATUS LISTENERS
+================================ */
+
+function startStatusListeners() {
+
+    Object.keys(testPaths).forEach(className => {
+
+        onValue(
+            ref(db, testPaths[className]),
+
+            snapshot => {
+
+                const data =
+                    snapshot.val() || {};
+
+                const live =
+                    data.live === true;
+
+                updateClassStatus(
+                    className,
+                    live
+                );
+
+                if (
+                    classSelect.value ===
+                    className
+                ) {
+
+                    updateSelectedStatus(data);
+
+                }
+
+            },
+
+            error => {
+
+                console.error(
+                    "Firebase read error:",
+                    error
+                );
+
+            }
+        );
+
+    });
+
+}
+
+
+/* ================================
+   CLASS STATUS DISPLAY
+================================ */
+
+function updateClassStatus(
+    className,
+    live
+) {
+
+    let element;
+
+    if (className === "classX") {
+
+        element =
+            document.getElementById("statusX");
+
+    }
+
+    if (className === "classXI") {
+
+        element =
+            document.getElementById("statusXI");
+
+    }
+
+    if (className === "classXII") {
+
+        element =
+            document.getElementById("statusXII");
+
+    }
+
+    if (!element) return;
+
+    if (live) {
+
+        element.textContent =
+            "● TEST LIVE";
+
+        element.className =
+            "class-status live";
+
+    } else {
+
+        element.textContent =
+            "● TEST NOT LIVE";
+
+        element.className =
+            "class-status off";
+
+    }
+
+}
+
+
+/* ================================
+   CLASS SELECTION
+================================ */
+
+classSelect.addEventListener(
+    "change",
+    async () => {
+
+        const selectedClass =
+            classSelect.value;
+
+        try {
+
+            const snapshot =
+                await new Promise(
+                    (resolve, reject) => {
+
+                        onValue(
+                            ref(
+                                db,
+                                testPaths[
+                                    selectedClass
+                                ]
+                            ),
+                            resolve,
+                            {
+                                onlyOnce:true
+                            }
+                        );
+
+                    }
+                );
+
+            updateSelectedStatus(
+                snapshot.val() || {}
+            );
+
+            controlMessage.textContent =
+                "";
+
+        } catch (error) {
+
+            console.error(error);
+
+            controlMessage.textContent =
+                "Unable to read test status.";
+
+        }
+
+    }
+);
+
+
+/* ================================
+   STUDENT RESULTS DISPLAY ONLY
+================================ */
+
+const resultClassSelect =
+    document.getElementById("resultClassSelect");
+
+const loadResultsBtn =
+    document.getElementById("loadResultsBtn");
+
+const resultsMessage =
+    document.getElementById("resultsMessage");
+
+const resultsTable =
+    document.getElementById("resultsTable");
+
+loadResultsBtn.addEventListener("click", async () => {
+
+    const selectedClass = resultClassSelect.value;
+
+    resultsMessage.textContent = "Loading student results...";
+    resultsTable.innerHTML = "";
+
+    try {
+
+        const snapshot = await get(
+            ref(db, "results/" + selectedClass)
+        );
+
+        if (!snapshot.exists()) {
+            resultsMessage.textContent =
+                "No student results found for Class " +
+                selectedClass.replace("class", "") + ".";
+            return;
+        }
+
+        const tests = snapshot.val() || {};
+        const rows = [];
+
+        Object.entries(tests).forEach(([testId, submissions]) => {
+
+            if (!submissions ||
+                typeof submissions !== "object") return;
+
+            Object.values(submissions).forEach(result => {
+
+                if (!result ||
+                    typeof result !== "object") return;
+
+                const score = Number(result.score || 0);
+                const maxMarks = Number(result.maxMarks || 0);
+
+                rows.push({
+                    testId,
+                    name: result.name || "Unknown",
+                    score,
+                    maxMarks,
+                    percentage:
+                        maxMarks > 0
+                            ? ((score / maxMarks) * 100).toFixed(1)
+                            : "0.0",
+                    submittedAt: result.submittedAt || 0
+                });
+            });
+        });
+
+        rows.sort((a,b) =>
+            Number(b.submittedAt || 0) -
+            Number(a.submittedAt || 0)
+        );
+
+        if (!rows.length) {
+            resultsMessage.textContent =
+                "No student results found.";
+            return;
+        }
+
+        let table = `
+            <div class="results-table-wrap">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Test ID</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        rows.forEach((row,index) => {
+
+            const submitted = row.submittedAt
+                ? new Date(row.submittedAt).toLocaleString()
+                : "—";
+
+            table += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${escapeResultText(row.name)}</td>
+                    <td>${escapeResultText(row.testId)}</td>
+                    <td class="result-score">
+                        ${row.score} / ${row.maxMarks}
+                    </td>
+                    <td>${row.percentage}%</td>
+                    <td>${escapeResultText(submitted)}</td>
+                </tr>
+            `;
+        });
+
+        table += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        resultsTable.innerHTML = table;
+
+        resultsMessage.textContent =
+            rows.length + " student submission(s) found.";
+
+    } catch (error) {
+
+        console.error("Student results read error:", error);
+
+        resultsMessage.textContent =
+            "Could not load student results. Check Firebase read permissions.";
+    }
+});
+
+function escapeResultText(value) {
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g, char => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        }[char]));
+
+}
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+});
+
+
+</script>
+
+</body>
+</html>
