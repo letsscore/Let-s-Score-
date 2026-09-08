@@ -877,6 +877,8 @@ loadResultsBtn.addEventListener("click", async () => {
         }
 
         const tests = snapshot.val() || {};
+        const evalSnapshot = await get(ref(db, "teacherEvaluations/" + selectedClass));
+        const evaluations = evalSnapshot.exists() ? (evalSnapshot.val() || {}) : {};
         const rows = [];
 
         Object.entries(tests).forEach(([testId, submissions]) => {
@@ -890,8 +892,10 @@ loadResultsBtn.addEventListener("click", async () => {
                 const isScience90 = selectedClass === "classX" &&
                     (testId === "class10-science-90-3hours" || cbtMax === 45 || Number(result.maxMarks) === 45);
 
-                const part2 = isScience90 && result.part2Marks !== undefined
-                    ? Number(result.part2Marks) : null;
+                const savedEval = isScience90 && evaluations?.[testId]?.[submissionId]
+                    ? evaluations[testId][submissionId] : null;
+                const part2 = isScience90 && savedEval && savedEval.part2Marks !== undefined
+                    ? Number(savedEval.part2Marks) : (isScience90 && result.part2Marks !== undefined ? Number(result.part2Marks) : null);
                 const total = isScience90 && part2 !== null
                     ? cbt + part2 : cbt;
                 const totalMax = isScience90 ? 90 : cbtMax;
@@ -982,12 +986,13 @@ window.savePart2 = async function(testId, submissionId, index, cbt) {
         const total = cbt + value;
         const percentage = ((total / 90) * 100).toFixed(1);
 
-        await update(ref(db, `results/classX/${testId}/${submissionId}`), {
+        await set(ref(db, `teacherEvaluations/classX/${testId}/${submissionId}`), {
             part2Marks: value,
             grandTotal: total,
             grandTotalMaxMarks: 90,
             percentage: Number(percentage),
-            part2SavedAt: Date.now()
+            savedAt: Date.now(),
+            savedBy: 'teacher'
         });
 
         document.getElementById("total-" + index).textContent = `${total} / 90`;
@@ -995,7 +1000,7 @@ window.savePart2 = async function(testId, submissionId, index, cbt) {
         resultsMessage.textContent = "Part II marks saved successfully. Grand Total updated.";
     } catch (error) {
         console.error("Part II save error:", error);
-        alert("Could not save Part II marks. Check Firebase write permissions.");
+        alert("Could not save Part II marks. Please check Firebase teacher evaluation permissions.");
     }
 };
 
