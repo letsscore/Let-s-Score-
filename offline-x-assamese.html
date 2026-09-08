@@ -448,7 +448,7 @@ class="btn"
 id="generatePayment"
 type="button"
 >
-Continue to Payment — ₹549
+Continue to Payment — BATCH NOT RUNNING NOW
 </button>
 
 
@@ -471,7 +471,7 @@ id="paymentSection"
 </p>
 
 <div class="advance">
-₹549
+BATCH NOT RUNNING NOW
 </div>
 
 <p>
@@ -479,16 +479,9 @@ Pay through <strong>any UPI app</strong>
 </p>
 
 <p>
-UPI ID:
+UPI NUMBER:
 <strong id="upiText">
-hussain-abidur@ybl
-</strong>
-</p>
-
-<p>
-Account / UPI Name:
-<strong>
-Tanjilla Begum
+9678945621
 </strong>
 </p>
 
@@ -516,7 +509,7 @@ id="upiButton"
 class="btn green"
 href="#"
 >
-📱 Pay ₹549 with UPI App
+📱 Pay ₹? with UPI App(BATCH NOT RUNNING NOW)
 </a>
 
 
@@ -526,7 +519,7 @@ href="#"
 
 <p class="muted small">
 
-1. Pay exactly ₹549 using the QR code or UPI button.
+1. Pay exactly ₹to be announced soon using the QR code or UPI button or UPI number.
 
 <br>
 
@@ -582,7 +575,7 @@ Your admission request has been submitted successfully.
 </p>
 
 <p>
-Please send your <strong>₹549 payment receipt</strong>
+Please send your <strong>₹? payment receipt</strong>
 on WhatsApp for payment verification.
 </p>
 
@@ -619,9 +612,6 @@ For payment or admission-related assistance, contact:
 <strong>WhatsApp: 7002137940</strong>
 </p>
 
-<p>
-<strong>UPI Name: Tanjilla Begum</strong>
-</p>
 
 </section>
 
@@ -700,19 +690,18 @@ const COURSE =
 "Class X Assamese Medium Offline Course";
 
 const ADVANCE_AMOUNT =
-549;
+?;
 
 const FULL_FEE =
-2599;
+?;
 
 const REMAINING_AMOUNT =
 FULL_FEE - ADVANCE_AMOUNT;
 
-const UPI_ID =
-"hussain-abidur@ybl";
+const UPI_NUMBER=
+"9678945621";
 
-const UPI_NAME =
-"Tanjilla Begum";
+
 
 const WHATSAPP =
 "917002137940";
@@ -940,10 +929,8 @@ const params =
 new URLSearchParams({
 
 pa:
-UPI_ID,
-
-pn:
-UPI_NAME,
+UPI_NUMBER,
+,
 
 am:
 ADVANCE_AMOUNT.toFixed(2),
