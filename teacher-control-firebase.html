@@ -108,8 +108,8 @@ button.secondary{background:#334155}
 
 <section class="card">
 <h2>4. Student Results</h2>
-<p class="small">Results are loaded from the selected class and test.</p>
-<button onclick="loadResults()">Load Results</button>
+<p class="small">Class X Science test submissions: CBT /45 + Written Part II /45 = Grand Total /90.</p>
+<button type="button" onclick="loadResults()">Load Results</button>
 <div id="results"></div>
 </section>
 
@@ -146,6 +146,19 @@ const db = getDatabase(app);
 
 const statusBox=document.getElementById("status");
 statusBox.innerHTML='<span class="live">Firebase connected.</span>';
+document.getElementById("classSelect").addEventListener("change",()=>{
+  if(document.getElementById("classSelect").value==='classX' && !document.getElementById("testId").value.trim()){
+    document.getElementById("testId").value='class10-science-90-3hours';
+    document.getElementById("testTitle").value='দশম শ্ৰেণী বিজ্ঞান — পুনৰাবৃত্তিমূলক পৰীক্ষা';
+    document.getElementById("duration").value=180;
+    document.getElementById("maxMarks").value=1;
+  }
+});
+if(document.getElementById("classSelect").value==='classX'){
+  document.getElementById("testId").value='class10-science-90-3hours';
+  document.getElementById("testTitle").value='দশম শ্ৰেণী বিজ্ঞান — পুনৰাবৃত্তিমূলক পৰীক্ষা';
+  document.getElementById("duration").value=180;
+}
 
 window.addQuestion=function(data={}){
   const box=document.createElement("div");
@@ -241,22 +254,84 @@ window.setLive=async function(value){
 
 window.loadResults=async function(){
   const results=document.getElementById("results");
+  results.innerHTML='<div class="status">Loading results…</div>';
   try{
     const cls=document.getElementById("classSelect").value;
-    const id=document.getElementById("testId").value.trim();
-    if(!id){results.textContent="Enter a Test ID.";return}
+    let id=document.getElementById("testId").value.trim();
+    if(!id && cls==='classX') id='class10-science-90-3hours';
+    if(!id){results.innerHTML='<div class="status offline">Enter a Test ID.</div>';return}
     const snap=await get(ref(db,`results/${cls}/${id}`));
-    if(!snap.exists()){results.textContent="No submitted results found.";return}
-    results.innerHTML="";
-    Object.entries(snap.val()).forEach(([key,r])=>{
-      const div=document.createElement("div");
-      div.className="result";
-      div.innerHTML=`<strong>${escapeHtml(r.name||"Student")}</strong>
-      — Score: ${escapeHtml(String(r.score??"—"))}
-      <div class="small">${escapeHtml(r.submittedAt?new Date(r.submittedAt).toLocaleString():"")}</div>`;
-      results.appendChild(div);
+    if(!snap.exists()){
+      results.innerHTML='<div class="status">No submitted results found for this class and test.</div>';
+      return;
+    }
+    const rows=Object.entries(snap.val()).map(([key,r])=>({key,r}));
+    rows.sort((a,b)=>(b.r.submittedAt||0)-(a.r.submittedAt||0));
+    results.innerHTML=`
+      <div class="status live">${rows.length} student submission(s) found.</div>
+      <div style="overflow-x:auto;margin-top:12px">
+      <table style="width:100%;border-collapse:collapse;min-width:780px">
+        <thead><tr>
+          <th style="padding:10px;border:1px solid #304362">#</th>
+          <th style="padding:10px;border:1px solid #304362;text-align:left">Student</th>
+          <th style="padding:10px;border:1px solid #304362">CBT /45</th>
+          <th style="padding:10px;border:1px solid #304362">Part II /45</th>
+          <th style="padding:10px;border:1px solid #304362">Grand /90</th>
+          <th style="padding:10px;border:1px solid #304362">%</th>
+          <th style="padding:10px;border:1px solid #304362">Submitted</th>
+          <th style="padding:10px;border:1px solid #304362">Action</th>
+        </tr></thead><tbody id="resultRows"></tbody>
+      </table></div>`;
+    const tbody=document.getElementById('resultRows');
+    rows.forEach(({key,r},idx)=>{
+      const cbt=Number(r.cbtScore ?? r.score ?? 0);
+      const part=r.partIIMarks===null || r.partIIMarks===undefined || r.partIIMarks==='' ? '' : Number(r.partIIMarks);
+      const grand=part==='' ? '' : Math.round((cbt+part)*100)/100;
+      const pct=grand==='' ? '' : Math.round((grand/90)*10000)/100;
+      const tr=document.createElement('tr');
+      tr.innerHTML=`
+        <td style="padding:10px;border:1px solid #304362;text-align:center">${idx+1}</td>
+        <td style="padding:10px;border:1px solid #304362">${escapeHtml(r.name||'Student')}</td>
+        <td style="padding:10px;border:1px solid #304362;text-align:center">${cbt} / 45</td>
+        <td style="padding:10px;border:1px solid #304362">
+          <input id="part-${key}" type="number" min="0" max="45" step="0.5" value="${part===''?'':part}" placeholder="0–45" style="width:110px">
+        </td>
+        <td id="grand-${key}" style="padding:10px;border:1px solid #304362;text-align:center;font-weight:800">${grand===''?'—':grand+' / 90'}</td>
+        <td id="pct-${key}" style="padding:10px;border:1px solid #304362;text-align:center">${pct===''?'—':pct+'%'}</td>
+        <td style="padding:10px;border:1px solid #304362;font-size:12px">${r.submittedAt?new Date(r.submittedAt).toLocaleString():'—'}</td>
+        <td style="padding:10px;border:1px solid #304362"><button type="button" onclick="saveWrittenMarks('${key}',${cbt})">Save</button></td>`;
+      tbody.appendChild(tr);
+      const input=tr.querySelector(`#part-${key}`);
+      input.addEventListener('input',()=>{
+        const v=input.value===''?null:Number(input.value);
+        if(v===null || !Number.isFinite(v) || v<0 || v>45){tr.querySelector(`#grand-${key}`).textContent='—';tr.querySelector(`#pct-${key}`).textContent='—';return;}
+        const g=Math.round((cbt+v)*100)/100; const pc=Math.round((g/90)*10000)/100;
+        tr.querySelector(`#grand-${key}`).textContent=g+' / 90';tr.querySelector(`#pct-${key}`).textContent=pc+'%';
+      });
     });
-  }catch(e){results.textContent=e.message}
+    window.__resultsClass=cls; window.__resultsTest=id;
+  }catch(e){console.error(e);results.innerHTML='<div class="status offline">'+escapeHtml(e.message||String(e))+'</div>'}
+};
+
+window.saveWrittenMarks=async function(key,cbt){
+  try{
+    const input=document.getElementById(`part-${key}`);
+    const value=input?.value===''?null:Number(input?.value);
+    if(value===null || !Number.isFinite(value) || value<0 || value>45){alert('Part II marks must be between 0 and 45.');return;}
+    const grand=Math.round((cbt+value)*100)/100;
+    await update(ref(db,`results/${window.__resultsClass}/${window.__resultsTest}/${key}`),{
+      partIIMarks:value,
+      grandTotal:grand,
+      maxMarks:90,
+      cbtMaxMarks:45,
+      partIIMaxMarks:45,
+      updatedAt:Date.now()
+    });
+    const g=document.getElementById(`grand-${key}`),p=document.getElementById(`pct-${key}`);
+    if(g)g.textContent=grand+' / 90';
+    if(p)p.textContent=Math.round((grand/90)*10000)/100+'%';
+    alert('Marks saved successfully.');
+  }catch(e){console.error(e);alert('Marks could not be saved: '+e.message)}
 };
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
