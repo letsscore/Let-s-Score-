@@ -204,7 +204,7 @@ footer{
     margin-top:30px;
 }
 
-/* RESULTS DISPLAY ONLY */
+/* RESULTS DISPLAY */
 .results-table-wrap{overflow-x:auto;margin-top:18px}
 .results-table{width:100%;border-collapse:collapse;background:#0d1d34;border:1px solid #29415f}
 .results-table th,.results-table td{border:1px solid #29415f;padding:10px 9px;text-align:left;white-space:nowrap}
@@ -361,7 +361,7 @@ footer{
         <!-- STUDENT RESULTS DISPLAY ONLY -->
         <section class="card" id="studentResultsSection">
             <h2>📊 Student Results</h2>
-            <p class="small">View submitted scores for each student.</p>
+            <p class="small">Load submitted results. For the Class X Science 90-mark test, enter the written section marks out of 45 and save the final result.</p>
             <label for="resultClassSelect">Select Class</label>
             <select id="resultClassSelect">
                 <option value="classX">Class X</option>
@@ -869,15 +869,10 @@ loadResultsBtn.addEventListener("click", async () => {
     resultsTable.innerHTML = "";
 
     try {
-
-        const snapshot = await get(
-            ref(db, "results/" + selectedClass)
-        );
+        const snapshot = await get(ref(db, "results/" + selectedClass));
 
         if (!snapshot.exists()) {
-            resultsMessage.textContent =
-                "No student results found for Class " +
-                selectedClass.replace("class", "") + ".";
+            resultsMessage.textContent = "No student results found.";
             return;
         }
 
@@ -885,98 +880,128 @@ loadResultsBtn.addEventListener("click", async () => {
         const rows = [];
 
         Object.entries(tests).forEach(([testId, submissions]) => {
+            if (!submissions || typeof submissions !== "object") return;
 
-            if (!submissions ||
-                typeof submissions !== "object") return;
+            Object.entries(submissions).forEach(([submissionId, result]) => {
+                if (!result || typeof result !== "object") return;
 
-            Object.values(submissions).forEach(result => {
+                const cbt = Number(result.cbtScore ?? result.score ?? 0);
+                const cbtMax = Number(result.cbtMaxMarks ?? result.maxMarks ?? 45);
+                const isScience90 = selectedClass === "classX" &&
+                    (testId === "class10-science-90-3hours" || cbtMax === 45 || Number(result.maxMarks) === 45);
 
-                if (!result ||
-                    typeof result !== "object") return;
-
-                const score = Number(result.score || 0);
-                const maxMarks = Number(result.maxMarks || 0);
+                const part2 = isScience90 && result.part2Marks !== undefined
+                    ? Number(result.part2Marks) : null;
+                const total = isScience90 && part2 !== null
+                    ? cbt + part2 : cbt;
+                const totalMax = isScience90 ? 90 : cbtMax;
 
                 rows.push({
                     testId,
+                    submissionId,
                     name: result.name || "Unknown",
-                    score,
-                    maxMarks,
-                    percentage:
-                        maxMarks > 0
-                            ? ((score / maxMarks) * 100).toFixed(1)
-                            : "0.0",
-                    submittedAt: result.submittedAt || 0
+                    cbt,
+                    cbtMax,
+                    part2,
+                    total,
+                    totalMax,
+                    percentage: totalMax > 0 ? ((total / totalMax) * 100).toFixed(1) : "0.0",
+                    submittedAt: result.submittedAt || 0,
+                    science90: isScience90
                 });
             });
         });
 
-        rows.sort((a,b) =>
-            Number(b.submittedAt || 0) -
-            Number(a.submittedAt || 0)
-        );
+        rows.sort((a,b) => Number(b.submittedAt || 0) - Number(a.submittedAt || 0));
 
         if (!rows.length) {
-            resultsMessage.textContent =
-                "No student results found.";
+            resultsMessage.textContent = "No student results found.";
             return;
         }
 
         let table = `
             <div class="results-table-wrap">
                 <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Student</th>
-                            <th>Test ID</th>
-                            <th>Score</th>
-                            <th>Percentage</th>
-                            <th>Submitted</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
+                    <thead><tr>
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Test ID</th>
+                        <th>CBT /45</th>
+                        <th>Part II /45</th>
+                        <th>Total /90</th>
+                        <th>%</th>
+                        <th>Submitted</th>
+                        <th>Action</th>
+                    </tr></thead><tbody>`;
 
         rows.forEach((row,index) => {
-
-            const submitted = row.submittedAt
-                ? new Date(row.submittedAt).toLocaleString()
+            const submitted = row.submittedAt ? new Date(row.submittedAt).toLocaleString() : "—";
+            const part2Cell = row.science90
+                ? `<input id="part2-${index}" type="number" min="0" max="45" step="0.5" value="${row.part2 ?? ""}" placeholder="0–45" style="min-width:100px">`
+                : "—";
+            const totalText = row.science90
+                ? `${row.total} / 90`
+                : `${row.total} / ${row.totalMax}`;
+            const action = row.science90
+                ? `<button type="button" onclick="savePart2('${escapeJs(row.testId)}','${escapeJs(row.submissionId)}',${index},${row.cbt})">SAVE</button>`
                 : "—";
 
-            table += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${escapeResultText(row.name)}</td>
-                    <td>${escapeResultText(row.testId)}</td>
-                    <td class="result-score">
-                        ${row.score} / ${row.maxMarks}
-                    </td>
-                    <td>${row.percentage}%</td>
-                    <td>${escapeResultText(submitted)}</td>
-                </tr>
-            `;
+            table += `<tr>
+                <td>${index+1}</td>
+                <td>${escapeResultText(row.name)}</td>
+                <td>${escapeResultText(row.testId)}</td>
+                <td class="result-score">${row.cbt} / 45</td>
+                <td>${part2Cell}</td>
+                <td id="total-${index}" class="result-score">${totalText}</td>
+                <td id="percent-${index}">${row.percentage}%</td>
+                <td>${escapeResultText(submitted)}</td>
+                <td>${action}</td>
+            </tr>`;
         });
 
-        table += `
-                    </tbody>
-                </table>
-            </div>
-        `;
-
+        table += `</tbody></table></div>`;
         resultsTable.innerHTML = table;
-
-        resultsMessage.textContent =
-            rows.length + " student submission(s) found.";
+        resultsMessage.textContent = rows.length + " student submission(s) found.";
 
     } catch (error) {
-
         console.error("Student results read error:", error);
-
-        resultsMessage.textContent =
-            "Could not load student results. Check Firebase read permissions.";
+        resultsMessage.textContent = "Could not load student results. Check Firebase read permissions.";
     }
 });
+
+window.savePart2 = async function(testId, submissionId, index, cbt) {
+    const input = document.getElementById("part2-" + index);
+    const value = Number(input.value);
+
+    if (!Number.isFinite(value) || value < 0 || value > 45) {
+        alert("Part II marks must be between 0 and 45.");
+        return;
+    }
+
+    try {
+        const total = cbt + value;
+        const percentage = ((total / 90) * 100).toFixed(1);
+
+        await update(ref(db, `results/classX/${testId}/${submissionId}`), {
+            part2Marks: value,
+            grandTotal: total,
+            grandTotalMaxMarks: 90,
+            percentage: Number(percentage),
+            part2SavedAt: Date.now()
+        });
+
+        document.getElementById("total-" + index).textContent = `${total} / 90`;
+        document.getElementById("percent-" + index).textContent = `${percentage}%`;
+        resultsMessage.textContent = "Part II marks saved successfully. Grand Total updated.";
+    } catch (error) {
+        console.error("Part II save error:", error);
+        alert("Could not save Part II marks. Check Firebase write permissions.");
+    }
+};
+
+function escapeJs(value) {
+    return String(value ?? "").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\r/g,"\\r").replace(/\n/g,"\\n");
+}
 
 function escapeResultText(value) {
 
