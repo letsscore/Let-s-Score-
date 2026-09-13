@@ -408,48 +408,40 @@ footer{
             <div id="enrollMessage" class="message"></div>
             <div id="enrolledList" style="margin-top:16px"></div>
 
-            <h3 style="margin-top:30px">🎥 Add Video Lecture</h3>
+            <p class="small" style="margin-top:24px">
+                Resources are added as links (no file storage / billing needed). Upload your file to Google Drive (set sharing to "Anyone with the link") or upload your video to YouTube as "Unlisted", then paste the link below.
+            </p>
+
+            <h3 style="margin-top:20px">🎥 Add Video Lecture</h3>
             <label for="videoTitle">Lecture Title</label>
             <input id="videoTitle" placeholder="e.g. Chapter 3 - Light: Reflection & Refraction">
-            <label for="videoFile">Video File</label>
-            <input id="videoFile" type="file" accept="video/*">
-            <button id="uploadVideoBtn">⬆ Upload Video Lecture</button>
-            <div id="videoUploadProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
-                <div id="videoUploadProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
-            </div>
-            <div id="videoUploadMessage" class="message"></div>
+            <label for="videoUrl">YouTube or Google Drive Link</label>
+            <input id="videoUrl" placeholder="https://youtu.be/... or https://drive.google.com/...">
+            <button id="addVideoBtn">+ Add Video Lecture</button>
+            <div id="videoMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📖 Add Notes</h3>
             <label for="noteTitle">Note Title</label>
             <input id="noteTitle" placeholder="e.g. Chapter 1 - Chemical Reactions Notes">
-            <label for="noteFile">File (PDF / Image)</label>
-            <input id="noteFile" type="file" accept="application/pdf,image/*">
-            <button id="uploadNoteBtn">⬆ Upload Note</button>
-            <div id="noteProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
-                <div id="noteProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
-            </div>
+            <label for="noteUrl">Google Drive Link (PDF / Image)</label>
+            <input id="noteUrl" placeholder="https://drive.google.com/...">
+            <button id="addNoteBtn">+ Add Note</button>
             <div id="noteMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📘 Add NCERT Solution</h3>
             <label for="solutionTitle">Solution Title</label>
             <input id="solutionTitle" placeholder="e.g. Chapter 1 - NCERT Solutions">
-            <label for="solutionFile">File (PDF / Image)</label>
-            <input id="solutionFile" type="file" accept="application/pdf,image/*">
-            <button id="uploadSolutionBtn">⬆ Upload Solution</button>
-            <div id="solutionProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
-                <div id="solutionProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
-            </div>
+            <label for="solutionUrl">Google Drive Link (PDF / Image)</label>
+            <input id="solutionUrl" placeholder="https://drive.google.com/...">
+            <button id="addSolutionBtn">+ Add Solution</button>
             <div id="solutionMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📄 Add Model Question Paper</h3>
             <label for="paperTitle">Paper Title</label>
             <input id="paperTitle" placeholder="e.g. Model Paper Set 1">
-            <label for="paperFile">File (PDF / Image)</label>
-            <input id="paperFile" type="file" accept="application/pdf,image/*">
-            <button id="uploadPaperBtn">⬆ Upload Paper</button>
-            <div id="paperProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
-                <div id="paperProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
-            </div>
+            <label for="paperUrl">Google Drive Link (PDF / Image)</label>
+            <input id="paperUrl" placeholder="https://drive.google.com/...">
+            <button id="addPaperBtn">+ Add Model Paper</button>
             <div id="paperMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📂 Current Resources</h3>
@@ -503,13 +495,6 @@ import {
     remove
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-import {
-    getStorage,
-    ref as storageRef,
-    uploadBytesResumable,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
-
 
 /* ================================
    FIREBASE CONFIGURATION
@@ -548,8 +533,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const db = getDatabase(app);
-
-const storage = getStorage(app);
 
 
 /* ================================
@@ -1166,44 +1149,28 @@ document.getElementById("revokeAccessBtn").addEventListener("click", async () =>
     } catch (e) { msg.textContent = "Error: " + e.message; }
 });
 
-function bindFileUpload(config){
-    const { btnId, titleId, fileId, msgId, wrapId, barId, category } = config;
-    document.getElementById(btnId).addEventListener("click", () => {
+function bindLinkResource(config){
+    const { btnId, titleId, urlId, msgId, category } = config;
+    document.getElementById(btnId).addEventListener("click", async () => {
         const title = document.getElementById(titleId).value.trim();
-        const file = document.getElementById(fileId).files[0];
+        const url = document.getElementById(urlId).value.trim();
         const msg = document.getElementById(msgId);
-        const wrap = document.getElementById(wrapId);
-        const bar = document.getElementById(barId);
         if (!title) { msg.textContent = "Enter a title."; return; }
-        if (!file) { msg.textContent = "Choose a file."; return; }
-
-        const safeName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        const fileRef = storageRef(storage, `${coursePath()}/${category}/${safeName}`);
-        const task = uploadBytesResumable(fileRef, file);
-        wrap.classList.remove("hidden");
-        msg.textContent = "Uploading...";
-
-        task.on("state_changed", (snap) => {
-            const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-            bar.style.width = pct + "%";
-            msg.textContent = "Uploading... " + pct + "%";
-        }, (err) => {
-            msg.textContent = "Upload failed: " + err.message;
-        }, async () => {
-            const url = await getDownloadURL(fileRef);
+        if (!url) { msg.textContent = "Paste a link."; return; }
+        try {
             await push(ref(db, `${coursePath()}/${category}`), { title, url, addedAt: Date.now() });
-            msg.textContent = "✓ Uploaded successfully.";
-            bar.style.width = "100%";
+            msg.textContent = "✓ Added successfully.";
             document.getElementById(titleId).value = "";
-            document.getElementById(fileId).value = "";
-        });
+            document.getElementById(urlId).value = "";
+        } catch (e) { msg.textContent = "Error: " + e.message; }
     });
 }
 
-bindFileUpload({ btnId:"uploadVideoBtn", titleId:"videoTitle", fileId:"videoFile", msgId:"videoUploadMessage", wrapId:"videoUploadProgressWrap", barId:"videoUploadProgressBar", category:"videos" });
-bindFileUpload({ btnId:"uploadNoteBtn", titleId:"noteTitle", fileId:"noteFile", msgId:"noteMessage", wrapId:"noteProgressWrap", barId:"noteProgressBar", category:"notes" });
-bindFileUpload({ btnId:"uploadSolutionBtn", titleId:"solutionTitle", fileId:"solutionFile", msgId:"solutionMessage", wrapId:"solutionProgressWrap", barId:"solutionProgressBar", category:"solutions" });
-bindFileUpload({ btnId:"uploadPaperBtn", titleId:"paperTitle", fileId:"paperFile", msgId:"paperMessage", wrapId:"paperProgressWrap", barId:"paperProgressBar", category:"papers" });
+bindLinkResource({ btnId:"addVideoBtn", titleId:"videoTitle", urlId:"videoUrl", msgId:"videoMessage", category:"videos" });
+bindLinkResource({ btnId:"addNoteBtn", titleId:"noteTitle", urlId:"noteUrl", msgId:"noteMessage", category:"notes" });
+bindLinkResource({ btnId:"addSolutionBtn", titleId:"solutionTitle", urlId:"solutionUrl", msgId:"solutionMessage", category:"solutions" });
+bindLinkResource({ btnId:"addPaperBtn", titleId:"paperTitle", urlId:"paperUrl", msgId:"paperMessage", category:"papers" });
+
 
 const CATEGORY_LABELS = { notes:"📖 Notes", solutions:"📘 NCERT Solutions", videos:"🎥 Video Lectures", papers:"📄 Model Papers" };
 

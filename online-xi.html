@@ -98,6 +98,18 @@ function escapeHtml(s){
 }
 function normalizeUtr(v){ return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,''); }
 
+function videoEmbedHtml(url){
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{6,})/);
+  if(yt){
+    return `<iframe src="https://www.youtube.com/embed/${yt[1]}" style="width:100%;aspect-ratio:16/9;border-radius:10px;margin-top:10px;border:0" allowfullscreen></iframe>`;
+  }
+  const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(drive){
+    return `<iframe src="https://drive.google.com/file/d/${drive[1]}/preview" style="width:100%;aspect-ratio:16/9;border-radius:10px;margin-top:10px;border:0" allowfullscreen></iframe>`;
+  }
+  return `<video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${url}"></video>`;
+}
+
 let resourcesLoaded = false;
 
 function unlockResources(){
@@ -118,7 +130,7 @@ function unlockResources(){
         div.className = 'item';
         if(isVideo){
           div.innerHTML = `<strong>🎬 ${escapeHtml(item.title||'Untitled Lecture')}</strong>
-            <video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${item.url}"></video>`;
+            ${videoEmbedHtml(item.url)}`;
         } else {
           div.innerHTML = `<strong>${escapeHtml(item.title||'Untitled')}</strong>
             <p class="muted"><a href="${item.url}" target="_blank" style="color:var(--blue)">Open / Download →</a></p>`;
