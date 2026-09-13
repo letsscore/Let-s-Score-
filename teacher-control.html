@@ -377,15 +377,23 @@ footer{
 
         <section class="card" id="resourceSection">
 
-            <h2>📚 Class X Online (English) — Enrollment &amp; Resources</h2>
+            <h2>📚 Course Resources &amp; Enrollment</h2>
 
             <p class="small">
-                Manage paid student access and upload course resources for the Class X Online Course (English Medium). Course Fee: ₹799.
+                Manage paid student access and upload course resources (notes, NCERT solutions, video lectures, model papers) for each course. Course Fee: ₹799.
             </p>
+
+            <label for="courseSelect">Select Course</label>
+            <select id="courseSelect">
+                <option value="classX-online-english">Class X Science — Online (English)</option>
+                <option value="classXI-online-physics">Class XI Physics — Online (English)</option>
+                <option value="classXII-online-physics">Class XII Physics — Online (English)</option>
+            </select>
+            <p class="small" id="courseSelectedNote">Everything below applies to the course selected above. Uploads and approvals for one course will not appear on another course's page.</p>
 
             <h3 style="margin-top:24px">👥 Student Access Approval (via UTR)</h3>
             <p class="small">
-                Students pay ₹799 via UPI to 9678945621 and share their UTR / Transaction Reference Number. After you cross-verify the payment in your bank/UPI app, enter their name and that UTR below and grant access. They will unlock resources on the course page using that same UTR.
+                Students pay ₹799 via UPI to 9678945621 and share their UTR / Transaction Reference Number. After you cross-verify the payment in your bank/UPI app, enter their name and that UTR below and grant access. They will unlock resources on the selected course's page using that same UTR.
             </p>
 
             <label for="studentName">Student Name</label>
@@ -1108,12 +1116,15 @@ function escapeResultText(value) {
 
 
 /* ================================
-   CLASS X ONLINE (ENGLISH) —
-   ENROLLMENT & RESOURCES
+   COURSE RESOURCES & ENROLLMENT
+   (course-selector driven)
 ================================ */
 
-const COURSE_PATH = "courseResources/classX-online-english";
-const ENROLL_PATH = "enrollments/classX-online-english";
+const courseSelect = document.getElementById("courseSelect");
+
+function currentCourse(){ return courseSelect.value; }
+function coursePath(){ return `courseResources/${currentCourse()}`; }
+function enrollPath(){ return `enrollments/${currentCourse()}`; }
 
 function escRes(v){
     return String(v ?? "").replace(/[&<>"']/g, c => ({
@@ -1131,7 +1142,7 @@ document.getElementById("grantAccessBtn").addEventListener("click", async () => 
     const msg = document.getElementById("enrollMessage");
     if (!utr) { msg.textContent = "Enter a valid UTR / Transaction Reference Number."; return; }
     try {
-        await set(ref(db, `${ENROLL_PATH}/${utr}`), {
+        await set(ref(db, `${enrollPath()}/${utr}`), {
             name: name || "Student",
             utr,
             paid: true,
@@ -1148,26 +1159,11 @@ document.getElementById("revokeAccessBtn").addEventListener("click", async () =>
     const msg = document.getElementById("enrollMessage");
     if (!utr) { msg.textContent = "Enter the UTR to revoke."; return; }
     try {
-        const snap = await get(ref(db, `${ENROLL_PATH}/${utr}`));
+        const snap = await get(ref(db, `${enrollPath()}/${utr}`));
         if (!snap.exists()) { msg.textContent = "No approval found for this UTR."; return; }
-        await set(ref(db, `${ENROLL_PATH}/${utr}`), { ...snap.val(), paid: false, updatedAt: Date.now() });
+        await set(ref(db, `${enrollPath()}/${utr}`), { ...snap.val(), paid: false, updatedAt: Date.now() });
         msg.textContent = "Access revoked for " + utr + ".";
     } catch (e) { msg.textContent = "Error: " + e.message; }
-});
-
-onValue(ref(db, ENROLL_PATH), (snap) => {
-    const data = snap.val();
-    const list = document.getElementById("enrolledList");
-    if (!list) return;
-    if (!data) { list.innerHTML = '<p class="small">No approved students yet.</p>'; return; }
-    const rows = Object.values(data).sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
-    let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
-        <th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>`;
-    rows.forEach(s => {
-        html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td></tr>`;
-    });
-    html += `</tbody></table></div>`;
-    list.innerHTML = html;
 });
 
 function bindFileUpload(config){
@@ -1182,7 +1178,7 @@ function bindFileUpload(config){
         if (!file) { msg.textContent = "Choose a file."; return; }
 
         const safeName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        const fileRef = storageRef(storage, `${COURSE_PATH}/${category}/${safeName}`);
+        const fileRef = storageRef(storage, `${coursePath()}/${category}/${safeName}`);
         const task = uploadBytesResumable(fileRef, file);
         wrap.classList.remove("hidden");
         msg.textContent = "Uploading...";
@@ -1195,7 +1191,7 @@ function bindFileUpload(config){
             msg.textContent = "Upload failed: " + err.message;
         }, async () => {
             const url = await getDownloadURL(fileRef);
-            await push(ref(db, `${COURSE_PATH}/${category}`), { title, url, addedAt: Date.now() });
+            await push(ref(db, `${coursePath()}/${category}`), { title, url, addedAt: Date.now() });
             msg.textContent = "✓ Uploaded successfully.";
             bar.style.width = "100%";
             document.getElementById(titleId).value = "";
@@ -1211,33 +1207,63 @@ bindFileUpload({ btnId:"uploadPaperBtn", titleId:"paperTitle", fileId:"paperFile
 
 const CATEGORY_LABELS = { notes:"📖 Notes", solutions:"📘 NCERT Solutions", videos:"🎥 Video Lectures", papers:"📄 Model Papers" };
 
-onValue(ref(db, COURSE_PATH), (snap) => {
-    const data = snap.val() || {};
-    const box = document.getElementById("resourceListing");
-    if (!box) return;
-    let html = "";
-    Object.keys(CATEGORY_LABELS).forEach(cat => {
-        const items = data[cat] ? Object.entries(data[cat]) : [];
-        html += `<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;
-        if (!items.length) {
-            html += `<p class="small">None added yet.</p>`;
-        } else {
-            items.sort((a,b) => (b[1].addedAt || 0) - (a[1].addedAt || 0));
-            items.forEach(([key, item]) => {
-                html += `<p class="small">• ${escRes(item.title)} — <a href="${item.url}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`;
-            });
-        }
-        html += `</div>`;
-    });
-    box.innerHTML = html;
-});
-
 window.deleteResource = async function(category, key){
     if (!confirm("Delete this resource?")) return;
     try {
-        await remove(ref(db, `${COURSE_PATH}/${category}/${key}`));
+        await remove(ref(db, `${coursePath()}/${category}/${key}`));
     } catch (e) { alert("Could not delete: " + e.message); }
 };
+
+let unsubEnroll = null;
+let unsubResources = null;
+
+function attachCourseListeners(){
+    if (unsubEnroll) unsubEnroll();
+    if (unsubResources) unsubResources();
+
+    unsubEnroll = onValue(ref(db, enrollPath()), (snap) => {
+        const data = snap.val();
+        const list = document.getElementById("enrolledList");
+        if (!list) return;
+        if (!data) { list.innerHTML = '<p class="small">No approved students yet for this course.</p>'; return; }
+        const rows = Object.values(data).sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
+        let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
+            <th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>`;
+        rows.forEach(s => {
+            html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+        list.innerHTML = html;
+    });
+
+    unsubResources = onValue(ref(db, coursePath()), (snap) => {
+        const data = snap.val() || {};
+        const box = document.getElementById("resourceListing");
+        if (!box) return;
+        let html = "";
+        Object.keys(CATEGORY_LABELS).forEach(cat => {
+            const items = data[cat] ? Object.entries(data[cat]) : [];
+            html += `<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;
+            if (!items.length) {
+                html += `<p class="small">None added yet.</p>`;
+            } else {
+                items.sort((a,b) => (b[1].addedAt || 0) - (a[1].addedAt || 0));
+                items.forEach(([key, item]) => {
+                    html += `<p class="small">• ${escRes(item.title)} — <a href="${item.url}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`;
+                });
+            }
+            html += `</div>`;
+        });
+        box.innerHTML = html;
+    });
+}
+
+courseSelect.addEventListener("change", () => {
+    document.getElementById("enrollMessage").textContent = "";
+    attachCourseListeners();
+});
+
+attachCourseListeners();
 
 
 /* ================================
