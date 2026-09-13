@@ -408,6 +408,12 @@ footer{
             <div id="enrollMessage" class="message"></div>
             <div id="enrolledList" style="margin-top:16px"></div>
 
+            <h3 style="margin-top:30px">📋 All Purchase Records (All Courses)</h3>
+            <p class="small">
+                A permanent record of every student's purchase and access status across all courses, kept for future reference. Use "Delete" to permanently remove a student's record — for example, if they are found engaging in unfair activity such as sharing their UTR with others.
+            </p>
+            <div id="allRecordsList" style="margin-top:12px"></div>
+
             <p class="small" style="margin-top:24px">
                 Resources are added as links (no file storage / billing needed). Upload your file to Google Drive (set sharing to "Anyone with the link") or upload your video to YouTube as "Unlisted", then paste the link below.
             </p>
@@ -1231,6 +1237,56 @@ courseSelect.addEventListener("change", () => {
 });
 
 attachCourseListeners();
+
+
+/* ================================
+   ALL PURCHASE RECORDS
+   (combined across every course,
+   kept permanently for reference)
+================================ */
+
+const ALL_COURSES = [
+    { key: "classX-online-english", label: "Class X Science" },
+    { key: "classXI-online-physics", label: "Class XI Physics" },
+    { key: "classXII-online-physics", label: "Class XII Physics" }
+];
+
+const allEnrollData = {};
+
+function renderAllRecords(){
+    const box = document.getElementById("allRecordsList");
+    if (!box) return;
+    let rows = [];
+    ALL_COURSES.forEach(c => {
+        const data = allEnrollData[c.key];
+        if (data) {
+            Object.values(data).forEach(s => rows.push({ ...s, courseLabel: c.label, courseKey: c.key }));
+        }
+    });
+    if (!rows.length) { box.innerHTML = '<p class="small">No purchase records yet.</p>'; return; }
+    rows.sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
+    let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
+        <th>Name</th><th>UTR</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody>`;
+    rows.forEach(s => {
+        html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${escRes(s.courseLabel)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td><td><button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteEnrollment('${s.courseKey}','${s.utr}')">Delete</button></td></tr>`;
+    });
+    html += `</tbody></table></div>`;
+    box.innerHTML = html;
+}
+
+ALL_COURSES.forEach(c => {
+    onValue(ref(db, `enrollments/${c.key}`), (snap) => {
+        allEnrollData[c.key] = snap.val();
+        renderAllRecords();
+    });
+});
+
+window.deleteEnrollment = async function(courseKey, utr){
+    if (!confirm("Permanently delete this student's purchase record? This cannot be undone and will immediately remove their access.")) return;
+    try {
+        await remove(ref(db, `enrollments/${courseKey}/${utr}`));
+    } catch (e) { alert("Could not delete: " + e.message); }
+};
 
 
 /* ================================
