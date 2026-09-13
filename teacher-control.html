@@ -375,6 +375,80 @@ footer{
             <div id="resultsTable"></div>
         </section>
 
+        <section class="card" id="resourceSection">
+
+            <h2>📚 Class X Online (English) — Enrollment &amp; Resources</h2>
+
+            <p class="small">
+                Manage paid student access and upload course resources for the Class X Online Course (English Medium). Course Fee: ₹799.
+            </p>
+
+            <h3 style="margin-top:24px">👥 Student Access Approval (via UTR)</h3>
+            <p class="small">
+                Students pay ₹799 via UPI to 9678945621 and share their UTR / Transaction Reference Number. After you cross-verify the payment in your bank/UPI app, enter their name and that UTR below and grant access. They will unlock resources on the course page using that same UTR.
+            </p>
+
+            <label for="studentName">Student Name</label>
+            <input id="studentName" placeholder="Student full name">
+
+            <label for="studentUtr">UTR / Transaction Reference Number</label>
+            <input id="studentUtr" placeholder="e.g. 402812345678">
+
+            <button id="grantAccessBtn">✓ Approve Access (Mark Paid)</button>
+            <button id="revokeAccessBtn" class="stop">✕ Revoke Access</button>
+
+            <div id="enrollMessage" class="message"></div>
+            <div id="enrolledList" style="margin-top:16px"></div>
+
+            <h3 style="margin-top:30px">🎥 Add Video Lecture</h3>
+            <label for="videoTitle">Lecture Title</label>
+            <input id="videoTitle" placeholder="e.g. Chapter 3 - Light: Reflection & Refraction">
+            <label for="videoFile">Video File</label>
+            <input id="videoFile" type="file" accept="video/*">
+            <button id="uploadVideoBtn">⬆ Upload Video Lecture</button>
+            <div id="videoUploadProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
+                <div id="videoUploadProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
+            </div>
+            <div id="videoUploadMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📖 Add Notes</h3>
+            <label for="noteTitle">Note Title</label>
+            <input id="noteTitle" placeholder="e.g. Chapter 1 - Chemical Reactions Notes">
+            <label for="noteFile">File (PDF / Image)</label>
+            <input id="noteFile" type="file" accept="application/pdf,image/*">
+            <button id="uploadNoteBtn">⬆ Upload Note</button>
+            <div id="noteProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
+                <div id="noteProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
+            </div>
+            <div id="noteMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📘 Add NCERT Solution</h3>
+            <label for="solutionTitle">Solution Title</label>
+            <input id="solutionTitle" placeholder="e.g. Chapter 1 - NCERT Solutions">
+            <label for="solutionFile">File (PDF / Image)</label>
+            <input id="solutionFile" type="file" accept="application/pdf,image/*">
+            <button id="uploadSolutionBtn">⬆ Upload Solution</button>
+            <div id="solutionProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
+                <div id="solutionProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
+            </div>
+            <div id="solutionMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📄 Add Model Question Paper</h3>
+            <label for="paperTitle">Paper Title</label>
+            <input id="paperTitle" placeholder="e.g. Model Paper Set 1">
+            <label for="paperFile">File (PDF / Image)</label>
+            <input id="paperFile" type="file" accept="application/pdf,image/*">
+            <button id="uploadPaperBtn">⬆ Upload Paper</button>
+            <div id="paperProgressWrap" class="hidden" style="background:#0d1d34;border-radius:8px;overflow:hidden;margin-top:10px;border:1px solid #29415f">
+                <div id="paperProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
+            </div>
+            <div id="paperMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📂 Current Resources</h3>
+            <div id="resourceListing"></div>
+
+        </section>
+
         <section class="card">
 
             <h2>👤 Teacher Account</h2>
@@ -416,8 +490,17 @@ import {
     ref,
     set,
     onValue,
-    get
+    get,
+    push,
+    remove
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+import {
+    getStorage,
+    ref as storageRef,
+    uploadBytesResumable,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 
 /* ================================
@@ -457,6 +540,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const db = getDatabase(app);
+
+const storage = getStorage(app);
 
 
 /* ================================
@@ -1020,6 +1105,139 @@ function escapeResultText(value) {
         }[char]));
 
 }
+
+
+/* ================================
+   CLASS X ONLINE (ENGLISH) —
+   ENROLLMENT & RESOURCES
+================================ */
+
+const COURSE_PATH = "courseResources/classX-online-english";
+const ENROLL_PATH = "enrollments/classX-online-english";
+
+function escRes(v){
+    return String(v ?? "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[c]));
+}
+
+function normalizeUtr(v){
+    return String(v || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+}
+
+document.getElementById("grantAccessBtn").addEventListener("click", async () => {
+    const name = document.getElementById("studentName").value.trim();
+    const utr = normalizeUtr(document.getElementById("studentUtr").value);
+    const msg = document.getElementById("enrollMessage");
+    if (!utr) { msg.textContent = "Enter a valid UTR / Transaction Reference Number."; return; }
+    try {
+        await set(ref(db, `${ENROLL_PATH}/${utr}`), {
+            name: name || "Student",
+            utr,
+            paid: true,
+            enrolledAt: Date.now()
+        });
+        msg.textContent = "✓ Access approved for " + (name || utr) + ".";
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentUtr").value = "";
+    } catch (e) { msg.textContent = "Error: " + e.message; }
+});
+
+document.getElementById("revokeAccessBtn").addEventListener("click", async () => {
+    const utr = normalizeUtr(document.getElementById("studentUtr").value);
+    const msg = document.getElementById("enrollMessage");
+    if (!utr) { msg.textContent = "Enter the UTR to revoke."; return; }
+    try {
+        const snap = await get(ref(db, `${ENROLL_PATH}/${utr}`));
+        if (!snap.exists()) { msg.textContent = "No approval found for this UTR."; return; }
+        await set(ref(db, `${ENROLL_PATH}/${utr}`), { ...snap.val(), paid: false, updatedAt: Date.now() });
+        msg.textContent = "Access revoked for " + utr + ".";
+    } catch (e) { msg.textContent = "Error: " + e.message; }
+});
+
+onValue(ref(db, ENROLL_PATH), (snap) => {
+    const data = snap.val();
+    const list = document.getElementById("enrolledList");
+    if (!list) return;
+    if (!data) { list.innerHTML = '<p class="small">No approved students yet.</p>'; return; }
+    const rows = Object.values(data).sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
+    let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
+        <th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>`;
+    rows.forEach(s => {
+        html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td></tr>`;
+    });
+    html += `</tbody></table></div>`;
+    list.innerHTML = html;
+});
+
+function bindFileUpload(config){
+    const { btnId, titleId, fileId, msgId, wrapId, barId, category } = config;
+    document.getElementById(btnId).addEventListener("click", () => {
+        const title = document.getElementById(titleId).value.trim();
+        const file = document.getElementById(fileId).files[0];
+        const msg = document.getElementById(msgId);
+        const wrap = document.getElementById(wrapId);
+        const bar = document.getElementById(barId);
+        if (!title) { msg.textContent = "Enter a title."; return; }
+        if (!file) { msg.textContent = "Choose a file."; return; }
+
+        const safeName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        const fileRef = storageRef(storage, `${COURSE_PATH}/${category}/${safeName}`);
+        const task = uploadBytesResumable(fileRef, file);
+        wrap.classList.remove("hidden");
+        msg.textContent = "Uploading...";
+
+        task.on("state_changed", (snap) => {
+            const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+            bar.style.width = pct + "%";
+            msg.textContent = "Uploading... " + pct + "%";
+        }, (err) => {
+            msg.textContent = "Upload failed: " + err.message;
+        }, async () => {
+            const url = await getDownloadURL(fileRef);
+            await push(ref(db, `${COURSE_PATH}/${category}`), { title, url, addedAt: Date.now() });
+            msg.textContent = "✓ Uploaded successfully.";
+            bar.style.width = "100%";
+            document.getElementById(titleId).value = "";
+            document.getElementById(fileId).value = "";
+        });
+    });
+}
+
+bindFileUpload({ btnId:"uploadVideoBtn", titleId:"videoTitle", fileId:"videoFile", msgId:"videoUploadMessage", wrapId:"videoUploadProgressWrap", barId:"videoUploadProgressBar", category:"videos" });
+bindFileUpload({ btnId:"uploadNoteBtn", titleId:"noteTitle", fileId:"noteFile", msgId:"noteMessage", wrapId:"noteProgressWrap", barId:"noteProgressBar", category:"notes" });
+bindFileUpload({ btnId:"uploadSolutionBtn", titleId:"solutionTitle", fileId:"solutionFile", msgId:"solutionMessage", wrapId:"solutionProgressWrap", barId:"solutionProgressBar", category:"solutions" });
+bindFileUpload({ btnId:"uploadPaperBtn", titleId:"paperTitle", fileId:"paperFile", msgId:"paperMessage", wrapId:"paperProgressWrap", barId:"paperProgressBar", category:"papers" });
+
+const CATEGORY_LABELS = { notes:"📖 Notes", solutions:"📘 NCERT Solutions", videos:"🎥 Video Lectures", papers:"📄 Model Papers" };
+
+onValue(ref(db, COURSE_PATH), (snap) => {
+    const data = snap.val() || {};
+    const box = document.getElementById("resourceListing");
+    if (!box) return;
+    let html = "";
+    Object.keys(CATEGORY_LABELS).forEach(cat => {
+        const items = data[cat] ? Object.entries(data[cat]) : [];
+        html += `<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;
+        if (!items.length) {
+            html += `<p class="small">None added yet.</p>`;
+        } else {
+            items.sort((a,b) => (b[1].addedAt || 0) - (a[1].addedAt || 0));
+            items.forEach(([key, item]) => {
+                html += `<p class="small">• ${escRes(item.title)} — <a href="${item.url}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`;
+            });
+        }
+        html += `</div>`;
+    });
+    box.innerHTML = html;
+});
+
+window.deleteResource = async function(category, key){
+    if (!confirm("Delete this resource?")) return;
+    try {
+        await remove(ref(db, `${COURSE_PATH}/${category}/${key}`));
+    } catch (e) { alert("Could not delete: " + e.message); }
+};
 
 
 /* ================================

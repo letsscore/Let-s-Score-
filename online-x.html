@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Class X Online Course | Let's Score</title>
 <style>
-:root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--gold:#fbbf24}
+:root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--gold:#fbbf24;--green:#4ade80;--red:#f87171}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}
 .wrap{max-width:1000px;margin:auto;padding:0 16px 50px}nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}
 .navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:14px;font-weight:700;font-size:13px}
 .hero{text-align:center;padding:50px 0 30px}.kicker{color:var(--blue);font-weight:900;letter-spacing:1.5px;font-size:13px}h1{font-size:clamp(34px,7vw,58px);margin:8px 0}.muted{color:var(--muted)}
 .card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.item{background:#ffffff06;border:1px solid #ffffff12;border-radius:15px;padding:18px}.item strong{font-size:17px;color:#e0f2fe}
-.pay{border-left:4px solid var(--gold)}.note{color:#fbbf24}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900}
+.pay{border-left:4px solid var(--gold)}.note{color:#fbbf24}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;border:0;cursor:pointer;font-size:15px;font-family:inherit}
+input[type=text],input[type=tel]{width:100%;padding:12px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;font-size:15px}
+.access-msg{margin-top:12px;font-weight:800}.access-ok{color:var(--green)}.access-no{color:var(--red)}
+.lock{border:1px dashed #465985;border-radius:15px;padding:22px;text-align:center;color:var(--muted)}
 footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var(--muted)}
 </style></head>
 <body>
@@ -30,46 +33,49 @@ footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var
 </div></section>
 
 <section class="card pay"><h2>💳 Enrollment & Payment</h2>
-<p class="muted">This is a paid online course. UPI payment and enrollment details will be added here.</p>
-<p class="note"><strong>Course Fee: To be announced</strong></p>
-<a class="btn" href="contact.html">Enquire / Enrollment</a></section>
+<p class="muted">This is a paid online course. Pay the course fee via UPI to the number below, then send a screenshot of the payment receipt to the WhatsApp number below so your teacher can cross-verify it. Once approved, use the UTR / Transaction Reference Number from your payment to unlock your resources.</p>
+<p class="note"><strong>Course Fee: ₹799</strong></p>
+<p class="note"><strong>Pay via UPI to: 9678945621</strong></p>
+<p class="note"><strong>Send payment receipt on WhatsApp: 7002137940</strong></p>
+<a class="btn" href="contact.html">Enquire / Enrollment</a>
+
+<div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
+<h3 style="margin:0 0 8px">🔓 Check My Access</h3>
+<p class="muted">Already paid and approved? Enter the UTR / Transaction Reference Number from your payment to unlock your course resources below.</p>
+<input type="text" id="accessUtr" placeholder="UTR / Transaction Reference Number">
+<button class="btn" id="accessCheckBtn" type="button">Check My Access</button>
+<div id="accessMessage" class="access-msg"></div>
+</div>
+</section>
 
 <section class="card"><h2>📝 Revisionary Tests</h2><p class="muted">Weekly revisionary tests can be accessed through the teacher-controlled test system when a test is live.</p>
 <a class="btn" href="revisionary-test.html">Open Revisionary Tests</a></section>
 
-<section class="card"><h2>🎥 Recorded Video Lectures</h2>
-<p class="muted">Watch recorded video lectures for Class X (English Medium) below. Teachers can upload new lectures using the panel underneath.</p>
-<div id="videoList" class="grid" style="margin-bottom:16px"><p class="muted" id="videoListEmpty">Loading video lectures...</p></div>
+<section class="card"><h2>📂 Your Course Resources</h2>
+<p class="muted">Notes, NCERT solutions, video lectures and model papers, uploaded by your teacher, appear here once your payment is verified above.</p>
 
-<details>
-<summary style="cursor:pointer;font-weight:900;color:var(--gold)">👩‍🏫 Teacher Upload Panel</summary>
-<div style="margin-top:14px">
-<p class="muted" id="teacherGateMsg">Enter the teacher access code to unlock uploading.</p>
-<input type="password" id="teacherCode" placeholder="Access Code" style="width:100%;padding:11px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;margin-bottom:10px">
-<button class="btn" id="unlockBtn" type="button" style="border:0;cursor:pointer">Unlock Upload Form</button>
+<div id="lockedNotice" class="lock">🔒 Enter your approved UTR / Transaction Reference Number above and click "Check My Access" to unlock your resources.</div>
 
-<div id="uploadForm" style="display:none;margin-top:16px">
-<input type="text" id="lectureTitle" placeholder="Lecture Title (e.g. Chapter 3 - Light: Reflection & Refraction)" style="width:100%;padding:11px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;margin-bottom:10px">
-<input type="file" id="lectureFile" accept="video/*" style="width:100%;margin-bottom:10px;color:#dbeafe">
-<button class="btn" id="uploadBtn" type="button" style="border:0;cursor:pointer">Upload Lecture</button>
-<div id="uploadProgressWrap" style="display:none;margin-top:12px;background:#0d1930;border-radius:8px;overflow:hidden;border:1px solid var(--line)">
-<div id="uploadProgressBar" style="height:10px;width:0%;background:linear-gradient(135deg,#0ea5e9,#6366f1)"></div>
+<div id="resourceArea" style="display:none">
+<h3 style="margin:18px 0 8px">📖 Notes</h3>
+<div id="notesList" class="grid"></div>
+
+<h3 style="margin:22px 0 8px">📘 NCERT Solutions</h3>
+<div id="solutionsList" class="grid"></div>
+
+<h3 style="margin:22px 0 8px">🎥 Video Lectures</h3>
+<div id="videosList" class="grid"></div>
+
+<h3 style="margin:22px 0 8px">📄 Model Question Papers</h3>
+<div id="papersList" class="grid"></div>
 </div>
-<p class="muted" id="uploadStatus" style="margin-top:8px"></p>
-</div>
-</div>
-</details>
 </section>
-
-<section class="card"><h2>Resource Integration</h2><p class="muted">Actual notes, NCERT solutions, videos and model papers will be connected here as their HTML content is provided.</p>
-<a class="btn" href="courses.html">← Back to Courses</a></section>
 </main>
 <footer>LET'S SCORE<br>Learn • Revise • Practise • Score</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getDatabase, ref as dbRef, push, set, onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+import { getDatabase, ref as dbRef, get, onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
@@ -82,76 +88,87 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const storage = getStorage(app);
 
-const VIDEO_PATH = "videos/classX-online-english";
-const TEACHER_CODE = "letsscore-teacher"; // change this to your own secret access code
+const COURSE_PATH = "courseResources/classX-online-english";
+const ENROLL_PATH = "enrollments/classX-online-english";
+const STORAGE_KEY = "letsscore_classX_online_english_utr";
 
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
+function normalizeUtr(v){ return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,''); }
 
-const videoList = document.getElementById('videoList');
-onValue(dbRef(db, VIDEO_PATH), (snap) => {
-  const data = snap.val();
-  videoList.innerHTML = '';
-  if(!data){
-    videoList.innerHTML = '<p class="muted">No video lectures uploaded yet.</p>';
+let resourcesLoaded = false;
+
+function unlockResources(){
+  document.getElementById('lockedNotice').style.display = 'none';
+  document.getElementById('resourceArea').style.display = 'block';
+  if(resourcesLoaded) return;
+  resourcesLoaded = true;
+
+  function bindList(category, elementId, isVideo){
+    onValue(dbRef(db, COURSE_PATH + '/' + category), (snap) => {
+      const data = snap.val();
+      const el = document.getElementById(elementId);
+      el.innerHTML = '';
+      if(!data){ el.innerHTML = '<p class="muted">Nothing added yet.</p>'; return; }
+      const items = Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        if(isVideo){
+          div.innerHTML = `<strong>🎬 ${escapeHtml(item.title||'Untitled Lecture')}</strong>
+            <video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${item.url}"></video>`;
+        } else {
+          div.innerHTML = `<strong>${escapeHtml(item.title||'Untitled')}</strong>
+            <p class="muted"><a href="${item.url}" target="_blank" style="color:var(--blue)">Open / Download →</a></p>`;
+        }
+        el.appendChild(div);
+      });
+    });
+  }
+  bindList('notes','notesList',false);
+  bindList('solutions','solutionsList',false);
+  bindList('videos','videosList',true);
+  bindList('papers','papersList',false);
+}
+
+async function checkAccess(utr){
+  const msg = document.getElementById('accessMessage');
+  msg.className = 'access-msg';
+  msg.textContent = 'Checking...';
+  try{
+    const snap = await get(dbRef(db, ENROLL_PATH + '/' + utr));
+    if(snap.exists() && snap.val().paid === true){
+      msg.className = 'access-msg access-ok';
+      msg.textContent = '✓ Access granted. Your resources are unlocked below.';
+      localStorage.setItem(STORAGE_KEY, utr);
+      unlockResources();
+    } else {
+      msg.className = 'access-msg access-no';
+      msg.textContent = 'This UTR has not been approved yet. Please wait for your teacher to verify your payment, or double-check the UTR you entered.';
+    }
+  }catch(e){
+    msg.className = 'access-msg access-no';
+    msg.textContent = 'Could not check access right now. Please try again.';
+  }
+}
+
+document.getElementById('accessCheckBtn').addEventListener('click', () => {
+  const utr = normalizeUtr(document.getElementById('accessUtr').value);
+  if(!utr){
+    const msg = document.getElementById('accessMessage');
+    msg.className = 'access-msg access-no';
+    msg.textContent = 'Please enter your UTR / Transaction Reference Number.';
     return;
   }
-  const entries = Object.values(data).sort((a,b) => (b.uploadedAt||0) - (a.uploadedAt||0));
-  entries.forEach(v => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `<strong>🎬 ${escapeHtml(v.title || 'Untitled Lecture')}</strong>
-      <video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${v.url}"></video>`;
-    videoList.appendChild(div);
-  });
+  checkAccess(utr);
 });
 
-document.getElementById('unlockBtn').addEventListener('click', () => {
-  const code = document.getElementById('teacherCode').value.trim();
-  const gateMsg = document.getElementById('teacherGateMsg');
-  if(code === TEACHER_CODE){
-    document.getElementById('uploadForm').style.display = 'block';
-    gateMsg.textContent = 'Unlocked. You can upload a lecture below.';
-  } else {
-    gateMsg.textContent = 'Incorrect access code.';
-  }
-});
-
-document.getElementById('uploadBtn').addEventListener('click', () => {
-  const titleInput = document.getElementById('lectureTitle');
-  const fileInput = document.getElementById('lectureFile');
-  const status = document.getElementById('uploadStatus');
-  const progressWrap = document.getElementById('uploadProgressWrap');
-  const progressBar = document.getElementById('uploadProgressBar');
-  const title = titleInput.value.trim();
-  const file = fileInput.files[0];
-  if(!title){ status.textContent = 'Please enter a lecture title.'; return; }
-  if(!file){ status.textContent = 'Please choose a video file.'; return; }
-
-  const safeName = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
-  const fileRef = storageRef(storage, VIDEO_PATH + '/' + safeName);
-  const task = uploadBytesResumable(fileRef, file);
-  progressWrap.style.display = 'block';
-  status.textContent = 'Uploading...';
-
-  task.on('state_changed', (snap) => {
-    const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-    progressBar.style.width = pct + '%';
-    status.textContent = 'Uploading... ' + pct + '%';
-  }, (err) => {
-    status.textContent = 'Upload failed: ' + err.message;
-  }, async () => {
-    const url = await getDownloadURL(fileRef);
-    const entryRef = push(dbRef(db, VIDEO_PATH));
-    await set(entryRef, { title, url, uploadedAt: Date.now() });
-    status.textContent = 'Upload complete! Lecture is now live above.';
-    progressBar.style.width = '100%';
-    titleInput.value = '';
-    fileInput.value = '';
-  });
-});
+const savedUtr = localStorage.getItem(STORAGE_KEY);
+if(savedUtr){
+  document.getElementById('accessUtr').value = savedUtr;
+  checkAccess(savedUtr);
+}
 </script>
 </body></html>
