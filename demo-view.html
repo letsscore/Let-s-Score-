@@ -8,7 +8,7 @@
 :root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--indigo:#6366f1;--gold:#fbbf24}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}
-.wrap{max-width:1100px;margin:auto;padding:0 16px}
+.wrap{max-width:900px;margin:auto;padding:0 16px}
 nav{position:sticky;top:0;z-index:10;background:#07111fee;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff14}
 .navin{max-width:1100px;margin:auto;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .logo{font-size:24px;font-weight:900;color:var(--blue);text-decoration:none}
@@ -22,16 +22,33 @@ nav a{color:#e2e8f0;text-decoration:none;margin-left:18px;font-weight:700;font-s
 .step.active{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;border-color:transparent}
 .step.done{background:#1c2c4a;color:#93c5fd;border-color:var(--blue)}
 .backlink{display:inline-block;margin-bottom:18px;color:var(--blue);text-decoration:none;font-weight:700;font-size:14px}
-.demoCard{max-width:760px;margin:0 auto;background:rgba(18,33,58,.96);border:1px solid var(--line);border-radius:20px;padding:28px}
+.demoCard{background:rgba(18,33,58,.96);border:1px solid var(--line);border-radius:20px;padding:28px}
 .demoCard h2{margin:0 0 6px;font-size:24px}
 .demoCard .tag{display:inline-block;background:#0ea5e922;color:var(--blue);font-weight:800;font-size:12px;padding:5px 12px;border-radius:999px;margin-bottom:14px}
-.placeholder{background:#0b1729;border:1px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;color:var(--muted);margin:16px 0}
 .lockNote{background:#1a1200;border:1px solid #fbbf2444;color:var(--gold);border-radius:12px;padding:14px 16px;font-size:14px;margin:18px 0}
 .ctaRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.btn{display:inline-block;padding:13px 20px;border-radius:11px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900}
+.btn{display:inline-block;padding:13px 20px;border-radius:11px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;border:none;cursor:pointer;font-size:14px}
 .btn.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1200}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
 footer{border-top:1px solid #ffffff14;padding:28px 0;text-align:center;color:var(--muted)}
+#demoBody h3{color:var(--blue);font-size:19px;margin:22px 0 8px}
+#demoBody h3:first-child{margin-top:0}
+#demoBody h4{color:#e0f2fe;font-size:16px;margin:16px 0 6px}
+#demoBody p{color:#dbeafe;margin:6px 0}
+#demoBody ul{padding-left:20px;color:#dbeafe}
+#demoBody li{margin:5px 0}
+#demoBody table{width:100%;border-collapse:collapse;margin:12px 0}
+#demoBody td,#demoBody th{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:14px;color:#dbeafe}
+#demoBody th{background:#0ea5e91a;color:var(--blue)}
+.formula{background:#0b1729;border-left:4px solid var(--blue);padding:10px 14px;margin:10px 0;font-weight:800;color:#e0f2fe;border-radius:0 10px 10px 0}
+.qa{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#0b1729}
+.qa .q{color:var(--gold);font-weight:800;margin:0 0 6px}
+.qa .a{margin:0;color:#dbeafe}
+details{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;background:#0b1729}
+summary{cursor:pointer;font-weight:800;color:var(--blue)}
+.videoWrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:14px;margin:14px 0}
+.videoWrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:14px}
+.videoComing{background:#0b1729;border:1px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -60,8 +77,9 @@ footer{border-top:1px solid #ffffff14;padding:28px 0;text-align:center;color:var
 <div class="demoCard">
 <div class="tag" id="resourceTag">RESOURCE</div>
 <h2 id="classLabel">Class</h2>
-<div class="placeholder" id="demoBody">Loading free demo content…</div>
-<div class="lockNote">🔒 This is a limited free preview. Full notes, complete video lectures, all solved exercises and every model paper are available only in the <strong>Premium Course</strong>.</div>
+<div id="chapterLabel" style="color:var(--muted);font-weight:700;margin:-6px 0 14px"></div>
+<div id="demoBody">Loading free demo content…</div>
+<div class="lockNote">🔒 This is a limited free preview of one chapter. Full notes, complete video lectures, all solved exercises and every model paper (all chapters) are available only in the <strong>Premium Course</strong>.</div>
 <div class="ctaRow">
 <a class="btn gold" href="courses.html#online">🚀 Buy Premium Course</a>
 <a class="btn ghost" href="demo-resources.html" id="tryAnother">Try Another Resource</a>
@@ -72,33 +90,314 @@ footer{border-top:1px solid #ffffff14;padding:28px 0;text-align:center;color:var
 
 <footer><div class="wrap"><strong>LET'S SCORE</strong><br>Learn • Revise • Practise • Score</div></footer>
 
+<!-- ============ CONTENT TEMPLATES ============ -->
+
+<template id="x-science-en-notes"><div>
+<h3>Chapter 10 · Light — Reflection and Refraction</h3>
+<h4>1. Reflection of Light</h4>
+<p>Reflection is the bouncing back of light when it strikes a smooth surface.</p>
+<div class="formula">Laws of Reflection: (i) &ang;i = &ang;r &nbsp; (ii) Incident ray, reflected ray and normal lie in the same plane</div>
+<p>Image formed by a <strong>plane mirror</strong> is virtual, erect, laterally inverted, and of the same size, formed as far behind the mirror as the object is in front.</p>
+<h4>2. Spherical Mirrors</h4>
+<ul>
+<li><strong>Concave mirror</strong> — reflecting surface curves inward; converging mirror; used in torches, headlights, shaving mirrors.</li>
+<li><strong>Convex mirror</strong> — reflecting surface curves outward; diverging mirror; used as vehicle rear-view mirrors (wider field of view).</li>
+</ul>
+<div class="formula">Mirror formula: 1/v + 1/u = 1/f &nbsp;&nbsp; | &nbsp;&nbsp; Magnification: m = &minus;v/u = h&prime;/h &nbsp;&nbsp; | &nbsp;&nbsp; R = 2f</div>
+<h4>3. Refraction of Light</h4>
+<p>Refraction is the bending of light as it passes from one transparent medium to another due to a change in speed.</p>
+<div class="formula">Snell's Law: n&#8321; sin i = n&#8322; sin r &nbsp;&nbsp; | &nbsp;&nbsp; Refractive index: n = c/v</div>
+<h4>4. Spherical Lenses</h4>
+<ul>
+<li><strong>Convex lens</strong> — thicker at the centre; converging.</li>
+<li><strong>Concave lens</strong> — thinner at the centre; diverging.</li>
+</ul>
+<div class="formula">Lens formula: 1/v &minus; 1/u = 1/f &nbsp;&nbsp; | &nbsp;&nbsp; Power: P = 1/f (f in metres), unit dioptre (D)</div>
+<p><strong>Key point for exams:</strong> A converging lens/mirror has positive focal length; a diverging lens/mirror has negative focal length (Cartesian sign convention).</p>
+</div></template>
+
+<template id="x-science-en-solutions"><div>
+<h3>Chapter 10 · Light — Text Book Solutions (sample questions)</h3>
+<div class="qa"><p class="q">Q1. Define the principal focus of a concave mirror.</p><p class="a">A. It is the point on the principal axis where rays of light travelling parallel to the principal axis, after reflection, actually meet (or appear to meet).</p></div>
+<div class="qa"><p class="q">Q2. An object is placed 10 cm in front of a concave mirror of focal length 15 cm. Find the position and nature of the image.</p><p class="a">A. Using 1/v + 1/u = 1/f with u = &minus;10 cm, f = &minus;15 cm: 1/v = 1/f &minus; 1/u = &minus;1/15 &minus; (&minus;1/10) = (&minus;2+3)/30 = 1/30, so v = +30 cm. Since v is positive, the image is virtual, formed behind the mirror, erect and magnified (m = &minus;v/u = &minus;30/&minus;10 = 3, i.e. 3&times; enlarged).</p></div>
+<div class="qa"><p class="q">Q3. State Snell's law of refraction.</p><p class="a">A. The ratio of the sine of the angle of incidence to the sine of the angle of refraction is constant for a given pair of media: n&#8321; sin i = n&#8322; sin r.</p></div>
+<div class="qa"><p class="q">Q4. The speed of light in a glass slab is 2 &times; 10&#8312; m/s. Find its refractive index (speed of light in air = 3 &times; 10&#8312; m/s).</p><p class="a">A. n = c/v = (3&times;10&#8312;)/(2&times;10&#8312;) = 1.5</p></div>
+<div class="qa"><p class="q">Q5. Distinguish between a real image and a virtual image.</p><p class="a">A. A real image is formed by the actual intersection of light rays and can be caught on a screen (usually inverted). A virtual image is formed where rays appear to meet after reflection/refraction and cannot be caught on a screen (usually erect).</p></div>
+<div class="qa"><p class="q">Q6. A convex lens of focal length 20 cm forms a real image on a screen placed 60 cm from the lens. Find the object distance and magnification.</p><p class="a">A. 1/v &minus; 1/u = 1/f &rarr; 1/u = 1/v &minus; 1/f = 1/60 &minus; 1/20 = (1&minus;3)/60 = &minus;2/60 &rarr; u = &minus;30 cm. Magnification m = v/u = 60/(&minus;30) = &minus;2 (real, inverted, 2&times; enlarged).</p></div>
+</div></template>
+
+<template id="x-science-en-model-paper"><div>
+<h3>Chapter 10 · Light — Model Paper (Sample, 25 Marks)</h3>
+<h4>Section A — Multiple Choice (1 mark &times; 5 = 5)</h4>
+<ul>
+<li>1. The image formed by a plane mirror is: (a) real (b) virtual and laterally inverted (c) inverted (d) smaller in size</li>
+<li>2. Focal length of a plane mirror is: (a) 0 (b) infinity (c) equal to radius of curvature (d) none</li>
+<li>3. SI unit of power of a lens is: (a) metre (b) dioptre (c) candela (d) lux</li>
+<li>4. A concave lens always forms an image that is: (a) real, inverted (b) virtual, erect, diminished (c) real, erect (d) virtual, magnified</li>
+<li>5. The refractive index of a medium is high when the speed of light in it is: (a) high (b) low (c) equal to c (d) zero</li>
+</ul>
+<h4>Section B — Short Answer (3 marks &times; 4 = 12)</h4>
+<ul>
+<li>6. State the two laws of reflection of light.</li>
+<li>7. Write the magnification formula for a spherical mirror in terms of u and v.</li>
+<li>8. A ray of light travelling in air enters a denser medium. Explain what happens to its speed, wavelength and direction.</li>
+<li>9. What is meant by power of a lens? Two lenses of power +2D and &minus;1D are placed in contact; find the power and focal length of the combination.</li>
+</ul>
+<h4>Section C — Long Answer (5 marks &times; 2 = 10)</h4>
+<ul>
+<li>10. An object 4 cm high is placed 15 cm from a convex lens of focal length 10 cm. Find the position, size and nature of the image using the lens formula.</li>
+<li>11. With the help of a ray diagram, explain the formation of an image by a concave mirror when the object is placed between the pole and the focus.</li>
+</ul>
+<details><summary>Show Answer Key</summary>
+<p><strong>Section A:</strong> 1-b, 2-b, 3-b, 4-b, 5-b</p>
+<p><strong>Q10:</strong> 1/v &minus; 1/u = 1/f, u = &minus;15, f = +10 &rarr; 1/v = 1/10 &minus; 1/15 = 1/30 &rarr; v = 30 cm. m = v/u = 30/(&minus;15) = &minus;2. Image is real, inverted, 8 cm high (magnified 2&times;), formed 30 cm from the lens on the other side.</p>
+<p><strong>Q11:</strong> Image is virtual, erect, and magnified, formed behind the mirror — used in shaving mirrors and dentist's mirror. (Full ray diagram provided in the Premium Course video + PDF.)</p>
+</details>
+</div></template>
+
+<template id="x-science-as-notes"><div>
+<h3>অধ্যায় ১০ · পোহৰ — প্ৰতিফলন আৰু প্ৰতিসৰণ (Light — Reflection and Refraction)</h3>
+<h4>১. পোহৰৰ প্ৰতিফলন (Reflection)</h4>
+<p>মসৃণ পৃষ্ঠত পোহৰ পৰি ঘূৰি অহা প্ৰক্ৰিয়াকে প্ৰতিফলন বোলে।</p>
+<div class="formula">প্ৰতিফলনৰ নিয়ম: (i) &ang;i = &ang;r &nbsp; (ii) আপতিত ৰশ্মি, প্ৰতিফলিত ৰশ্মি আৰু অভিলম্ব একেখন সমতলতে থাকে</div>
+<p><strong>সমতল দাপোণ</strong>ৰ প্ৰতিবিম্ব কাল্পনিক (virtual), সোজা (erect), বস্তুৰ সমান আকাৰৰ আৰু পাৰ্শ্বিকভাৱে উলোটা (laterally inverted) হয়।</p>
+<h4>২. গোলীয় দাপোণ (Spherical Mirrors)</h4>
+<ul>
+<li><strong>অৱতল দাপোণ (Concave mirror)</strong> — টৰ্চ, মটৰগাড়ীৰ হেডলাইট আদিত ব্যৱহৃত হয়; অভিসারী (converging)।</li>
+<li><strong>উত্তল দাপোণ (Convex mirror)</strong> — গাড়ীৰ পিছফালৰ দাপোণত ব্যৱহৃত হয়; অপসাৰী (diverging)।</li>
+</ul>
+<div class="formula">দাপোণৰ সূত্ৰ: 1/v + 1/u = 1/f &nbsp;&nbsp; | &nbsp;&nbsp; বিবৰ্ধন: m = &minus;v/u = h&prime;/h &nbsp;&nbsp; | &nbsp;&nbsp; R = 2f</div>
+<h4>৩. পোহৰৰ প্ৰতিসৰণ (Refraction)</h4>
+<p>এটা মাধ্যমৰ পৰা আন এটা মাধ্যমলৈ যাওঁতে পোহৰৰ বেগ সলনি হোৱাৰ ফলত তাৰ পথ বেঁকা হোৱাকে প্ৰতিসৰণ বোলে।</p>
+<div class="formula">স্নেলৰ সূত্ৰ: n&#8321; sin i = n&#8322; sin r &nbsp;&nbsp; | &nbsp;&nbsp; প্ৰতিসৰণাংক: n = c/v</div>
+<h4>৪. গোলীয় লেন্স (Spherical Lenses)</h4>
+<ul>
+<li><strong>উত্তল লেন্স (Convex lens)</strong> — মাজত ডাঠ; অভিসারী।</li>
+<li><strong>অৱতল লেন্স (Concave lens)</strong> — মাজত পাতল; অপসাৰী।</li>
+</ul>
+<div class="formula">লেন্সৰ সূত্ৰ: 1/v &minus; 1/u = 1/f &nbsp;&nbsp; | &nbsp;&nbsp; ক্ষমতা: P = 1/f (f মিটাৰত), একক ডায়োপ্টাৰ (D)</div>
+<p><strong>পৰীক্ষাৰ বাবে মনত ৰাখিবলগীয়া:</strong> অভিসাৰী দাপোণ/লেন্সৰ ফোকাছ দূৰত্ব ধনাত্মক, অপসাৰীৰ ঋণাত্মক (Cartesian sign convention অনুসৰি)।</p>
+</div></template>
+
+<template id="x-science-as-solutions"><div>
+<h3>অধ্যায় ১০ · পোহৰ — টেক্সট বুক সমাধান (নমুনা প্ৰশ্ন)</h3>
+<div class="qa"><p class="q">প্ৰশ্ন ১। অৱতল দাপোণৰ মুখ্য ফোকাছ (principal focus) বুজাই দিয়ক।</p><p class="a">উত্তৰ। মুখ্য অক্ষৰ সমান্তৰালে অহা ৰশ্মিসমূহ দাপোণৰ পৰা প্ৰতিফলিত হৈ যি বিন্দুত মিলিত হয় (বা মিলিত হোৱাৰ দৰে অনুভৱ হয়), সেই বিন্দুকে মুখ্য ফোকাছ বোলে।</p></div>
+<div class="qa"><p class="q">প্ৰশ্ন ২। 15 cm ফোকাছ দূৰত্বৰ অৱতল দাপোণৰ পৰা 10 cm দূৰত বস্তু ৰাখিলে প্ৰতিবিম্বৰ স্থিতি নিৰ্ণয় কৰক।</p><p class="a">উত্তৰ। u = &minus;10, f = &minus;15 লৈ 1/v = 1/f &minus; 1/u = &minus;1/15+1/10 = 1/30 &rarr; v = +30 cm। প্ৰতিবিম্ব কাল্পনিক, দাপোণৰ পিছফালে, সোজা আৰু 3 গুণ বৃহৎ।</p></div>
+<div class="qa"><p class="q">প্ৰশ্ন ৩। স্নেলৰ সূত্ৰ লিখক।</p><p class="a">উত্তৰ। n&#8321; sin i = n&#8322; sin r — আপতন কোণৰ sine আৰু প্ৰতিসৰণ কোণৰ sine ৰ অনুপাত এটা নিৰ্দিষ্ট মাধ্যম-যোৰৰ বাবে সদায় স্থিৰ থাকে।</p></div>
+<div class="qa"><p class="q">প্ৰশ্ন ৪। কাঁচৰ মাজেৰে পোহৰৰ বেগ 2&times;10&#8312; m/s হ'লে প্ৰতিসৰণাংক নিৰ্ণয় কৰক (বতাহত বেগ = 3&times;10&#8312; m/s)।</p><p class="a">উত্তৰ। n = c/v = 3&times;10&#8312; / 2&times;10&#8312; = 1.5</p></div>
+<div class="qa"><p class="q">প্ৰশ্ন ৫। প্ৰকৃত প্ৰতিবিম্ব (real image) আৰু কাল্পনিক প্ৰতিবিম্বৰ (virtual image) মাজৰ পাৰ্থক্য লিখক।</p><p class="a">উত্তৰ। প্ৰকৃত প্ৰতিবিম্ব পোহৰ ৰশ্মিৰ প্ৰকৃত মিলনৰ পৰা সৃষ্টি হয় আৰু পৰ্দাত ধৰিব পাৰি (সাধাৰণতে উলোটা)। কাল্পনিক প্ৰতিবিম্ব পৰ্দাত ধৰিব নোৱাৰি (সাধাৰণতে সোজা)।</p></div>
+</div></template>
+
+<template id="x-science-as-model-paper"><div>
+<h3>অধ্যায় ১০ · পোহৰ — নমুনা মডেল প্ৰশ্নপত্ৰ (25 নম্বৰ)</h3>
+<h4>বিভাগ ক — বহুবিকল্পীয় (1&times;5 = 5)</h4>
+<ul>
+<li>১। সমতল দাপোণে গঠন কৰা প্ৰতিবিম্ব: (a) প্ৰকৃত (b) কাল্পনিক আৰু পাৰ্শ্বিকভাৱে উলোটা (c) উলোটা (d) সৰু</li>
+<li>২। সমতল দাপোণৰ ফোকাছ দূৰত্ব: (a) 0 (b) অসীম (c) R ৰ সমান (d) কোনোটোৱেই নহয়</li>
+<li>৩। লেন্সৰ ক্ষমতাৰ একক: (a) মিটাৰ (b) ডায়োপ্টাৰ (c) কেণ্ডেলা (d) লাক্স</li>
+<li>৪। অৱতল লেন্সে সদায় গঠন কৰে: (a) প্ৰকৃত, উলোটা (b) কাল্পনিক, সোজা, সৰু (c) প্ৰকৃত, সোজা (d) কাল্পনিক, ডাঙৰ</li>
+<li>৫। যিমান মাধ্যমত পোহৰৰ বেগ কম, প্ৰতিসৰণাংক: (a) বেছি (b) কম (c) c ৰ সমান (d) শূন্য</li>
+</ul>
+<h4>বিভাগ খ — চুটি উত্তৰ (3&times;4 = 12)</h4>
+<ul>
+<li>৬। পোহৰৰ প্ৰতিফলনৰ দুটা নিয়ম লিখক।</li>
+<li>৭। গোলীয় দাপোণৰ বিবৰ্ধনৰ সূত্ৰটো (u আৰু v ৰ পদত) লিখক।</li>
+<li>৮। পোহৰ বতাহৰ পৰা ঘন মাধ্যমলৈ প্ৰৱেশ কৰিলে ইয়াৰ বেগ, তৰংগদৈৰ্ঘ্য আৰু দিশৰ ওপৰত কি প্ৰভাৱ পৰে, ব্যাখ্যা কৰক।</li>
+<li>৯। লেন্সৰ ক্ষমতা কি? +2D আৰু &minus;1D ৰ দুটা লেন্স একেলগে ৰাখিলে সংযুক্ত ক্ষমতা আৰু ফোকাছ দূৰত্ব নিৰ্ণয় কৰক।</li>
+</ul>
+<h4>বিভাগ গ — দীঘল উত্তৰ (5&times;2 = 10)</h4>
+<ul>
+<li>১০। 10 cm ফোকাছ দূৰত্বৰ উত্তল লেন্সৰ পৰা 15 cm দূৰত 4 cm ওখ বস্তু ৰাখিলে প্ৰতিবিম্বৰ স্থিতি, আকাৰ আৰু প্ৰকৃতি নিৰ্ণয় কৰক।</li>
+<li>১১। বস্তু অৱতল দাপোণৰ ধ্ৰুৱ আৰু ফোকাছৰ মাজত থাকিলে প্ৰতিবিম্ব গঠনৰ ৰশ্মি চিত্ৰেৰে ব্যাখ্যা কৰক।</li>
+</ul>
+<details><summary>উত্তৰ চাবলৈ ক্লিক কৰক</summary>
+<p><strong>বিভাগ ক:</strong> ১-b, ২-b, ৩-b, ৪-b, ৫-b</p>
+<p><strong>১০ নং:</strong> v = 30 cm, m = &minus;2, প্ৰতিবিম্ব প্ৰকৃত, উলোটা, 8 cm ওখ।</p>
+<p>সম্পূৰ্ণ ৰশ্মি চিত্ৰ আৰু ব্যাখ্যা Premium Course ৰ ভিডিঅ' আৰু PDF ত পাব।</p>
+</details>
+</div></template>
+
+<template id="xi-physics-en-notes"><div>
+<h3>Chapter 3 · Motion in a Plane</h3>
+<h4>1. Scalars and Vectors</h4>
+<p><strong>Scalars</strong> have magnitude only (mass, speed, time). <strong>Vectors</strong> have both magnitude and direction (displacement, velocity, acceleration, force).</p>
+<h4>2. Vector Addition</h4>
+<div class="formula">Triangle law / Parallelogram law: R = &radic;(A&sup2; + B&sup2; + 2AB cos&theta;)</div>
+<p>Direction of resultant: tan&alpha; = (B sin&theta;)/(A + B cos&theta;), where &alpha; is the angle R makes with A.</p>
+<h4>3. Resolution of a Vector</h4>
+<div class="formula">Ax = A cos&theta;, &nbsp; Ay = A sin&theta;, &nbsp; A = Ax &icirc; + Ay &jcirc;</div>
+<h4>4. Projectile Motion</h4>
+<p>A body projected with velocity u at angle &theta; to the horizontal moves under gravity along a parabolic path.</p>
+<div class="formula">Time of flight T = 2u sin&theta; / g &nbsp;&nbsp;|&nbsp;&nbsp; Max height H = u&sup2;sin&sup2;&theta; / 2g &nbsp;&nbsp;|&nbsp;&nbsp; Range R = u&sup2;sin2&theta; / g</div>
+<h4>5. Uniform Circular Motion</h4>
+<p>A body moving with constant speed in a circular path has an acceleration directed towards the centre, called centripetal acceleration.</p>
+<div class="formula">a_c = v&sup2;/r = &omega;&sup2;r &nbsp;&nbsp; | &nbsp;&nbsp; v = &omega;r</div>
+<p><strong>Key point for exams:</strong> In projectile motion, horizontal velocity (u cos&theta;) stays constant; vertical velocity changes under gravity — the two components are analysed independently.</p>
+</div></template>
+
+<template id="xi-physics-en-solutions"><div>
+<h3>Chapter 3 · Motion in a Plane — Text Book Solutions (sample questions)</h3>
+<div class="qa"><p class="q">Q1. Two vectors of magnitude 3 units and 4 units act at right angles to each other. Find the resultant.</p><p class="a">A. R = &radic;(3&sup2; + 4&sup2;) = &radic;25 = 5 units, at tan&alpha; = 4/3 &rarr; &alpha; &asymp; 53&deg; from the 3-unit vector.</p></div>
+<div class="qa"><p class="q">Q2. A vector of magnitude 10 makes an angle of 30&deg; with the x-axis. Find its rectangular components.</p><p class="a">A. Ax = 10 cos30&deg; = 8.66 units, Ay = 10 sin30&deg; = 5 units.</p></div>
+<div class="qa"><p class="q">Q3. A ball is projected with speed 20 m/s at 30&deg; to the horizontal. Find the maximum height reached (g = 10 m/s&sup2;).</p><p class="a">A. H = u&sup2;sin&sup2;&theta;/2g = (20&sup2;&times;sin&sup2;30&deg;)/(2&times;10) = (400&times;0.25)/20 = 5 m.</p></div>
+<div class="qa"><p class="q">Q4. Find the range of the same projectile in Q3.</p><p class="a">A. R = u&sup2;sin2&theta;/g = (400&times;sin60&deg;)/10 = (400&times;0.866)/10 = 34.6 m.</p></div>
+<div class="qa"><p class="q">Q5. A stone tied to a string of length 0.5 m is whirled in a circle at 4 m/s. Find its centripetal acceleration.</p><p class="a">A. a_c = v&sup2;/r = 16/0.5 = 32 m/s&sup2;.</p></div>
+<div class="qa"><p class="q">Q6. Why is the horizontal component of velocity constant during projectile motion?</p><p class="a">A. Because gravity acts only vertically; there is no horizontal force (ignoring air resistance), so the horizontal component of velocity remains unchanged throughout the flight.</p></div>
+</div></template>
+
+<template id="xi-physics-en-model-paper"><div>
+<h3>Chapter 3 · Motion in a Plane — Model Paper (Sample, 25 Marks)</h3>
+<h4>Section A — Multiple Choice (1 mark &times; 5 = 5)</h4>
+<ul>
+<li>1. Which of these is a vector quantity? (a) speed (b) mass (c) displacement (d) time</li>
+<li>2. The path of a projectile is a: (a) straight line (b) circle (c) parabola (d) ellipse</li>
+<li>3. At the highest point of a projectile's path, the vertical component of velocity is: (a) maximum (b) zero (c) equal to u (d) negative</li>
+<li>4. Centripetal acceleration is directed: (a) along the velocity (b) away from centre (c) towards the centre (d) tangential</li>
+<li>5. Two vectors are equal only if they have the same: (a) magnitude only (b) direction only (c) magnitude and direction (d) magnitude and origin</li>
+</ul>
+<h4>Section B — Short Answer (3 marks &times; 4 = 12)</h4>
+<ul>
+<li>6. State the triangle law of vector addition.</li>
+<li>7. Derive the expression for time of flight of a projectile.</li>
+<li>8. Show that the trajectory of a projectile is a parabola (outline the derivation).</li>
+<li>9. Define centripetal acceleration and write its formula in terms of v and r.</li>
+</ul>
+<h4>Section C — Long Answer (5 marks &times; 2 = 10)</h4>
+<ul>
+<li>10. A projectile is launched at 40 m/s at 45&deg; to the horizontal (g = 10 m/s&sup2;). Find the time of flight, maximum height and range.</li>
+<li>11. Two forces of 6 N and 8 N act at a point at an angle of 90&deg; to each other. Find the magnitude and direction of the resultant force.</li>
+</ul>
+<details><summary>Show Answer Key</summary>
+<p><strong>Section A:</strong> 1-c, 2-c, 3-b, 4-c, 5-c</p>
+<p><strong>Q10:</strong> T = 2u sin&theta;/g = (2&times;40&times;0.707)/10 &asymp; 5.66 s; H = u&sup2;sin&sup2;&theta;/2g = (1600&times;0.5)/20 = 40 m; R = u&sup2;sin2&theta;/g = (1600&times;1)/10 = 160 m.</p>
+<p><strong>Q11:</strong> R = &radic;(6&sup2;+8&sup2;) = &radic;100 = 10 N; tan&alpha; = 8/6 &rarr; &alpha; &asymp; 53&deg; from the 6 N force.</p>
+</details>
+</div></template>
+
+<template id="xii-physics-en-notes"><div>
+<h3>Chapter 2 · Current Electricity</h3>
+<h4>1. Electric Current & Drift Velocity</h4>
+<div class="formula">I = q/t &nbsp;&nbsp; | &nbsp;&nbsp; I = nAev_d (n = free electron density, A = area, e = charge, v_d = drift velocity)</div>
+<h4>2. Ohm's Law</h4>
+<p>At constant temperature, current through a conductor is directly proportional to the potential difference across it.</p>
+<div class="formula">V = IR &nbsp;&nbsp; | &nbsp;&nbsp; R = &rho;l/A (&rho; = resistivity)</div>
+<h4>3. Combination of Resistors</h4>
+<div class="formula">Series: R = R&#8321; + R&#8322; + R&#8323; &nbsp;&nbsp; | &nbsp;&nbsp; Parallel: 1/R = 1/R&#8321; + 1/R&#8322; + 1/R&#8323;</div>
+<h4>4. Kirchhoff's Laws</h4>
+<ul>
+<li><strong>KCL (junction rule):</strong> Sum of currents entering a junction = sum of currents leaving it.</li>
+<li><strong>KVL (loop rule):</strong> The algebraic sum of potential differences around any closed loop is zero.</li>
+</ul>
+<h4>5. EMF and Internal Resistance</h4>
+<div class="formula">V = E &minus; Ir (E = emf, r = internal resistance)</div>
+<h4>6. Wheatstone Bridge & Potentiometer</h4>
+<p>Balance condition of a Wheatstone bridge: <strong>P/Q = R/S</strong>. A potentiometer compares emfs / measures internal resistance using a balancing length, since it draws no current from the source being measured.</p>
+<p><strong>Key point for exams:</strong> Resistivity &rho; depends on the material and temperature, not on the length or area of the conductor.</p>
+</div></template>
+
+<template id="xii-physics-en-solutions"><div>
+<h3>Chapter 2 · Current Electricity — Text Book Solutions (sample questions)</h3>
+<div class="qa"><p class="q">Q1. Three resistors of 2 &Omega;, 3 &Omega; and 5 &Omega; are connected in series across a 20 V battery. Find the current in the circuit.</p><p class="a">A. R = 2+3+5 = 10 &Omega;. I = V/R = 20/10 = 2 A.</p></div>
+<div class="qa"><p class="q">Q2. Two resistors of 4 &Omega; and 6 &Omega; are connected in parallel. Find the equivalent resistance.</p><p class="a">A. 1/R = 1/4 + 1/6 = (3+2)/12 = 5/12 &rarr; R = 2.4 &Omega;.</p></div>
+<div class="qa"><p class="q">Q3. A cell of emf 2 V and internal resistance 0.5 &Omega; is connected to an external resistance of 4.5 &Omega;. Find the current drawn.</p><p class="a">A. I = E/(R+r) = 2/(4.5+0.5) = 2/5 = 0.4 A.</p></div>
+<div class="qa"><p class="q">Q4. State Kirchhoff's junction rule and the conservation law it follows from.</p><p class="a">A. The sum of currents entering a junction equals the sum leaving it; it follows from conservation of electric charge.</p></div>
+<div class="qa"><p class="q">Q5. A wire of resistance 10 &Omega; is stretched to double its length (volume constant). Find its new resistance.</p><p class="a">A. R &prop; l&sup2; (volume constant), so new R = 10 &times; 2&sup2; = 40 &Omega;.</p></div>
+<div class="qa"><p class="q">Q6. In a Wheatstone bridge, P = 10 &Omega;, Q = 20 &Omega;, R = 15 &Omega;. Find S for balance.</p><p class="a">A. P/Q = R/S &rarr; S = R&times;Q/P = 15&times;20/10 = 30 &Omega;.</p></div>
+</div></template>
+
+<template id="xii-physics-en-model-paper"><div>
+<h3>Chapter 2 · Current Electricity — Model Paper (Sample, 25 Marks)</h3>
+<h4>Section A — Multiple Choice (1 mark &times; 5 = 5)</h4>
+<ul>
+<li>1. SI unit of resistivity is: (a) ohm (b) ohm-metre (c) ohm/metre (d) siemens</li>
+<li>2. In series combination, which quantity remains the same through all resistors? (a) voltage (b) current (c) power (d) resistance</li>
+<li>3. Kirchhoff's voltage law is based on conservation of: (a) charge (b) energy (c) momentum (d) mass</li>
+<li>4. A potentiometer is preferred over a voltmeter to measure emf because: (a) it is cheaper (b) it draws no current from the cell (c) it is smaller (d) it is digital</li>
+<li>5. Terminal voltage of a cell on discharge is: (a) E + Ir (b) E &minus; Ir (c) E &times; r (d) E/r</li>
+</ul>
+<h4>Section B — Short Answer (3 marks &times; 4 = 12)</h4>
+<ul>
+<li>6. Define resistivity and state the factors it depends on.</li>
+<li>7. State Kirchhoff's junction and loop rules.</li>
+<li>8. Derive the expression for equivalent resistance of two resistors connected in parallel.</li>
+<li>9. Explain why a potentiometer gives a more accurate measurement of emf than a voltmeter.</li>
+</ul>
+<h4>Section C — Long Answer (5 marks &times; 2 = 10)</h4>
+<ul>
+<li>10. Three resistors 4 &Omega;, 6 &Omega; and 12 &Omega; are connected in parallel, and this combination is connected in series with a 2 &Omega; resistor across a 12 V battery. Find the total current drawn from the battery.</li>
+<li>11. State the balance condition of a Wheatstone bridge and derive it using Kirchhoff's laws (outline the steps).</li>
+</ul>
+<details><summary>Show Answer Key</summary>
+<p><strong>Section A:</strong> 1-b, 2-b, 3-b, 4-b, 5-b</p>
+<p><strong>Q10:</strong> 1/Rp = 1/4+1/6+1/12 = (3+2+1)/12 = 6/12 &rarr; Rp = 2 &Omega;. Total R = 2+2 = 4 &Omega;. I = V/R = 12/4 = 3 A.</p>
+<p><strong>Q11:</strong> Balance condition: P/Q = R/S, derived by applying KVL to both loops of the bridge when the galvanometer shows zero deflection (no current through it).</p>
+</details>
+</div></template>
+
 <script>
 const classNames={
-"x-science-as":"Class X — Science (Assamese Medium)",
-"x-science-en":"Class X — Science (English Medium)",
-"xi-physics-en":"Class XI — Physics (English Medium)",
-"xii-physics-en":"Class XII — Physics (English Medium)"
+"x-science-as":"Class X — Science (Assamese Medium) · Ch. 10 Light",
+"x-science-en":"Class X — Science (English Medium) · Ch. 10 Light",
+"xi-physics-en":"Class XI — Physics (English Medium) · Ch. 3 Motion in a Plane",
+"xii-physics-en":"Class XII — Physics (English Medium) · Ch. 2 Current Electricity"
+};
+const chapterLabel={
+"x-science-as":"অধ্যায় ১০ — পোহৰ (Light)",
+"x-science-en":"Chapter 10 — Light: Reflection and Refraction",
+"xi-physics-en":"Chapter 3 — Motion in a Plane",
+"xii-physics-en":"Chapter 2 — Current Electricity"
 };
 const resourceInfo={
-"notes":{label:"Notes",tag:"📚 NOTES",body:"A short free excerpt of the concept notes for this subject would appear here — covering one topic in full detail as a sample."},
-"solutions":{label:"Text Book Solutions",tag:"📖 TEXT BOOK SOLUTIONS",body:"A free solved exercise (one full chapter question set) would appear here as a sample of our step-by-step solutions."},
-"video":{label:"Video Lecture",tag:"🎥 VIDEO LECTURE",body:"A free sample video lecture player would appear here, covering one topic in full so you can experience the teaching style."},
-"model-paper":{label:"Model Paper",tag:"📝 MODEL PAPER",body:"One free sample model paper (with solutions) would appear here for practice before your exams."}
+"notes":{label:"Notes",tag:"📚 NOTES"},
+"solutions":{label:"Text Book Solutions",tag:"📖 TEXT BOOK SOLUTIONS"},
+"video":{label:"Video Lecture",tag:"🎥 VIDEO LECTURE"},
+"model-paper":{label:"Model Paper",tag:"📝 MODEL PAPER"}
 };
 const params=new URLSearchParams(window.location.search);
 const cls=params.get("class")||"";
 const res=params.get("resource")||"";
 const c=classNames[cls]||"Selected Class";
-const r=resourceInfo[res]||{label:"Resource",tag:"RESOURCE",body:"Free demo content would appear here."};
+const r=resourceInfo[res]||{label:"Resource",tag:"RESOURCE"};
 
 document.getElementById("classLabel").textContent=c;
 document.getElementById("classLabel2").textContent=c;
 document.getElementById("resourceLabel2").textContent=r.label;
 document.getElementById("resourceTag").textContent=r.tag;
-document.getElementById("demoBody").textContent=r.body;
+document.getElementById("chapterLabel").textContent=chapterLabel[cls]||"";
 document.getElementById("pageTitle").innerHTML="Free "+r.label+" — <span>"+c+"</span>";
 document.getElementById("backLink").href="demo-resources.html?class="+encodeURIComponent(cls);
 document.getElementById("tryAnother").href="demo-resources.html?class="+encodeURIComponent(cls);
+
+const demoBody=document.getElementById("demoBody");
+
+function ytId(url){
+if(!url) return null;
+const m=url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+return m?m[1]:null;
+}
+
+if(res==="video"){
+demoBody.innerHTML='<p style="color:var(--muted)">Loading video…</p>';
+fetch("videos.json").then(r=>r.json()).then(data=>{
+const link=data[cls];
+const id=ytId(link);
+if(id){
+demoBody.innerHTML='<div class="videoWrap"><iframe src="https://www.youtube.com/embed/'+id+'" title="Demo video lecture" allowfullscreen></iframe></div>';
+}else{
+demoBody.innerHTML='<div class="videoComing">🎬 The free demo video lecture for this chapter is coming soon.<br>Please check back shortly, or explore the Notes / Text Book Solutions / Model Paper for this class in the meantime.</div>';
+}
+}).catch(()=>{
+demoBody.innerHTML='<div class="videoComing">🎬 The free demo video lecture for this chapter is coming soon.<br>Please check back shortly, or explore the Notes / Text Book Solutions / Model Paper for this class in the meantime.</div>';
+});
+}else{
+const tpl=document.getElementById(cls+"-"+res);
+if(tpl){
+demoBody.innerHTML="";
+demoBody.appendChild(tpl.content.cloneNode(true));
+}else{
+demoBody.innerHTML='<div class="videoComing">Free demo content for this selection is being prepared and will be added soon.</div>';
+}
+}
 </script>
 </body>
 </html>
