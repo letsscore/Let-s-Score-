@@ -101,7 +101,7 @@ function normalizeUtr(v){ return String(v||'').trim().toUpperCase().replace(/[^A
 
 function safeUrl(url){
   try{
-    const u=new URL(String(url||));
+    const u=new URL(String(url||''));
     if(u.protocol!=='https:' && u.protocol!=='http:') return '#';
     return u.href;
   }catch(e){ return '#'; }
