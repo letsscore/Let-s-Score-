@@ -435,7 +435,7 @@ footer{
             <div id="allRecordsList" style="margin-top:12px"></div>
 
             <p class="small" style="margin-top:24px">
-                Resources are added as links (no file storage / billing needed). Upload your file to Google Drive (set sharing to "Anyone with the link") or upload your video to YouTube as "Unlisted", then paste the link below.
+                Resources are added as links (no file storage / billing needed). For HTML notes, upload the .html file to your website/GitHub Pages and paste its public URL below. For PDFs/images you may still use a public link. Videos can be hosted on YouTube (Unlisted) or Google Drive.
             </p>
 
             <h3 style="margin-top:20px">🎥 Add Video Lecture</h3>
@@ -448,16 +448,16 @@ footer{
 
             <h3 style="margin-top:30px">📖 Add Notes</h3>
             <label for="noteTitle">Note Title</label>
-            <input id="noteTitle" placeholder="e.g. Chapter 1 - Chemical Reactions Notes">
-            <label for="noteUrl">Google Drive Link (PDF / Image)</label>
-            <input id="noteUrl" placeholder="https://drive.google.com/...">
+            <input id="noteTitle" placeholder="e.g. Chapter 1 - Electric Charges and Fields Notes">
+            <label for="noteUrl">HTML Notes URL</label>
+            <input id="noteUrl" type="url" placeholder="https://your-site.com/notes/chapter-1.html">
             <button id="addNoteBtn">+ Add Note</button>
             <div id="noteMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📘 Add NCERT Solution</h3>
             <label for="solutionTitle">Solution Title</label>
             <input id="solutionTitle" placeholder="e.g. Chapter 1 - NCERT Solutions">
-            <label for="solutionUrl">Google Drive Link (PDF / Image)</label>
+            <label for="solutionUrl">Public Resource URL (HTML / PDF / Image)</label>
             <input id="solutionUrl" placeholder="https://drive.google.com/...">
             <button id="addSolutionBtn">+ Add Solution</button>
             <div id="solutionMessage" class="message"></div>
@@ -465,7 +465,7 @@ footer{
             <h3 style="margin-top:30px">📄 Add Model Question Paper</h3>
             <label for="paperTitle">Paper Title</label>
             <input id="paperTitle" placeholder="e.g. Model Paper Set 1">
-            <label for="paperUrl">Google Drive Link (PDF / Image)</label>
+            <label for="paperUrl">Public Resource URL (HTML / PDF / Image)</label>
             <input id="paperUrl" placeholder="https://drive.google.com/...">
             <button id="addPaperBtn">+ Add Model Paper</button>
             <div id="paperMessage" class="message"></div>

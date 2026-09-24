@@ -52,12 +52,12 @@ footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var
 <a class="btn" href="revisionary-test.html">Open Revisionary Tests</a></section>
 
 <section class="card"><h2>📂 Your Course Resources</h2>
-<p class="muted">Notes, NCERT solutions, video lectures and model papers, uploaded by your teacher, appear here once your payment is verified above.</p>
+<p class="muted">HTML notes, NCERT solutions, video lectures and model papers, added by your teacher, appear here once your payment is verified above.</p>
 
 <div id="lockedNotice" class="lock">🔒 Enter your approved UTR / Transaction Reference Number above and click "Check My Access" to unlock your resources.</div>
 
 <div id="resourceArea" style="display:none">
-<h3 style="margin:18px 0 8px">📖 Notes</h3>
+<h3 style="margin:18px 0 8px">📖 HTML Notes</h3>
 <div id="notesList" class="grid"></div>
 
 <h3 style="margin:22px 0 8px">📘 NCERT Solutions</h3>
@@ -99,6 +99,14 @@ function escapeHtml(s){
 }
 function normalizeUtr(v){ return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,''); }
 
+function safeUrl(url){
+  try{
+    const u=new URL(String(url||));
+    if(u.protocol!=='https:' && u.protocol!=='http:') return '#';
+    return u.href;
+  }catch(e){ return '#'; }
+}
+
 function videoEmbedHtml(url){
   const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{6,})/);
   if(yt){
@@ -108,7 +116,8 @@ function videoEmbedHtml(url){
   if(drive){
     return `<iframe src="https://drive.google.com/file/d/${drive[1]}/preview" style="width:100%;aspect-ratio:16/9;border-radius:10px;margin-top:10px;border:0" allowfullscreen></iframe>`;
   }
-  return `<video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${url}"></video>`;
+  const safe=safeUrl(url);
+  return `<video controls style="width:100%;border-radius:10px;margin-top:10px;background:#000" src="${safe}"></video>`;
 }
 
 let resourcesLoaded = false;
@@ -134,7 +143,7 @@ function unlockResources(){
             ${videoEmbedHtml(item.url)}`;
         } else {
           div.innerHTML = `<strong>${escapeHtml(item.title||'Untitled')}</strong>
-            <p class="muted"><a href="${item.url}" target="_blank" style="color:var(--blue)">Open / Download →</a></p>`;
+            <p class="muted"><a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">Open Resource →</a></p>`;
         }
         el.appendChild(div);
       });
