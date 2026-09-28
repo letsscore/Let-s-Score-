@@ -493,8 +493,7 @@ import {
 import {
     getAuth,
     GoogleAuthProvider,
-    signInWithRedirect,
-    getRedirectResult,
+    signInWithPopup,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -604,41 +603,32 @@ const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
 const googleProvider = new GoogleAuthProvider();
 
 googleLoginBtn.addEventListener("click", async () => {
-    loginMessage.textContent = "Redirecting to Google sign-in...";
+    loginMessage.textContent = "Opening Google sign-in...";
     googleLoginBtn.disabled = true;
     try {
-        await signInWithRedirect(auth, googleProvider);
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        if (user.uid !== TEACHER_UID) {
+            await signOut(auth);
+            loginMessage.textContent = "Access denied: this Google account is not the authorised teacher account.";
+            return;
+        }
+        loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
     } catch (error) {
-        console.error("Google redirect login error:", error);
+        console.error("Google login error:", error);
         const code = error?.code || "";
         const messages = {
+            "auth/popup-blocked": "Google sign-in popup was blocked. Allow pop-ups for this site and try again.",
+            "auth/popup-closed-by-user": "Google sign-in was closed before completion. Please try again.",
+            "auth/cancelled-popup-request": "Google sign-in was cancelled. Please try again.",
             "auth/unauthorized-domain": "This GitHub Pages domain is not authorised in Firebase Authentication.",
-            "auth/network-request-failed": "Network error. Check your internet connection and try again.",
-            "auth/operation-not-allowed": "Google sign-in is not enabled in Firebase Authentication."
+            "auth/operation-not-allowed": "Google sign-in is not enabled in Firebase Authentication.",
+            "auth/network-request-failed": "Network error. Check your internet connection and try again."
         };
-        loginMessage.textContent = messages[code] || ("Google login failed (" + code + "): " + (error?.message || "Unknown error"));
+        loginMessage.textContent = messages[code] || ("Google login failed: " + (error?.message || code || "Unknown error"));
+    } finally {
         googleLoginBtn.disabled = false;
     }
-});
-
-getRedirectResult(auth).then(result => {
-    if (!result || !result.user) return;
-    const user = result.user;
-    if (user.uid !== TEACHER_UID) {
-        signOut(auth);
-        loginMessage.textContent = "Access denied: this Google account is not the authorised teacher account.";
-    } else {
-        loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
-    }
-}).catch(error => {
-    console.error("Google redirect result error:", error);
-    const code = error?.code || "";
-    const messages = {
-        "auth/unauthorized-domain": "This GitHub Pages domain is not authorised in Firebase Authentication.",
-        "auth/network-request-failed": "Network error. Check your internet connection and try again.",
-        "auth/operation-not-allowed": "Google sign-in is not enabled in Firebase Authentication."
-    };
-    loginMessage.textContent = messages[code] || ("Google login failed (" + code + "): " + (error?.message || "Unknown error"));
 });
 
 
