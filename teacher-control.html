@@ -628,45 +628,39 @@ const testPaths = {
 ================================ */
 
 document.getElementById("loginBtn")
-.addEventListener("click", async () => {
+.addEventListener("click", async (event) => {
 
-    const email =
-        emailInput.value.trim();
+    event.preventDefault();
 
-    const password =
-        passwordInput.value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
     if (!email || !password) {
-
-        loginMessage.textContent =
-            "Please enter email and password.";
-
+        loginMessage.textContent = "Please enter email and password.";
         return;
     }
 
-    loginMessage.textContent =
-        "Signing in...";
+    loginMessage.textContent = "Signing in...";
 
     try {
-
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-        loginMessage.textContent =
-            "";
-
+        await signInWithEmailAndPassword(auth, email, password);
+        loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
     } catch (error) {
-
-        console.error(error);
-
-        loginMessage.textContent =
-            "Login failed: " + error.message;
-
+        console.error("Firebase login error:", error);
+        const code = error?.code || "";
+        const messages = {
+            "auth/invalid-credential": "Invalid email or password. Check the Firebase Authentication account.",
+            "auth/wrong-password": "Incorrect password. Please check the teacher account password.",
+            "auth/user-not-found": "No Firebase Authentication user exists with this email.",
+            "auth/invalid-email": "The teacher email address is not valid.",
+            "auth/user-disabled": "This Firebase Authentication user has been disabled.",
+            "auth/operation-not-allowed": "Email/Password sign-in is disabled in Firebase Authentication. Enable it under Authentication → Sign-in method.",
+            "auth/unauthorized-domain": "This GitHub Pages domain is not authorised in Firebase Authentication. Add letsscore.github.io under Authentication → Settings → Authorised domains.",
+            "auth/network-request-failed": "Network error. Check your internet connection and try again.",
+            "auth/too-many-requests": "Too many login attempts. Wait a while and try again."
+        };
+        loginMessage.textContent = messages[code] || ("Login failed (" + code + "): " + (error?.message || "Unknown error."));
     }
-
 });
 
 
