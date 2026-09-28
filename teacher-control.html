@@ -400,20 +400,32 @@ footer{
             <h2>📚 Course Resources &amp; Enrollment</h2>
 
             <p class="small">
-                Manage paid student access and upload course resources (notes, NCERT solutions, video lectures, model papers) for each course. Course Fee: ₹799.
+                Manage student access and URL-based course resources for every course. Resources may be HTML pages, Google Drive PDFs, YouTube/Drive videos, model papers, solutions, practice sets or other public links.
             </p>
 
+            <h3>➕ Course Manager</h3>
+            <p class="small">Create any class, subject, language, batch or course. Choose Free or Paid access. The course will receive its own Firebase resource path.</p>
             <label for="courseSelect">Select Course</label>
-            <select id="courseSelect">
-                <option value="classX-online-english">Class X Science — Online (English)</option>
-                <option value="classXI-online-physics">Class XI Physics — Online (English)</option>
-                <option value="classXII-online-physics">Class XII Physics — Online (English)</option>
-            </select>
-            <p class="small" id="courseSelectedNote">Everything below applies to the course selected above. Uploads and approvals for one course will not appear on another course's page.</p>
+            <select id="courseSelect"></select>
+            <div class="grid" style="margin-top:12px">
+                <div><label for="newCourseName">Course Name</label><input id="newCourseName" placeholder="e.g. Class IX Science — Assamese"></div>
+                <div><label for="newCourseType">Access Type</label><select id="newCourseType"><option value="free">🟢 Free</option><option value="paid">💳 Paid</option></select></div>
+            </div>
+            <div class="grid">
+                <div><label for="newCourseClass">Class / Category</label><input id="newCourseClass" placeholder="e.g. Class IX"></div>
+                <div><label for="newCourseSubject">Subject / Course</label><input id="newCourseSubject" placeholder="e.g. Science"></div>
+                <div><label for="newCourseLanguage">Medium / Language</label><input id="newCourseLanguage" placeholder="e.g. Assamese"></div>
+            </div>
+            <label for="newCourseFee">Course Fee (₹) — only for paid courses</label>
+            <input id="newCourseFee" type="number" min="0" placeholder="e.g. 799">
+            <button id="createCourseBtn">+ CREATE COURSE</button>
+            <button id="deleteCourseBtn" class="stop">✕ DELETE SELECTED COURSE</button>
+            <div id="courseManagerMessage" class="message"></div>
+            <p class="small" id="courseSelectedNote">Everything below applies to the selected course. Free courses do not require UTR approval; paid courses use UTR approval.</p>
 
             <h3 style="margin-top:24px">👥 Student Access Approval (via UTR)</h3>
             <p class="small">
-                Students pay ₹799 via UPI to 9678945621 and share their UTR / Transaction Reference Number. After you cross-verify the payment in your bank/UPI app, enter their name and that UTR below and grant access. They will unlock resources on the selected course's page using that same UTR.
+                For paid courses, students pay the configured course fee and share their UTR / Transaction Reference Number. After you cross-verify the payment, enter their name and UTR below and grant access. Free courses do not need approval.
             </p>
 
             <label for="studentName">Student Name</label>
@@ -1126,188 +1138,93 @@ function escapeResultText(value) {
 
 
 /* ================================
-   COURSE RESOURCES & ENROLLMENT
-   (course-selector driven)
+   DYNAMIC COURSE + RESOURCE MANAGER
 ================================ */
-
 const courseSelect = document.getElementById("courseSelect");
+const COURSE_META_PATH = "courses";
+let courseMeta = {};
+let unsubEnroll = null, unsubResources = null;
 
 function currentCourse(){ return courseSelect.value; }
 function coursePath(){ return `courseResources/${currentCourse()}`; }
 function enrollPath(){ return `enrollments/${currentCourse()}`; }
+function escRes(v){ return String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+function normalizeUtr(v){ return String(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function slugify(v){ return String(v||"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60); }
+function courseLabel(c){ return `${c.name||"Untitled Course"} — ${c.type==='paid'?'PAID':'FREE'}`; }
 
-function escRes(v){
-    return String(v ?? "").replace(/[&<>"']/g, c => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[c]));
+function renderCourseSelect(){
+    const keys=Object.keys(courseMeta).sort((a,b)=>(courseMeta[a].name||"").localeCompare(courseMeta[b].name||""));
+    const old=courseSelect.value;
+    courseSelect.innerHTML=keys.length?keys.map(k=>`<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`).join(""):"<option value="">No courses yet — create one below</option>";
+    if(keys.includes(old)) courseSelect.value=old;
+    updateCourseNote();
+}
+function updateCourseNote(){
+    const c=courseMeta[currentCourse()];
+    const note=document.getElementById("courseSelectedNote");
+    if(!c){ note.textContent="Create a course to begin adding resources."; return; }
+    note.textContent=`Selected: ${c.name} • ${c.type==='paid'?'Paid — ₹'+(c.fee||0):'Free'}${c.className?' • '+c.className:''}${c.subject?' • '+c.subject:''}${c.language?' • '+c.language:''}`;
 }
 
-function normalizeUtr(v){
-    return String(v || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
-}
+onValue(ref(db, COURSE_META_PATH), snap=>{ courseMeta=snap.val()||{}; renderCourseSelect(); if(currentCourse()) attachCourseListeners(); refreshEnrollmentListeners(); renderAllRecords(); });
 
-document.getElementById("grantAccessBtn").addEventListener("click", async () => {
-    const name = document.getElementById("studentName").value.trim();
-    const utr = normalizeUtr(document.getElementById("studentUtr").value);
-    const msg = document.getElementById("enrollMessage");
-    if (!utr) { msg.textContent = "Enter a valid UTR / Transaction Reference Number."; return; }
-    try {
-        await set(ref(db, `${enrollPath()}/${utr}`), {
-            name: name || "Student",
-            utr,
-            paid: true,
-            enrolledAt: Date.now()
-        });
-        msg.textContent = "✓ Access approved for " + (name || utr) + ".";
-        document.getElementById("studentName").value = "";
-        document.getElementById("studentUtr").value = "";
-    } catch (e) { msg.textContent = "Error: " + e.message; }
+async function createCourse(){
+    const name=document.getElementById("newCourseName").value.trim();
+    const type=document.getElementById("newCourseType").value;
+    const className=document.getElementById("newCourseClass").value.trim();
+    const subject=document.getElementById("newCourseSubject").value.trim();
+    const language=document.getElementById("newCourseLanguage").value.trim();
+    const fee=Number(document.getElementById("newCourseFee").value||0);
+    const msg=document.getElementById("courseManagerMessage");
+    if(!name){msg.textContent="Enter a course name.";return;}
+    if(type==='paid' && fee<=0){msg.textContent="Enter a valid fee for a paid course.";return;}
+    let key=slugify(`${className}-${subject}-${language}-${name}`)||slugify(name)||`course-${Date.now()}`;
+    let base=key,i=2; while(courseMeta[key]) key=`${base}-${i++}`;
+    try{
+        await set(ref(db,`${COURSE_META_PATH}/${key}`),{name,type,fee:type==='paid'?fee:0,className,subject,language,createdAt:Date.now(),createdBy:auth.currentUser?.email||"teacher"});
+        courseSelect.value=key; renderCourseSelect(); attachCourseListeners();
+        ["newCourseName","newCourseClass","newCourseSubject","newCourseLanguage","newCourseFee"].forEach(id=>document.getElementById(id).value="");
+        msg.textContent=`✓ Course created: ${name}`;
+    }catch(e){msg.textContent="Error: "+e.message;}
+}
+document.getElementById("createCourseBtn").addEventListener("click",createCourse);
+
+document.getElementById("deleteCourseBtn").addEventListener("click",async()=>{
+    const key=currentCourse(), c=courseMeta[key], msg=document.getElementById("courseManagerMessage");
+    if(!key||!c){msg.textContent="Select a course first.";return;}
+    if(!confirm(`Delete course "${c.name}"? This removes its course metadata and all linked resources/access records.`))return;
+    try{
+        await remove(ref(db,`${COURSE_META_PATH}/${key}`));
+        await remove(ref(db,`courseResources/${key}`));
+        await remove(ref(db,`enrollments/${key}`));
+        msg.textContent="✓ Course deleted.";
+    }catch(e){msg.textContent="Error: "+e.message;}
 });
 
-document.getElementById("revokeAccessBtn").addEventListener("click", async () => {
-    const utr = normalizeUtr(document.getElementById("studentUtr").value);
-    const msg = document.getElementById("enrollMessage");
-    if (!utr) { msg.textContent = "Enter the UTR to revoke."; return; }
-    try {
-        const snap = await get(ref(db, `${enrollPath()}/${utr}`));
-        if (!snap.exists()) { msg.textContent = "No approval found for this UTR."; return; }
-        await set(ref(db, `${enrollPath()}/${utr}`), { ...snap.val(), paid: false, updatedAt: Date.now() });
-        msg.textContent = "Access revoked for " + utr + ".";
-    } catch (e) { msg.textContent = "Error: " + e.message; }
+document.getElementById("grantAccessBtn").addEventListener("click",async()=>{
+    const c=courseMeta[currentCourse()], name=document.getElementById("studentName").value.trim(), utr=normalizeUtr(document.getElementById("studentUtr").value), msg=document.getElementById("enrollMessage");
+    if(!c){msg.textContent="Create/select a course first.";return;} if(c.type!=='paid'){msg.textContent="This is a FREE course. No UTR approval is required.";return;} if(!utr){msg.textContent="Enter a valid UTR / Transaction Reference Number.";return;}
+    try{await set(ref(db,`${enrollPath()}/${utr}`),{name:name||"Student",utr,paid:true,enrolledAt:Date.now(),courseKey:currentCourse()});msg.textContent="✓ Access approved for "+(name||utr)+".";document.getElementById("studentName").value="";document.getElementById("studentUtr").value="";}catch(e){msg.textContent="Error: "+e.message;}
 });
+document.getElementById("revokeAccessBtn").addEventListener("click",async()=>{const utr=normalizeUtr(document.getElementById("studentUtr").value),msg=document.getElementById("enrollMessage");if(!utr){msg.textContent="Enter the UTR to revoke.";return;}try{const snap=await get(ref(db,`${enrollPath()}/${utr}`));if(!snap.exists()){msg.textContent="No approval found for this UTR.";return;}await set(ref(db,`${enrollPath()}/${utr}`),{...snap.val(),paid:false,updatedAt:Date.now()});msg.textContent="Access revoked for "+utr+".";}catch(e){msg.textContent="Error: "+e.message;}});
 
-function bindLinkResource(config){
-    const { btnId, titleId, urlId, msgId, category } = config;
-    document.getElementById(btnId).addEventListener("click", async () => {
-        const title = document.getElementById(titleId).value.trim();
-        const url = document.getElementById(urlId).value.trim();
-        const msg = document.getElementById(msgId);
-        if (!title) { msg.textContent = "Enter a title."; return; }
-        if (!url) { msg.textContent = "Paste a link."; return; }
-        try {
-            await push(ref(db, `${coursePath()}/${category}`), { title, url, addedAt: Date.now() });
-            msg.textContent = "✓ Added successfully.";
-            document.getElementById(titleId).value = "";
-            document.getElementById(urlId).value = "";
-        } catch (e) { msg.textContent = "Error: " + e.message; }
-    });
-}
+function bindLinkResource(config){const{btnId,titleId,urlId,msgId,category}=config;document.getElementById(btnId).addEventListener("click",async()=>{const title=document.getElementById(titleId).value.trim(),url=document.getElementById(urlId).value.trim(),msg=document.getElementById(msgId);if(!currentCourse()){msg.textContent="Create/select a course first.";return;}if(!title){msg.textContent="Enter a title.";return;}if(!url){msg.textContent="Paste a public link.";return;}try{await push(ref(db,`${coursePath()}/${category}`),{title,url,addedAt:Date.now(),addedBy:auth.currentUser?.email||"teacher"});msg.textContent="✓ Added successfully.";document.getElementById(titleId).value="";document.getElementById(urlId).value="";}catch(e){msg.textContent="Error: "+e.message;}});}
+bindLinkResource({btnId:"addVideoBtn",titleId:"videoTitle",urlId:"videoUrl",msgId:"videoMessage",category:"videos"});
+bindLinkResource({btnId:"addNoteBtn",titleId:"noteTitle",urlId:"noteUrl",msgId:"noteMessage",category:"notes"});
+bindLinkResource({btnId:"addSolutionBtn",titleId:"solutionTitle",urlId:"solutionUrl",msgId:"solutionMessage",category:"solutions"});
+bindLinkResource({btnId:"addPaperBtn",titleId:"paperTitle",urlId:"paperUrl",msgId:"paperMessage",category:"papers"});
 
-bindLinkResource({ btnId:"addVideoBtn", titleId:"videoTitle", urlId:"videoUrl", msgId:"videoMessage", category:"videos" });
-bindLinkResource({ btnId:"addNoteBtn", titleId:"noteTitle", urlId:"noteUrl", msgId:"noteMessage", category:"notes" });
-bindLinkResource({ btnId:"addSolutionBtn", titleId:"solutionTitle", urlId:"solutionUrl", msgId:"solutionMessage", category:"solutions" });
-bindLinkResource({ btnId:"addPaperBtn", titleId:"paperTitle", urlId:"paperUrl", msgId:"paperMessage", category:"papers" });
+const CATEGORY_LABELS={notes:"📖 Notes",solutions:"📘 NCERT Solutions",videos:"🎥 Video Lectures",papers:"📄 Model Papers"};
+window.deleteResource=async function(category,key){if(!confirm("Delete this resource?"))return;try{await remove(ref(db,`${coursePath()}/${category}/${key}`));}catch(e){alert("Could not delete: "+e.message);}};
+function attachCourseListeners(){if(unsubEnroll)unsubEnroll();if(unsubResources)unsubResources();if(!currentCourse())return;unsubEnroll=onValue(ref(db,enrollPath()),snap=>{const data=snap.val(),list=document.getElementById("enrolledList");if(!list)return;if(!data){list.innerHTML='<p class="small">No approved students yet for this course.</p>';return;}const rows=Object.values(data).sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td></tr>`});list.innerHTML=html+'</tbody></table></div>';});unsubResources=onValue(ref(db,coursePath()),snap=>{const data=snap.val()||{},box=document.getElementById("resourceListing");if(!box)return;let html="";Object.keys(CATEGORY_LABELS).forEach(cat=>{const items=data[cat]?Object.entries(data[cat]):[];html+=`<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;if(!items.length)html+='<p class="small">None added yet.</p>';else{items.sort((a,b)=>(b[1].addedAt||0)-(a[1].addedAt||0));items.forEach(([key,item])=>{html+=`<p class="small">• ${escRes(item.title)} — <a href="${escRes(item.url)}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`})}html+='</div>'});box.innerHTML=html;});updateCourseNote();}
+courseSelect.addEventListener("change",()=>{document.getElementById("enrollMessage").textContent="";attachCourseListeners();updateCourseNote();});
 
-
-const CATEGORY_LABELS = { notes:"📖 Notes", solutions:"📘 NCERT Solutions", videos:"🎥 Video Lectures", papers:"📄 Model Papers" };
-
-window.deleteResource = async function(category, key){
-    if (!confirm("Delete this resource?")) return;
-    try {
-        await remove(ref(db, `${coursePath()}/${category}/${key}`));
-    } catch (e) { alert("Could not delete: " + e.message); }
-};
-
-let unsubEnroll = null;
-let unsubResources = null;
-
-function attachCourseListeners(){
-    if (unsubEnroll) unsubEnroll();
-    if (unsubResources) unsubResources();
-
-    unsubEnroll = onValue(ref(db, enrollPath()), (snap) => {
-        const data = snap.val();
-        const list = document.getElementById("enrolledList");
-        if (!list) return;
-        if (!data) { list.innerHTML = '<p class="small">No approved students yet for this course.</p>'; return; }
-        const rows = Object.values(data).sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
-        let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
-            <th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>`;
-        rows.forEach(s => {
-            html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td></tr>`;
-        });
-        html += `</tbody></table></div>`;
-        list.innerHTML = html;
-    });
-
-    unsubResources = onValue(ref(db, coursePath()), (snap) => {
-        const data = snap.val() || {};
-        const box = document.getElementById("resourceListing");
-        if (!box) return;
-        let html = "";
-        Object.keys(CATEGORY_LABELS).forEach(cat => {
-            const items = data[cat] ? Object.entries(data[cat]) : [];
-            html += `<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;
-            if (!items.length) {
-                html += `<p class="small">None added yet.</p>`;
-            } else {
-                items.sort((a,b) => (b[1].addedAt || 0) - (a[1].addedAt || 0));
-                items.forEach(([key, item]) => {
-                    html += `<p class="small">• ${escRes(item.title)} — <a href="${item.url}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`;
-                });
-            }
-            html += `</div>`;
-        });
-        box.innerHTML = html;
-    });
-}
-
-courseSelect.addEventListener("change", () => {
-    document.getElementById("enrollMessage").textContent = "";
-    attachCourseListeners();
-});
-
-attachCourseListeners();
-
-
-/* ================================
-   ALL PURCHASE RECORDS
-   (combined across every course,
-   kept permanently for reference)
-================================ */
-
-const ALL_COURSES = [
-    { key: "classX-online-english", label: "Class X Science" },
-    { key: "classXI-online-physics", label: "Class XI Physics" },
-    { key: "classXII-online-physics", label: "Class XII Physics" }
-];
-
-const allEnrollData = {};
-
-function renderAllRecords(){
-    const box = document.getElementById("allRecordsList");
-    if (!box) return;
-    let rows = [];
-    ALL_COURSES.forEach(c => {
-        const data = allEnrollData[c.key];
-        if (data) {
-            Object.values(data).forEach(s => rows.push({ ...s, courseLabel: c.label, courseKey: c.key }));
-        }
-    });
-    if (!rows.length) { box.innerHTML = '<p class="small">No purchase records yet.</p>'; return; }
-    rows.sort((a,b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
-    let html = `<div class="results-table-wrap"><table class="results-table"><thead><tr>
-        <th>Name</th><th>UTR</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody>`;
-    rows.forEach(s => {
-        html += `<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${escRes(s.courseLabel)}</td><td>${s.paid ? '<span class="live">PAID</span>' : '<span class="off">NOT ACTIVE</span>'}</td><td><button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteEnrollment('${s.courseKey}','${s.utr}')">Delete</button></td></tr>`;
-    });
-    html += `</tbody></table></div>`;
-    box.innerHTML = html;
-}
-
-ALL_COURSES.forEach(c => {
-    onValue(ref(db, `enrollments/${c.key}`), (snap) => {
-        allEnrollData[c.key] = snap.val();
-        renderAllRecords();
-    });
-});
-
-window.deleteEnrollment = async function(courseKey, utr){
-    if (!confirm("Permanently delete this student's purchase record? This cannot be undone and will immediately remove their access.")) return;
-    try {
-        await remove(ref(db, `enrollments/${courseKey}/${utr}`));
-    } catch (e) { alert("Could not delete: " + e.message); }
-};
+const allEnrollData={};
+function renderAllRecords(){const box=document.getElementById("allRecordsList");if(!box)return;let rows=[];Object.keys(courseMeta).forEach(k=>{const data=allEnrollData[k];if(data)Object.values(data).forEach(s=>rows.push({...s,courseLabel:courseMeta[k].name||k,courseKey:k}));});if(!rows.length){box.innerHTML='<p class="small">No purchase records yet.</p>';return;}rows.sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${escRes(s.courseLabel)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td><td><button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteEnrollment('${s.courseKey}','${s.utr}')">Delete</button></td></tr>`});box.innerHTML=html+'</tbody></table></div>';}
+let enrollmentListeners={};
+function refreshEnrollmentListeners(){Object.keys(enrollmentListeners).forEach(k=>{if(typeof enrollmentListeners[k]==='function')enrollmentListeners[k]();delete enrollmentListeners[k];});Object.keys(courseMeta).forEach(k=>{enrollmentListeners[k]=onValue(ref(db,`enrollments/${k}`),snap=>{allEnrollData[k]=snap.val();renderAllRecords();});});}
+window.deleteEnrollment=async function(courseKey,utr){if(!confirm("Permanently delete this student's purchase record? This immediately removes access."))return;try{await remove(ref(db,`enrollments/${courseKey}/${utr}`));}catch(e){alert("Could not delete: "+e.message);}};
 
 
 /* ================================
