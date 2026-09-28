@@ -252,33 +252,11 @@ footer{
             Sign in with the authorised teacher Firebase account.
         </p>
 
-        <button id="googleLoginBtn" style="width:100%;margin-top:18px;background:#fff;color:#202124;border:1px solid #dadce0;font-weight:800;">
-            🔵 Continue with Google
+        <p class="small" style="margin-top:18px">Use the Google account authorised for Teacher Control.</p>
+
+        <button id="loginBtn">
+            Continue with Google
         </button>
-
-        <div style="text-align:center;color:var(--muted);margin:16px 0 8px;">OR</div>
-
-        <details>
-            <summary style="cursor:pointer;color:#bae6fd;font-weight:700;">Use Email & Password</summary>
-
-            <label for="email">Teacher Email</label>
-            <input
-                id="email"
-                type="email"
-                autocomplete="username"
-                placeholder="Enter teacher email"
-            >
-
-            <label for="password">Password</label>
-            <input
-                id="password"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Enter password"
-            >
-
-            <button id="loginBtn">Teacher Login</button>
-        </details>
 
         <div id="loginMessage" class="message"></div>
 
@@ -403,47 +381,6 @@ footer{
 <div id="demoVideoCurrent" class="small" style="margin-top:12px"></div>
 </section>
 
-
-<section class="card" id="courseManagerSection">
-  <h2>🎓 Course Manager</h2>
-  <p class="small">
-    Create and manage Free or Paid courses. The public course page reads this information
-    directly from Firebase.
-  </p>
-
-  <label for="managerCourseId">Course ID</label>
-  <input id="managerCourseId" placeholder="e.g. classX-science-english">
-
-  <label for="managerCourseName">Course Name</label>
-  <input id="managerCourseName" placeholder="e.g. Class X Science — Online">
-
-  <label for="managerClassName">Class</label>
-  <input id="managerClassName" placeholder="e.g. Class X">
-
-  <label for="managerSubject">Subject</label>
-  <input id="managerSubject" placeholder="e.g. Science">
-
-  <label for="managerLanguage">Medium / Language</label>
-  <input id="managerLanguage" placeholder="e.g. English / Assamese">
-
-  <label for="managerType">Course Type</label>
-  <select id="managerType">
-    <option value="free">Free Course</option>
-    <option value="paid">Paid Course</option>
-  </select>
-
-  <label for="managerFee">Course Fee (₹)</label>
-  <input id="managerFee" type="number" min="0" placeholder="0">
-
-  <button id="saveCourseBtn">✓ SAVE / UPDATE COURSE</button>
-  <button id="deleteCourseBtn" class="stop">✕ DELETE COURSE</button>
-
-  <div id="courseManagerMessage" class="message"></div>
-
-  <h3 style="margin-top:28px">Existing Courses</h3>
-  <div id="courseManagerList" style="margin-top:12px"></div>
-</section>
-
 <section class="card" id="resourceSection">
 
             <h2>📚 Course Resources &amp; Enrollment</h2>
@@ -484,7 +421,7 @@ footer{
             <div id="allRecordsList" style="margin-top:12px"></div>
 
             <p class="small" style="margin-top:24px">
-                Resources are added as links (no file storage / billing needed). Upload your file to Google Drive (set sharing to "Anyone with the link") or upload your video to YouTube as "Unlisted", then paste the link below.
+                Resources are added as links (no file storage / billing needed). For HTML notes, upload the .html file to your website/GitHub Pages and paste its public URL below. For PDFs/images you may still use a public link. Videos can be hosted on YouTube (Unlisted) or Google Drive.
             </p>
 
             <h3 style="margin-top:20px">🎥 Add Video Lecture</h3>
@@ -497,16 +434,16 @@ footer{
 
             <h3 style="margin-top:30px">📖 Add Notes</h3>
             <label for="noteTitle">Note Title</label>
-            <input id="noteTitle" placeholder="e.g. Chapter 1 - Chemical Reactions Notes">
-            <label for="noteUrl">Google Drive Link (PDF / Image)</label>
-            <input id="noteUrl" placeholder="https://drive.google.com/...">
+            <input id="noteTitle" placeholder="e.g. Chapter 1 - Electric Charges and Fields Notes">
+            <label for="noteUrl">HTML Notes URL</label>
+            <input id="noteUrl" type="url" placeholder="https://your-site.com/notes/chapter-1.html">
             <button id="addNoteBtn">+ Add Note</button>
             <div id="noteMessage" class="message"></div>
 
             <h3 style="margin-top:30px">📘 Add NCERT Solution</h3>
             <label for="solutionTitle">Solution Title</label>
             <input id="solutionTitle" placeholder="e.g. Chapter 1 - NCERT Solutions">
-            <label for="solutionUrl">Google Drive Link (PDF / Image)</label>
+            <label for="solutionUrl">Public Resource URL (HTML / PDF / Image)</label>
             <input id="solutionUrl" placeholder="https://drive.google.com/...">
             <button id="addSolutionBtn">+ Add Solution</button>
             <div id="solutionMessage" class="message"></div>
@@ -514,7 +451,7 @@ footer{
             <h3 style="margin-top:30px">📄 Add Model Question Paper</h3>
             <label for="paperTitle">Paper Title</label>
             <input id="paperTitle" placeholder="e.g. Model Paper Set 1">
-            <label for="paperUrl">Google Drive Link (PDF / Image)</label>
+            <label for="paperUrl">Public Resource URL (HTML / PDF / Image)</label>
             <input id="paperUrl" placeholder="https://drive.google.com/...">
             <button id="addPaperBtn">+ Add Model Paper</button>
             <div id="paperMessage" class="message"></div>
@@ -557,7 +494,6 @@ import {
     getAuth,
     GoogleAuthProvider,
     signInWithPopup,
-    signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -570,7 +506,7 @@ import {
     get,
     push,
     remove
-, get} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
 /* ================================
@@ -663,67 +599,40 @@ const testPaths = {
 
 
 /* ================================
-   TEACHER AUTHENTICATION
+   LOGIN
 ================================ */
 
 const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
 const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: "select_account" });
 
-async function verifyTeacher(user) {
-    if (!user) return false;
+googleProvider.setCustomParameters({
+    prompt: "select_account"
+});
 
-    if (user.uid !== TEACHER_UID) {
-        await signOut(auth);
-        loginMessage.textContent =
-            "Access denied. This Google account is not the authorised teacher account.";
-        console.error("Unauthorised teacher UID:", user.uid);
-        return false;
-    }
+document.getElementById("loginBtn")
+.addEventListener("click", async () => {
 
-    return true;
-}
-
-document.getElementById("googleLoginBtn").addEventListener("click", async () => {
     loginMessage.textContent = "Opening Google sign-in...";
 
     try {
         const result = await signInWithPopup(auth, googleProvider);
-        const allowed = await verifyTeacher(result.user);
+        const user = result.user;
 
-        if (allowed) {
-            loginMessage.textContent = "Signed in successfully.";
+        if (user.uid !== TEACHER_UID) {
+            await signOut(auth);
+            loginMessage.textContent =
+                "Access denied: this Google account is not the authorised teacher account.";
+            return;
         }
+
+        loginMessage.textContent = "";
+
     } catch (error) {
         console.error("Google sign-in error:", error);
         loginMessage.textContent =
             "Google login failed: " + (error.code || error.message);
     }
-});
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    if (!email || !password) {
-        loginMessage.textContent = "Please enter email and password.";
-        return;
-    }
-
-    loginMessage.textContent = "Signing in...";
-
-    try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
-        const allowed = await verifyTeacher(result.user);
-
-        if (allowed) {
-            loginMessage.textContent = "Signed in successfully.";
-        }
-    } catch (error) {
-        console.error("Email/password login error:", error);
-        loginMessage.textContent =
-            "Login failed: " + (error.code || error.message);
-    }
 });
 
 
@@ -735,12 +644,12 @@ onAuthStateChanged(auth, async user => {
 
     if (user) {
 
-        const allowed = await verifyTeacher(user);
-
-        if (!allowed) {
+        if (user.uid !== TEACHER_UID) {
+            await signOut(auth);
             loginCard.classList.remove("hidden");
             controlPanel.classList.add("hidden");
-            teacherInfo.textContent = "";
+            loginMessage.textContent =
+                "Access denied: unauthorised Google account.";
             return;
         }
 
@@ -749,8 +658,7 @@ onAuthStateChanged(auth, async user => {
         controlPanel.classList.remove("hidden");
 
         teacherInfo.textContent =
-            "Signed in as: " + (user.email || user.displayName || "Authorised Teacher") +
-            " | UID: " + user.uid;
+            "Signed in as: " + (user.email || "Google account");
 
         startStatusListeners();
         loadSelectedDemoVideo();
@@ -1471,194 +1379,6 @@ removeDemoVideoBtn.addEventListener("click",async()=>{
         console.error(e);
         demoVideoMessage.textContent="Could not remove video link. Check Firebase rules.";
     }
-});
-
-
-/* ================================
-   DYNAMIC COURSE MANAGER
-================================ */
-const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
-
-const cm = {
-  id: document.getElementById("managerCourseId"),
-  name: document.getElementById("managerCourseName"),
-  cls: document.getElementById("managerClassName"),
-  subject: document.getElementById("managerSubject"),
-  language: document.getElementById("managerLanguage"),
-  type: document.getElementById("managerType"),
-  fee: document.getElementById("managerFee"),
-  msg: document.getElementById("courseManagerMessage"),
-  list: document.getElementById("courseManagerList"),
-  save: document.getElementById("saveCourseBtn"),
-  del: document.getElementById("deleteCourseBtn")
-};
-
-function safeCourseId(v) {
-  return String(v || "")
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function courseManagerMessage(s, ok=false) {
-  if (!cm.msg) return;
-  cm.msg.textContent = s;
-  cm.msg.style.color = ok ? "#4ade80" : "";
-}
-
-function clearCourseForm() {
-  cm.id.value = "";
-  cm.name.value = "";
-  cm.cls.value = "";
-  cm.subject.value = "";
-  cm.language.value = "";
-  cm.type.value = "free";
-  cm.fee.value = "";
-}
-
-async function loadCourseIntoForm(courseId) {
-  try {
-    const snap = await get(ref(db, `courses/${courseId}`));
-    if (!snap.exists()) {
-      courseManagerMessage("Course not found.");
-      return;
-    }
-    const c = snap.val() || {};
-    cm.id.value = courseId;
-    cm.name.value = c.name || "";
-    cm.cls.value = c.className || "";
-    cm.subject.value = c.subject || "";
-    cm.language.value = c.language || "";
-    cm.type.value = c.type === "paid" ? "paid" : "free";
-    cm.fee.value = c.fee ?? "";
-    window.scrollTo({top: document.getElementById("courseManagerSection").offsetTop - 10, behavior:"smooth"});
-  } catch(e) {
-    courseManagerMessage("Could not load course: " + e.message);
-  }
-}
-
-async function renderCourseManager() {
-  if (!cm.list) return;
-  try {
-    const snap = await get(ref(db, "courses"));
-    const data = snap.val() || {};
-    const ids = Object.keys(data).sort((a,b) =>
-      String(data[a]?.name || a).localeCompare(String(data[b]?.name || b))
-    );
-
-    if (!ids.length) {
-      cm.list.innerHTML = '<p class="small">No courses created yet.</p>';
-      return;
-    }
-
-    cm.list.innerHTML = ids.map(id => {
-      const c = data[id] || {};
-      const type = c.type === "paid" ? "💳 Paid" : "🟢 Free";
-      const fee = c.type === "paid" ? ` • ₹${Number(c.fee || 0)}` : "";
-      const url = `course.html?id=${encodeURIComponent(id)}`;
-      return `
-        <div style="border:1px solid #ffffff18;border-radius:14px;padding:14px;margin:10px 0">
-          <strong>${escRes(c.name || id)}</strong>
-          <div class="small">${escRes(c.className || "")} • ${escRes(c.subject || "")} • ${escRes(c.language || "")}</div>
-          <div class="small">${type}${fee}</div>
-          <div style="margin-top:10px">
-            <button type="button" onclick="window.editManagedCourse('${escapeJs(id)}')">EDIT</button>
-            <button type="button" onclick="window.openManagedCourse('${escapeJs(id)}')">OPEN PAGE</button>
-          </div>
-          <div class="small" style="margin-top:6px;word-break:break-all">${escRes(url)}</div>
-        </div>`;
-    }).join("");
-  } catch(e) {
-    cm.list.innerHTML = `<p class="small">Could not load courses: ${escRes(e.message)}</p>`;
-  }
-}
-
-window.editManagedCourse = loadCourseIntoForm;
-window.openManagedCourse = function(id) {
-  window.open(`course.html?id=${encodeURIComponent(id)}`, "_blank", "noopener");
-};
-
-cm.save?.addEventListener("click", async () => {
-  const id = safeCourseId(cm.id.value);
-  const name = cm.name.value.trim();
-  const className = cm.cls.value.trim();
-  const subject = cm.subject.value.trim();
-  const language = cm.language.value.trim();
-  const type = cm.type.value === "paid" ? "paid" : "free";
-  const fee = Number(cm.fee.value || 0);
-
-  if (!id) return courseManagerMessage("Enter a valid Course ID.");
-  if (!name) return courseManagerMessage("Enter the course name.");
-  if (!className) return courseManagerMessage("Enter the class.");
-  if (!subject) return courseManagerMessage("Enter the subject.");
-  if (!language) return courseManagerMessage("Enter the medium/language.");
-  if (type === "paid" && (!Number.isFinite(fee) || fee <= 0)) {
-    return courseManagerMessage("Enter a valid fee for a paid course.");
-  }
-
-  try {
-    await set(ref(db, `courses/${id}`), {
-      name,
-      className,
-      subject,
-      language,
-      type,
-      fee: type === "paid" ? fee : 0,
-      active: true,
-      updatedAt: Date.now(),
-      updatedBy: TEACHER_UID
-    });
-
-    // Add the newly created course to the existing enrollment/resource selector.
-    if (courseSelect && !Array.from(courseSelect.options).some(o => o.value === id)) {
-      const option = document.createElement("option");
-      option.value = id;
-      option.textContent = `${name}${type === "paid" ? " — Paid" : " — Free"}`;
-      courseSelect.appendChild(option);
-    }
-
-    courseManagerMessage("✓ Course saved successfully.", true);
-    await renderCourseManager();
-  } catch(e) {
-    courseManagerMessage("Could not save course: " + e.message);
-  }
-});
-
-cm.del?.addEventListener("click", async () => {
-  const id = safeCourseId(cm.id.value);
-  if (!id) return courseManagerMessage("Enter/select a Course ID first.");
-  if (!confirm(`Delete course "${id}"? This deletes the course definition only. Existing resources/enrollment records are not automatically deleted.`)) return;
-
-  try {
-    await remove(ref(db, `courses/${id}`));
-    courseManagerMessage("✓ Course definition deleted.", true);
-    clearCourseForm();
-    await renderCourseManager();
-  } catch(e) {
-    courseManagerMessage("Could not delete course: " + e.message);
-  }
-});
-
-renderCourseManager();
-
-/* Refresh the hard-coded selector with all dynamically created courses. */
-onValue(ref(db, "courses"), snap => {
-  if (!courseSelect) return;
-  const data = snap.val() || {};
-  const current = courseSelect.value;
-  const existing = new Set(Array.from(courseSelect.options).map(o => o.value));
-
-  Object.entries(data).forEach(([id,c]) => {
-    if (!existing.has(id)) {
-      const option = document.createElement("option");
-      option.value = id;
-      option.textContent = `${c?.name || id}${c?.type === "paid" ? " — Paid" : " — Free"}`;
-      courseSelect.appendChild(option);
-    }
-  });
-
-  if (data[current]) courseSelect.value = current;
 });
 
 </script>
