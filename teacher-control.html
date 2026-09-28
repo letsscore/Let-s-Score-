@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Control | Let's Score</title>
+
+<style>
+:root{
+    --bg:#071426;
+    --card:#142642;
+    --card2:#0d1d34;
+    --line:#29415f;
+    --text:#f8fafc;
+    --muted:#b9c7da;
+    --blue:#0ea5e9;
+    --indigo:#6366f1;
+    --green:#22c55e;
+    --red:#ef4444;
+    --gold:#fbbf24;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:linear-gradient(135deg,#06101f,#101d36);
+    color:var(--text);
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+}
+
+.wrap{
+    width:min(950px,92%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.brand{
+    text-align:center;
+    color:#38bdf8;
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.hero{
+    text-align:center;
+    padding:45px 10px 30px;
+}
+
+.kicker{
+    color:#38bdf8;
+    font-size:14px;
+    letter-spacing:2px;
+    font-weight:700;
+}
+
+.hero h1{
+    font-size:clamp(38px,8vw,62px);
+    margin:12px 0;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.6;
+}
+
+.card{
+    background:rgba(20,38,66,.97);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:25px;
+    margin-bottom:22px;
+}
+
+.card h2{
+    margin-top:0;
+    font-size:27px;
+}
+
+.small{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+label{
+    display:block;
+    margin:15px 0 7px;
+    color:#dbeafe;
+    font-weight:700;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #405a7d;
+    background:#09182c;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#38bdf8;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:13px 20px;
+    color:white;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--blue),var(--indigo));
+    margin-top:15px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.stop{
+    background:var(--red);
+}
+
+.secondary{
+    background:#334155;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.status-box{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.status{
+    font-size:20px;
+    font-weight:800;
+    margin:8px 0;
+}
+
+.live{
+    color:#4ade80;
+}
+
+.off{
+    color:#f87171;
+}
+
+.class-card{
+    background:var(--card2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-top:15px;
+}
+
+.class-card h3{
+    margin:0 0 8px;
+    font-size:23px;
+}
+
+.class-card p{
+    color:var(--muted);
+}
+
+.class-status{
+    font-weight:800;
+    margin:12px 0;
+}
+
+.message{
+    min-height:25px;
+    margin-top:15px;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.teacher-info{
+    color:#93c5fd;
+    font-size:13px;
+    margin-top:10px;
+    word-break:break-all;
+}
+
+footer{
+    border-top:1px solid #ffffff15;
+    text-align:center;
+    color:var(--muted);
+    padding:25px 10px;
+    margin-top:30px;
+}
+
+/* RESULTS DISPLAY */
+.results-table-wrap{overflow-x:auto;margin-top:18px}
+.results-table{width:100%;border-collapse:collapse;background:#0d1d34;border:1px solid #29415f}
+.results-table th,.results-table td{border:1px solid #29415f;padding:10px 9px;text-align:left;white-space:nowrap}
+.results-table th{color:#bae6fd;background:#09182c}
+.result-score{font-weight:900;color:#4ade80}
+
+@media(max-width:600px){
+    .card{
+        padding:20px;
+        border-radius:20px;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
+    button{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="brand">🎓 LET'S SCORE</div>
+
+    <section class="hero">
+        <div class="kicker">TEACHER CONTROL</div>
+        <h1>Revisionary Test Control</h1>
+        <p>
+            Start or stop revisionary tests for Class X, Class XI and Class XII.
+        </p>
+    </section>
+
+
+    <!-- LOGIN -->
+    <section id="loginCard" class="card">
+        <h2>🔐 Teacher Login</h2>
+        <p class="small">Sign in with the authorised Google teacher account.</p>
+        <button id="googleLoginBtn" type="button">🔵 Sign in with Google</button>
+        <div id="loginMessage" class="message"></div>
+    </section>
+
+    <!-- CONTROL PANEL -->
+    <section id="controlPanel" class="hidden">
+
+        <section class="card">
+
+            <h2>🎓 Test Control</h2>
+
+            <p class="small">
+                Select the class and control whether its existing test paper
+                is currently live for students.
+            </p>
+
+            <label for="classSelect">Select Class</label>
+
+            <select id="classSelect">
+                <option value="classX">Class X</option>
+                <option value="classXI">Class XI</option>
+                <option value="classXII">Class XII</option>
+            </select>
+
+            <div class="status-box">
+
+                <div>Current Test Status</div>
+
+                <div id="currentStatus" class="status off">
+                    ● TEST NOT LIVE
+                </div>
+
+                <button id="startBtn">
+                    ▶ START TEST
+                </button>
+
+                <button id="stopBtn" class="stop">
+                    ■ STOP TEST
+                </button>
+
+                <div id="controlMessage" class="message"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIVE STATUS -->
+        <section class="card">
+
+            <h2>📊 Class Test Status</h2>
+
+            <div class="class-card">
+                <h3>Class X</h3>
+                <div id="statusX" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-x.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XI</h3>
+                <div id="statusXI" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xi.html</strong>
+                </p>
+            </div>
+
+            <div class="class-card">
+                <h3>Class XII</h3>
+                <div id="statusXII" class="class-status off">
+                    ● TEST NOT LIVE
+                </div>
+                <p>
+                    Existing test: <strong>test-xii.html</strong>
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- STUDENT RESULTS DISPLAY ONLY -->
+        <section class="card" id="studentResultsSection">
+            <h2>📊 Student Results</h2>
+            <p class="small">Load submitted results. For the Class X Science 90-mark test, enter the written section marks out of 45 and save the final result.</p>
+            <label for="resultClassSelect">Select Class</label>
+            <select id="resultClassSelect">
+                <option value="classX">Class X</option>
+                <option value="classXI">Class XI</option>
+                <option value="classXII">Class XII</option>
+            </select>
+            <button id="loadResultsBtn">LOAD RESULTS</button>
+            <div id="resultsMessage" class="message">
+                Select a class and load student results.
+            </div>
+            <div id="resultsTable"></div>
+        </section>
+
+        <section class="card" id="demoVideoSection">
+<h2>🎥 Demo Class — YouTube Video Lectures</h2>
+<p class="small">Add or update the YouTube lecture link students will see on the free Demo Class page.</p>
+<label for="demoVideoClass">Select Demo Class</label>
+<select id="demoVideoClass">
+<option value="classXAssamese">Class X Science — Assamese — Chapter 10: Light</option>
+<option value="classXEnglish">Class X Science — English — Chapter 10: Light</option>
+<option value="classXI">Class XI Physics — Chapter 3: Motion in a Plane</option>
+<option value="classXII">Class XII Physics — Chapter 2: Current Electricity</option>
+</select>
+<label for="demoVideoTitle">Lecture Title</label>
+<input id="demoVideoTitle" placeholder="e.g. Chapter 10 — Light: Reflection and Refraction">
+<label for="demoVideoUrl">YouTube Video Link</label>
+<input id="demoVideoUrl" type="url" placeholder="https://www.youtube.com/watch?v=XXXXXXXXXXX">
+<button id="saveDemoVideoBtn">✓ SAVE / UPDATE VIDEO</button>
+<button id="removeDemoVideoBtn" class="stop">✕ REMOVE VIDEO</button>
+<div id="demoVideoMessage" class="message"></div>
+<div id="demoVideoCurrent" class="small" style="margin-top:12px"></div>
+</section>
+
+<section class="card" id="resourceSection">
+
+            <h2>📚 Course Resources &amp; Enrollment</h2>
+
+            <p class="small">
+                Manage student access and URL-based course resources for every course. Resources may be HTML pages, Google Drive PDFs, YouTube/Drive videos, model papers, solutions, practice sets or other public links.
+            </p>
+
+            <h3>➕ Course Manager</h3>
+            <p class="small">Create any class, subject, language, batch or course. Choose Free or Paid access. The course will receive its own Firebase resource path.</p>
+            <label for="courseSelect">Select Course</label>
+            <select id="courseSelect"></select>
+            <div class="grid" style="margin-top:12px">
+                <div><label for="newCourseName">Course Name</label><input id="newCourseName" placeholder="e.g. Class IX Science — Assamese"></div>
+                <div><label for="newCourseType">Access Type</label><select id="newCourseType"><option value="free">🟢 Free</option><option value="paid">💳 Paid</option></select></div>
+            </div>
+            <div class="grid">
+                <div><label for="newCourseClass">Class / Category</label><input id="newCourseClass" placeholder="e.g. Class IX"></div>
+                <div><label for="newCourseSubject">Subject / Course</label><input id="newCourseSubject" placeholder="e.g. Science"></div>
+                <div><label for="newCourseLanguage">Medium / Language</label><input id="newCourseLanguage" placeholder="e.g. Assamese"></div>
+            </div>
+            <label for="newCourseFee">Course Fee (₹) — only for paid courses</label>
+            <input id="newCourseFee" type="number" min="0" placeholder="e.g. 799">
+            <button id="createCourseBtn">+ CREATE COURSE</button>
+            <button id="deleteCourseBtn" class="stop">✕ DELETE SELECTED COURSE</button>
+            <div id="courseManagerMessage" class="message"></div>
+            <p class="small" id="courseSelectedNote">Everything below applies to the selected course. Free courses do not require UTR approval; paid courses use UTR approval.</p>
+
+            <h3 style="margin-top:24px">👥 Student Access Approval (via UTR)</h3>
+            <p class="small">
+                For paid courses, students pay the configured course fee and share their UTR / Transaction Reference Number. After you cross-verify the payment, enter their name and UTR below and grant access. Free courses do not need approval.
+            </p>
+
+            <label for="studentName">Student Name</label>
+            <input id="studentName" placeholder="Student full name">
+
+            <label for="studentUtr">UTR / Transaction Reference Number</label>
+            <input id="studentUtr" placeholder="e.g. 402812345678">
+
+            <button id="grantAccessBtn">✓ Approve Access (Mark Paid)</button>
+            <button id="revokeAccessBtn" class="stop">✕ Revoke Access</button>
+
+            <div id="enrollMessage" class="message"></div>
+            <div id="enrolledList" style="margin-top:16px"></div>
+
+            <h3 style="margin-top:30px">📋 All Purchase Records (All Courses)</h3>
+            <p class="small">
+                A permanent record of every student's purchase and access status across all courses, kept for future reference. Use "Delete" to permanently remove a student's record — for example, if they are found engaging in unfair activity such as sharing their UTR with others.
+            </p>
+            <div id="allRecordsList" style="margin-top:12px"></div>
+
+            <p class="small" style="margin-top:24px">
+                Resources are added as links (no file storage / billing needed). For HTML notes, upload the .html file to your website/GitHub Pages and paste its public URL below. For PDFs/images you may still use a public link. Videos can be hosted on YouTube (Unlisted) or Google Drive.
+            </p>
+
+            <h3 style="margin-top:20px">🎥 Add Video Lecture</h3>
+            <label for="videoTitle">Lecture Title</label>
+            <input id="videoTitle" placeholder="e.g. Chapter 3 - Light: Reflection & Refraction">
+            <label for="videoUrl">YouTube or Google Drive Link</label>
+            <input id="videoUrl" placeholder="https://youtu.be/... or https://drive.google.com/...">
+            <button id="addVideoBtn">+ Add Video Lecture</button>
+            <div id="videoMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📖 Add Notes</h3>
+            <label for="noteTitle">Note Title</label>
+            <input id="noteTitle" placeholder="e.g. Chapter 1 - Electric Charges and Fields Notes">
+            <label for="noteUrl">HTML Notes URL</label>
+            <input id="noteUrl" type="url" placeholder="https://your-site.com/notes/chapter-1.html">
+            <button id="addNoteBtn">+ Add Note</button>
+            <div id="noteMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📘 Add NCERT Solution</h3>
+            <label for="solutionTitle">Solution Title</label>
+            <input id="solutionTitle" placeholder="e.g. Chapter 1 - NCERT Solutions">
+            <label for="solutionUrl">Public Resource URL (HTML / PDF / Image)</label>
+            <input id="solutionUrl" placeholder="https://drive.google.com/...">
+            <button id="addSolutionBtn">+ Add Solution</button>
+            <div id="solutionMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📄 Add Model Question Paper</h3>
+            <label for="paperTitle">Paper Title</label>
+            <input id="paperTitle" placeholder="e.g. Model Paper Set 1">
+            <label for="paperUrl">Public Resource URL (HTML / PDF / Image)</label>
+            <input id="paperUrl" placeholder="https://drive.google.com/...">
+            <button id="addPaperBtn">+ Add Model Paper</button>
+            <div id="paperMessage" class="message"></div>
+
+            <h3 style="margin-top:30px">📂 Current Resources</h3>
+            <div id="resourceListing"></div>
+
+        </section>
+
+        <section class="card">
+
+            <h2>👤 Teacher Account</h2>
+
+            <div id="teacherInfo" class="teacher-info"></div>
+
+            <button id="logoutBtn" class="secondary">
+                Log Out
+            </button>
+
+        </section>
+
+    </section>
+
+</div>
+
+
+<footer>
+    <strong>LET'S SCORE</strong><br>
+    Teacher Control • Revisionary Tests
+</footer>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithRedirect,
+    getRedirectResult,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue,
+    get,
+    push,
+    remove
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* ================================
+   FIREBASE CONFIGURATION
+================================ */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+
+    authDomain:
+        "lets-score-revisionary-test.firebaseapp.com",
+
+    databaseURL:
+        "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+
+    projectId:
+        "lets-score-revisionary-test",
+
+    storageBucket:
+        "lets-score-revisionary-test.firebasestorage.app",
+
+    messagingSenderId:
+        "629595293837",
+
+    appId:
+        "1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+
+/* ================================
+   INITIALISE FIREBASE
+================================ */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+
+/* ================================
+   ELEMENTS
+================================ */
+
+const loginCard =
+    document.getElementById("loginCard");
+
+const controlPanel =
+    document.getElementById("controlPanel");
+
+const googleLoginBtn =
+    document.getElementById("googleLoginBtn");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const controlMessage =
+    document.getElementById("controlMessage");
+
+const classSelect =
+    document.getElementById("classSelect");
+
+const currentStatus =
+    document.getElementById("currentStatus");
+
+const teacherInfo =
+    document.getElementById("teacherInfo");
+
+
+/* ================================
+   FIREBASE PATHS
+================================ */
+
+const testPaths = {
+
+    classX:
+        "examControl/classX",
+
+    classXI:
+        "examControl/classXI",
+
+    classXII:
+        "examControl/classXII"
+
+};
+
+
+/* ================================
+   LOGIN
+================================ */
+
+const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
+const googleProvider = new GoogleAuthProvider();
+
+googleLoginBtn.addEventListener("click", async () => {
+    loginMessage.textContent = "Redirecting to Google sign-in...";
+    googleLoginBtn.disabled = true;
+    try {
+        await signInWithRedirect(auth, googleProvider);
+    } catch (error) {
+        console.error("Google redirect login error:", error);
+        const code = error?.code || "";
+        const messages = {
+            "auth/unauthorized-domain": "This GitHub Pages domain is not authorised in Firebase Authentication.",
+            "auth/network-request-failed": "Network error. Check your internet connection and try again.",
+            "auth/operation-not-allowed": "Google sign-in is not enabled in Firebase Authentication."
+        };
+        loginMessage.textContent = messages[code] || ("Google login failed (" + code + "): " + (error?.message || "Unknown error"));
+        googleLoginBtn.disabled = false;
+    }
+});
+
+getRedirectResult(auth).then(result => {
+    if (!result || !result.user) return;
+    const user = result.user;
+    if (user.uid !== TEACHER_UID) {
+        signOut(auth);
+        loginMessage.textContent = "Access denied: this Google account is not the authorised teacher account.";
+    } else {
+        loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
+    }
+}).catch(error => {
+    console.error("Google redirect result error:", error);
+    const code = error?.code || "";
+    const messages = {
+        "auth/unauthorized-domain": "This GitHub Pages domain is not authorised in Firebase Authentication.",
+        "auth/network-request-failed": "Network error. Check your internet connection and try again.",
+        "auth/operation-not-allowed": "Google sign-in is not enabled in Firebase Authentication."
+    };
+    loginMessage.textContent = messages[code] || ("Google login failed (" + code + "): " + (error?.message || "Unknown error"));
+});
+
+
+/* ================================
+   AUTH STATE
+================================ */
+
+onAuthStateChanged(auth, user => {
+
+    if (user && user.uid === TEACHER_UID) {
+
+        loginCard.classList.add("hidden");
+
+        controlPanel.classList.remove("hidden");
+
+        teacherInfo.textContent =
+            "Signed in as: " + user.email;
+
+        startStatusListeners();
+        loadSelectedDemoVideo();
+
+    } else {
+        if (user && user.uid !== TEACHER_UID) {
+            signOut(auth);
+            loginMessage.textContent = "Access denied: only the authorised teacher account can use this panel.";
+        }
+
+        loginCard.classList.remove("hidden");
+
+        controlPanel.classList.add("hidden");
+
+        teacherInfo.textContent =
+            "";
+
+    }
+
+});
+
+
+/* ================================
+   START TEST
+================================ */
+
+document.getElementById("startBtn")
+.addEventListener("click", async () => {
+
+    const selectedClass =
+        classSelect.value;
+
+    try {
+
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: true
+            }
+        );
+
+        controlMessage.textContent =
+            "✓ Test started successfully.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        controlMessage.textContent =
+            "Unable to start test: " +
+            error.message;
+
+    }
+
+});
+
+
+/* ================================
+   STOP TEST
+================================ */
+
+document.getElementById("stopBtn")
+.addEventListener("click", async () => {
+
+    const selectedClass =
+        classSelect.value;
+
+    try {
+
+        await set(
+            ref(db, testPaths[selectedClass]),
+            {
+                live: false
+            }
+        );
+
+        controlMessage.textContent =
+            "✓ Test stopped successfully.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        controlMessage.textContent =
+            "Unable to stop test: " +
+            error.message;
+
+    }
+
+});
+
+
+/* ================================
+   DISPLAY SELECTED STATUS
+================================ */
+
+function updateSelectedStatus(data) {
+
+    const live =
+        data && data.live === true;
+
+    if (live) {
+
+        currentStatus.textContent =
+            "● TEST LIVE";
+
+        currentStatus.className =
+            "status live";
+
+    } else {
+
+        currentStatus.textContent =
+            "● TEST NOT LIVE";
+
+        currentStatus.className =
+            "status off";
+
+    }
+
+}
+
+
+/* ================================
+   STATUS LISTENERS
+================================ */
+
+function startStatusListeners() {
+
+    Object.keys(testPaths).forEach(className => {
+
+        onValue(
+            ref(db, testPaths[className]),
+
+            snapshot => {
+
+                const data =
+                    snapshot.val() || {};
+
+                const live =
+                    data.live === true;
+
+                updateClassStatus(
+                    className,
+                    live
+                );
+
+                if (
+                    classSelect.value ===
+                    className
+                ) {
+
+                    updateSelectedStatus(data);
+
+                }
+
+            },
+
+            error => {
+
+                console.error(
+                    "Firebase read error:",
+                    error
+                );
+
+            }
+        );
+
+    });
+
+}
+
+
+/* ================================
+   CLASS STATUS DISPLAY
+================================ */
+
+function updateClassStatus(
+    className,
+    live
+) {
+
+    let element;
+
+    if (className === "classX") {
+
+        element =
+            document.getElementById("statusX");
+
+    }
+
+    if (className === "classXI") {
+
+        element =
+            document.getElementById("statusXI");
+
+    }
+
+    if (className === "classXII") {
+
+        element =
+            document.getElementById("statusXII");
+
+    }
+
+    if (!element) return;
+
+    if (live) {
+
+        element.textContent =
+            "● TEST LIVE";
+
+        element.className =
+            "class-status live";
+
+    } else {
+
+        element.textContent =
+            "● TEST NOT LIVE";
+
+        element.className =
+            "class-status off";
+
+    }
+
+}
+
+
+/* ================================
+   CLASS SELECTION
+================================ */
+
+classSelect.addEventListener(
+    "change",
+    async () => {
+
+        const selectedClass =
+            classSelect.value;
+
+        try {
+
+            const snapshot =
+                await new Promise(
+                    (resolve, reject) => {
+
+                        onValue(
+                            ref(
+                                db,
+                                testPaths[
+                                    selectedClass
+                                ]
+                            ),
+                            resolve,
+                            {
+                                onlyOnce:true
+                            }
+                        );
+
+                    }
+                );
+
+            updateSelectedStatus(
+                snapshot.val() || {}
+            );
+
+            controlMessage.textContent =
+                "";
+
+        } catch (error) {
+
+            console.error(error);
+
+            controlMessage.textContent =
+                "Unable to read test status.";
+
+        }
+
+    }
+);
+
+
+/* ================================
+   STUDENT RESULTS DISPLAY ONLY
+================================ */
+
+const resultClassSelect =
+    document.getElementById("resultClassSelect");
+
+const loadResultsBtn =
+    document.getElementById("loadResultsBtn");
+
+const resultsMessage =
+    document.getElementById("resultsMessage");
+
+const resultsTable =
+    document.getElementById("resultsTable");
+
+loadResultsBtn.addEventListener("click", async () => {
+
+    const selectedClass = resultClassSelect.value;
+
+    resultsMessage.textContent = "Loading student results...";
+    resultsTable.innerHTML = "";
+
+    try {
+        const snapshot = await get(ref(db, "results/" + selectedClass));
+
+        if (!snapshot.exists()) {
+            resultsMessage.textContent = "No student results found.";
+            return;
+        }
+
+        const tests = snapshot.val() || {};
+        const evalSnapshot = await get(ref(db, "teacherEvaluations/" + selectedClass));
+        const evaluations = evalSnapshot.exists() ? (evalSnapshot.val() || {}) : {};
+        const rows = [];
+
+        Object.entries(tests).forEach(([testId, submissions]) => {
+            if (!submissions || typeof submissions !== "object") return;
+
+            Object.entries(submissions).forEach(([submissionId, result]) => {
+                if (!result || typeof result !== "object") return;
+
+                const cbt = Number(result.cbtScore ?? result.score ?? 0);
+                const cbtMax = Number(result.cbtMaxMarks ?? result.maxMarks ?? 45);
+                const isScience90 = selectedClass === "classX" &&
+                    (testId === "class10-science-90-3hours" || cbtMax === 45 || Number(result.maxMarks) === 45);
+
+                const savedEval = isScience90 && evaluations?.[testId]?.[submissionId]
+                    ? evaluations[testId][submissionId] : null;
+                const part2 = isScience90 && savedEval && savedEval.part2Marks !== undefined
+                    ? Number(savedEval.part2Marks) : (isScience90 && result.part2Marks !== undefined ? Number(result.part2Marks) : null);
+                const total = isScience90 && part2 !== null
+                    ? cbt + part2 : cbt;
+                const totalMax = isScience90 ? 90 : cbtMax;
+
+                rows.push({
+                    testId,
+                    submissionId,
+                    name: result.name || "Unknown",
+                    cbt,
+                    cbtMax,
+                    part2,
+                    total,
+                    totalMax,
+                    percentage: totalMax > 0 ? ((total / totalMax) * 100).toFixed(1) : "0.0",
+                    submittedAt: result.submittedAt || 0,
+                    science90: isScience90
+                });
+            });
+        });
+
+        rows.sort((a,b) => Number(b.submittedAt || 0) - Number(a.submittedAt || 0));
+
+        if (!rows.length) {
+            resultsMessage.textContent = "No student results found.";
+            return;
+        }
+
+        let table = `
+            <div class="results-table-wrap">
+                <table class="results-table">
+                    <thead><tr>
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Test ID</th>
+                        <th>CBT /45</th>
+                        <th>Part II /45</th>
+                        <th>Total /90</th>
+                        <th>%</th>
+                        <th>Submitted</th>
+                        <th>Action</th>
+                    </tr></thead><tbody>`;
+
+        rows.forEach((row,index) => {
+            const submitted = row.submittedAt ? new Date(row.submittedAt).toLocaleString() : "—";
+            const part2Cell = row.science90
+                ? `<input id="part2-${index}" type="number" min="0" max="45" step="0.5" value="${row.part2 ?? ""}" placeholder="0–45" style="min-width:100px">`
+                : "—";
+            const totalText = row.science90
+                ? `${row.total} / 90`
+                : `${row.total} / ${row.totalMax}`;
+            const action = row.science90
+                ? `<button type="button" onclick="savePart2('${escapeJs(row.testId)}','${escapeJs(row.submissionId)}',${index},${row.cbt})">SAVE</button>`
+                : "—";
+
+            table += `<tr>
+                <td>${index+1}</td>
+                <td>${escapeResultText(row.name)}</td>
+                <td>${escapeResultText(row.testId)}</td>
+                <td class="result-score">${row.cbt} / 45</td>
+                <td>${part2Cell}</td>
+                <td id="total-${index}" class="result-score">${totalText}</td>
+                <td id="percent-${index}">${row.percentage}%</td>
+                <td>${escapeResultText(submitted)}</td>
+                <td>${action}</td>
+            </tr>`;
+        });
+
+        table += `</tbody></table></div>`;
+        resultsTable.innerHTML = table;
+        resultsMessage.textContent = rows.length + " student submission(s) found.";
+
+    } catch (error) {
+        console.error("Student results read error:", error);
+        resultsMessage.textContent = "Could not load student results. Check Firebase read permissions.";
+    }
+});
+
+window.savePart2 = async function(testId, submissionId, index, cbt) {
+    const input = document.getElementById("part2-" + index);
+    const value = Number(input.value);
+
+    if (!Number.isFinite(value) || value < 0 || value > 45) {
+        alert("Part II marks must be between 0 and 45.");
+        return;
+    }
+
+    try {
+        const total = cbt + value;
+        const percentage = ((total / 90) * 100).toFixed(1);
+
+        await set(ref(db, `teacherEvaluations/classX/${testId}/${submissionId}`), {
+            part2Marks: value,
+            grandTotal: total,
+            grandTotalMaxMarks: 90,
+            percentage: Number(percentage),
+            savedAt: Date.now(),
+            savedBy: 'teacher'
+        });
+
+        document.getElementById("total-" + index).textContent = `${total} / 90`;
+        document.getElementById("percent-" + index).textContent = `${percentage}%`;
+        resultsMessage.textContent = "Part II marks saved successfully. Grand Total updated.";
+    } catch (error) {
+        console.error("Part II save error:", error);
+        alert("Could not save Part II marks. Please check Firebase teacher evaluation permissions.");
+    }
+};
+
+function escapeJs(value) {
+    return String(value ?? "").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\r/g,"\\r").replace(/\n/g,"\\n");
+}
+
+function escapeResultText(value) {
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g, char => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        }[char]));
+
+}
+
+
+/* ================================
+   DYNAMIC COURSE + RESOURCE MANAGER
+================================ */
+const courseSelect = document.getElementById("courseSelect");
+const COURSE_META_PATH = "courses";
+let courseMeta = {};
+let unsubEnroll = null, unsubResources = null;
+
+function currentCourse(){ return courseSelect.value; }
+function coursePath(){ return `courseResources/${currentCourse()}`; }
+function enrollPath(){ return `enrollments/${currentCourse()}`; }
+function escRes(v){ return String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+function normalizeUtr(v){ return String(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function slugify(v){ return String(v||"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60); }
+function courseLabel(c){ return `${c.name||"Untitled Course"} — ${c.type==='paid'?'PAID':'FREE'}`; }
+
+function renderCourseSelect(){
+    const keys=Object.keys(courseMeta).sort((a,b)=>(courseMeta[a].name||"").localeCompare(courseMeta[b].name||""));
+    const old=courseSelect.value;
+    courseSelect.innerHTML=keys.length?keys.map(k=>`<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`).join(""):"<option value="">No courses yet — create one below</option>";
+    if(keys.includes(old)) courseSelect.value=old;
+    updateCourseNote();
+}
+function updateCourseNote(){
+    const c=courseMeta[currentCourse()];
+    const note=document.getElementById("courseSelectedNote");
+    if(!c){ note.textContent="Create a course to begin adding resources."; return; }
+    note.textContent=`Selected: ${c.name} • ${c.type==='paid'?'Paid — ₹'+(c.fee||0):'Free'}${c.className?' • '+c.className:''}${c.subject?' • '+c.subject:''}${c.language?' • '+c.language:''}`;
+}
+
+onValue(ref(db, COURSE_META_PATH), snap=>{ courseMeta=snap.val()||{}; renderCourseSelect(); if(currentCourse()) attachCourseListeners(); refreshEnrollmentListeners(); renderAllRecords(); });
+
+async function createCourse(){
+    const name=document.getElementById("newCourseName").value.trim();
+    const type=document.getElementById("newCourseType").value;
+    const className=document.getElementById("newCourseClass").value.trim();
+    const subject=document.getElementById("newCourseSubject").value.trim();
+    const language=document.getElementById("newCourseLanguage").value.trim();
+    const fee=Number(document.getElementById("newCourseFee").value||0);
+    const msg=document.getElementById("courseManagerMessage");
+    if(!name){msg.textContent="Enter a course name.";return;}
+    if(type==='paid' && fee<=0){msg.textContent="Enter a valid fee for a paid course.";return;}
+    let key=slugify(`${className}-${subject}-${language}-${name}`)||slugify(name)||`course-${Date.now()}`;
+    let base=key,i=2; while(courseMeta[key]) key=`${base}-${i++}`;
+    try{
+        await set(ref(db,`${COURSE_META_PATH}/${key}`),{name,type,fee:type==='paid'?fee:0,className,subject,language,createdAt:Date.now(),createdBy:auth.currentUser?.email||"teacher"});
+        courseSelect.value=key; renderCourseSelect(); attachCourseListeners();
+        ["newCourseName","newCourseClass","newCourseSubject","newCourseLanguage","newCourseFee"].forEach(id=>document.getElementById(id).value="");
+        msg.textContent=`✓ Course created: ${name}`;
+    }catch(e){msg.textContent="Error: "+e.message;}
+}
+document.getElementById("createCourseBtn").addEventListener("click",createCourse);
+
+document.getElementById("deleteCourseBtn").addEventListener("click",async()=>{
+    const key=currentCourse(), c=courseMeta[key], msg=document.getElementById("courseManagerMessage");
+    if(!key||!c){msg.textContent="Select a course first.";return;}
+    if(!confirm(`Delete course "${c.name}"? This removes its course metadata and all linked resources/access records.`))return;
+    try{
+        await remove(ref(db,`${COURSE_META_PATH}/${key}`));
+        await remove(ref(db,`courseResources/${key}`));
+        await remove(ref(db,`enrollments/${key}`));
+        msg.textContent="✓ Course deleted.";
+    }catch(e){msg.textContent="Error: "+e.message;}
+});
+
+document.getElementById("grantAccessBtn").addEventListener("click",async()=>{
+    const c=courseMeta[currentCourse()], name=document.getElementById("studentName").value.trim(), utr=normalizeUtr(document.getElementById("studentUtr").value), msg=document.getElementById("enrollMessage");
+    if(!c){msg.textContent="Create/select a course first.";return;} if(c.type!=='paid'){msg.textContent="This is a FREE course. No UTR approval is required.";return;} if(!utr){msg.textContent="Enter a valid UTR / Transaction Reference Number.";return;}
+    try{await set(ref(db,`${enrollPath()}/${utr}`),{name:name||"Student",utr,paid:true,enrolledAt:Date.now(),courseKey:currentCourse()});msg.textContent="✓ Access approved for "+(name||utr)+".";document.getElementById("studentName").value="";document.getElementById("studentUtr").value="";}catch(e){msg.textContent="Error: "+e.message;}
+});
+document.getElementById("revokeAccessBtn").addEventListener("click",async()=>{const utr=normalizeUtr(document.getElementById("studentUtr").value),msg=document.getElementById("enrollMessage");if(!utr){msg.textContent="Enter the UTR to revoke.";return;}try{const snap=await get(ref(db,`${enrollPath()}/${utr}`));if(!snap.exists()){msg.textContent="No approval found for this UTR.";return;}await set(ref(db,`${enrollPath()}/${utr}`),{...snap.val(),paid:false,updatedAt:Date.now()});msg.textContent="Access revoked for "+utr+".";}catch(e){msg.textContent="Error: "+e.message;}});
+
+function bindLinkResource(config){const{btnId,titleId,urlId,msgId,category}=config;document.getElementById(btnId).addEventListener("click",async()=>{const title=document.getElementById(titleId).value.trim(),url=document.getElementById(urlId).value.trim(),msg=document.getElementById(msgId);if(!currentCourse()){msg.textContent="Create/select a course first.";return;}if(!title){msg.textContent="Enter a title.";return;}if(!url){msg.textContent="Paste a public link.";return;}try{await push(ref(db,`${coursePath()}/${category}`),{title,url,addedAt:Date.now(),addedBy:auth.currentUser?.email||"teacher"});msg.textContent="✓ Added successfully.";document.getElementById(titleId).value="";document.getElementById(urlId).value="";}catch(e){msg.textContent="Error: "+e.message;}});}
+bindLinkResource({btnId:"addVideoBtn",titleId:"videoTitle",urlId:"videoUrl",msgId:"videoMessage",category:"videos"});
+bindLinkResource({btnId:"addNoteBtn",titleId:"noteTitle",urlId:"noteUrl",msgId:"noteMessage",category:"notes"});
+bindLinkResource({btnId:"addSolutionBtn",titleId:"solutionTitle",urlId:"solutionUrl",msgId:"solutionMessage",category:"solutions"});
+bindLinkResource({btnId:"addPaperBtn",titleId:"paperTitle",urlId:"paperUrl",msgId:"paperMessage",category:"papers"});
+
+const CATEGORY_LABELS={notes:"📖 Notes",solutions:"📘 NCERT Solutions",videos:"🎥 Video Lectures",papers:"📄 Model Papers"};
+window.deleteResource=async function(category,key){if(!confirm("Delete this resource?"))return;try{await remove(ref(db,`${coursePath()}/${category}/${key}`));}catch(e){alert("Could not delete: "+e.message);}};
+function attachCourseListeners(){if(unsubEnroll)unsubEnroll();if(unsubResources)unsubResources();if(!currentCourse())return;unsubEnroll=onValue(ref(db,enrollPath()),snap=>{const data=snap.val(),list=document.getElementById("enrolledList");if(!list)return;if(!data){list.innerHTML='<p class="small">No approved students yet for this course.</p>';return;}const rows=Object.values(data).sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td></tr>`});list.innerHTML=html+'</tbody></table></div>';});unsubResources=onValue(ref(db,coursePath()),snap=>{const data=snap.val()||{},box=document.getElementById("resourceListing");if(!box)return;let html="";Object.keys(CATEGORY_LABELS).forEach(cat=>{const items=data[cat]?Object.entries(data[cat]):[];html+=`<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;if(!items.length)html+='<p class="small">None added yet.</p>';else{items.sort((a,b)=>(b[1].addedAt||0)-(a[1].addedAt||0));items.forEach(([key,item])=>{html+=`<p class="small">• ${escRes(item.title)} — <a href="${escRes(item.url)}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`})}html+='</div>'});box.innerHTML=html;});updateCourseNote();}
+courseSelect.addEventListener("change",()=>{document.getElementById("enrollMessage").textContent="";attachCourseListeners();updateCourseNote();});
+
+const allEnrollData={};
+function renderAllRecords(){const box=document.getElementById("allRecordsList");if(!box)return;let rows=[];Object.keys(courseMeta).forEach(k=>{const data=allEnrollData[k];if(data)Object.values(data).forEach(s=>rows.push({...s,courseLabel:courseMeta[k].name||k,courseKey:k}));});if(!rows.length){box.innerHTML='<p class="small">No purchase records yet.</p>';return;}rows.sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${escRes(s.courseLabel)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td><td><button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteEnrollment('${s.courseKey}','${s.utr}')">Delete</button></td></tr>`});box.innerHTML=html+'</tbody></table></div>';}
+let enrollmentListeners={};
+function refreshEnrollmentListeners(){Object.keys(enrollmentListeners).forEach(k=>{if(typeof enrollmentListeners[k]==='function')enrollmentListeners[k]();delete enrollmentListeners[k];});Object.keys(courseMeta).forEach(k=>{enrollmentListeners[k]=onValue(ref(db,`enrollments/${k}`),snap=>{allEnrollData[k]=snap.val();renderAllRecords();});});}
+window.deleteEnrollment=async function(courseKey,utr){if(!confirm("Permanently delete this student's purchase record? This immediately removes access."))return;try{await remove(ref(db,`enrollments/${courseKey}/${utr}`));}catch(e){alert("Could not delete: "+e.message);}};
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+});
+
+
+
+/* DEMO CLASS YOUTUBE VIDEO CONTROL */
+const demoVideoClass=document.getElementById("demoVideoClass");
+const demoVideoTitle=document.getElementById("demoVideoTitle");
+const demoVideoUrl=document.getElementById("demoVideoUrl");
+const saveDemoVideoBtn=document.getElementById("saveDemoVideoBtn");
+const removeDemoVideoBtn=document.getElementById("removeDemoVideoBtn");
+const demoVideoMessage=document.getElementById("demoVideoMessage");
+const demoVideoCurrent=document.getElementById("demoVideoCurrent");
+
+function demoVideoPath(){return "demoResources/"+demoVideoClass.value;}
+
+function validYouTubeUrl(value){
+    try{
+        const u=new URL(value);
+        return u.hostname==="youtube.com" || u.hostname.endsWith(".youtube.com") ||
+               u.hostname==="youtu.be" || u.hostname.endsWith(".youtu.be");
+    }catch(e){return false;}
+}
+
+async function loadSelectedDemoVideo(){
+    if(!auth.currentUser)return;
+    try{
+        const snapshot=await get(ref(db,demoVideoPath()));
+        const data=snapshot.exists()?snapshot.val():{};
+        demoVideoTitle.value=data.title||"";
+        demoVideoUrl.value=data.videoUrl||"";
+        demoVideoCurrent.textContent=data.videoUrl
+            ?"Current saved video: "+data.videoUrl
+            :"No YouTube video is currently saved for this demo class.";
+    }catch(e){
+        demoVideoMessage.textContent="Could not load demo video information.";
+    }
+}
+
+demoVideoClass.addEventListener("change",loadSelectedDemoVideo);
+
+saveDemoVideoBtn.addEventListener("click",async()=>{
+    const title=demoVideoTitle.value.trim();
+    const url=demoVideoUrl.value.trim();
+    if(!title){demoVideoMessage.textContent="Please enter a lecture title.";return;}
+    if(!validYouTubeUrl(url)){demoVideoMessage.textContent="Please enter a valid YouTube link.";return;}
+    if(!auth.currentUser){demoVideoMessage.textContent="Please log in as teacher first.";return;}
+    try{
+        await set(ref(db,demoVideoPath()),{
+            title:title,
+            videoUrl:url,
+            updatedAt:Date.now(),
+            updatedBy:auth.currentUser.email||""
+        });
+        demoVideoMessage.textContent="✓ YouTube lecture link saved successfully.";
+        demoVideoCurrent.textContent="Current saved video: "+url;
+    }catch(e){
+        console.error(e);
+        demoVideoMessage.textContent="Could not save video link. Check Firebase rules.";
+    }
+});
+
+removeDemoVideoBtn.addEventListener("click",async()=>{
+    if(!auth.currentUser){demoVideoMessage.textContent="Please log in as teacher first.";return;}
+    try{
+        await remove(ref(db,demoVideoPath()));
+        demoVideoTitle.value="";
+        demoVideoUrl.value="";
+        demoVideoCurrent.textContent="No YouTube video is currently saved.";
+        demoVideoMessage.textContent="✓ Demo video removed.";
+    }catch(e){
+        console.error(e);
+        demoVideoMessage.textContent="Could not remove video link. Check Firebase rules.";
+    }
+});
+
+</script>
+
+</body>
+</html>
