@@ -53,6 +53,13 @@
 </section>
 
 
+
+<section id="catalogSection" class="card" style="display:none;">
+  <h2>📚 Available Courses</h2>
+  <p class="muted">Choose a course to view its resources and enrollment options.</p>
+  <div id="courseCatalog" class="grid"></div>
+</section>
+
 <section class="card">
   <h2>📚 Course Resources</h2>
   <div id="locked" class="lock">Loading course access...</div>
@@ -158,10 +165,55 @@ function setMessage(text,ok=false){
   m.textContent=text;
 }
 
+
+async function loadCourseCatalog(){
+  const catalogSection=document.getElementById("catalogSection");
+  const catalog=document.getElementById("courseCatalog");
+  const courseName=document.getElementById("courseName");
+  const courseBadge=document.getElementById("courseBadge");
+  const courseInfo=document.getElementById("courseInfo");
+
+  catalogSection.style.display="block";
+  courseName.textContent="Choose Your Course";
+  courseBadge.textContent="LET'S SCORE COURSES";
+  courseInfo.textContent="Select a course below.";
+
+  try{
+    const snap=await get(ref(db,"courses"));
+    const data=snap.val()||{};
+    const entries=Object.entries(data).sort((a,b)=>
+      String(a[1]?.name||"").localeCompare(String(b[1]?.name||""))
+    );
+
+    if(!entries.length){
+      catalog.innerHTML='<div class="item"><p class="muted">No courses are published yet.</p></div>';
+      return;
+    }
+
+    catalog.innerHTML=entries.map(([courseId,c])=>{
+      const type=c?.type==="paid" ? "💳 PAID COURSE" : "🟢 FREE COURSE";
+      const fee=c?.type==="paid" ? `<p><strong>Fee: ₹${Number(c?.fee||0)}</strong></p>` : "";
+      const info=[c?.className,c?.subject,c?.language].filter(Boolean).join(" • ");
+      return `<div class="item">
+        <h3>${esc(c?.name||"Course")}</h3>
+        <p><strong>${type}</strong></p>
+        <p>${esc(info)}</p>
+        ${fee}
+        <p><a class="btn" href="course.html?id=${encodeURIComponent(courseId)}">Open Course →</a></p>
+      </div>`;
+    }).join("");
+  }catch(e){
+    console.error(e);
+    catalog.innerHTML='<div class="item"><p class="muted">Could not load courses. Please try again.</p></div>';
+  }
+}
+
 async function loadCourse(){
   if(!id){
-    document.getElementById("courseName").textContent="Course not specified";
-    document.getElementById("locked").textContent="No course ID was supplied.";
+    document.getElementById("locked").style.display="none";
+    document.getElementById("resources").style.display="none";
+    document.getElementById("payCard").style.display="none";
+    await loadCourseCatalog();
     return;
   }
 

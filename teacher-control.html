@@ -1484,7 +1484,7 @@ async function loadAccessRequests(){
         accessRequestsList.innerHTML=html;
     }catch(e){
         console.error(e);
-        accessRequestsList.innerHTML='<p class="small">Could not load access requests. Check Firebase rules.</p>';
+        accessRequestsList.innerHTML='<p class="small">Could not load access requests. Check the /accessRequests teacher read rule.</p>';
     }
 }
 
