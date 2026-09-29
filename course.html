@@ -6,7 +6,7 @@
 <title>Course | Let's Score</title>
 <style>
 :root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--gold:#fbbf24;--green:#4ade80;--red:#f87171}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}.wrap{max-width:1000px;margin:auto;padding:0 16px 50px}nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}.navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:14px;font-weight:700;font-size:13px}.hero{text-align:center;padding:48px 0 28px}.kicker{color:var(--blue);font-weight:900;letter-spacing:1.5px;font-size:13px}h1{font-size:clamp(32px,7vw,56px);margin:8px 0}.muted{color:var(--muted)}.badge{display:inline-block;padding:5px 11px;border-radius:20px;background:#ffffff0d;color:#bae6fd;font-size:12px;font-weight:900}.card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.item{background:#ffffff06;border:1px solid #ffffff12;border-radius:15px;padding:18px}.item a{color:var(--blue);font-weight:800;text-decoration:none}.pay{border-left:4px solid var(--gold)}input{width:100%;padding:12px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;font-size:15px}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;border:0;cursor:pointer;font-size:15px}.msg{margin-top:12px;font-weight:800}.ok{color:var(--green)}.bad{color:var(--red)}.lock{border:1px dashed #465985;border-radius:15px;padding:22px;text-align:center;color:var(--muted)}footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var(--muted)}iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;margin-top:10px}small{color:var(--muted)}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}.wrap{max-width:1000px;margin:auto;padding:0 16px 50px}nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}.navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:14px;font-weight:700;font-size:13px}.hero{text-align:center;padding:48px 0 28px}.kicker{color:var(--blue);font-weight:900;letter-spacing:1.5px;font-size:13px}h1{font-size:clamp(32px,7vw,56px);margin:8px 0}.muted{color:var(--muted)}.badge{display:inline-block;padding:5px 11px;border-radius:20px;background:#ffffff0d;color:#bae6fd;font-size:12px;font-weight:900}.card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.item{background:#ffffff06;border:1px solid #ffffff12;border-radius:15px;padding:18px}.item a{color:var(--blue);font-weight:800;text-decoration:none}.pay{border-left:4px solid var(--gold)}input{width:100%;padding:12px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;font-size:15px}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;border:0;cursor:pointer;font-size:15px}.msg{margin-top:12px;font-weight:800}.ok{color:var(--green)}.paybox{margin-top:16px;padding:18px;border:1px solid #3b4e70;border-radius:16px;background:#0d1930;text-align:center}.qr{display:flex;justify-content:center;margin:14px 0}.qr canvas,.qr img{background:#fff;padding:10px;border-radius:12px;max-width:240px}.upi-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.upi-actions .btn{margin-top:0}.receipt{margin-top:14px;color:var(--muted);font-size:14px}.bad{color:var(--red)}.lock{border:1px dashed #465985;border-radius:15px;padding:22px;text-align:center;color:var(--muted)}footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var(--muted)}iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;margin-top:10px}small{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -20,14 +20,38 @@
   <span id="courseBadge" class="badge"></span>
 </section>
 
+
 <section id="payCard" class="card pay" style="display:none">
-  <h2>🔓 Paid Course Access</h2>
+  <h2>💳 Enrol & Pay</h2>
   <p class="muted" id="feeText"></p>
-  <p class="muted">Enter the UTR / Transaction Reference Number approved by your teacher.</p>
-  <input id="utr" placeholder="UTR / Transaction Reference Number" autocomplete="off">
-  <button class="btn" id="checkBtn" type="button">Check My Access</button>
-  <div id="msg" class="msg"></div>
+
+  <div class="paybox">
+    <h3 style="margin-top:0">Scan to Pay with any UPI App</h3>
+    <div id="qr" class="qr"></div>
+    <p><strong>UPI Number: 9678945621</strong></p>
+    <p class="muted" id="upiIdText"></p>
+
+    <div class="upi-actions">
+      <a id="upiPayBtn" class="btn" href="#">📱 Pay using UPI App</a>
+      <a id="whatsappBtn" class="btn" href="#" target="_blank" rel="noopener noreferrer">📲 Send Receipt on WhatsApp</a>
+    </div>
+
+    <div class="receipt">
+      After payment, <strong>save your UTR / Transaction Reference Number</strong>.
+      Send the payment receipt to WhatsApp <strong>7002137940</strong>.
+      Your teacher will verify the payment and approve the UTR.
+    </div>
+  </div>
+
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
+    <h3 style="margin:0 0 8px">🔓 Already Paid?</h3>
+    <p class="muted">Enter the UTR approved by your teacher to unlock the course.</p>
+    <input id="utr" placeholder="UTR / Transaction Reference Number" autocomplete="off">
+    <button class="btn" id="checkBtn" type="button">Check My Access</button>
+    <div id="msg" class="msg"></div>
+  </div>
 </section>
+
 
 <section class="card">
   <h2>📚 Course Resources</h2>
@@ -37,6 +61,8 @@
 </main>
 
 <footer>LET'S SCORE<br>Learn • Revise • Practise • Score</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -56,6 +82,60 @@ const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const id=new URLSearchParams(location.search).get("id");
 let course=null;
+
+const UPI_NUMBER = "9678945621";
+const UPI_ID = "9678945621@upi";
+const WHATSAPP_NUMBER = "917002137940";
+
+function makeUpiUri(amount, courseName) {
+  const params = new URLSearchParams({
+    pa: UPI_ID,
+    pn: "LETS SCORE",
+    am: Number(amount || 0).toFixed(2),
+    cu: "INR",
+    tn: courseName || "LET'S SCORE Course"
+  });
+  return "upi://pay?" + params.toString();
+}
+
+function setupPayment(courseData) {
+  const fee = Number(courseData.fee || 0);
+  const name = courseData.name || "LET'S SCORE Course";
+  const uri = makeUpiUri(fee, name);
+
+  document.getElementById("feeText").textContent =
+    `Course Fee: ₹${fee}`;
+
+  document.getElementById("upiIdText").textContent =
+    `UPI ID: ${UPI_ID}`;
+
+  const payBtn = document.getElementById("upiPayBtn");
+  payBtn.href = uri;
+
+  const waText =
+    `Hello LET'S SCORE,%0A` +
+    `I have paid ₹${fee} for ${encodeURIComponent(name)}.%0A` +
+    `UPI Number: ${UPI_NUMBER}%0A` +
+    `I am sending my payment receipt for verification.%0A` +
+    `I will enter my UTR on the course page after approval.`;
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+
+  const qrBox = document.getElementById("qr");
+  qrBox.innerHTML = "";
+  if (window.QRCode) {
+    new QRCode(qrBox, {
+      text: uri,
+      width: 220,
+      height: 220,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else {
+    qrBox.innerHTML = "<p class='bad'>QR generator could not load. Use the UPI App button.</p>";
+  }
+}
+
 
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const normalize=v=>String(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"");
@@ -96,7 +176,7 @@ async function loadCourse(){
 
     if(course.type==="paid"){
       document.getElementById("payCard").style.display="block";
-      document.getElementById("feeText").textContent=`Course Fee: ₹${Number(course.fee||0)}`;
+      setupPayment(course);
       document.getElementById("locked").textContent="🔒 Enter your approved UTR above to unlock resources.";
 
       const saved=localStorage.getItem("ls_"+id);
