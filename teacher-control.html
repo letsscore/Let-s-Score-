@@ -134,7 +134,9 @@ button:hover{
     background:#334155;
 }
 
-.course-loading{color:#fbbf24;font-weight:700;margin-top:10px;min-height:22px}\n\n.hidden{
+.course-loading{color:#fbbf24;font-weight:700;margin-top:10px;min-height:22px}
+
+.hidden{
     display:none!important;
 }
 
@@ -260,7 +262,7 @@ footer{
     </section>
 
     <!-- CONTROL PANEL -->
-    <section id="controlPanel" class="hidden">
+    <section id="controlPanel" class="hidden" style="display:none!important;">
 
         <section class="card">
 
@@ -610,6 +612,9 @@ const testPaths = {
 ================================ */
 
 const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
+function isAuthorisedTeacher() {
+    return !!auth.currentUser && auth.currentUser.uid === TEACHER_UID;
+}
 const googleProvider = new GoogleAuthProvider();
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
@@ -676,6 +681,7 @@ onAuthStateChanged(auth, user => {
         loginCard.classList.add("hidden");
 
         controlPanel.classList.remove("hidden");
+        controlPanel.style.display = "";
 
         teacherInfo.textContent =
             "Signed in as: " + user.email;
@@ -693,6 +699,7 @@ onAuthStateChanged(auth, user => {
         loginCard.classList.remove("hidden");
 
         controlPanel.classList.add("hidden");
+        controlPanel.style.display = "none";
 
         teacherInfo.textContent =
             "";
@@ -708,6 +715,11 @@ onAuthStateChanged(auth, user => {
 
 document.getElementById("startBtn")
 .addEventListener("click", async () => {
+
+    if (!isAuthorisedTeacher()) {
+        controlMessage.textContent = "Access denied. Please sign in as the authorised teacher.";
+        return;
+    }
 
     const selectedClass =
         classSelect.value;
@@ -743,6 +755,11 @@ document.getElementById("startBtn")
 
 document.getElementById("stopBtn")
 .addEventListener("click", async () => {
+
+    if (!isAuthorisedTeacher()) {
+        controlMessage.textContent = "Access denied. Please sign in as the authorised teacher.";
+        return;
+    }
 
     const selectedClass =
         classSelect.value;
@@ -977,6 +994,11 @@ const resultsTable =
     document.getElementById("resultsTable");
 
 loadResultsBtn.addEventListener("click", async () => {
+
+    if (!isAuthorisedTeacher()) {
+        resultsMessage.textContent = "Access denied. Please sign in as the authorised teacher.";
+        return;
+    }
 
     const selectedClass = resultClassSelect.value;
 
@@ -1230,6 +1252,11 @@ function startCourseManager() {
 
     courseSelect.disabled = true;
     courseSelect.innerHTML = '<option value="">🔄 Loading courses...</option>';
+    const status = document.getElementById("courseSelectStatus");
+    if (status) {
+        status.textContent = "Authenticated. Loading courses from Firebase...";
+        status.style.color = "#fbbf24";
+    }
 
     if (courseMetaUnsubscribe) courseMetaUnsubscribe();
 
@@ -1271,6 +1298,10 @@ function startCourseManager() {
 }
 
 async function createCourse(){
+    if (!isAuthorisedTeacher()) {
+        document.getElementById("courseManagerMessage").textContent = "Access denied. Please sign in as the authorised teacher.";
+        return;
+    }
     const name=document.getElementById("newCourseName").value.trim();
     const type=document.getElementById("newCourseType").value;
     const className=document.getElementById("newCourseClass").value.trim();
