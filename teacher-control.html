@@ -134,7 +134,7 @@ button:hover{
     background:#334155;
 }
 
-.hidden{
+.course-loading{color:#fbbf24;font-weight:700;margin-top:10px;min-height:22px}\n\n.hidden{
     display:none!important;
 }
 
@@ -388,7 +388,7 @@ footer{
             <h3>➕ Course Manager</h3>
             <p class="small">Create any class, subject, language, batch or course. Choose Free or Paid access. The course will receive its own Firebase resource path.</p>
             <label for="courseSelect">Select Course</label>
-            <select id="courseSelect"></select>
+            <select id="courseSelect" disabled><option value="">🔄 Loading courses...</option></select>
             <div class="grid" style="margin-top:12px">
                 <div><label for="newCourseName">Course Name</label><input id="newCourseName" placeholder="e.g. Class IX Science — Assamese"></div>
                 <div><label for="newCourseType">Access Type</label><select id="newCourseType"><option value="free">🟢 Free</option><option value="paid">💳 Paid</option></select></div>
@@ -681,6 +681,7 @@ onAuthStateChanged(auth, user => {
 
         startStatusListeners();
         loadSelectedDemoVideo();
+        startCourseManager();
 
     } else {
         if (user && user.uid !== TEACHER_UID) {
@@ -1151,11 +1152,25 @@ function normalizeUtr(v){ return String(v||"").trim().toUpperCase().replace(/[^A
 function slugify(v){ return String(v||"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60); }
 function courseLabel(c){ return `${c.name||"Untitled Course"} — ${c.type==='paid'?'PAID':'FREE'}`; }
 
-function renderCourseSelect(){
-    const keys=Object.keys(courseMeta).sort((a,b)=>(courseMeta[a].name||"").localeCompare(courseMeta[b].name||""));
-    const old=courseSelect.value;
-    courseSelect.innerHTML=keys.length ? keys.map(k=>`<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`).join("") : '<option value="">No courses yet — create one below</option>';
-    if(keys.includes(old)) courseSelect.value=old;
+function renderCourseSelect(preferredKey=""){
+    const keys=Object.keys(courseMeta).sort((a,b)=>
+        String(courseMeta[a]?.name||"").localeCompare(String(courseMeta[b]?.name||""))
+    );
+    const old=preferredKey || courseSelect.value;
+
+    if (!keys.length) {
+        courseSelect.innerHTML='<option value="">No courses yet — create one below</option>';
+        courseSelect.disabled=false;
+        updateCourseNote();
+        return;
+    }
+
+    courseSelect.innerHTML=keys.map(k=>
+        `<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`
+    ).join("");
+
+    courseSelect.value = keys.includes(old) ? old : keys[0];
+    courseSelect.disabled=false;
     updateCourseNote();
 }
 function updateCourseNote(){
@@ -1165,7 +1180,50 @@ function updateCourseNote(){
     note.textContent=`Selected: ${c.name} • ${c.type==='paid'?'Paid — ₹'+(c.fee||0):'Free'}${c.className?' • '+c.className:''}${c.subject?' • '+c.subject:''}${c.language?' • '+c.language:''}`;
 }
 
-onValue(ref(db, COURSE_META_PATH), snap=>{ courseMeta=snap.val()||{}; renderCourseSelect(); if(currentCourse()) attachCourseListeners(); refreshEnrollmentListeners(); renderAllRecords(); });
+let courseMetaUnsubscribe = null;
+let courseManagerStarted = false;
+
+function startCourseManager() {
+    if (courseManagerStarted) return;
+    if (!auth.currentUser || auth.currentUser.uid !== TEACHER_UID) return;
+    courseManagerStarted = true;
+
+    courseSelect.disabled = true;
+    courseSelect.innerHTML = '<option value="">🔄 Loading courses...</option>';
+
+    if (courseMetaUnsubscribe) courseMetaUnsubscribe();
+
+    courseMetaUnsubscribe = onValue(
+        ref(db, COURSE_META_PATH),
+        snap => {
+            courseMeta = snap.val() || {};
+            renderCourseSelect();
+            courseSelect.disabled = false;
+
+            if (currentCourse()) {
+                attachCourseListeners();
+            }
+
+            refreshEnrollmentListeners();
+            renderAllRecords();
+
+            const msg = document.getElementById("courseManagerMessage");
+            if (msg && !Object.keys(courseMeta).length) {
+                msg.textContent = "No courses found yet. Create your first course below.";
+            }
+        },
+        error => {
+            console.error("Course list read error:", error);
+            courseMeta = {};
+            courseSelect.disabled = true;
+            courseSelect.innerHTML = '<option value="">⚠️ Could not load courses</option>';
+            const msg = document.getElementById("courseManagerMessage");
+            if (msg) {
+                msg.textContent = "Could not load courses. Check Firebase Database read permission for /courses.";
+            }
+        }
+    );
+}
 
 async function createCourse(){
     const name=document.getElementById("newCourseName").value.trim();
@@ -1181,7 +1239,12 @@ async function createCourse(){
     let base=key,i=2; while(courseMeta[key]) key=`${base}-${i++}`;
     try{
         await set(ref(db,`${COURSE_META_PATH}/${key}`),{name,type,fee:type==='paid'?fee:0,className,subject,language,createdAt:Date.now(),createdBy:auth.currentUser?.email||"teacher"});
-        courseSelect.value=key; renderCourseSelect(); attachCourseListeners();
+        courseMeta[key] = {
+            name, type, fee:type==='paid'?fee:0, className, subject, language,
+            createdAt:Date.now(), createdBy:auth.currentUser?.email||"teacher"
+        };
+        renderCourseSelect(key);
+        attachCourseListeners();
         ["newCourseName","newCourseClass","newCourseSubject","newCourseLanguage","newCourseFee"].forEach(id=>document.getElementById(id).value="");
         msg.textContent=`✓ Course created: ${name}`;
     }catch(e){msg.textContent="Error: "+e.message;}
@@ -1216,7 +1279,12 @@ bindLinkResource({btnId:"addPaperBtn",titleId:"paperTitle",urlId:"paperUrl",msgI
 const CATEGORY_LABELS={notes:"📖 Notes",solutions:"📘 NCERT Solutions",videos:"🎥 Video Lectures",papers:"📄 Model Papers"};
 window.deleteResource=async function(category,key){if(!confirm("Delete this resource?"))return;try{await remove(ref(db,`${coursePath()}/${category}/${key}`));}catch(e){alert("Could not delete: "+e.message);}};
 function attachCourseListeners(){if(unsubEnroll)unsubEnroll();if(unsubResources)unsubResources();if(!currentCourse())return;unsubEnroll=onValue(ref(db,enrollPath()),snap=>{const data=snap.val(),list=document.getElementById("enrolledList");if(!list)return;if(!data){list.innerHTML='<p class="small">No approved students yet for this course.</p>';return;}const rows=Object.values(data).sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Status</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td></tr>`});list.innerHTML=html+'</tbody></table></div>';});unsubResources=onValue(ref(db,coursePath()),snap=>{const data=snap.val()||{},box=document.getElementById("resourceListing");if(!box)return;let html="";Object.keys(CATEGORY_LABELS).forEach(cat=>{const items=data[cat]?Object.entries(data[cat]):[];html+=`<div class="class-card"><h3>${CATEGORY_LABELS[cat]} (${items.length})</h3>`;if(!items.length)html+='<p class="small">None added yet.</p>';else{items.sort((a,b)=>(b[1].addedAt||0)-(a[1].addedAt||0));items.forEach(([key,item])=>{html+=`<p class="small">• ${escRes(item.title)} — <a href="${escRes(item.url)}" target="_blank" style="color:#38bdf8">Open</a> &nbsp; <button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteResource('${cat}','${key}')">Delete</button></p>`})}html+='</div>'});box.innerHTML=html;});updateCourseNote();}
-courseSelect.addEventListener("change",()=>{document.getElementById("enrollMessage").textContent="";attachCourseListeners();updateCourseNote();});
+courseSelect.addEventListener("change",()=>{
+    if (!auth.currentUser || auth.currentUser.uid !== TEACHER_UID) return;
+    document.getElementById("enrollMessage").textContent="";
+    attachCourseListeners();
+    updateCourseNote();
+});
 
 const allEnrollData={};
 function renderAllRecords(){const box=document.getElementById("allRecordsList");if(!box)return;let rows=[];Object.keys(courseMeta).forEach(k=>{const data=allEnrollData[k];if(data)Object.values(data).forEach(s=>rows.push({...s,courseLabel:courseMeta[k].name||k,courseKey:k}));});if(!rows.length){box.innerHTML='<p class="small">No purchase records yet.</p>';return;}rows.sort((a,b)=>(b.enrolledAt||0)-(a.enrolledAt||0));let html='<div class="results-table-wrap"><table class="results-table"><thead><tr><th>Name</th><th>UTR</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody>';rows.forEach(s=>{html+=`<tr><td>${escRes(s.name)}</td><td>${escRes(s.utr)}</td><td>${escRes(s.courseLabel)}</td><td>${s.paid?'<span class="live">PAID</span>':'<span class="off">NOT ACTIVE</span>'}</td><td><button type="button" class="stop" style="padding:5px 10px;font-size:12px;margin:0" onclick="deleteEnrollment('${s.courseKey}','${s.utr}')">Delete</button></td></tr>`});box.innerHTML=html+'</tbody></table></div>';}
@@ -1232,6 +1300,14 @@ window.deleteEnrollment=async function(courseKey,utr){if(!confirm("Permanently d
 document.getElementById("logoutBtn")
 .addEventListener("click", async () => {
 
+    if (courseMetaUnsubscribe) {
+        courseMetaUnsubscribe();
+        courseMetaUnsubscribe = null;
+    }
+    courseManagerStarted = false;
+    courseMeta = {};
+    courseSelect.innerHTML = '<option value="">🔐 Login required</option>';
+    courseSelect.disabled = true;
     await signOut(auth);
 
 });
