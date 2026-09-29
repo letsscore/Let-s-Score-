@@ -262,7 +262,21 @@ footer{
     </section>
 
     <!-- CONTROL PANEL -->
-    <section id="controlPanel" class="hidden" style="display:none!important;">
+    
+<section class="card" id="accessApprovalCard">
+  <h2>🔐 Paid Course Access Approval</h2>
+  <p class="small">Review student UTR requests and approve access. Students never get direct read/write access to enrollment records.</p>
+  <div class="row">
+    <label>Select Course</label>
+    <select id="accessCourseSelect"></select>
+  </div>
+  <div id="accessRequestsList" class="results-table-wrap">
+    <p class="small">Select a course to view pending requests.</p>
+  </div>
+  <div id="accessApprovalMessage" class="small"></div>
+</section>
+
+<section id="controlPanel" class="hidden" style="display:none!important;">
 
         <section class="card">
 
@@ -689,6 +703,7 @@ onAuthStateChanged(auth, user => {
         startStatusListeners();
         loadSelectedDemoVideo();
         startCourseManager();
+        renderAccessCourseSelect();
 
     } else {
         if (user && user.uid !== TEACHER_UID) {
@@ -1201,6 +1216,7 @@ function renderCourseSelect(preferredKey=""){
     courseSelect.disabled=false;
     populateSelectedCourseFields();
     updateCourseNote();
+    renderAccessCourseSelect();
 }
 function updateCourseNote(){
     const c=courseMeta[currentCourse()];
@@ -1393,6 +1409,125 @@ function renderAllRecords(){const box=document.getElementById("allRecordsList");
 let enrollmentListeners={};
 function refreshEnrollmentListeners(){Object.keys(enrollmentListeners).forEach(k=>{if(typeof enrollmentListeners[k]==='function')enrollmentListeners[k]();delete enrollmentListeners[k];});Object.keys(courseMeta).forEach(k=>{enrollmentListeners[k]=onValue(ref(db,`enrollments/${k}`),snap=>{allEnrollData[k]=snap.val();renderAllRecords();});});}
 window.deleteEnrollment=async function(courseKey,utr){if(!confirm("Permanently delete this student's purchase record? This immediately removes access."))return;try{await remove(ref(db,`enrollments/${courseKey}/${utr}`));}catch(e){alert("Could not delete: "+e.message);}};
+
+
+
+/* ================================
+   SECURE PAID COURSE ACCESS
+================================ */
+
+const accessCourseSelect = document.getElementById("accessCourseSelect");
+const accessRequestsList = document.getElementById("accessRequestsList");
+const accessApprovalMessage = document.getElementById("accessApprovalMessage");
+
+function renderAccessCourseSelect(){
+    if(!accessCourseSelect) return;
+    const keys=Object.keys(courseMeta).sort((a,b)=>
+        String(courseMeta[a]?.name||"").localeCompare(String(courseMeta[b]?.name||""))
+    );
+
+    if(!keys.length){
+        accessCourseSelect.innerHTML='<option value="">No courses available</option>';
+        accessRequestsList.innerHTML='<p class="small">Create a course first.</p>';
+        return;
+    }
+
+    const old=accessCourseSelect.value;
+    accessCourseSelect.innerHTML=keys.map(k=>
+        `<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`
+    ).join("");
+
+    accessCourseSelect.value=keys.includes(old)?old:keys[0];
+    loadAccessRequests();
+}
+
+async function loadAccessRequests(){
+    if(!isAuthorisedTeacher()) return;
+
+    const courseId=accessCourseSelect.value;
+    if(!courseId){
+        accessRequestsList.innerHTML='<p class="small">Select a course.</p>';
+        return;
+    }
+
+    try{
+        const snap=await get(ref(db,`accessRequests/${courseId}`));
+        const data=snap.val()||{};
+        const rows=Object.entries(data)
+          .map(([uid,v])=>({uid,...v}))
+          .sort((a,b)=>(b.requestedAt||0)-(a.requestedAt||0));
+
+        if(!rows.length){
+            accessRequestsList.innerHTML='<p class="small">No payment requests for this course.</p>';
+            return;
+        }
+
+        let html=`<table class="results-table"><thead><tr>
+          <th>UTR</th><th>Status</th><th>Requested</th><th>Action</th>
+        </tr></thead><tbody>`;
+
+        rows.forEach(r=>{
+            const date=r.requestedAt?new Date(r.requestedAt).toLocaleString():"—";
+            const action=r.status==="approved"
+              ? `<button type="button" class="stop" onclick="revokeCourseAccess('${r.uid}')">Revoke</button>`
+              : `<button type="button" onclick="approveCourseAccess('${r.uid}')">Approve</button>
+                 <button type="button" class="stop" onclick="rejectCourseAccess('${r.uid}')">Reject</button>`;
+            html+=`<tr>
+              <td>${escRes(r.utr||"")}</td>
+              <td>${escRes(r.status||"pending")}</td>
+              <td>${escRes(date)}</td>
+              <td>${action}</td>
+            </tr>`;
+        });
+
+        html+="</tbody></table>";
+        accessRequestsList.innerHTML=html;
+    }catch(e){
+        console.error(e);
+        accessRequestsList.innerHTML='<p class="small">Could not load access requests. Check Firebase rules.</p>';
+    }
+}
+
+async function setCourseAccess(uid,active,status){
+    if(!isAuthorisedTeacher()) return;
+
+    const courseId=accessCourseSelect.value;
+    if(!courseId||!uid) return;
+
+    try{
+        const requestSnap=await get(ref(db,`accessRequests/${courseId}/${uid}`));
+        const request=requestSnap.exists()?requestSnap.val():{};
+
+        await set(ref(db,`courseAccess/${courseId}/${uid}`),{
+            active:!!active,
+            status,
+            utr:request.utr||"",
+            updatedAt:Date.now(),
+            approvedBy:auth.currentUser.email||"teacher"
+        });
+
+        await set(ref(db,`accessRequests/${courseId}/${uid}`),{
+            ...request,
+            status,
+            updatedAt:Date.now()
+        });
+
+        accessApprovalMessage.textContent=active
+          ?"✓ Course access approved."
+          :"✓ Course access revoked/rejected.";
+
+        loadAccessRequests();
+    }catch(e){
+        console.error(e);
+        accessApprovalMessage.textContent="Could not update access: "+e.message;
+    }
+}
+
+window.approveCourseAccess=uid=>setCourseAccess(uid,true,"approved");
+window.rejectCourseAccess=uid=>setCourseAccess(uid,false,"rejected");
+window.revokeCourseAccess=uid=>setCourseAccess(uid,false,"revoked");
+
+accessCourseSelect?.addEventListener("change",loadAccessRequests);
 
 
 /* ================================

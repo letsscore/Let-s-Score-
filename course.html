@@ -66,7 +66,8 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getDatabase, ref, get, onValue, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
@@ -80,6 +81,9 @@ const firebaseConfig={
 
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
+const auth=getAuth(app);
+let studentUid=null;
+let authReady=null;
 const id=new URLSearchParams(location.search).get("id");
 let course=null;
 
@@ -179,11 +183,11 @@ async function loadCourse(){
       setupPayment(course);
       document.getElementById("locked").textContent="🔒 Enter your approved UTR above to unlock resources.";
 
-      const saved=localStorage.getItem("ls_"+id);
+      const saved=localStorage.getItem("ls_utr_"+id);
       if(saved){
         document.getElementById("utr").value=saved;
-        await checkAccess(saved);
       }
+      await checkStudentAccess();
     }else{
       unlock();
     }
@@ -234,7 +238,7 @@ function unlock(){
   });
 }
 
-async function checkAccess(raw){
+async function requestAccess(raw){
   const u=normalize(raw);
   if(!u){
     setMessage("Enter your UTR.");
@@ -242,22 +246,70 @@ async function checkAccess(raw){
   }
 
   try{
-    const s=await get(ref(db,`enrollments/${id}/${u}`));
-    if(s.exists() && s.val()?.paid===true){
-      localStorage.setItem("ls_"+id,u);
-      setMessage("✓ Access granted.",true);
-      unlock();
-    }else{
-      setMessage("This UTR has not been approved for this course.");
+    await authReady;
+    if(!studentUid){
+      setMessage("Student authentication is not ready. Please try again.");
+      return;
     }
+
+    await set(ref(db,`accessRequests/${id}/${studentUid}`),{
+      utr:u,
+      courseId:id,
+      status:"pending",
+      requestedAt:Date.now()
+    });
+
+    localStorage.setItem("ls_utr_"+id,u);
+    setMessage("✓ UTR submitted. Your teacher must approve the payment before access is unlocked.");
   }catch(e){
     console.error(e);
-    setMessage("Could not check access right now. Please try again.");
+    setMessage("Could not submit the UTR request. Please try again.");
   }
 }
 
+async function checkStudentAccess(){
+  try{
+    await authReady;
+    if(!studentUid) return;
+
+    const accessSnap=await get(ref(db,`courseAccess/${id}/${studentUid}`));
+    if(accessSnap.exists() && accessSnap.val()?.active===true){
+      localStorage.setItem("ls_access_"+id,"1");
+      setMessage("✓ Access granted.",true);
+      unlock();
+      return;
+    }
+
+    const requestSnap=await get(ref(db,`accessRequests/${id}/${studentUid}`));
+    if(requestSnap.exists()){
+      const status=requestSnap.val()?.status||"pending";
+      if(status==="rejected"){
+        setMessage("Your payment request was not approved. Please contact the teacher.");
+      }else{
+        setMessage("Payment request received. Waiting for teacher approval.");
+      }
+    }
+  }catch(e){
+    console.error(e);
+    setMessage("Could not check your access status.");
+  }
+}
 document.getElementById("checkBtn").addEventListener("click",()=>{
-  checkAccess(document.getElementById("utr").value);
+  requestAccess(document.getElementById("utr").value);
+});
+
+authReady=signInAnonymously(auth).then(cred=>{
+  studentUid=cred.user.uid;
+}).catch(e=>{
+  console.error("Anonymous student authentication failed:",e);
+  setMessage("Student authentication could not start. Please try again.");
+});
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    studentUid=user.uid;
+    checkStudentAccess();
+  }
 });
 
 loadCourse();
