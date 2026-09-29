@@ -1154,7 +1154,7 @@ function courseLabel(c){ return `${c.name||"Untitled Course"} — ${c.type==='pa
 function renderCourseSelect(){
     const keys=Object.keys(courseMeta).sort((a,b)=>(courseMeta[a].name||"").localeCompare(courseMeta[b].name||""));
     const old=courseSelect.value;
-    courseSelect.innerHTML=keys.length?keys.map(k=>`<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`).join(""):"<option value="">No courses yet — create one below</option>";
+    courseSelect.innerHTML=keys.length ? keys.map(k=>`<option value="${escRes(k)}">${escRes(courseLabel(courseMeta[k]))}</option>`).join("") : '<option value="">No courses yet — create one below</option>';
     if(keys.includes(old)) courseSelect.value=old;
     updateCourseNote();
 }
