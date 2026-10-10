@@ -10,7 +10,7 @@
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
 import {getDatabase,ref,set} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
-const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
+const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",storageBucket:"lets-score-revisionary-test.firebasestorage.app",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),$=id=>document.getElementById(id);
 function say(t){$('msg').textContent=t}
 $('register').onclick=async()=>{const email=$('email').value.trim().toLowerCase(),password=$('password').value,name=$('studentName').value.trim();if(!email||password.length<6||name.length<2){say('Enter a valid email, a password of at least 6 characters, and your full name.');return}

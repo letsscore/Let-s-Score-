@@ -1,0 +1,13 @@
+LET'S SCORE update package
+Files:
+- courses.html: shows approved courses after login; Browse all courses remains available.
+- teacher-control.html: adds separate Reject request and Revoke access actions. Revocation records a reason and keeps payment history.
+- database.rules.json: based on the previously provided rules; adds admin parent-level read permissions for accessRequests and courseResources.
+- student.html and course.html/materials.html are copies of available earlier files included for convenience.
+
+IMPORTANT:
+1. Review and publish database.rules.json in Firebase Realtime Database > Rules.
+2. Upload the updated HTML files to the same GitHub Pages repository, replacing the matching files.
+3. Confirm admin UID/email are still correct before publishing.
+4. Test with a student test account and the admin account.
+5. Revocation blocks database-gated resources, but cannot retract previously downloaded PDFs or copied public Drive links.

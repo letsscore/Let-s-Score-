@@ -5,10 +5,25 @@
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
-const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app);
+import {getDatabase,ref,get} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
+const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",storageBucket:"lets-score-revisionary-test.firebasestorage.app",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
 const courses=[['class10-assamese-free','Class X Science — Assamese Medium','Free notes only','FREE'],['class10-assamese-paid','Class X Science — Assamese Medium','Materials or materials + videos','₹299 / ₹999'],['class10-english','Class X Science — English Medium','Materials or materials + videos','₹299 / ₹999'],['class11-physics','Class XI Physics — English Medium','Materials or materials + videos','₹299 / ₹999'],['class12-physics','Class XII Physics — English Medium','Materials or materials + videos','₹299 / ₹999']];
-document.getElementById('grid').innerHTML=courses.map(c=>`<article class="tile"><h2>${c[1]}</h2><p class="muted">${c[2]}</p><strong>${c[3]}</strong><br><a class="btn" href="course.html?id=${c[0]}">Choose course</a></article>`).join('');
-onAuthStateChanged(auth,u=>{if(!u){location.href='student.html?next=courses.html';return}document.getElementById('logout').classList.remove('hidden')});
+const grid=document.getElementById('grid');
+const render=(list,heading)=>{grid.innerHTML=`<h2 style="grid-column:1/-1">${heading}</h2>`+list.map(c=>`<article class="tile"><h2>${c[1]}</h2><p class="muted">${c[2]}</p><strong>${c[3]}</strong><br><a class="btn" href="course.html?id=${c[0]}">${c[0]==='class10-assamese-free'?'Open free course':'Choose course'}</a></article>`).join('')};
+const panel=document.querySelector('.panel');
+const browse=document.createElement('button');browse.className='btn alt';browse.textContent='Browse all courses';browse.style.display='none';panel.insertBefore(browse,document.getElementById('logout'));
+browse.onclick=()=>{render(courses,'Available courses');browse.style.display='none';};
+onAuthStateChanged(auth,async u=>{
+ if(!u){location.href='student.html?next=courses.html';return}
+ document.getElementById('logout').classList.remove('hidden');
+ try{
+  const checks=await Promise.all(courses.map(async c=>c[0]==='class10-assamese-free'?true:(await get(ref(db,`courseAccess/${c[0]}/${u.uid}`))).val()?.active===true));
+  const owned=courses.filter((c,i)=>checks[i]);
+  render(owned,owned.length?'Your courses':'No approved paid courses yet');
+  if(owned.length<courses.length){browse.style.display='inline-block';}
+  if(!owned.length)grid.insertAdjacentHTML('beforeend','<p class="muted">Paid courses appear here after the administrator approves your payment. You can browse other courses to submit a payment request.</p>');
+ }catch(e){render(courses.filter(c=>c[0]==='class10-assamese-free'),'Your courses');browse.style.display='inline-block';}
+});
 document.getElementById('logout').onclick=async()=>{await signOut(auth);location.href='student.html'};
 </script></body></html>
