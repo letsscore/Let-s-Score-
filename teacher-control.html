@@ -1480,6 +1480,8 @@ async function setCourseAccess(uid,active,status){
         await set(ref(db,`courseAccess/${courseId}/${uid}`),{
             active:!!active,
             status,
+            package:request.package==="videos" ? "videos" : "notes",
+            fee:Number(request.fee || (request.package==="videos" ? 999 : 299)),
             utr:request.utr||"",
             updatedAt:Date.now(),
             approvedBy:auth.currentUser.email||"teacher"
