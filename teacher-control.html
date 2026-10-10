@@ -372,27 +372,6 @@ footer{
             </div>
             <div id="resultsTable"></div>
         </section>
-
-        <section class="card" id="demoVideoSection">
-<h2>🎥 Demo Class — YouTube Video Lectures</h2>
-<p class="small">Add or update the YouTube lecture link students will see on the free Demo Class page.</p>
-<label for="demoVideoClass">Select Demo Class</label>
-<select id="demoVideoClass">
-<option value="classXAssamese">Class X Science — Assamese — Chapter 10: Light</option>
-<option value="classXEnglish">Class X Science — English — Chapter 10: Light</option>
-<option value="classXI">Class XI Physics — Chapter 3: Motion in a Plane</option>
-<option value="classXII">Class XII Physics — Chapter 2: Current Electricity</option>
-</select>
-<label for="demoVideoTitle">Lecture Title</label>
-<input id="demoVideoTitle" placeholder="e.g. Chapter 10 — Light: Reflection and Refraction">
-<label for="demoVideoUrl">YouTube Video Link</label>
-<input id="demoVideoUrl" type="url" placeholder="https://www.youtube.com/watch?v=XXXXXXXXXXX">
-<button id="saveDemoVideoBtn">✓ SAVE / UPDATE VIDEO</button>
-<button id="removeDemoVideoBtn" class="stop">✕ REMOVE VIDEO</button>
-<div id="demoVideoMessage" class="message"></div>
-<div id="demoVideoCurrent" class="small" style="margin-top:12px"></div>
-</section>
-
 <section class="card" id="resourceSection">
 
             <h2>📚 Course Resources &amp; Enrollment</h2>
@@ -701,7 +680,6 @@ onAuthStateChanged(auth, user => {
             "Signed in as: " + user.email;
 
         startStatusListeners();
-        loadSelectedDemoVideo();
         startCourseManager();
         renderAccessCourseSelect();
 
@@ -1552,77 +1530,6 @@ document.getElementById("logoutBtn")
 });
 
 
-
-/* DEMO CLASS YOUTUBE VIDEO CONTROL */
-const demoVideoClass=document.getElementById("demoVideoClass");
-const demoVideoTitle=document.getElementById("demoVideoTitle");
-const demoVideoUrl=document.getElementById("demoVideoUrl");
-const saveDemoVideoBtn=document.getElementById("saveDemoVideoBtn");
-const removeDemoVideoBtn=document.getElementById("removeDemoVideoBtn");
-const demoVideoMessage=document.getElementById("demoVideoMessage");
-const demoVideoCurrent=document.getElementById("demoVideoCurrent");
-
-function demoVideoPath(){return "demoResources/"+demoVideoClass.value;}
-
-function validYouTubeUrl(value){
-    try{
-        const u=new URL(value);
-        return u.hostname==="youtube.com" || u.hostname.endsWith(".youtube.com") ||
-               u.hostname==="youtu.be" || u.hostname.endsWith(".youtu.be");
-    }catch(e){return false;}
-}
-
-async function loadSelectedDemoVideo(){
-    if(!auth.currentUser)return;
-    try{
-        const snapshot=await get(ref(db,demoVideoPath()));
-        const data=snapshot.exists()?snapshot.val():{};
-        demoVideoTitle.value=data.title||"";
-        demoVideoUrl.value=data.videoUrl||"";
-        demoVideoCurrent.textContent=data.videoUrl
-            ?"Current saved video: "+data.videoUrl
-            :"No YouTube video is currently saved for this demo class.";
-    }catch(e){
-        demoVideoMessage.textContent="Could not load demo video information.";
-    }
-}
-
-demoVideoClass.addEventListener("change",loadSelectedDemoVideo);
-
-saveDemoVideoBtn.addEventListener("click",async()=>{
-    const title=demoVideoTitle.value.trim();
-    const url=demoVideoUrl.value.trim();
-    if(!title){demoVideoMessage.textContent="Please enter a lecture title.";return;}
-    if(!validYouTubeUrl(url)){demoVideoMessage.textContent="Please enter a valid YouTube link.";return;}
-    if(!auth.currentUser){demoVideoMessage.textContent="Please log in as teacher first.";return;}
-    try{
-        await set(ref(db,demoVideoPath()),{
-            title:title,
-            videoUrl:url,
-            updatedAt:Date.now(),
-            updatedBy:auth.currentUser.email||""
-        });
-        demoVideoMessage.textContent="✓ YouTube lecture link saved successfully.";
-        demoVideoCurrent.textContent="Current saved video: "+url;
-    }catch(e){
-        console.error(e);
-        demoVideoMessage.textContent="Could not save video link. Check Firebase rules.";
-    }
-});
-
-removeDemoVideoBtn.addEventListener("click",async()=>{
-    if(!auth.currentUser){demoVideoMessage.textContent="Please log in as teacher first.";return;}
-    try{
-        await remove(ref(db,demoVideoPath()));
-        demoVideoTitle.value="";
-        demoVideoUrl.value="";
-        demoVideoCurrent.textContent="No YouTube video is currently saved.";
-        demoVideoMessage.textContent="✓ Demo video removed.";
-    }catch(e){
-        console.error(e);
-        demoVideoMessage.textContent="Could not remove video link. Check Firebase rules.";
-    }
-});
 
 </script>
 
