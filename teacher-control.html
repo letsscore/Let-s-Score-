@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Teacher Control | Let's Score</title>
+<title>Admin Dashboard | Let's Score</title>
 
 <style>
 :root{
@@ -484,7 +484,7 @@ footer{
 
 <footer>
     <strong>LET'S SCORE</strong><br>
-    Teacher Control • Revisionary Tests
+    Admin Dashboard • Revisionary Tests
 </footer>
 
 
@@ -605,8 +605,9 @@ const testPaths = {
 ================================ */
 
 const TEACHER_UID = "q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
+const TEACHER_EMAIL = "abidurhussain2@gmail.com";
 function isAuthorisedTeacher() {
-    return !!auth.currentUser && auth.currentUser.uid === TEACHER_UID;
+    return !!auth.currentUser && auth.currentUser.uid === TEACHER_UID && (auth.currentUser.email || "").toLowerCase() === TEACHER_EMAIL;
 }
 const googleProvider = new GoogleAuthProvider();
 const emailInput = document.getElementById("email");
@@ -622,11 +623,11 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     loginMessage.textContent = "Signing in...";
     try {
         const result = await signInWithEmailAndPassword(auth, email, password);
-        if (result.user.uid !== TEACHER_UID) {
+        if (result.user.uid !== TEACHER_UID || (result.user.email || "").toLowerCase() !== TEACHER_EMAIL) {
             await signOut(auth);
             loginMessage.textContent = "Access denied: this account is not the authorised teacher account.";
         } else {
-            loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
+            loginMessage.textContent = "✓ Login successful. Loading Admin Dashboard...";
         }
     } catch (error) {
         console.error("Email login error:", error);
@@ -640,12 +641,12 @@ googleLoginBtn.addEventListener("click", async () => {
     try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
-        if (user.uid !== TEACHER_UID) {
+        if (user.uid !== TEACHER_UID || (user.email || "").toLowerCase() !== TEACHER_EMAIL) {
             await signOut(auth);
             loginMessage.textContent = "Access denied: this Google account is not the authorised teacher account.";
             return;
         }
-        loginMessage.textContent = "✓ Login successful. Loading Teacher Control...";
+        loginMessage.textContent = "✓ Login successful. Loading Admin Dashboard...";
     } catch (error) {
         console.error("Google login error:", error);
         const code = error?.code || "";
@@ -669,7 +670,7 @@ googleLoginBtn.addEventListener("click", async () => {
 
 onAuthStateChanged(auth, user => {
 
-    if (user && user.uid === TEACHER_UID) {
+    if (user && user.uid === TEACHER_UID && (user.email || "").toLowerCase() === TEACHER_EMAIL) {
 
         loginCard.classList.add("hidden");
 
@@ -684,9 +685,9 @@ onAuthStateChanged(auth, user => {
         renderAccessCourseSelect();
 
     } else {
-        if (user && user.uid !== TEACHER_UID) {
+        if (user && (user.uid !== TEACHER_UID || (user.email || "").toLowerCase() !== TEACHER_EMAIL)) {
             signOut(auth);
-            loginMessage.textContent = "Access denied: only the authorised teacher account can use this panel.";
+            loginMessage.textContent = "Access denied: only the authorised administrator account can use this panel.";
         }
 
         loginCard.classList.remove("hidden");

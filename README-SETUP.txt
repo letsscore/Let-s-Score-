@@ -1,24 +1,27 @@
-LET'S SCORE — upgraded static website package
+LET’S SCORE — email account + professional navigation update
 
-Files:
-- index.html: new course showcase homepage, no Demo section.
-- student.html: phone-number/password registration and login UI, course descriptions, UPI and WhatsApp receipt flow, access request submission, resource listing.
-- course.html: retained existing course resource page (legacy).
-- teacher-control.html: existing teacher control with Demo video panel/code removed.
-- course-materials-banner.png: generated educational visual.
+Files included:
+- index.html: focused homepage; no same-page anchor navigation.
+- courses.html: dedicated course catalogue page.
+- how-it-works.html: dedicated enrolment guide.
+- student.html: email/password registration and login, course access, payment request flow.
+- teacher-control.html: admin dashboard, restricted in code to the configured admin UID and email.
+- course.html: retained legacy course page.
+- course-materials-banner.png: course artwork.
+- database.rules.json: Firebase Realtime Database rules for the current page paths.
 
-Deployment: upload these files and image to the same GitHub Pages repository/root.
+Admin account expected by the page:
+Email: abidurhussain2@gmail.com
+UID allowlist: q8Ybthhc3jQEhQf4e5EAFpYIaDv1
+The Firebase Authentication account must already exist and have that exact UID. Frontend allowlisting is not a replacement for database rules.
 
-IMPORTANT CONFIGURATION / SECURITY NOTES:
-1. This static site uses the existing Firebase project. Enable Email/Password in Firebase Authentication. Phone number is mapped to an email-shaped identifier for Firebase Email/Password login; it does NOT verify ownership by SMS OTP. Do not describe it as phone OTP authentication.
-2. Configure Firebase Realtime Database security rules before launch. Public read/write rules are unsafe. Rules must permit a signed-in student to read/write only their own profile and own access request, and must restrict courseAccess/resources writes to the authorized teacher/admin.
-3. Teacher approval workflow in the old dashboard may use a different path/data structure than the new student flow; test and align it before accepting real payments. Never grant access based only on a client-side UTR. Verify the payment in the UPI account first.
-4. Student-facing package prices are set to ₹299 for study materials without recorded video lectures and ₹999 for study materials with recorded video lectures. Both packages are available for each paid course. Confirm that your teacher dashboard/admin approval process records the selected package and verifies the amount actually received before granting access.
-5. Upload resources in Realtime Database under courseResources/{courseId}/notes, solutions, questions, papers, each item containing title and url. IDs used: class10-assamese-free, class10-assamese-paid, class10-english, class11-physics, class12-physics.
-6. Free course reads resources from courseResources/class10-assamese-free/notes. Populate it with notes only.
-7. Only the courses listed in the user request are included. The final phrase “class...” was incomplete, so no additional courses were invented.
+Firebase setup:
+1. In Firebase Console > Authentication > Sign-in method, enable Email/Password.
+2. Add your GitHub Pages domain under Authentication > Settings > Authorized domains if needed.
+3. Review database.rules.json, then publish its contents in Realtime Database > Rules.
+4. Test account creation, login, course resources, student requests and admin approvals before launch.
+5. The registration page saves a profile with name, email and createdAt. Existing accounts created with the former synthetic phone-based login will not automatically become email-based accounts. Students should register with their real email or use Firebase account recovery/migration as appropriate.
+6. Admin UID in the file is the UID present in the existing teacher dashboard code; verify it in Firebase Authentication. Admin email and UID must match the actual account.
+7. UPI payments are manually verified. Do not approve a request based only on the submitted UTR. External/public file URLs can still be shared directly outside Firebase.
 
-7. PACKAGE PRICING:
-   - ₹299: chapter-wise notes, NCERT solutions and question & answer bank; no recorded video lectures.
-   - ₹999: same study materials plus recorded video lectures.
-   - The student access request records the selected package and amount. Make sure teacher approval checks this package and the actual UPI payment before unlocking resources.
+Packages: ₹299 for study materials without recorded videos; ₹999 for materials plus recorded video lectures. Free course: Class X Science Assamese medium, notes only.
