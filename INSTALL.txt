@@ -1,15 +1,23 @@
-LET'S SCORE REVISIONARY TEST UPGRADE
+LET'S SCORE payment fix v2
 
-Files:
-- teacher-control.html: admin paper editor, publish questions, separate admin-only MCQ answer key, print/save question paper as PDF.
-- course.html: displays active revisionary test only for paid course users whose courseAccess/{courseId}/{uid}/active is true. Students submit answers for teacher review.
-- database.rules.json: rules for test publication, answer key, paid access, and submissions.
+1. Replace course.html in your GitHub Pages repository with this file.
+2. Commit/push and wait for GitHub Pages to publish.
+3. Firebase Console -> Authentication -> Sign-in method -> enable Anonymous.
+   The current course page uses signInAnonymously(); if Anonymous sign-in is disabled,
+   payment requests cannot be submitted. If you intend to use email/password accounts,
+   the course page should instead use the authenticated account's UID.
+4. Firebase Console -> Authentication -> Settings -> Authorized domains:
+   ensure the GitHub Pages host is listed (for example, letsscore.github.io).
+5. In the page, choose either ₹299 materials or ₹999 materials + recorded videos.
+   The selected fee is reflected in the UPI link/QR and included in the payment request.
+6. Test using a dummy reference first, then check Admin -> Payments & Access.
 
-Install: Back up current files/rules. Replace teacher-control.html and course.html in the GitHub Pages repository. Review database.rules.json in Firebase Realtime Database Rules and publish only after verifying paths.
-
-Admin editor: enter questions as JSON array. Example: [{"type":"mcq","question":"SI unit of force?","options":["Joule","Newton","Watt","Pascal"],"marks":1},{"type":"written","question":"State Newton's second law.","marks":3}]
-Answer key JSON uses zero-based question indexes and option indexes: {"0":1}. Total question marks must equal maximum marks.
-
-Use exact course IDs: class10-assamese-paid, class10-english, class11-physics-english, class12-physics-english. Class control keys: classX, classXI, classXII.
-
-IMPORTANT: This is a first-pass integration; test in Firebase Rules simulator before production. The existing Start/Stop buttons set examControl/{classKey}.live. Publishing creates the selected test and resets its class control to live=false. After publishing, use the existing Start button for that class. Written answers are submitted for teacher review; no automatic grading is performed. Student submission rules allow one submission per test/UID. Anonymous authentication means the student UID is the Firebase anonymous UID; ensure the existing access grants are tied to that UID.
+Important:
+- This page submits the UTR as a pending request; it does not approve payments automatically.
+- The admin must verify the payment and approve the request.
+- This implementation uses anonymous Firebase identities. An anonymous identity is not
+  a durable student login across browsers/devices. For persistent student accounts,
+  use Firebase email/password authentication and make this page use that signed-in UID.
+- Ensure deployed Realtime Database rules match the accessRequests/{courseId}/{uid}
+  structure and validate package, fee, includesRecordedVideos, studentUid, courseId,
+  status and requestedAt.
