@@ -1,15 +1,18 @@
-LET'S SCORE course-not-found fix
+LET'S SCORE COURSE PAYMENT FIX
 
-Replace these two files in the root of the GitHub Pages repository:
-1. courses.html
-2. course.html
+Replace the existing course.html in your GitHub Pages repository with this course.html.
 
-What changed:
-- courses.html now uses class11-physics-english and class12-physics-english, matching the admin course IDs shown in your screenshot.
-- course.html redirects old links with id=class11-physics or id=class12-physics to the canonical IDs, preserving older bookmarks.
+Fixes included:
+- Shows both paid packages: ₹299 study materials only and ₹999 materials + recorded video lectures.
+- Updates UPI payment link and QR code when package changes.
+- Submits UTR requests with studentUid, courseId, status, package, fee, includesRecordedVideos and requestedAt, matching the payment request fields expected by the current admin workflow/rules.
+- Prevents repeated overwriting of pending/approved/rejected requests from the student page.
 
-After commit/push:
-1. Wait for GitHub Pages deployment.
-2. Open courses.html and choose Class XII Physics.
-3. If using a direct link, test course.html?id=class12-physics-english.
-4. If it still says Course not found, check Firebase Realtime Database > courses and confirm that courses/class12-physics-english exists and is published. The page fix cannot create missing database records.
+After replacing the file:
+1. Commit and push to GitHub.
+2. Open the course page in a private/incognito tab or clear site cache.
+3. Select ₹299 and test UPI link/QR. Then select ₹999 and verify amount changes.
+4. Submit a test UTR using a test student account.
+5. Verify the request appears in Admin > Payments & Access before using with real students.
+
+If UTR submission still reports permission denied, check Firebase Realtime Database Rules: accessRequests/$courseId/$uid must allow a signed-in student to create a new pending request with the fields listed above. Also ensure Firebase Authentication has Anonymous sign-in enabled, since this page currently uses anonymous student authentication.

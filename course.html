@@ -24,6 +24,10 @@
 <section id="payCard" class="card pay" style="display:none">
   <h2>💳 Enrol & Pay</h2>
   <p class="muted" id="feeText"></p>
+  <div id="packageChoices" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0">
+    <label class="item" style="display:block;cursor:pointer"><input type="radio" name="package" value="notes" checked style="width:auto"> <strong>₹299 — Study materials only</strong><p class="muted">Notes, NCERT solutions, question bank and model papers.</p></label>
+    <label class="item" style="display:block;cursor:pointer"><input type="radio" name="package" value="videos" style="width:auto"> <strong>₹999 — Materials + recorded videos</strong><p class="muted">All study materials plus recorded video lectures.</p></label>
+  </div>
 
   <div class="paybox">
     <h3 style="margin-top:0">Scan to Pay with any UPI App</h3>
@@ -116,42 +120,27 @@ function makeUpiUri(amount, courseName) {
   return "upi://pay?" + params.toString();
 }
 
+function selectedPackage(){
+  return document.querySelector('input[name="package"]:checked')?.value === "videos" ? "videos" : "notes";
+}
+function selectedFee(){ return selectedPackage() === "videos" ? 999 : 299; }
 function setupPayment(courseData) {
-  const fee = Number(courseData.fee || 0);
   const name = courseData.name || "LET'S SCORE Course";
-  const uri = makeUpiUri(fee, name);
-
-  document.getElementById("feeText").textContent =
-    `Course Fee: ₹${fee}`;
-
-  document.getElementById("upiIdText").textContent =
-    `UPI ID: ${UPI_ID}`;
-
-  const payBtn = document.getElementById("upiPayBtn");
-  payBtn.href = uri;
-
-  const waText =
-    `Hello LET'S SCORE,%0A` +
-    `I have paid ₹${fee} for ${encodeURIComponent(name)}.%0A` +
-    `UPI Number: ${UPI_NUMBER}%0A` +
-    `I am sending my payment receipt for verification.%0A` +
-    `I will enter my UTR on the course page after approval.`;
-
-  document.getElementById("whatsappBtn").href =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
-
-  const qrBox = document.getElementById("qr");
-  qrBox.innerHTML = "";
-  if (window.QRCode) {
-    new QRCode(qrBox, {
-      text: uri,
-      width: 220,
-      height: 220,
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } else {
-    qrBox.innerHTML = "<p class='bad'>QR generator could not load. Use the UPI App button.</p>";
-  }
+  document.getElementById("upiIdText").textContent = `UPI ID: ${UPI_ID}`;
+  document.querySelectorAll('input[name="package"]').forEach(el=>el.addEventListener("change",()=>refreshPayment(courseData)));
+  refreshPayment(courseData);
+}
+function refreshPayment(courseData){
+  const fee=selectedFee();
+  const name=courseData.name || "LET'S SCORE Course";
+  const uri=makeUpiUri(fee,name + (selectedPackage()==="videos" ? " — Materials + Videos" : " — Materials only"));
+  document.getElementById("feeText").textContent=`Selected package: ${selectedPackage()==="videos" ? "Materials + recorded videos" : "Study materials only"} — ₹${fee}`;
+  document.getElementById("upiPayBtn").href=uri;
+  const waText=`Hello LET'S SCORE,%0A`+`I intend to pay ₹${fee} for ${encodeURIComponent(name)} (${selectedPackage()}).%0A`+`UPI Number: ${UPI_NUMBER}%0A`+`I am sending my payment receipt for verification.`;
+  document.getElementById("whatsappBtn").href=`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+  const qrBox=document.getElementById("qr"); qrBox.innerHTML="";
+  if(window.QRCode){new QRCode(qrBox,{text:uri,width:220,height:220,correctLevel:QRCode.CorrectLevel.M});}
+  else{qrBox.innerHTML="<p class='bad'>QR generator could not load. Use the UPI App button.</p>";}
 }
 
 
@@ -311,15 +300,37 @@ async function requestAccess(raw){
       return;
     }
 
-    await set(ref(db,`accessRequests/${id}/${studentUid}`),{
+    const requestRef=ref(db,`accessRequests/${id}/${studentUid}`);
+    const existing=await get(requestRef);
+    if(existing.exists()){
+      const current=existing.val()||{};
+      if(current.status==="approved"){
+        setMessage("Your payment is already approved. Use Check My Access to open the course.",true);
+        await checkStudentAccess();
+        return;
+      }
+      if(current.status==="pending"){
+        setMessage("Your UTR request is already submitted and is waiting for teacher approval.");
+        return;
+      }
+      setMessage("Your previous request was rejected. Please contact the teacher before submitting another request.");
+      return;
+    }
+    const pkg=selectedPackage();
+    const fee=selectedFee();
+    await set(requestRef,{
       utr:u,
       courseId:id,
+      studentUid:studentUid,
       status:"pending",
+      package:pkg,
+      fee:fee,
+      includesRecordedVideos:pkg==="videos",
       requestedAt:Date.now()
     });
 
     localStorage.setItem("ls_utr_"+id,u);
-    setMessage("✓ UTR submitted. Your teacher must approve the payment before access is unlocked.");
+    setMessage(`✓ ₹${fee} ${pkg==="videos"?"materials + videos":"materials-only"} request submitted. Waiting for teacher approval.`);
   }catch(e){
     console.error(e);
     setMessage("Could not submit the UTR request. Please try again.");
