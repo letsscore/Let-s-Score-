@@ -1,13 +1,15 @@
-LET'S SCORE update package
-Files:
-- courses.html: shows approved courses after login; Browse all courses remains available.
-- teacher-control.html: adds separate Reject request and Revoke access actions. Revocation records a reason and keeps payment history.
-- database.rules.json: based on the previously provided rules; adds admin parent-level read permissions for accessRequests and courseResources.
-- student.html and course.html/materials.html are copies of available earlier files included for convenience.
+LET'S SCORE course-not-found fix
 
-IMPORTANT:
-1. Review and publish database.rules.json in Firebase Realtime Database > Rules.
-2. Upload the updated HTML files to the same GitHub Pages repository, replacing the matching files.
-3. Confirm admin UID/email are still correct before publishing.
-4. Test with a student test account and the admin account.
-5. Revocation blocks database-gated resources, but cannot retract previously downloaded PDFs or copied public Drive links.
+Replace these two files in the root of the GitHub Pages repository:
+1. courses.html
+2. course.html
+
+What changed:
+- courses.html now uses class11-physics-english and class12-physics-english, matching the admin course IDs shown in your screenshot.
+- course.html redirects old links with id=class11-physics or id=class12-physics to the canonical IDs, preserving older bookmarks.
+
+After commit/push:
+1. Wait for GitHub Pages deployment.
+2. Open courses.html and choose Class XII Physics.
+3. If using a direct link, test course.html?id=class12-physics-english.
+4. If it still says Course not found, check Firebase Realtime Database > courses and confirm that courses/class12-physics-english exists and is published. The page fix cannot create missing database records.

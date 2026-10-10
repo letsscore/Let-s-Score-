@@ -91,7 +91,14 @@ const db=getDatabase(app);
 const auth=getAuth(app);
 let studentUid=null;
 let authReady=null;
-const id=new URLSearchParams(location.search).get("id");
+const requestedId=new URLSearchParams(location.search).get("id");
+// Canonical course IDs must match the IDs managed in the admin dashboard.
+// Old bookmarks using class11-physics/class12-physics are redirected to the canonical IDs.
+const courseIdAliases={"class11-physics":"class11-physics-english","class12-physics":"class12-physics-english"};
+const id=requestedId ? (courseIdAliases[requestedId] || requestedId) : null;
+if(requestedId && id !== requestedId){
+  const u=new URL(location.href); u.searchParams.set("id",id); history.replaceState(null,"",u.toString());
+}
 let course=null;
 
 const UPI_NUMBER = "9678945621";
@@ -319,58 +326,16 @@ async function requestAccess(raw){
   }
 }
 
-
-const testClassForCourse = {
-  "class10-assamese-paid": "classXAssamese",
-  "class10-english": "classXEnglish",
-  "class11-physics": "classXIEnglish",
-  "class11-physics-english": "classXIEnglish",
-  "class12-physics": "classXIIEnglish",
-  "class12-physics-english": "classXIIEnglish"
-};
-let testStatusUnsub = null;
-function clearRevisionTest(){
-  document.getElementById("revisionTestCard").style.display="none";
-  if(testStatusUnsub){testStatusUnsub();testStatusUnsub=null;}
-}
-function watchRevisionTest(){
-  clearRevisionTest();
-  if(!course || course.type!=="paid" || !studentUid) return;
-  const accessClass=testClassForCourse[id];
-  if(!accessClass) return;
-  const card=document.getElementById("revisionTestCard");
-  const status=document.getElementById("revisionTestStatus");
-  card.style.display="block";
-  status.innerHTML='<p class="muted">Checking for a live revisionary test...</p>';
-  testStatusUnsub=onValue(ref(db,`examControl/${accessClass}`),snap=>{
-    const t=snap.val();
-    if(!t || t.active!==true || !t.testId){
-      status.innerHTML='<p>No revisionary test is live for this course right now.</p>';
-      return;
-    }
-    status.innerHTML=`<h3>${esc(t.title||"Revisionary Test")}</h3>
-      <p><strong>Status:</strong> <span class="ok">LIVE</span></p>
-      <p><strong>Test ID:</strong> ${esc(t.testId)}</p>
-      <p><strong>Maximum marks:</strong> ${esc(t.maxMarks??"Not specified")}</p>
-      <p class="muted">Your paid course is eligible. The student test-taking page must use this same class key and Test ID.</p>`;
-  },err=>{
-    console.error(err);
-    status.textContent="Could not load test status. Please try again later.";
-  });
-}
-
 async function checkStudentAccess(){
   try{
     await authReady;
     if(!studentUid) return;
 
-    clearRevisionTest();
     const accessSnap=await get(ref(db,`courseAccess/${id}/${studentUid}`));
     if(accessSnap.exists() && accessSnap.val()?.active===true){
       localStorage.setItem("ls_access_"+id,"1");
       setMessage("✓ Access granted.",true);
       unlock();
-      watchRevisionTest();
       return;
     }
 
