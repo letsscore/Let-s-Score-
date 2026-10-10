@@ -1,25 +1,412 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course Enrolment | LET’S SCORE</title><meta name="description" content="Course payment and access approval"><style>
-:root{color-scheme:dark;--bg:#061326;--panel:#0d203a;--line:#23466b;--text:#f4f8ff;--muted:#bdcfe5;--cyan:#21c8ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Arial,sans-serif}.wrap{max-width:1000px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:22px}.brand{font-weight:900;color:var(--cyan);font-size:22px;text-decoration:none}.top a:not(.brand),a{color:#70dcff}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}h1{font-size:clamp(28px,5vw,42px);line-height:1.2;margin:0 0 16px}h2{margin-top:0}.muted{color:var(--muted)}label{display:block;margin:14px 0 6px}input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #345879;background:#061326;color:#fff;font:inherit}.btn{display:inline-block;padding:12px 17px;background:linear-gradient(120deg,#04b8f5,#4c55ff);color:#fff!important;border:0;border-radius:10px;font-weight:700;text-decoration:none;cursor:pointer;margin:10px 8px 0 0}.btn.alt{background:#183b59}.btn:disabled{opacity:.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.tile{padding:18px;border:1px solid var(--line);border-radius:14px;background:#0a1a30}.msg{padding-top:12px;color:#9ce9ff;overflow-wrap:anywhere}.hidden{display:none!important}.resource{padding:16px;border:1px solid var(--line);border-radius:12px;margin:12px 0}.resource a{display:inline-block;margin:5px 0}footer{color:var(--muted);text-align:center;padding:28px 10px}@media(max-width:600px){.wrap{padding:15px}.panel{padding:18px}}
-</style></head><body><div class="wrap"><nav class="top"><a class="brand" href="index.html">🎓 LET’S SCORE</a><div><a href="index.html">Home</a>　<a href="courses.html">Courses</a></div></nav><section class="panel"><a href="courses.html">← Courses</a><h1 id="title">Course</h1><p id="desc" class="muted"></p><div id="freeBox" class="hidden"><p>This course is free.</p><a id="freeLink" class="btn" href="#">Open course materials</a></div><div id="paidBox" class="hidden"><label for="pkg">Package</label><select id="pkg"><option value="notes">₹299 — Study materials</option><option value="videos">₹999 — Materials + recorded video lectures</option></select><p id="fee"></p><a id="pay" class="btn" href="#">Pay with UPI</a><a id="wa" class="btn alt" href="#" target="_blank" rel="noopener">Send receipt on WhatsApp</a><label for="utr">UPI transaction reference (UTR)</label><input id="utr" placeholder="Enter UTR after payment"><button class="btn" id="submit">Submit payment for approval</button><p id="status" class="msg"></p></div></section></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Course | Let's Score</title>
+<style>
+:root{--bg:#07111f;--bg2:#0d1930;--card:#12213a;--line:#263756;--text:#f8fafc;--muted:#b9c5d8;--blue:#38bdf8;--gold:#fbbf24;--green:#4ade80;--red:#f87171}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,sans-serif;line-height:1.65}.wrap{max-width:1000px;margin:auto;padding:0 16px 50px}nav{border-bottom:1px solid #ffffff14;background:#07111fee;padding:14px 0}.navin{max-width:1000px;margin:auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{color:var(--blue);font-size:23px;font-weight:900;text-decoration:none}nav a{color:#e2e8f0;text-decoration:none;margin-left:14px;font-weight:700;font-size:13px}.hero{text-align:center;padding:48px 0 28px}.kicker{color:var(--blue);font-weight:900;letter-spacing:1.5px;font-size:13px}h1{font-size:clamp(32px,7vw,56px);margin:8px 0}.muted{color:var(--muted)}.badge{display:inline-block;padding:5px 11px;border-radius:20px;background:#ffffff0d;color:#bae6fd;font-size:12px;font-weight:900}.card{background:rgba(18,33,58,.97);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.item{background:#ffffff06;border:1px solid #ffffff12;border-radius:15px;padding:18px}.item a{color:var(--blue);font-weight:800;text-decoration:none}.pay{border-left:4px solid var(--gold)}input{width:100%;padding:12px;border-radius:10px;background:#0d1930;border:1px solid var(--line);color:#fff;font-size:15px}.btn{display:inline-block;margin-top:12px;padding:11px 16px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0ea5e9,#6366f1);font-weight:900;border:0;cursor:pointer;font-size:15px}.msg{margin-top:12px;font-weight:800}.ok{color:var(--green)}.paybox{margin-top:16px;padding:18px;border:1px solid #3b4e70;border-radius:16px;background:#0d1930;text-align:center}.qr{display:flex;justify-content:center;margin:14px 0}.qr canvas,.qr img{background:#fff;padding:10px;border-radius:12px;max-width:240px}.upi-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.upi-actions .btn{margin-top:0}.receipt{margin-top:14px;color:var(--muted);font-size:14px}.bad{color:var(--red)}.lock{border:1px dashed #465985;border-radius:15px;padding:22px;text-align:center;color:var(--muted)}footer{border-top:1px solid #ffffff14;padding:25px 0;text-align:center;color:var(--muted)}iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;margin-top:10px}small{color:var(--muted)}
+</style>
+</head>
+<body>
+<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="course.html">Course</a></div></div></nav>
+
+<main class="wrap">
+<section class="hero">
+  <div class="kicker">LET'S SCORE COURSE</div>
+  <h1 id="courseName">Loading...</h1>
+  <p id="courseInfo" class="muted"></p>
+  <span id="courseBadge" class="badge"></span>
+</section>
+
+
+<section id="payCard" class="card pay" style="display:none">
+  <h2>💳 Enrol & Pay</h2>
+  <p class="muted" id="feeText"></p>
+
+  <div class="paybox">
+    <h3 style="margin-top:0">Scan to Pay with any UPI App</h3>
+    <div id="qr" class="qr"></div>
+    <p><strong>UPI Number: 9678945621</strong></p>
+    <p class="muted" id="upiIdText"></p>
+
+    <div class="upi-actions">
+      <a id="upiPayBtn" class="btn" href="#">📱 Pay using UPI App</a>
+      <a id="whatsappBtn" class="btn" href="#" target="_blank" rel="noopener noreferrer">📲 Send Receipt on WhatsApp</a>
+    </div>
+
+    <div class="receipt">
+      After payment, <strong>save your UTR / Transaction Reference Number</strong>.
+      Send the payment receipt to WhatsApp <strong>7002137940</strong>.
+      Your teacher will verify the payment and approve the UTR.
+    </div>
+  </div>
+
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
+    <h3 style="margin:0 0 8px">🔓 Already Paid?</h3>
+    <p class="muted">Enter the UTR approved by your teacher to unlock the course.</p>
+    <input id="utr" placeholder="UTR / Transaction Reference Number" autocomplete="off">
+    <button class="btn" id="checkBtn" type="button">Check My Access</button>
+    <div id="msg" class="msg"></div>
+  </div>
+</section>
+
+
+
+<section id="catalogSection" class="card" style="display:none;">
+  <h2>📚 Available Courses</h2>
+  <p class="muted">Choose a course to view its resources and enrollment options.</p>
+  <div id="courseCatalog" class="grid"></div>
+</section>
+
+<section class="card">
+  <h2>📚 Course Resources</h2>
+  <div id="locked" class="lock">Loading course access...</div>
+  <div id="resources" style="display:none"></div>
+</section>
+</main>
+
+<footer>LET'S SCORE<br>Learn • Revise • Practise • Score</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
-import {getDatabase,ref,get,set} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
-const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),$=x=>document.getElementById(x);
-const id=new URLSearchParams(location.search).get('id');
-const courses={
-'class10-assamese-free':{name:'Class X Science — Assamese Medium (Free)',desc:'Free chapter-wise notes.',free:true},
-'class10-assamese-paid':{name:'Class X Science — Assamese Medium',desc:'Chapter-wise notes, NCERT solutions and question bank.'},
-'class10-english':{name:'Class X Science — English Medium',desc:'Chapter-wise notes, NCERT solutions and question bank.'},
-'class11-physics':{name:'Class XI Physics — English Medium',desc:'Chapter-wise notes, NCERT solutions and question bank.'},
-'class12-physics':{name:'Class XII Physics — English Medium',desc:'Chapter-wise notes, NCERT solutions and question bank.'}};
-const c=courses[id];if(!c){location.href='courses.html'}else{$('title').textContent=c.name;$('desc').textContent=c.desc}
-let user=null,watch=null;
-function setPaymentLinks(){const pkg=$('pkg').value,fee=pkg==='videos'?999:299;$('fee').textContent=`Selected package: ${pkg==='videos'?'Materials + recorded video lectures':'Study materials only'} · ₹${fee}`;$('pay').href='upi://pay?'+new URLSearchParams({pa:'9678945621@upi',pn:'LETS SCORE',am:fee+'.00',cu:'INR',tn:c.name});$('wa').href='https://wa.me/917002137940?text='+encodeURIComponent(`Hello LET'S SCORE, payment receipt for ${c.name}. Email: ${user?.email||''}. Package: ₹${fee}. UTR: ${$('utr').value}`)}
-$('pkg').onchange=setPaymentLinks;
-async function checkAccess(){if(!user||!c)return;try{if(c.free){location.href='materials.html?id='+id;return}const s=await get(ref(db,`courseAccess/${id}/${user.uid}`)),a=s.val();if(a?.active===true){clearInterval(watch);location.href='materials.html?id='+id;return}const req=(await get(ref(db,`accessRequests/${id}/${user.uid}`))).val();$('status').textContent=req?.status==='pending'?'Payment request submitted. Waiting for approval.':'After paying, submit your UTR and wait for approval.'}catch(e){$('status').textContent='Could not check status. Please try again.'}}
-$('submit').onclick=async()=>{if(!user){location.href='student.html';return}const utr=$('utr').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(utr.length<6){$('status').textContent='Enter a valid UTR and send your receipt on WhatsApp.';return}const pkg=$('pkg').value,fee=pkg==='videos'?999:299;try{await set(ref(db,`accessRequests/${id}/${user.uid}`),{utr,courseId:id,package:pkg,fee,includesRecordedVideos:pkg==='videos',status:'pending',studentUid:user.uid,studentEmail:user.email||'',requestedAt:Date.now()});$('status').textContent='Request submitted. This page will open your materials automatically after approval.';setPaymentLinks();checkAccess()}catch(e){$('status').textContent='Request failed: '+e.message}};
-onAuthStateChanged(auth,async u=>{user=u;if(!u){location.href='student.html?next='+encodeURIComponent('course.html?id='+id);return}if(c?.free){$('freeBox').classList.remove('hidden');$('freeLink').href='materials.html?id='+id;checkAccess()}else{$('paidBox').classList.remove('hidden');setPaymentLinks();await checkAccess();watch=setInterval(checkAccess,10000)}});
-</script></body></html>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getDatabase, ref, get, onValue, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain:"lets-score-revisionary-test.firebaseapp.com",
+  databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId:"lets-score-revisionary-test",
+  storageBucket:"lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId:"629595293837",
+  appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const auth=getAuth(app);
+let studentUid=null;
+let authReady=null;
+const id=new URLSearchParams(location.search).get("id");
+let course=null;
+
+const UPI_NUMBER = "9678945621";
+const UPI_ID = "9678945621@upi";
+const WHATSAPP_NUMBER = "917002137940";
+
+function makeUpiUri(amount, courseName) {
+  const params = new URLSearchParams({
+    pa: UPI_ID,
+    pn: "LETS SCORE",
+    am: Number(amount || 0).toFixed(2),
+    cu: "INR",
+    tn: courseName || "LET'S SCORE Course"
+  });
+  return "upi://pay?" + params.toString();
+}
+
+function setupPayment(courseData) {
+  const fee = Number(courseData.fee || 0);
+  const name = courseData.name || "LET'S SCORE Course";
+  const uri = makeUpiUri(fee, name);
+
+  document.getElementById("feeText").textContent =
+    `Course Fee: ₹${fee}`;
+
+  document.getElementById("upiIdText").textContent =
+    `UPI ID: ${UPI_ID}`;
+
+  const payBtn = document.getElementById("upiPayBtn");
+  payBtn.href = uri;
+
+  const waText =
+    `Hello LET'S SCORE,%0A` +
+    `I have paid ₹${fee} for ${encodeURIComponent(name)}.%0A` +
+    `UPI Number: ${UPI_NUMBER}%0A` +
+    `I am sending my payment receipt for verification.%0A` +
+    `I will enter my UTR on the course page after approval.`;
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+
+  const qrBox = document.getElementById("qr");
+  qrBox.innerHTML = "";
+  if (window.QRCode) {
+    new QRCode(qrBox, {
+      text: uri,
+      width: 220,
+      height: 220,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else {
+    qrBox.innerHTML = "<p class='bad'>QR generator could not load. Use the UPI App button.</p>";
+  }
+}
+
+
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const normalize=v=>String(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"");
+
+function video(url){
+  const y=String(url||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{6,})/);
+  if(y) return `<iframe src="https://www.youtube.com/embed/${y[1]}" allowfullscreen loading="lazy"></iframe>`;
+  const d=String(url||"").match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(d) return `<iframe src="https://drive.google.com/file/d/${d[1]}/preview" allowfullscreen loading="lazy"></iframe>`;
+  return `<video controls style="width:100%;margin-top:10px" src="${esc(url)}"></video>`;
+}
+
+function setMessage(text,ok=false){
+  const m=document.getElementById("msg");
+  m.className="msg "+(ok?"ok":"bad");
+  m.textContent=text;
+}
+
+
+async function loadCourseCatalog(){
+  const catalogSection=document.getElementById("catalogSection");
+  const catalog=document.getElementById("courseCatalog");
+  const courseName=document.getElementById("courseName");
+  const courseBadge=document.getElementById("courseBadge");
+  const courseInfo=document.getElementById("courseInfo");
+
+  catalogSection.style.display="block";
+  courseName.textContent="Choose Your Course";
+  courseBadge.textContent="LET'S SCORE COURSES";
+  courseInfo.textContent="Select a course below.";
+
+  try{
+    const snap=await get(ref(db,"courses"));
+    const data=snap.val()||{};
+    const entries=Object.entries(data).sort((a,b)=>
+      String(a[1]?.name||"").localeCompare(String(b[1]?.name||""))
+    );
+
+    if(!entries.length){
+      catalog.innerHTML='<div class="item"><p class="muted">No courses are published yet.</p></div>';
+      return;
+    }
+
+    catalog.innerHTML=entries.map(([courseId,c])=>{
+      const type=c?.type==="paid" ? "💳 PAID COURSE" : "🟢 FREE COURSE";
+      const fee=c?.type==="paid" ? `<p><strong>Fee: ₹${Number(c?.fee||0)}</strong></p>` : "";
+      const info=[c?.className,c?.subject,c?.language].filter(Boolean).join(" • ");
+      return `<div class="item">
+        <h3>${esc(c?.name||"Course")}</h3>
+        <p><strong>${type}</strong></p>
+        <p>${esc(info)}</p>
+        ${fee}
+        <p><a class="btn" href="course.html?id=${encodeURIComponent(courseId)}">Open Course →</a></p>
+      </div>`;
+    }).join("");
+  }catch(e){
+    console.error(e);
+    catalog.innerHTML='<div class="item"><p class="muted">Could not load courses. Please try again.</p></div>';
+  }
+}
+
+async function loadCourse(){
+  if(!id){
+    document.getElementById("locked").style.display="none";
+    document.getElementById("resources").style.display="none";
+    document.getElementById("payCard").style.display="none";
+    await loadCourseCatalog();
+    return;
+  }
+
+  try{
+    const snap=await get(ref(db,`courses/${id}`));
+    if(!snap.exists()){
+      document.getElementById("courseName").textContent="Course not found";
+      document.getElementById("locked").textContent="This course does not exist or is not published.";
+      return;
+    }
+
+    course=snap.val()||{};
+    document.getElementById("courseName").textContent=course.name||"Course";
+    document.getElementById("courseBadge").textContent=course.type==="paid"?"💳 PAID COURSE":"🟢 FREE COURSE";
+    document.getElementById("courseInfo").textContent=[course.className,course.subject,course.language].filter(Boolean).join(" • ");
+
+    if(course.type==="paid"){
+      document.getElementById("payCard").style.display="block";
+      setupPayment(course);
+      document.getElementById("locked").textContent="🔒 Enter your approved UTR above to unlock resources.";
+
+      const saved=localStorage.getItem("ls_utr_"+id);
+      if(saved){
+        document.getElementById("utr").value=saved;
+      }
+      await checkStudentAccess();
+    }else{
+      unlock();
+    }
+  }catch(e){
+    document.getElementById("courseName").textContent="Unable to load course";
+    document.getElementById("locked").textContent="Please try again later.";
+    console.error(e);
+  }
+}
+
+function unlock(){
+  document.getElementById("locked").style.display="none";
+  document.getElementById("resources").style.display="block";
+
+  const cats={
+    notes:"📖 Notes",
+    solutions:"📘 NCERT Solutions",
+    videos:"🎥 Video Lectures",
+    papers:"📄 Model Papers"
+  };
+
+  Object.entries(cats).forEach(([cat,label])=>{
+    onValue(ref(db,`courseResources/${id}/${cat}`),snap=>{
+      const box=document.getElementById("resources");
+      let el=box.querySelector(`[data-cat="${cat}"]`);
+
+      if(!el){
+        el=document.createElement("section");
+        el.className="card";
+        el.dataset.cat=cat;
+        el.innerHTML=`<h2>${label}</h2><div class="grid"></div>`;
+        box.appendChild(el);
+      }
+
+      const grid=el.querySelector(".grid");
+      const data=snap.val()||{};
+      const items=Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+
+      grid.innerHTML=items.length
+        ?items.map(x=>{
+          const title=esc(x.title||"Resource");
+          const url=String(x.url||"");
+          if(cat==="videos") return `<div class="item"><strong>${title}</strong>${video(url)}</div>`;
+          return `<div class="item"><strong>${title}</strong><p><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open Resource →</a></p></div>`;
+        }).join("")
+        :'<p class="muted">Nothing added yet.</p>';
+    });
+  });
+}
+
+async function requestAccess(raw){
+  const u=normalize(raw);
+  if(!u){
+    setMessage("Enter your UTR.");
+    return;
+  }
+
+  try{
+    await authReady;
+    if(!studentUid){
+      setMessage("Student authentication is not ready. Please try again.");
+      return;
+    }
+
+    await set(ref(db,`accessRequests/${id}/${studentUid}`),{
+      utr:u,
+      courseId:id,
+      status:"pending",
+      requestedAt:Date.now()
+    });
+
+    localStorage.setItem("ls_utr_"+id,u);
+    setMessage("✓ UTR submitted. Your teacher must approve the payment before access is unlocked.");
+  }catch(e){
+    console.error(e);
+    setMessage("Could not submit the UTR request. Please try again.");
+  }
+}
+
+
+const testClassForCourse = {
+  "class10-assamese-paid": "classXAssamese",
+  "class10-english": "classXEnglish",
+  "class11-physics": "classXIEnglish",
+  "class11-physics-english": "classXIEnglish",
+  "class12-physics": "classXIIEnglish",
+  "class12-physics-english": "classXIIEnglish"
+};
+let testStatusUnsub = null;
+function clearRevisionTest(){
+  document.getElementById("revisionTestCard").style.display="none";
+  if(testStatusUnsub){testStatusUnsub();testStatusUnsub=null;}
+}
+function watchRevisionTest(){
+  clearRevisionTest();
+  if(!course || course.type!=="paid" || !studentUid) return;
+  const accessClass=testClassForCourse[id];
+  if(!accessClass) return;
+  const card=document.getElementById("revisionTestCard");
+  const status=document.getElementById("revisionTestStatus");
+  card.style.display="block";
+  status.innerHTML='<p class="muted">Checking for a live revisionary test...</p>';
+  testStatusUnsub=onValue(ref(db,`examControl/${accessClass}`),snap=>{
+    const t=snap.val();
+    if(!t || t.active!==true || !t.testId){
+      status.innerHTML='<p>No revisionary test is live for this course right now.</p>';
+      return;
+    }
+    status.innerHTML=`<h3>${esc(t.title||"Revisionary Test")}</h3>
+      <p><strong>Status:</strong> <span class="ok">LIVE</span></p>
+      <p><strong>Test ID:</strong> ${esc(t.testId)}</p>
+      <p><strong>Maximum marks:</strong> ${esc(t.maxMarks??"Not specified")}</p>
+      <p class="muted">Your paid course is eligible. The student test-taking page must use this same class key and Test ID.</p>`;
+  },err=>{
+    console.error(err);
+    status.textContent="Could not load test status. Please try again later.";
+  });
+}
+
+async function checkStudentAccess(){
+  try{
+    await authReady;
+    if(!studentUid) return;
+
+    clearRevisionTest();
+    const accessSnap=await get(ref(db,`courseAccess/${id}/${studentUid}`));
+    if(accessSnap.exists() && accessSnap.val()?.active===true){
+      localStorage.setItem("ls_access_"+id,"1");
+      setMessage("✓ Access granted.",true);
+      unlock();
+      watchRevisionTest();
+      return;
+    }
+
+    const requestSnap=await get(ref(db,`accessRequests/${id}/${studentUid}`));
+    if(requestSnap.exists()){
+      const status=requestSnap.val()?.status||"pending";
+      if(status==="rejected"){
+        setMessage("Your payment request was not approved. Please contact the teacher.");
+      }else{
+        setMessage("Payment request received. Waiting for teacher approval.");
+      }
+    }
+  }catch(e){
+    console.error(e);
+    setMessage("Could not check your access status.");
+  }
+}
+document.getElementById("checkBtn").addEventListener("click",()=>{
+  requestAccess(document.getElementById("utr").value);
+});
+
+authReady=signInAnonymously(auth).then(cred=>{
+  studentUid=cred.user.uid;
+}).catch(e=>{
+  console.error("Anonymous student authentication failed:",e);
+  setMessage("Student authentication could not start. Please try again.");
+});
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    studentUid=user.uid;
+    checkStudentAccess();
+  }
+});
+
+loadCourse();
+</script>
+</body>
+</html>
