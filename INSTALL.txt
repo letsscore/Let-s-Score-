@@ -1,18 +1,15 @@
-LET'S SCORE COURSE PAYMENT FIX
+LET'S SCORE REVISIONARY TEST UPGRADE
 
-Replace the existing course.html in your GitHub Pages repository with this course.html.
+Files:
+- teacher-control.html: admin paper editor, publish questions, separate admin-only MCQ answer key, print/save question paper as PDF.
+- course.html: displays active revisionary test only for paid course users whose courseAccess/{courseId}/{uid}/active is true. Students submit answers for teacher review.
+- database.rules.json: rules for test publication, answer key, paid access, and submissions.
 
-Fixes included:
-- Shows both paid packages: ₹299 study materials only and ₹999 materials + recorded video lectures.
-- Updates UPI payment link and QR code when package changes.
-- Submits UTR requests with studentUid, courseId, status, package, fee, includesRecordedVideos and requestedAt, matching the payment request fields expected by the current admin workflow/rules.
-- Prevents repeated overwriting of pending/approved/rejected requests from the student page.
+Install: Back up current files/rules. Replace teacher-control.html and course.html in the GitHub Pages repository. Review database.rules.json in Firebase Realtime Database Rules and publish only after verifying paths.
 
-After replacing the file:
-1. Commit and push to GitHub.
-2. Open the course page in a private/incognito tab or clear site cache.
-3. Select ₹299 and test UPI link/QR. Then select ₹999 and verify amount changes.
-4. Submit a test UTR using a test student account.
-5. Verify the request appears in Admin > Payments & Access before using with real students.
+Admin editor: enter questions as JSON array. Example: [{"type":"mcq","question":"SI unit of force?","options":["Joule","Newton","Watt","Pascal"],"marks":1},{"type":"written","question":"State Newton's second law.","marks":3}]
+Answer key JSON uses zero-based question indexes and option indexes: {"0":1}. Total question marks must equal maximum marks.
 
-If UTR submission still reports permission denied, check Firebase Realtime Database Rules: accessRequests/$courseId/$uid must allow a signed-in student to create a new pending request with the fields listed above. Also ensure Firebase Authentication has Anonymous sign-in enabled, since this page currently uses anonymous student authentication.
+Use exact course IDs: class10-assamese-paid, class10-english, class11-physics-english, class12-physics-english. Class control keys: classX, classXI, classXII.
+
+IMPORTANT: This is a first-pass integration; test in Firebase Rules simulator before production. The existing Start/Stop buttons set examControl/{classKey}.live. Publishing creates the selected test and resets its class control to live=false. After publishing, use the existing Start button for that class. Written answers are submitted for teacher review; no automatic grading is performed. Student submission rules allow one submission per test/UID. Anonymous authentication means the student UID is the Firebase anonymous UID; ensure the existing access grants are tied to that UID.

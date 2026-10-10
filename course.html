@@ -24,10 +24,6 @@
 <section id="payCard" class="card pay" style="display:none">
   <h2>💳 Enrol & Pay</h2>
   <p class="muted" id="feeText"></p>
-  <div id="packageChoices" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0">
-    <label class="item" style="display:block;cursor:pointer"><input type="radio" name="package" value="notes" checked style="width:auto"> <strong>₹299 — Study materials only</strong><p class="muted">Notes, NCERT solutions, question bank and model papers.</p></label>
-    <label class="item" style="display:block;cursor:pointer"><input type="radio" name="package" value="videos" style="width:auto"> <strong>₹999 — Materials + recorded videos</strong><p class="muted">All study materials plus recorded video lectures.</p></label>
-  </div>
 
   <div class="paybox">
     <h3 style="margin-top:0">Scan to Pay with any UPI App</h3>
@@ -71,13 +67,18 @@
 </section>
 </main>
 
+
+<section id="revisionaryTestCard" class="card" style="display:none">
+ <h2>📝 Revisionary Test</h2><p class="muted" id="testStatusText">Checking active tests…</p><div id="testArea"></div><div id="testMessage" class="msg"></div>
+</section>
+
 <footer>LET'S SCORE<br>Learn • Revise • Practise • Score</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getDatabase, ref, get, onValue, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getDatabase, ref, get, onValue, set, push } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
@@ -95,14 +96,7 @@ const db=getDatabase(app);
 const auth=getAuth(app);
 let studentUid=null;
 let authReady=null;
-const requestedId=new URLSearchParams(location.search).get("id");
-// Canonical course IDs must match the IDs managed in the admin dashboard.
-// Old bookmarks using class11-physics/class12-physics are redirected to the canonical IDs.
-const courseIdAliases={"class11-physics":"class11-physics-english","class12-physics":"class12-physics-english"};
-const id=requestedId ? (courseIdAliases[requestedId] || requestedId) : null;
-if(requestedId && id !== requestedId){
-  const u=new URL(location.href); u.searchParams.set("id",id); history.replaceState(null,"",u.toString());
-}
+const id=new URLSearchParams(location.search).get("id");
 let course=null;
 
 const UPI_NUMBER = "9678945621";
@@ -120,27 +114,42 @@ function makeUpiUri(amount, courseName) {
   return "upi://pay?" + params.toString();
 }
 
-function selectedPackage(){
-  return document.querySelector('input[name="package"]:checked')?.value === "videos" ? "videos" : "notes";
-}
-function selectedFee(){ return selectedPackage() === "videos" ? 999 : 299; }
 function setupPayment(courseData) {
+  const fee = Number(courseData.fee || 0);
   const name = courseData.name || "LET'S SCORE Course";
-  document.getElementById("upiIdText").textContent = `UPI ID: ${UPI_ID}`;
-  document.querySelectorAll('input[name="package"]').forEach(el=>el.addEventListener("change",()=>refreshPayment(courseData)));
-  refreshPayment(courseData);
-}
-function refreshPayment(courseData){
-  const fee=selectedFee();
-  const name=courseData.name || "LET'S SCORE Course";
-  const uri=makeUpiUri(fee,name + (selectedPackage()==="videos" ? " — Materials + Videos" : " — Materials only"));
-  document.getElementById("feeText").textContent=`Selected package: ${selectedPackage()==="videos" ? "Materials + recorded videos" : "Study materials only"} — ₹${fee}`;
-  document.getElementById("upiPayBtn").href=uri;
-  const waText=`Hello LET'S SCORE,%0A`+`I intend to pay ₹${fee} for ${encodeURIComponent(name)} (${selectedPackage()}).%0A`+`UPI Number: ${UPI_NUMBER}%0A`+`I am sending my payment receipt for verification.`;
-  document.getElementById("whatsappBtn").href=`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
-  const qrBox=document.getElementById("qr"); qrBox.innerHTML="";
-  if(window.QRCode){new QRCode(qrBox,{text:uri,width:220,height:220,correctLevel:QRCode.CorrectLevel.M});}
-  else{qrBox.innerHTML="<p class='bad'>QR generator could not load. Use the UPI App button.</p>";}
+  const uri = makeUpiUri(fee, name);
+
+  document.getElementById("feeText").textContent =
+    `Course Fee: ₹${fee}`;
+
+  document.getElementById("upiIdText").textContent =
+    `UPI ID: ${UPI_ID}`;
+
+  const payBtn = document.getElementById("upiPayBtn");
+  payBtn.href = uri;
+
+  const waText =
+    `Hello LET'S SCORE,%0A` +
+    `I have paid ₹${fee} for ${encodeURIComponent(name)}.%0A` +
+    `UPI Number: ${UPI_NUMBER}%0A` +
+    `I am sending my payment receipt for verification.%0A` +
+    `I will enter my UTR on the course page after approval.`;
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+
+  const qrBox = document.getElementById("qr");
+  qrBox.innerHTML = "";
+  if (window.QRCode) {
+    new QRCode(qrBox, {
+      text: uri,
+      width: 220,
+      height: 220,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else {
+    qrBox.innerHTML = "<p class='bad'>QR generator could not load. Use the UPI App button.</p>";
+  }
 }
 
 
@@ -300,37 +309,15 @@ async function requestAccess(raw){
       return;
     }
 
-    const requestRef=ref(db,`accessRequests/${id}/${studentUid}`);
-    const existing=await get(requestRef);
-    if(existing.exists()){
-      const current=existing.val()||{};
-      if(current.status==="approved"){
-        setMessage("Your payment is already approved. Use Check My Access to open the course.",true);
-        await checkStudentAccess();
-        return;
-      }
-      if(current.status==="pending"){
-        setMessage("Your UTR request is already submitted and is waiting for teacher approval.");
-        return;
-      }
-      setMessage("Your previous request was rejected. Please contact the teacher before submitting another request.");
-      return;
-    }
-    const pkg=selectedPackage();
-    const fee=selectedFee();
-    await set(requestRef,{
+    await set(ref(db,`accessRequests/${id}/${studentUid}`),{
       utr:u,
       courseId:id,
-      studentUid:studentUid,
       status:"pending",
-      package:pkg,
-      fee:fee,
-      includesRecordedVideos:pkg==="videos",
       requestedAt:Date.now()
     });
 
     localStorage.setItem("ls_utr_"+id,u);
-    setMessage(`✓ ₹${fee} ${pkg==="videos"?"materials + videos":"materials-only"} request submitted. Waiting for teacher approval.`);
+    setMessage("✓ UTR submitted. Your teacher must approve the payment before access is unlocked.");
   }catch(e){
     console.error(e);
     setMessage("Could not submit the UTR request. Please try again.");
@@ -382,7 +369,41 @@ onAuthStateChanged(auth,user=>{
   }
 });
 
-loadCourse();
+
+// Paid-course-only revisionary test panel.
+const testClassMap={
+ "class10-assamese-paid":"classX",
+ "class10-english":"classX",
+ "class11-physics-english":"classXI",
+ "class12-physics-english":"classXII"
+};
+async function loadRevisionaryTest(){
+ const card=document.getElementById("revisionaryTestCard");
+ if(!id||!testClassMap[id]||!course||course.type!=="paid")return;
+ card.style.display="block";
+ await authReady;
+ if(!studentUid)return;
+ try{
+  const access=await get(ref(db,`courseAccess/${id}/${studentUid}`));
+  if(!access.exists()||access.val()?.active!==true){document.getElementById("testStatusText").textContent="Revisionary tests are available only to students with approved, active paid-course access.";return;}
+  const classKey=testClassMap[id];
+  const ctlSnap=await get(ref(db,`examControl/${classKey}`));
+  const ctl=ctlSnap.val()||{};
+  if(!ctl.live||!ctl.testId){document.getElementById("testStatusText").textContent="No revisionary test is currently active for this class.";return;}
+  if(ctl.courseId && ctl.courseId!==id){document.getElementById("testStatusText").textContent="The currently active test is for another course variant.";return;}
+  const paperSnap=await get(ref(db,`revisionaryTests/${classKey}/${ctl.testId}`));
+  if(!paperSnap.exists()||paperSnap.val()?.published!==true){document.getElementById("testStatusText").textContent="The active test paper has not been published correctly.";return;}
+  const paper=paperSnap.val();
+  document.getElementById("testStatusText").textContent=`${paper.title} • ${paper.duration} minutes • ${paper.maxMarks} marks`;
+  const area=document.getElementById("testArea");
+  const prior=await get(ref(db,`testSubmissions/${ctl.testId}/${studentUid}`));
+  if(prior.exists()){area.innerHTML='<p class="lock">You have already submitted this test. Contact your teacher if a correction is needed.</p>';return;}
+  area.innerHTML=`<form id="liveTestForm"><p class="muted">Answer all questions and submit before the teacher stops the test.</p>${paper.questions.map((q,i)=>`<div class="item"><h3>Q${i+1}. ${esc(q.question)} <small>(${Number(q.marks)} marks)</small></h3>${q.type==='mcq'?q.options.map((o,j)=>`<label style="display:block;margin:8px 0"><input style="width:auto" type="radio" name="q${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${esc(o)}</label>`).join(''):`<textarea name="q${i}" rows="4" style="width:100%;padding:12px;border-radius:10px;background:#0d1930;color:white;border:1px solid #263756" placeholder="Write your answer"></textarea>`}</div>`).join('')}<button class="btn" type="submit">Submit Test</button></form>`;
+  document.getElementById("liveTestForm").addEventListener("submit",async ev=>{ev.preventDefault();const current=await get(ref(db,`examControl/${classKey}`));if(!current.val()?.live||current.val()?.testId!==ctl.testId){document.getElementById("testMessage").textContent="The test has closed. Your answers were not submitted.";return;}const form=new FormData(ev.target);const responses={};paper.questions.forEach((q,i)=>{responses[i]=form.get(`q${i}`)??"";});try{await set(ref(db,`testSubmissions/${ctl.testId}/${studentUid}`),{studentUid,courseId:id,classKey,testId:ctl.testId,submittedAt:Date.now(),answers:responses,status:"submitted"});area.innerHTML='<p class="lock">✓ Your answers have been submitted. Your teacher will review the result.</p>';document.getElementById("testMessage").textContent="Submission saved.";}catch(e){console.error(e);document.getElementById("testMessage").textContent="Submission failed: "+(e.message||e);}});
+ }catch(e){console.error(e);document.getElementById("testStatusText").textContent="Could not load test. Check database rules and course access.";}
+}
+
+loadCourse().then(()=>loadRevisionaryTest());
 </script>
 </body>
 </html>
