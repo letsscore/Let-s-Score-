@@ -1,22 +1,24 @@
-LET’S SCORE — Student Journey Update
+LET'S SCORE — Admin/Student Integration Fix
 
-Upload all files in this folder to the root of your GitHub Pages repository.
+Important fix:
+- Teacher-control reads accessRequests/{courseId} as a parent node.
+- Realtime Database rules now grant read access at /accessRequests only to the authorised admin UID + email.
+- Students can still read their own request only.
+- Admin-only database operations require both the configured UID and email.
 
-Student flow:
-1. student.html — register with email/password or log in.
-2. courses.html — choose a course.
-3. course.html?id=COURSE_ID — free-course access or paid package payment and UTR submission.
-4. Admin approves payment in teacher-control.html.
-5. The paid course page checks approval automatically and redirects to materials.html?id=COURSE_ID.
-6. materials.html only displays resources for the selected course and approved package.
+Deploy:
+1. Upload all files in this folder to the root of your GitHub Pages repository.
+2. Firebase Console > Realtime Database > Rules: publish database.rules.json.
+3. Firebase Console > Authentication: enable Email/Password.
+4. Confirm admin account UID is q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email is abidurhussain2@gmail.com.
+5. Test with a student account: register/login -> choose course -> submit UTR -> admin sees request -> approve -> student course page redirects to materials.
 
-Firebase:
-- Enable Authentication > Email/Password.
-- Publish database.rules.json under Realtime Database > Rules.
-- Admin account must have UID q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email abidurhussain2@gmail.com.
-- The teacher dashboard now stores the approved package in courseAccess.
-- Payment: UPI 9678945621; receipt WhatsApp 7002137940.
-- Package IDs: notes = ₹299, videos = ₹999.
-- Free course ID: class10-assamese-free.
+Course package conventions:
+- notes = ₹299 materials only
+- videos = ₹999 materials + recorded videos
+- Free course ID: class10-assamese-free
 
-Test in Firebase's emulator or a staging project before relying on these rules in production.
+Security note:
+- Manual admin approval is not automated UPI verification.
+- External URLs (for example public Drive links) may be shared outside this website; database rules cannot revoke an already-public file link.
+- Test with a staging account before launch.
