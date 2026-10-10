@@ -5,7 +5,7 @@
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
-const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",storageBucket:"lets-score-revisionary-test.firebasestorage.app",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
+const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app);
 const courses=[['class10-assamese-free','Class X Science — Assamese Medium','Free notes only','FREE'],['class10-assamese-paid','Class X Science — Assamese Medium','Materials or materials + videos','₹299 / ₹999'],['class10-english','Class X Science — English Medium','Materials or materials + videos','₹299 / ₹999'],['class11-physics','Class XI Physics — English Medium','Materials or materials + videos','₹299 / ₹999'],['class12-physics','Class XII Physics — English Medium','Materials or materials + videos','₹299 / ₹999']];
 document.getElementById('grid').innerHTML=courses.map(c=>`<article class="tile"><h2>${c[1]}</h2><p class="muted">${c[2]}</p><strong>${c[3]}</strong><br><a class="btn" href="course.html?id=${c[0]}">Choose course</a></article>`).join('');

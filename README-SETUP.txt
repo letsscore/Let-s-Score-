@@ -22,3 +22,25 @@ Security note:
 - Manual admin approval is not automated UPI verification.
 - External URLs (for example public Drive links) may be shared outside this website; database rules cannot revoke an already-public file link.
 - Test with a staging account before launch.
+
+
+ADMIN COURSE MANAGEMENT UPDATE
+- Teacher dashboard now displays student name/email, selected course, package, fee, UTR, status and actions in the payment approval table.
+- Added filter by pending/approved/rejected/revoked and a refresh button.
+- Approval also writes a course enrollment record.
+- Added direct file upload to Firebase Storage for notes, solutions, model papers and video lectures.
+- Publish database.rules.json in Realtime Database > Rules.
+- Publish storage.rules in Firebase Console > Storage > Rules.
+- Storage upload requires Firebase Storage enabled. Large videos may require a billing-enabled project; upload limit in this UI is 100 MB.
+
+
+FREE-PLAN STORAGE NOTE (updated 10 October 2026)
+This version does NOT use Firebase Storage and contains no Firebase Storage upload code or Storage rules. Do not enable/configure Firebase Storage for this site.
+
+To publish learning resources without Firebase Storage:
+1. Upload PDF/notes to Google Drive and set link access to Anyone with the link (or publish HTML files on GitHub Pages).
+2. Upload recorded lessons to YouTube as Unlisted, if using the video package.
+3. Sign in to Teacher Control and paste each resource's title and shareable URL into the relevant resource section.
+4. Keep Firebase Authentication and Realtime Database on your chosen free Spark plan. This package does not require enabling Blaze or adding billing for file uploads.
+
+Important: A public/shareable Drive or YouTube link can be copied by anyone who obtains it. Firebase Database rules protect the resource records, but cannot revoke access to a file that has been made publicly shareable.

@@ -6,7 +6,7 @@
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
 import {getDatabase,ref,get,set} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
-const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",storageBucket:"lets-score-revisionary-test.firebasestorage.app",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
+const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),$=x=>document.getElementById(x);
 const id=new URLSearchParams(location.search).get('id');
 const courses={
