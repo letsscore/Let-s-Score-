@@ -19,7 +19,6 @@
 <h1>Build strong concepts.<br><span style="color:var(--cyan)">Make every mark count.</span></h1>
 <p>LET’S SCORE is a focused learning platform for school Science (Classes VI–X) and higher-secondary Physics (Classes XI–XII). Learn concepts step by step, revise important topics, practise exam-style questions and prepare with greater confidence—at your own pace.</p>
 <div class="actions"><a class="btn" href="courses.html">Explore courses →</a><a class="btn btn-light" href="student.html">Student sign in</a></div>
-<div class="actions" style="margin-top:10px"><a id="adminControlLink" class="btn" href="admin-control.html" aria-label="Open Admin Control" style="display:none">🔐 Admin Control</a></div>
 </div>
 <aside class="hero-art"><div class="orb">⚛️ 📘</div><div><div class="eyebrow">Your learning toolkit</div><strong>Understand · Practise · Revise · Improve</strong><p>Bring your learning resources together in one place and keep moving towards your academic goals.</p></div></aside>
 </section>
@@ -35,21 +34,6 @@
 </div></section>
 <section class="section"><div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap"><div><div class="eyebrow">Start your learning journey</div><h2>Choose your course. Build your confidence.</h2><p class="muted">Create a student account, explore the available courses and submit your payment details for approval where required. Paid-course revisionary tests become available only to eligible enrolled students when the teacher starts them.</p></div><a class="btn" href="courses.html">Browse courses →</a></div></section>
 </main>
-<footer class="footer"><div class="shell footer-inner"><span>© LET’S SCORE · Science &amp; Physics learning</span><span>Help: <a href="https://wa.me/917002137940">WhatsApp 7002137940</a></span></div></footer>
-<script type="module">
-import {courseCards} from './common.js';
-import {initializeApp, getApps, getApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getAuth, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
-courseCards();
-const config={apiKey:'AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8',authDomain:'lets-score-revisionary-test.firebaseapp.com',databaseURL:'https://lets-score-revisionary-test-default-rtdb.firebaseio.com',projectId:'lets-score-revisionary-test',storageBucket:'lets-score-revisionary-test.firebasestorage.app',messagingSenderId:'629595293837',appId:'1:629595293837:web:b0fd9e83f22651cd577ac4'};
-const app=getApps().length?getApp():initializeApp(config);
-const auth=getAuth(app);
-const ADMIN_UID='q8Ybthhc3jQEhQf4e5EAFpYIaDv1';
-const ADMIN_EMAIL='abidurhussain2@gmail.com';
-const link=document.getElementById('adminControlLink');
-onAuthStateChanged(auth,user=>{
-  if(user && user.uid===ADMIN_UID && (user.email||'').toLowerCase()===ADMIN_EMAIL){link.style.display='inline-block';}
-  else {link.style.display='none';}
-});
-</script>
+<footer class="footer"><div class="shell footer-inner"><span>© LET’S SCORE · Science &amp; Physics learning</span><span>Help: <a href="https://wa.me/917002137940">WhatsApp 7002137940</a></span><a href="teacher-control.html">Teacher control</a></div></footer>
+<script type="module">import {courseCards} from './common.js';courseCards();</script>
 </body></html>
