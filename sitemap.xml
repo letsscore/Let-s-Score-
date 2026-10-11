@@ -2,44 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://letsscore.online/</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://letsscore.online/courses.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/online-x.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/online-xi.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/online-xii.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/offline-x-assamese.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/offline-x-english.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/offline-xi.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/offline-xii.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/free-x-assamese.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/free-xii.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/contact.html</loc>
-  </url>
-  <url>
-    <loc>https://letsscore.online/privacy.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
