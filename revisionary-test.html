@@ -321,331 +321,67 @@ const db =
 
 
 /* =========================================
-   TEST CONFIGURATION
+   TEACHER-PUBLISHED HTML PAPERS
 ========================================= */
-
-const tests = {
-
-    X: {
-        title: "Class X",
-        path: "examControl/classX",
-        page: "test-x.html"
-    },
-
-    XI: {
-        title: "Class XI",
-        path: "examControl/classXI",
-        page: "test-xi.html"
-    },
-
-    XII: {
-        title: "Class XII",
-        path: "examControl/classXII",
-        page: "test-xii.html"
-    }
-
+const classes = {
+  X:   { label: "Class X",   path: "examControl/classX",   fallback: "test-x.html" },
+  XI:  { label: "Class XI",  path: "examControl/classXI",  fallback: "test-xi.html" },
+  XII: { label: "Class XII", path: "examControl/classXII", fallback: "test-xii.html" }
 };
+const grid = document.getElementById("grid");
+const records = { X: null, XI: null, XII: null };
+const loaded = { X: false, XI: false, XII: false };
 
-
-const grid =
-    document.getElementById("grid");
-
-
-/* =========================================
-   RENDER ONE TEST
-========================================= */
-
-function renderTest(className, live) {
-
-    const test =
-        tests[className];
-
-    if (!test) {
-        return "";
-    }
-
-
-    if (live) {
-
-        return `
-
-        <article class="test-card">
-
-            <h2>${test.title}</h2>
-
-            <div class="status live">
-                ● TEST LIVE
-            </div>
-
-            <div class="test-name">
-                Your teacher has started this test.
-            </div>
-
-            <a
-                class="btn"
-                href="${test.page}"
-            >
-                ▶ ENTER TEST
-            </a>
-
-        </article>
-
-        `;
-
-    }
-
-
-    return `
-
-    <article class="test-card">
-
-        <h2>${test.title}</h2>
-
-        <div class="status">
-            ● TEST NOT STARTED
-        </div>
-
-        <div class="test-name">
-            The test will become available when the
-            teacher starts it.
-        </div>
-
-        <a
-            class="btn locked"
-            href="#"
-        >
-            TEST LOCKED
-        </a>
-
-    </article>
-
-    `;
-
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[ch]));
 }
-
-
-/* =========================================
-   RENDER ALL TESTS
-========================================= */
-
-function renderAll(statusData) {
-
-    grid.innerHTML =
-
-        renderTest(
-            "X",
-            statusData.X === true
-        )
-
-        +
-
-        renderTest(
-            "XI",
-            statusData.XI === true
-        )
-
-        +
-
-        renderTest(
-            "XII",
-            statusData.XII === true
-        );
-
+function safePaperPath(value, fallback) {
+  const path = String(value || "").trim().replace(/^\.\//, "");
+  if (!path || !path.toLowerCase().endsWith(".html") || path.startsWith("/") ||
+      path.includes("..") || path.includes("://") || /[?#\\]/.test(path) ||
+      !path.split("/").every(part => part && part !== ".")) return fallback;
+  return path;
 }
-
-
-/* =========================================
-   INITIAL STATE
-========================================= */
-
-renderAll({
-    X:false,
-    XI:false,
-    XII:false
-});
-
-
-/* =========================================
-   LISTEN TO FIREBASE
-========================================= */
-
-const paths = {
-
-    X:
-        ref(db, "examControl/classX"),
-
-    XI:
-        ref(db, "examControl/classXI"),
-
-    XII:
-        ref(db, "examControl/classXII")
-
-};
-
-
-const status = {
-
-    X:false,
-    XI:false,
-    XII:false
-
-};
-
-
-let loaded = {
-
-    X:false,
-    XI:false,
-    XII:false
-
-};
-
-
-function updatePage() {
-
-    renderAll(status);
-
+function renderCard(key) {
+  const cls = classes[key];
+  const data = records[key] || {};
+  const live = data.active === true || data.live === true;
+  if (!loaded[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING TEST STATUS…</div></article>`;
+  if (live) {
+    const paper = safePaperPath(data.paperUrl, cls.fallback);
+    return `<article class="test-card">
+      <h2>${esc(data.title || cls.label)}</h2>
+      <div class="status live">● TEST LIVE</div>
+      <div class="test-name">${esc(cls.label)}${data.testId ? ` · Test ID: ${esc(data.testId)}` : ""}${data.maxMarks ? ` · Maximum marks: ${esc(data.maxMarks)}` : ""}</div>
+      <div class="test-name">Your teacher has published this question paper.</div>
+      <a class="btn" href="${esc(paper)}">▶ OPEN QUESTION PAPER</a>
+    </article>`;
+  }
+  return `<article class="test-card">
+    <h2>${esc(data.title || cls.label)}</h2>
+    <div class="status">● TEST NOT STARTED</div>
+    <div class="test-name">The question paper will become accessible here when the teacher starts the test.</div>
+    <a class="btn locked" href="#" aria-disabled="true">TEST LOCKED</a>
+  </article>`;
 }
-
-
-/* =========================================
-   CLASS X
-========================================= */
-
-onValue(
-
-    paths.X,
-
-    snapshot => {
-
-        const data =
-            snapshot.val();
-
-        status.X =
-            data &&
-            (data.live === true || data.active === true);
-
-        loaded.X = true;
-
-        updatePage();
-
-    },
-
-    error => {
-
-        console.error(
-            "Class X Firebase error:",
-            error
-        );
-
-        showFirebaseError(error);
-
-    }
-
-);
-
-
-/* =========================================
-   CLASS XI
-========================================= */
-
-onValue(
-
-    paths.XI,
-
-    snapshot => {
-
-        const data =
-            snapshot.val();
-
-        status.XI =
-            data &&
-            (data.live === true || data.active === true);
-
-        loaded.XI = true;
-
-        updatePage();
-
-    },
-
-    error => {
-
-        console.error(
-            "Class XI Firebase error:",
-            error
-        );
-
-        showFirebaseError(error);
-
-    }
-
-);
-
-
-/* =========================================
-   CLASS XII
-========================================= */
-
-onValue(
-
-    paths.XII,
-
-    snapshot => {
-
-        const data =
-            snapshot.val();
-
-        status.XII =
-            data &&
-            (data.live === true || data.active === true);
-
-        loaded.XII = true;
-
-        updatePage();
-
-    },
-
-    error => {
-
-        console.error(
-            "Class XII Firebase error:",
-            error
-        );
-
-        showFirebaseError(error);
-
-    }
-
-);
-
-
-/* =========================================
-   ERROR DISPLAY
-========================================= */
-
+function renderAll() { grid.innerHTML = Object.keys(classes).map(renderCard).join(""); }
 function showFirebaseError(error) {
-
-    grid.innerHTML = `
-
-        <article class="test-card">
-
-            <h2>Revisionary Test</h2>
-
-            <div class="error">
-                Firebase could not read the test status.
-            </div>
-
-            <div class="test-name">
-                Error: ${String(error?.code || error?.message || "unknown error")}<br><br>
-                If the error is PERMISSION_DENIED, publish the Realtime Database rule allowing public read access to the examControl node. If it is a network error, check the connection and reload.
-            </div>
-
-        </article>
-
-    `;
-
+  console.error("Firebase status error:", error);
+  grid.innerHTML = `<article class="test-card"><h2>Revisionary Test</h2>
+    <div class="error">Firebase could not read the test status.</div>
+    <div class="test-name">Error: ${esc(error?.code || error?.message || "unknown error")}<br><br>
+    If this says PERMISSION_DENIED, check the published Realtime Database rules and confirm this page uses the correct Firebase project.</div></article>`;
 }
-
+renderAll();
+for (const key of Object.keys(classes)) {
+  onValue(ref(db, classes[key].path), snapshot => {
+    records[key] = snapshot.val() || {};
+    loaded[key] = true;
+    renderAll();
+  }, showFirebaseError);
+}
 </script>
 
 </body>

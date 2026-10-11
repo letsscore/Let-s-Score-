@@ -1,0 +1,31 @@
+LET'S SCORE — HTML QUESTION PAPER PUBLISHING
+
+WHAT THIS UPDATE DOES
+- Adds an HTML paper path field to teacher-control.html.
+- Lets the teacher preview the uploaded HTML file, publish/start a test, and stop it.
+- Makes revisionary-test.html show the configured title and an OPEN QUESTION PAPER link only while the test is live.
+- Uses the existing Firebase Realtime Database examControl/classX, classXI, and classXII records.
+- Does not change teacher-control-insights.html or the existing test-x.html, test-xi.html, test-xii.html files.
+
+INSTALL
+1. Extract this ZIP.
+2. Upload/replace teacher-control.html and revisionary-test.html in the root of the existing GitHub repository.
+3. Keep the other existing repository files unchanged.
+4. Commit the changes and wait for GitHub Pages to deploy.
+
+HOW TO PUBLISH A PAPER
+1. Upload your question paper as an HTML file to the repository and commit it.
+2. If it is in the repository root, use just its filename, e.g. class10-science-english-01.html.
+3. If it is inside a folder, use a relative path, e.g. question-papers/class10-science-english-01.html.
+4. Open teacher-control.html and sign in with the authorised admin account.
+5. Open the Revisionary tests tab; select Class X, XI, or XII.
+6. Enter the title, test ID, maximum marks, and the exact relative HTML path.
+7. Use Preview HTML paper to verify the file opens.
+8. Click Publish & Start test. Students will see the test on revisionary-test.html.
+9. Click Stop test when the test should no longer be listed as live.
+
+IMPORTANT LIMITATIONS
+- The HTML file must already exist in the GitHub repository and be served by GitHub Pages before you publish it.
+- GitHub Pages files are public. Stopping a test hides the link from the student test page, but it cannot make a known static-file URL private. Do not put confidential answer keys in a public HTML file.
+- This update routes students to your HTML question paper. It does not automatically calculate marks or submit student results. For scores to appear in the existing insights panel, the question-paper HTML itself must include compatible answer checking and Firebase result submission. A static question/instruction page will only display the content.
+- No database rules change should be required if the deployed rules already allow public reads of examControl and restrict writes to the authorised teacher. If the student page still shows PERMISSION_DENIED, verify the published rules and the database URL.
