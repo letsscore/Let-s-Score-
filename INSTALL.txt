@@ -1,24 +1,34 @@
-LET'S SCORE — Multi-page student experience redesign
+LET'S SCORE — Professional multi-page redesign (corrected bundle)
 
-Files included:
-- index.html       New homepage
-- courses.html     Course catalogue
-- student.html     Separate registration/login page
-- enrolment.html   Package selection, UPI payment and UTR submission
-- dashboard.html  Student enrolment/access status
-- learn.html       Course materials and approved-package video display
-- styles.css       Shared responsive styling
-- common.js        Existing Firebase project integration and student flow
+Included files:
+- index.html          Homepage
+- courses.html        Course catalogue
+- student.html        Student login / registration
+- enrolment.html      ₹299 / ₹999 package, UPI and UTR submission
+- dashboard.html      Student enrolments and approval status
+- learn.html          Course resource catalogue
+- resource.html       Dedicated page that opens each selected resource inside the course site
+- teacher-control.html Current admin panel: payment requests, course/resource management, UTR approval and revisionary test controls
+- teacher-control-insights.html Existing Student Results/insights admin page, preserved unchanged and linked from teacher-control.html
+- styles.css          Shared responsive styling
+- common.js           Student journey and Firebase integration
 
-Install:
-1. Make a backup of the current GitHub Pages repository.
-2. Upload these files to the same folder/root as the current site files.
-3. Keep existing revisionary-test.html, test-x.html, test-xi.html, test-xii.html, teacher-control.html, database rules and other test files unchanged.
-4. Do not replace teacher-control.html or database.rules.json as part of this front-end redesign.
-5. Confirm the Firebase Realtime Database has the existing courseResources, courseAccess, accessRequests and studentProfiles paths expected by the site.
-6. Test registration/login, course selection, ₹299 and ₹999 payment request, teacher approval, materials display and video visibility using test accounts before public launch.
+Install safely:
+1. Back up the entire current GitHub Pages repository before uploading.
+2. Extract this ZIP. Copy the contents of the lets_score_redesign folder into the same repository root as index.html.
+3. This ZIP includes the current teacher-control.html admin panel. The existing Student Results/insights functionality is preserved in teacher-control-insights.html and linked from the main admin page. Keep both files. The insights page uses the existing authorised teacher account.
+4. Keep existing revisionary-test.html, test-x.html, test-xi.html, test-xii.html and any other current test pages unchanged. This redesign does not replace those files.
+5. Do not replace database.rules.json or modify Firebase rules as part of this front-end update.
+6. Commit and wait for GitHub Pages to publish.
+7. Test student login, payment request, UTR approval, course resources, videos on a ₹999-approved test account, and the Student Results/insights section in teacher-control.html.
 
-Important:
-- The existing Firebase config, course IDs, UPI payee details, and WhatsApp support number are retained from the current student page.
-- This bundle does not change Firebase security rules or admin functionality.
-- Unlisted YouTube URLs can still be shared by people who obtain them; strict video protection requires suitable protected hosting.
+Resource click behavior:
+- Clicking a resource in learn.html opens resource.html with that selected course material.
+- YouTube videos and supported Google Drive files are embedded on the dedicated resource page. An “Open original resource” link remains available for providers that block embedding.
+- Videos are displayed only for approved ₹999 video-package access. ₹299 access does not unlock video lectures.
+
+Firebase notes:
+- Uses the existing Firebase project/config, existing courseResources/courseAccess/accessRequests/courses paths, UPI payee and WhatsApp support details from the current LET'S SCORE files.
+- The legacy admin approval stores active access in courseAccess and the package choice in accessRequests; the student viewer checks both to determine the approved package.
+- This bundle does not modify Firebase security rules. Test against the live Firebase project before announcing the update.
+- Unlisted YouTube URLs are not DRM-protected and can be shared by anyone who obtains them.
