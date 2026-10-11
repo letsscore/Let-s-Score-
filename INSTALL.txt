@@ -1,23 +1,24 @@
-LET'S SCORE payment fix v2
+LET'S SCORE — Multi-page student experience redesign
 
-1. Replace course.html in your GitHub Pages repository with this file.
-2. Commit/push and wait for GitHub Pages to publish.
-3. Firebase Console -> Authentication -> Sign-in method -> enable Anonymous.
-   The current course page uses signInAnonymously(); if Anonymous sign-in is disabled,
-   payment requests cannot be submitted. If you intend to use email/password accounts,
-   the course page should instead use the authenticated account's UID.
-4. Firebase Console -> Authentication -> Settings -> Authorized domains:
-   ensure the GitHub Pages host is listed (for example, letsscore.github.io).
-5. In the page, choose either ₹299 materials or ₹999 materials + recorded videos.
-   The selected fee is reflected in the UPI link/QR and included in the payment request.
-6. Test using a dummy reference first, then check Admin -> Payments & Access.
+Files included:
+- index.html       New homepage
+- courses.html     Course catalogue
+- student.html     Separate registration/login page
+- enrolment.html   Package selection, UPI payment and UTR submission
+- dashboard.html  Student enrolment/access status
+- learn.html       Course materials and approved-package video display
+- styles.css       Shared responsive styling
+- common.js        Existing Firebase project integration and student flow
+
+Install:
+1. Make a backup of the current GitHub Pages repository.
+2. Upload these files to the same folder/root as the current site files.
+3. Keep existing revisionary-test.html, test-x.html, test-xi.html, test-xii.html, teacher-control.html, database rules and other test files unchanged.
+4. Do not replace teacher-control.html or database.rules.json as part of this front-end redesign.
+5. Confirm the Firebase Realtime Database has the existing courseResources, courseAccess, accessRequests and studentProfiles paths expected by the site.
+6. Test registration/login, course selection, ₹299 and ₹999 payment request, teacher approval, materials display and video visibility using test accounts before public launch.
 
 Important:
-- This page submits the UTR as a pending request; it does not approve payments automatically.
-- The admin must verify the payment and approve the request.
-- This implementation uses anonymous Firebase identities. An anonymous identity is not
-  a durable student login across browsers/devices. For persistent student accounts,
-  use Firebase email/password authentication and make this page use that signed-in UID.
-- Ensure deployed Realtime Database rules match the accessRequests/{courseId}/{uid}
-  structure and validate package, fee, includesRecordedVideos, studentUid, courseId,
-  status and requestedAt.
+- The existing Firebase config, course IDs, UPI payee details, and WhatsApp support number are retained from the current student page.
+- This bundle does not change Firebase security rules or admin functionality.
+- Unlisted YouTube URLs can still be shared by people who obtain them; strict video protection requires suitable protected hosting.
