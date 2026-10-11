@@ -32,3 +32,11 @@ Firebase notes:
 - The legacy admin approval stores active access in courseAccess and the package choice in accessRequests; the student viewer checks both to determine the approved package.
 - This bundle does not modify Firebase security rules. Test against the live Firebase project before announcing the update.
 - Unlisted YouTube URLs are not DRM-protected and can be shared by anyone who obtains them.
+
+
+REVISIONARY TEST CONNECTION FIX (v4)
+- revisionary-test.html now reads both `live` and `active` flags from examControl/classX, classXI and classXII.
+- teacher-control.html writes both flags to keep older student pages and Student Results/insights integrations compatible.
+- Student Results/insights page is included unchanged.
+- Firebase database rules are not replaced by this bundle. If the test page reports PERMISSION_DENIED, verify that the deployed Realtime Database rules allow public read at `examControl` while restricting writes to the authorised teacher.
+- Existing test-x.html, test-xi.html and test-xii.html files should remain in the repository unchanged.

@@ -188,7 +188,7 @@ footer{
 <div class="wrap">
 
     <div class="brand">
-        🎓 LET'S SCORE
+        🎓 <a href="index.html" style="color:inherit;text-decoration:none">LET'S SCORE</a>
     </div>
 
 
@@ -523,7 +523,7 @@ onValue(
 
         status.X =
             data &&
-            data.live === true;
+            (data.live === true || data.active === true);
 
         loaded.X = true;
 
@@ -538,7 +538,7 @@ onValue(
             error
         );
 
-        showFirebaseError();
+        showFirebaseError(error);
 
     }
 
@@ -560,7 +560,7 @@ onValue(
 
         status.XI =
             data &&
-            data.live === true;
+            (data.live === true || data.active === true);
 
         loaded.XI = true;
 
@@ -575,7 +575,7 @@ onValue(
             error
         );
 
-        showFirebaseError();
+        showFirebaseError(error);
 
     }
 
@@ -597,7 +597,7 @@ onValue(
 
         status.XII =
             data &&
-            data.live === true;
+            (data.live === true || data.active === true);
 
         loaded.XII = true;
 
@@ -612,7 +612,7 @@ onValue(
             error
         );
 
-        showFirebaseError();
+        showFirebaseError(error);
 
     }
 
@@ -623,7 +623,7 @@ onValue(
    ERROR DISPLAY
 ========================================= */
 
-function showFirebaseError() {
+function showFirebaseError(error) {
 
     grid.innerHTML = `
 
@@ -632,13 +632,12 @@ function showFirebaseError() {
             <h2>Revisionary Test</h2>
 
             <div class="error">
-                Firebase connection failed.
+                Firebase could not read the test status.
             </div>
 
             <div class="test-name">
-                Please refresh the page. If the problem
-                continues, check the Firebase database
-                rules.
+                Error: ${String(error?.code || error?.message || "unknown error")}<br><br>
+                If the error is PERMISSION_DENIED, publish the Realtime Database rule allowing public read access to the examControl node. If it is a network error, check the connection and reload.
             </div>
 
         </article>
