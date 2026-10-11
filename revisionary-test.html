@@ -267,121 +267,98 @@ footer{
 
 
 <script type="module">
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-    getDatabase,
-    ref,
-    onValue
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-
-/* =========================================
-   FIREBASE CONFIG
-========================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
-
-    authDomain:
-        "lets-score-revisionary-test.firebaseapp.com",
-
-    databaseURL:
-        "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
-
-    projectId:
-        "lets-score-revisionary-test",
-
-    storageBucket:
-        "lets-score-revisionary-test.firebasestorage.app",
-
-    messagingSenderId:
-        "629595293837",
-
-    appId:
-        "1:629595293837:web:b0fd9e83f22651cd577ac4"
-
+  apiKey: "AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
+  authDomain: "lets-score-revisionary-test.firebaseapp.com",
+  databaseURL: "https://lets-score-revisionary-test-default-rtdb.firebaseio.com",
+  projectId: "lets-score-revisionary-test",
+  storageBucket: "lets-score-revisionary-test.firebasestorage.app",
+  messagingSenderId: "629595293837",
+  appId: "1:629595293837:web:b0fd9e83f22651cd577ac4"
 };
-
-
-/* =========================================
-   INITIALISE FIREBASE
-========================================= */
-
-const app =
-    initializeApp(firebaseConfig);
-
-const db =
-    getDatabase(app);
-
-
-/* =========================================
-   TEACHER-PUBLISHED HTML PAPERS
-========================================= */
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 const classes = {
-  X:   { label: "Class X",   path: "examControl/classX",   fallback: "test-x.html" },
-  XI:  { label: "Class XI",  path: "examControl/classXI",  fallback: "test-xi.html" },
-  XII: { label: "Class XII", path: "examControl/classXII", fallback: "test-xii.html" }
+  X:   { label: "Class X", path: "examControl/classX", fallback: "test-x.html", courses: ["class10-assamese-paid", "class10-english"] },
+  XI:  { label: "Class XI", path: "examControl/classXI", fallback: "test-xi.html", courses: ["class11-physics"] },
+  XII: { label: "Class XII", path: "examControl/classXII", fallback: "test-xii.html", courses: ["class12-physics"] }
 };
 const grid = document.getElementById("grid");
 const records = { X: null, XI: null, XII: null };
 const loaded = { X: false, XI: false, XII: false };
-
-function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  }[ch]));
-}
+const access = { X: false, XI: false, XII: false };
+let authReady = false;
+let currentUser = null;
+let authMessage = "";
+const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 function safePaperPath(value, fallback) {
   const path = String(value || "").trim().replace(/^\.\//, "");
-  if (!path || !path.toLowerCase().endsWith(".html") || path.startsWith("/") ||
-      path.includes("..") || path.includes("://") || /[?#\\]/.test(path) ||
-      !path.split("/").every(part => part && part !== ".")) return fallback;
+  if (!path || !path.toLowerCase().endsWith(".html") || path.startsWith("/") || path.includes("..") || path.includes("://") || /[?#\\]/.test(path) || !path.split("/").every(part => part && part !== ".")) return fallback;
   return path;
 }
 function renderCard(key) {
   const cls = classes[key];
+  if (!authReady) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING STUDENT ACCESS…</div></article>`;
+  if (!currentUser) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 STUDENT LOGIN REQUIRED</div><div class="test-name">Sign in with the account used for your paid course, then return to revisionary tests.</div><a class="btn" href="student.html?next=revisionary-test.html">Student sign in</a></article>`;
+  if (!access[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 PAID COURSE REQUIRED</div><div class="test-name">This revisionary test is available only to students with an approved paid course for ${cls.label}. Free-course access alone does not unlock tests.</div><a class="btn" href="courses.html">Explore paid courses</a></article>`;
+  if (!loaded[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING TEST STATUS…</div></article>`;
   const data = records[key] || {};
   const live = data.active === true || data.live === true;
-  if (!loaded[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING TEST STATUS…</div></article>`;
   if (live) {
     const paper = safePaperPath(data.paperUrl, cls.fallback);
-    return `<article class="test-card">
-      <h2>${esc(data.title || cls.label)}</h2>
-      <div class="status live">● TEST LIVE</div>
-      <div class="test-name">${esc(cls.label)}${data.testId ? ` · Test ID: ${esc(data.testId)}` : ""}${data.maxMarks ? ` · Maximum marks: ${esc(data.maxMarks)}` : ""}</div>
-      <div class="test-name">Your teacher has published this question paper.</div>
-      <a class="btn" href="${esc(paper)}">▶ OPEN QUESTION PAPER</a>
-    </article>`;
+    return `<article class="test-card"><h2>${esc(data.title || cls.label)}</h2><div class="status live">● TEST LIVE</div><div class="test-name">${esc(cls.label)}${data.testId ? ` · Test ID: ${esc(data.testId)}` : ""}${data.maxMarks ? ` · Maximum marks: ${esc(data.maxMarks)}` : ""}</div><div class="test-name">Your paid course is eligible. Your teacher has published this question paper.</div><a class="btn" href="${esc(paper)}">▶ OPEN QUESTION PAPER</a></article>`;
   }
-  return `<article class="test-card">
-    <h2>${esc(data.title || cls.label)}</h2>
-    <div class="status">● TEST NOT STARTED</div>
-    <div class="test-name">The question paper will become accessible here when the teacher starts the test.</div>
-    <a class="btn locked" href="#" aria-disabled="true">TEST LOCKED</a>
-  </article>`;
+  return `<article class="test-card"><h2>${esc(data.title || cls.label)}</h2><div class="status">● TEST NOT STARTED</div><div class="test-name">Your course access is active. The question paper will appear here when the teacher starts the test.</div><a class="btn locked" href="#" aria-disabled="true">TEST LOCKED</a></article>`;
 }
-function renderAll() { grid.innerHTML = Object.keys(classes).map(renderCard).join(""); }
+function renderAll() {
+  if (authReady && !currentUser) {
+    grid.innerHTML = `<article class="test-card"><h2>Paid-course student access</h2><div class="status">🔒 SIGN IN REQUIRED</div><div class="test-name">Revisionary tests are reserved for students whose paid course access has been approved. Sign in using the same account used for enrolment.</div><a class="btn" href="student.html?next=revisionary-test.html">Student sign in</a></article>`;
+    return;
+  }
+  grid.innerHTML = Object.keys(classes).map(renderCard).join("");
+}
 function showFirebaseError(error) {
   console.error("Firebase status error:", error);
-  grid.innerHTML = `<article class="test-card"><h2>Revisionary Test</h2>
-    <div class="error">Firebase could not read the test status.</div>
-    <div class="test-name">Error: ${esc(error?.code || error?.message || "unknown error")}<br><br>
-    If this says PERMISSION_DENIED, check the published Realtime Database rules and confirm this page uses the correct Firebase project.</div></article>`;
+  grid.innerHTML = `<article class="test-card"><h2>Revisionary Test</h2><div class="error">Could not verify test status or course access.</div><div class="test-name">${esc(error?.code || error?.message || "unknown error")}<br><br>Check that the Realtime Database rules allow signed-in students to read their own courseAccess records and allow test status reads.</div></article>`;
+}
+async function checkClassAccess(uid, key) {
+  const ids = classes[key].courses;
+  const results = await Promise.all(ids.map(id => get(ref(db, `courseAccess/${id}/${uid}`))));
+  return results.some(snap => { const d = snap.val(); return d && d.active === true && (d.package === "notes" || d.package === "videos"); });
+}
+function listenForTests() {
+  for (const key of Object.keys(classes)) {
+    if (!access[key]) { loaded[key] = true; renderAll(); continue; }
+    onValue(ref(db, classes[key].path), snapshot => {
+      records[key] = snapshot.val() || {};
+      loaded[key] = true;
+      renderAll();
+    }, showFirebaseError);
+  }
 }
 renderAll();
-for (const key of Object.keys(classes)) {
-  onValue(ref(db, classes[key].path), snapshot => {
-    records[key] = snapshot.val() || {};
-    loaded[key] = true;
+onAuthStateChanged(auth, async user => {
+  currentUser = user;
+  authReady = false;
+  for (const key of Object.keys(access)) { access[key] = false; loaded[key] = false; }
+  renderAll();
+  if (!user) { authReady = true; renderAll(); return; }
+  try {
+    const checks = await Promise.all(Object.keys(classes).map(key => checkClassAccess(user.uid, key)));
+    Object.keys(classes).forEach((key, i) => { access[key] = checks[i]; });
+    authReady = true;
     renderAll();
-  }, showFirebaseError);
-}
+    listenForTests();
+  } catch (error) {
+    authReady = true;
+    showFirebaseError(error);
+  }
+});
 </script>
 
 </body>

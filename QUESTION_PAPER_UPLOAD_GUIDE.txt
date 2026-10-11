@@ -1,31 +1,33 @@
-LET'S SCORE — HTML QUESTION PAPER PUBLISHING
+LET'S SCORE — HTML QUESTION PAPERS WITH PAID-COURSE ACCESS
 
-WHAT THIS UPDATE DOES
-- Adds an HTML paper path field to teacher-control.html.
-- Lets the teacher preview the uploaded HTML file, publish/start a test, and stop it.
-- Makes revisionary-test.html show the configured title and an OPEN QUESTION PAPER link only while the test is live.
-- Uses the existing Firebase Realtime Database examControl/classX, classXI, and classXII records.
-- Does not change teacher-control-insights.html or the existing test-x.html, test-xi.html, test-xii.html files.
+FILES IN THIS UPDATE
+- index.html: refreshed homepage copy; removes the Revisionary Tests item from the home navigation.
+- teacher-control.html: upload-by-repository-path workflow; preview, publish/start, and stop HTML papers.
+- revisionary-test.html: requires student sign-in and approved paid-course access before showing a test or paper link.
 
 INSTALL
 1. Extract this ZIP.
-2. Upload/replace teacher-control.html and revisionary-test.html in the root of the existing GitHub repository.
-3. Keep the other existing repository files unchanged.
-4. Commit the changes and wait for GitHub Pages to deploy.
+2. Upload/replace index.html, teacher-control.html, and revisionary-test.html in the root of your GitHub repository.
+3. Keep common.js, styles.css, courses.html, student.html, dashboard.html, teacher-control-insights.html, and your existing test files.
+4. Commit and wait for GitHub Pages to deploy.
 
-HOW TO PUBLISH A PAPER
-1. Upload your question paper as an HTML file to the repository and commit it.
-2. If it is in the repository root, use just its filename, e.g. class10-science-english-01.html.
-3. If it is inside a folder, use a relative path, e.g. question-papers/class10-science-english-01.html.
-4. Open teacher-control.html and sign in with the authorised admin account.
-5. Open the Revisionary tests tab; select Class X, XI, or XII.
-6. Enter the title, test ID, maximum marks, and the exact relative HTML path.
-7. Use Preview HTML paper to verify the file opens.
-8. Click Publish & Start test. Students will see the test on revisionary-test.html.
-9. Click Stop test when the test should no longer be listed as live.
+PUBLISH AN HTML PAPER
+1. Upload the HTML question paper to the repository root (or a subfolder).
+2. Sign in at teacher-control.html.
+3. Choose Class X, XI, or XII. Enter title, test ID, marks, and the relative HTML path, e.g. question-papers/class10-science-01.html.
+4. Preview the paper, then select Publish & Start Test. Stop it when finished.
 
-IMPORTANT LIMITATIONS
-- The HTML file must already exist in the GitHub repository and be served by GitHub Pages before you publish it.
-- GitHub Pages files are public. Stopping a test hides the link from the student test page, but it cannot make a known static-file URL private. Do not put confidential answer keys in a public HTML file.
-- This update routes students to your HTML question paper. It does not automatically calculate marks or submit student results. For scores to appear in the existing insights panel, the question-paper HTML itself must include compatible answer checking and Firebase result submission. A static question/instruction page will only display the content.
-- No database rules change should be required if the deployed rules already allow public reads of examControl and restrict writes to the authorised teacher. If the student page still shows PERMISSION_DENIED, verify the published rules and the database URL.
+PAID COURSE ACCESS MAPPING
+- Class X: class10-assamese-paid OR class10-english
+- Class XI: class11-physics
+- Class XII: class12-physics
+The student must sign in using the account whose courseAccess record has active=true for the relevant course. Free Class X Assamese notes do not grant test access.
+
+IMPORTANT SECURITY LIMITATION
+GitHub Pages serves repository HTML files publicly. This update gates the revisionary-test page and hides test links from students without approved paid access, but it cannot make the raw HTML question-paper URL private. Anyone who already knows the direct URL may open it. Do not put confidential or high-stakes examination papers in a public GitHub repository. True file-level access control requires private storage or a protected server.
+
+FIREBASE RULES
+Your Realtime Database rules must allow signed-in students to read their own courseAccess/<courseId>/<uid> record, and allow reading examControl status. Do not enable public writes.
+
+NOTE
+The homepage mentions paid-course revisionary tests as a feature but does not include a Revisionary Tests navigation tab/link. This ZIP does not alter teacher-control-insights.html or the existing test-x.html, test-xi.html, and test-xii.html files. The HTML paper linked from the new page is not automatically connected to the scoring/result submission code in those older test pages.
