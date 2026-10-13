@@ -14,3 +14,6 @@ Deployment:
 - Upload the ZIP contents to the existing GitHub repository root.
 - No Firebase rules change is required for this navigation-only update; existing courseAccess/studentSelections/resource rules must already be deployed and aligned with the site.
 - Live Firebase and browser navigation were not tested in this environment. Test with a student who has an approved ₹299 package, a ₹999 package, and one pending request before removing the backup.
+
+
+FOLLOW-UP FIX (13 October 2026): Login now checks every known paid course's courseAccess/{courseId}/{uid} record directly, rather than relying on studentSelections being present. A student with exactly one active approved course is redirected straight to learn.html for that course. The Choose a Course page also redirects students with one approved course and, when multiple courses are approved, displays only those approved courses. This addresses approvals that were being missed when the student selection record was absent or incomplete. No Firebase rules change is required if students can read their own courseAccess records.
