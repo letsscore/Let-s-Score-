@@ -1,0 +1,16 @@
+LET'S SCORE — APPROVED COURSE FLOW UPDATE
+
+Only the requested workflow changes were applied:
+1. After student login, the site checks selected courses and active admin-approved courseAccess records.
+2. If exactly one accessible course is found, the student is redirected directly to learn.html for that course. If multiple accessible courses are found, My Learning lists only accessible courses.
+3. When any approved paid course (or already selected free course) is opened again through course.html/enrolment.html, the student is redirected to learn.html instead of seeing payment options again.
+4. Existing pending/unapproved payment requests remain visible only when the student has no accessible course. If at least one accessible course exists, pending/unapproved unrelated selections are hidden from My Learning.
+5. Learning resources continue to open individually through resource.html?course=...&category=...&id=..., including notes, NCERT solutions, question bank, model papers, and approved-package videos.
+
+Files changed: login.html, common.js, course.html, enrolment.html.
+
+Deployment:
+- Back up the current repository first.
+- Upload the ZIP contents to the existing GitHub repository root.
+- No Firebase rules change is required for this navigation-only update; existing courseAccess/studentSelections/resource rules must already be deployed and aligned with the site.
+- Live Firebase and browser navigation were not tested in this environment. Test with a student who has an approved ₹299 package, a ₹999 package, and one pending request before removing the backup.

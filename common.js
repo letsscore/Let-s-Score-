@@ -39,20 +39,20 @@ if(location.pathname.endsWith('dashboard.html')){
   try{
    const selectionSnap=await get(ref(db,`studentSelections/${u.uid}`));
    const selected=selectionSnap.val()||{};
+   const rows=[];
    for(const [id,selection] of Object.entries(selected)){
     const c=courses[id]; if(!c||!selection) continue;
-    if(c.type==='free'){
-      el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status free">FREE COURSE</span><h3>${c.name}</h3><p>Your selected free course.</p></div><a class="btn" href="learn.html?course=${encodeURIComponent(id)}">Open course</a></article>`);
-      continue;
-    }
+    if(c.type==='free') { rows.push({id,c,free:true}); continue; }
     const [access,request]=await Promise.all([get(ref(db,`courseAccess/${id}/${u.uid}`)),get(ref(db,`accessRequests/${id}/${u.uid}`))]);
-    const a=access.val(),r=request.val();
-    if(a?.active===true){
-      el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status success">APPROVED · ${a.package==='videos'?'₹999 VIDEO PACKAGE':'₹299 MATERIALS'}</span><h3>${c.name}</h3><p>Your selected course is approved. Only resources included in your package are available.</p></div><a class="btn" href="learn.html?course=${encodeURIComponent(id)}">Continue learning</a></article>`);
-    }else{
-      const status=String(r?.status||'not submitted').toUpperCase();
-      el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status pending">${r?'PAYMENT '+status:'ENROLMENT NOT COMPLETED'}</span><h3>${c.name}</h3><p>${r?'Your payment request is not yet approved. Course materials remain locked.':'Complete payment and submit your UTR for admin approval.'}</p></div><a class="btn btn-light" href="enrolment.html?course=${encodeURIComponent(id)}">${r?'View payment status':'Complete enrolment'}</a></article>`);
-    }
+    rows.push({id,c,a:access.val(),r:request.val()});
+   }
+   const accessible=rows.filter(x=>x.free||x.a?.active===true);
+   const showRows=accessible.length?accessible:rows;
+   if(accessible.length){const explore=document.querySelector('.section-head a[href="courses.html"]');if(explore)explore.remove();const subtitle=document.querySelector('.section-head p');if(subtitle)subtitle.textContent='Only courses you can currently access are shown here.';}
+   for(const item of showRows){const {id,c,a,r,free}=item;
+    if(free){el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status free">FREE COURSE</span><h3>${c.name}</h3><p>Your selected free course.</p></div><a class="btn" href="learn.html?course=${encodeURIComponent(id)}">Open course</a></article>`);continue;}
+    if(a?.active===true){el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status success">APPROVED · ${a.package==='videos'?'₹999 VIDEO PACKAGE':'₹299 MATERIALS'}</span><h3>${c.name}</h3><p>Approved course. Open a material to study on its own page.</p></div><a class="btn" href="learn.html?course=${encodeURIComponent(id)}">Continue learning</a></article>`);}
+    else {const status=String(r?.status||'not submitted').toUpperCase();el.insertAdjacentHTML('beforeend',`<article class="dash-course"><div><span class="status pending">${r?'PAYMENT '+status:'ENROLMENT NOT COMPLETED'}</span><h3>${c.name}</h3><p>${r?'Your payment request is not yet approved. Course materials remain locked.':'Complete payment and submit your UTR for admin approval.'}</p></div><a class="btn btn-light" href="enrolment.html?course=${encodeURIComponent(id)}">${r?'View payment status':'Complete enrolment'}</a></article>`);}
    }
    if(!el.children.length)el.innerHTML='<div class="empty"><strong>No selected courses yet.</strong><p>Choose a course to begin. Only your selected course and approved enrolments will appear here.</p><a class="btn" href="courses.html">Choose a course</a></div>';
   }catch(e){console.error(e);el.innerHTML='<div class="empty">Could not load your selected courses. Please refresh or sign in again.</div>';}

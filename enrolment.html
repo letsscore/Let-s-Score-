@@ -494,6 +494,14 @@ onAuthStateChanged(auth,async user=>{
       studentContactEmail=String(profileSnap.val().contactEmail||'');
     }catch(e){console.error(e);setMessage('Could not verify your registration. Please log in again.');return;}
   }
+  if(user.uid!==ADMIN_UID && id){
+    try{
+      const approvedSnap=await get(ref(db,`courseAccess/${id}/${user.uid}`));
+      if(approvedSnap.val()?.active===true){location.replace(`learn.html?course=${encodeURIComponent(id)}`);return;}
+      const freeSelection=await get(ref(db,`studentSelections/${user.uid}/${id}`));
+      if(id==='class10-assamese-free' && freeSelection.exists()){location.replace(`learn.html?course=${encodeURIComponent(id)}`);return;}
+    }catch(accessError){console.warn('Could not check existing course access before enrolment.',accessError);}
+  }
   authGatePassed=true;
   authReady=Promise.resolve();
   await loadCourse();
