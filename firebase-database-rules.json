@@ -7,6 +7,15 @@
     "results": {
       ".read": "auth != null && auth.token.email == 'abidurhussain2@gmail.com'",
       ".write": "auth != null"
+    },
+    "studentSelections": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
+        "$courseId": {
+          ".write": "auth != null && auth.uid === $uid && root.child('studentProfiles').child(auth.uid).child('username').isString() && ( $courseId === 'class10-assamese-free' || $courseId === 'class10-assamese-paid' || $courseId === 'class10-english' || $courseId === 'class11-physics' || $courseId === 'class12-physics' )",
+          ".validate": "!newData.exists() || (newData.hasChildren(['courseId','type','selectedAt']) && newData.child('courseId').val() === $courseId && (newData.child('type').val() === 'free' || newData.child('type').val() === 'paid') && newData.child('selectedAt').isNumber() && (($courseId === 'class10-assamese-free' && newData.child('type').val() === 'free') || ($courseId !== 'class10-assamese-free' && newData.child('type').val() === 'paid')))"
+        }
+      }
     }
   }
 }

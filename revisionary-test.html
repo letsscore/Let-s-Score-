@@ -304,8 +304,8 @@ function safePaperPath(value, fallback) {
 function renderCard(key) {
   const cls = classes[key];
   if (!authReady) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING STUDENT ACCESS…</div></article>`;
-  if (!currentUser) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 STUDENT LOGIN REQUIRED</div><div class="test-name">Sign in with the account used for your paid course, then return to revisionary tests.</div><a class="btn" href="student.html?next=revisionary-test.html">Student sign in</a></article>`;
-  if (!access[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 PAID COURSE REQUIRED</div><div class="test-name">This revisionary test is available only to students with an approved paid course for ${cls.label}. Free-course access alone does not unlock tests.</div><a class="btn" href="courses.html">Explore paid courses</a></article>`;
+  if (!currentUser) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 STUDENT LOGIN REQUIRED</div><div class="test-name">Sign in with the account used for your paid course, then return to revisionary tests.</div><a class="btn" href="register.html">Student sign in</a></article>`;
+  if (!access[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status">🔒 PAID COURSE REQUIRED</div><div class="test-name">This revisionary test is available only to students with an approved ₹999 materials + recorded-video package for ${cls.label}. Free-course access alone does not unlock tests.</div><a class="btn" href="register.html">Register / log in to choose a course</a></article>`;
   if (!loaded[key]) return `<article class="test-card"><h2>${cls.label}</h2><div class="status loading">● CHECKING TEST STATUS…</div></article>`;
   const data = records[key] || {};
   const live = data.active === true || data.live === true;
@@ -317,7 +317,7 @@ function renderCard(key) {
 }
 function renderAll() {
   if (authReady && !currentUser) {
-    grid.innerHTML = `<article class="test-card"><h2>Paid-course student access</h2><div class="status">🔒 SIGN IN REQUIRED</div><div class="test-name">Revisionary tests are reserved for students whose paid course access has been approved. Sign in using the same account used for enrolment.</div><a class="btn" href="student.html?next=revisionary-test.html">Student sign in</a></article>`;
+    grid.innerHTML = `<article class="test-card"><h2>Paid-course student access</h2><div class="status">🔒 SIGN IN REQUIRED</div><div class="test-name">Revisionary tests are reserved for students whose paid course access has been approved. Sign in using the same account used for enrolment.</div><a class="btn" href="register.html">Student sign in</a></article>`;
     return;
   }
   grid.innerHTML = Object.keys(classes).map(renderCard).join("");
@@ -329,7 +329,7 @@ function showFirebaseError(error) {
 async function checkClassAccess(uid, key) {
   const ids = classes[key].courses;
   const results = await Promise.all(ids.map(id => get(ref(db, `courseAccess/${id}/${uid}`))));
-  return results.some(snap => { const d = snap.val(); return d && d.active === true && (d.package === "notes" || d.package === "videos"); });
+  return results.some(snap => { const d = snap.val(); return d && d.active === true && d.package === "videos"; });
 }
 function listenForTests() {
   for (const key of Object.keys(classes)) {

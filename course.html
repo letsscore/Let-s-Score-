@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="student.html">Account</a></div></div></nav>
+<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="register.html">Account</a></div></div></nav>
 
 <main class="wrap">
 <section class="hero">
@@ -57,7 +57,12 @@
   </div>
 </section>
 
-
+<section id="freeEnrollCard" class="card" style="display:none">
+  <h2>🟢 Enrol in your free course</h2>
+  <p class="muted">Confirm your selection. This free course will then appear in your account after you log in.</p>
+  <button id="freeEnrollBtn" class="btn" type="button">Enrol in free course →</button>
+  <div id="freeEnrollMsg" class="msg" role="status"></div>
+</section>
 
 <section id="catalogSection" class="card" style="display:none;">
   <h2>📚 Available Courses</h2>
@@ -102,7 +107,8 @@ let activePackage="notes";
 let authReady=Promise.resolve();
 let authGatePassed=false;
 const ADMIN_UID="q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
-const id=new URLSearchParams(location.search).get("id");
+const enrollmentParams=new URLSearchParams(location.search);
+const id=enrollmentParams.get("course") || enrollmentParams.get("id");
 let course=null;
 
 const UPI_NUMBER = "7636047997";
@@ -242,6 +248,10 @@ const COURSE_CATALOG = {
   }
 };
 
+async function saveSelection(courseId, userId, type){
+  await set(ref(db,`studentSelections/${userId}/${courseId}`),{courseId,type,selectedAt:Date.now()});
+}
+
 async function loadCourse(){
   if(!id){
     document.getElementById("locked").style.display="none";
@@ -283,16 +293,21 @@ async function loadCourse(){
     document.getElementById("courseInfo").textContent=[course.className,course.subject,course.language].filter(Boolean).join(" • ");
 
     if(course.type==="paid"){
+      document.getElementById("freeEnrollCard").style.display="none";
       document.getElementById("payCard").style.display=studentUid===ADMIN_UID?"none":"block";
       setupPayment(course);
       document.getElementById("locked").style.display="block";
-      document.getElementById("locked").textContent="🔒 Choose a package, pay using UPI, enter your UTR, and submit it for teacher approval.";
-      const saved=localStorage.getItem("ls_utr_"+id);
-      if(saved) document.getElementById("utr").value=saved;
+      document.getElementById("locked").textContent="🔒 Choose a package, pay using UPI, enter your UTR, and submit it for teacher approval. Your course materials appear after approval.";
+      const saved=localStorage.getItem("ls_utr_"+id); if(saved) document.getElementById("utr").value=saved;
+      if(studentUid!==ADMIN_UID) await saveSelection(id,studentUid,"paid");
+      document.getElementById("resources").style.display="none";
       await checkStudentAccess();
     }else{
       document.getElementById("payCard").style.display="none";
-      unlock();
+      document.getElementById("resources").style.display="none";
+      document.getElementById("locked").style.display="none";
+      document.getElementById("freeEnrollCard").style.display=studentUid===ADMIN_UID?"none":"block";
+      if(studentUid!==ADMIN_UID) document.getElementById("freeEnrollBtn").onclick=async()=>{try{await saveSelection(id,studentUid,"free");document.getElementById("freeEnrollMsg").textContent="Free course added to your account. Opening My Learning…";location.href="dashboard.html";}catch(err){console.error(err);document.getElementById("freeEnrollMsg").textContent="Could not enrol. Please try again.";}};
     }
   }catch(e){
     console.error(e);
@@ -449,7 +464,7 @@ document.getElementById("checkBtn").addEventListener("click",()=>{
 onAuthStateChanged(auth,async user=>{
   if(!user){
     const next=encodeURIComponent(location.pathname.split('/').pop()+(location.search||''));
-    location.replace(`student.html?next=${next}`);
+    location.replace('register.html');
     return;
   }
   studentUid=user.uid;
@@ -457,7 +472,7 @@ onAuthStateChanged(auth,async user=>{
     try{
       const profileSnap=await get(ref(db,`studentProfiles/${user.uid}`));
       if(!profileSnap.exists()||!profileSnap.val()?.username){
-        location.replace(`student.html?next=${encodeURIComponent(location.pathname.split('/').pop()+(location.search||''))}`);return;
+        location.replace('register.html');return;
       }
       studentUsername=String(profileSnap.val().username||'');
       studentName=String(profileSnap.val().name||'');
