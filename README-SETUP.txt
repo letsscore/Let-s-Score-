@@ -1,46 +1,22 @@
-LET'S SCORE — Admin/Student Integration Fix
+LET’S SCORE — Student Journey Update
 
-Important fix:
-- Teacher-control reads accessRequests/{courseId} as a parent node.
-- Realtime Database rules now grant read access at /accessRequests only to the authorised admin UID + email.
-- Students can still read their own request only.
-- Admin-only database operations require both the configured UID and email.
+Upload all files in this folder to the root of your GitHub Pages repository.
 
-Deploy:
-1. Upload all files in this folder to the root of your GitHub Pages repository.
-2. Firebase Console > Realtime Database > Rules: publish database.rules.json.
-3. Firebase Console > Authentication: enable Email/Password.
-4. Confirm admin account UID is q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email is abidurhussain2@gmail.com.
-5. Test with a student account: register/login -> choose course -> submit UTR -> admin sees request -> approve -> student course page redirects to materials.
+Student flow:
+1. student.html — register with email/password or log in.
+2. courses.html — choose a course.
+3. course.html?id=COURSE_ID — free-course access or paid package payment and UTR submission.
+4. Admin approves payment in teacher-control.html.
+5. The paid course page checks approval automatically and redirects to materials.html?id=COURSE_ID.
+6. materials.html only displays resources for the selected course and approved package.
 
-Course package conventions:
-- notes = ₹299 materials only
-- videos = ₹999 materials + recorded videos
-- Free course ID: class10-assamese-free
+Firebase:
+- Enable Authentication > Email/Password.
+- Publish database.rules.json under Realtime Database > Rules.
+- Admin account must have UID q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email abidurhussain2@gmail.com.
+- The teacher dashboard now stores the approved package in courseAccess.
+- Payment: UPI 9678945621; receipt WhatsApp 7002137940.
+- Package IDs: notes = ₹299, videos = ₹999.
+- Free course ID: class10-assamese-free.
 
-Security note:
-- Manual admin approval is not automated UPI verification.
-- External URLs (for example public Drive links) may be shared outside this website; database rules cannot revoke an already-public file link.
-- Test with a staging account before launch.
-
-
-ADMIN COURSE MANAGEMENT UPDATE
-- Teacher dashboard now displays student name/email, selected course, package, fee, UTR, status and actions in the payment approval table.
-- Added filter by pending/approved/rejected/revoked and a refresh button.
-- Approval also writes a course enrollment record.
-- Added direct file upload to Firebase Storage for notes, solutions, model papers and video lectures.
-- Publish database.rules.json in Realtime Database > Rules.
-- Publish storage.rules in Firebase Console > Storage > Rules.
-- Storage upload requires Firebase Storage enabled. Large videos may require a billing-enabled project; upload limit in this UI is 100 MB.
-
-
-FREE-PLAN STORAGE NOTE (updated 10 October 2026)
-This version does NOT use Firebase Storage and contains no Firebase Storage upload code or Storage rules. Do not enable/configure Firebase Storage for this site.
-
-To publish learning resources without Firebase Storage:
-1. Upload PDF/notes to Google Drive and set link access to Anyone with the link (or publish HTML files on GitHub Pages).
-2. Upload recorded lessons to YouTube as Unlisted, if using the video package.
-3. Sign in to Teacher Control and paste each resource's title and shareable URL into the relevant resource section.
-4. Keep Firebase Authentication and Realtime Database on your chosen free Spark plan. This package does not require enabling Blaze or adding billing for file uploads.
-
-Important: A public/shareable Drive or YouTube link can be copied by anyone who obtains it. Firebase Database rules protect the resource records, but cannot revoke access to a file that has been made publicly shareable.
+Test in Firebase's emulator or a staging project before relying on these rules in production.

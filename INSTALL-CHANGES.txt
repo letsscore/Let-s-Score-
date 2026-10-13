@@ -1,0 +1,8 @@
+LET’S SCORE — requested changes only
+
+1. Explicit Assam-student platform statement added.
+2. Paid video lecture language stated: Assamese for Assamese-medium paid course; Assamese-English combination for English-medium paid course.
+3. UPI number changed to 7636047997 and corresponding UPI ID to 7636047997@upi. WhatsApp support number was not changed.
+4. Teacher Control links removed from all non-homepage HTML pages; homepage link retained.
+
+Replace the matching site files in your GitHub Pages repository and commit/push. Firebase settings, course IDs, fees, and approval logic are otherwise unchanged.
