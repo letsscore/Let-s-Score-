@@ -1442,7 +1442,7 @@ async function loadAccessRequests(){
         }
 
         let html=`<table class="results-table"><thead><tr>
-          <th>UTR</th><th>Status</th><th>Requested</th><th>Action</th>
+          <th>Username / Student</th><th>UTR</th><th>Status</th><th>Requested</th><th>Action</th>
         </tr></thead><tbody>`;
 
         rows.forEach(r=>{
@@ -1452,6 +1452,7 @@ async function loadAccessRequests(){
               : `<button type="button" onclick="approveCourseAccess('${r.uid}')">Approve</button>
                  <button type="button" class="stop" onclick="rejectCourseAccess('${r.uid}')">Reject</button>`;
             html+=`<tr>
+              <td><strong>${escRes(r.username||"—")}</strong><br>${escRes(r.studentName||"")}<br><small>${escRes(r.contactEmail||"")}</small></td>
               <td>${escRes(r.utr||"")}</td>
               <td>${escRes(r.status||"pending")}</td>
               <td>${escRes(date)}</td>

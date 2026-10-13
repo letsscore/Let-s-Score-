@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="course.html">Course</a></div></div></nav>
+<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="student.html">Account</a></div></div></nav>
 
 <main class="wrap">
 <section class="hero">
@@ -79,7 +79,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getDatabase, ref, get, onValue, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",
@@ -95,7 +95,13 @@ const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const auth=getAuth(app);
 let studentUid=null;
-let authReady=null;
+let studentUsername="";
+let studentName="";
+let studentContactEmail="";
+let activePackage="notes";
+let authReady=Promise.resolve();
+let authGatePassed=false;
+const ADMIN_UID="q8Ybthhc3jQEhQf4e5EAFpYIaDv1";
 const id=new URLSearchParams(location.search).get("id");
 let course=null;
 
@@ -221,7 +227,7 @@ async function loadCourse(){
     document.getElementById("courseInfo").textContent=[course.className,course.subject,course.language].filter(Boolean).join(" • ");
 
     if(course.type==="paid"){
-      document.getElementById("payCard").style.display="block";
+      document.getElementById("payCard").style.display=studentUid===ADMIN_UID?"none":"block";
       setupPayment(course);
       document.getElementById("locked").textContent="🔒 Enter your approved UTR above to unlock resources.";
 
@@ -244,10 +250,12 @@ function unlock(){
   document.getElementById("locked").style.display="none";
   document.getElementById("resources").style.display="block";
 
-  const cats={
+  const cats=id==="class10-assamese-free"?{
+    notes:"📖 Notes"
+  }:{
     notes:"📖 Notes",
     solutions:"📘 NCERT Solutions",
-    videos:"🎥 Video Lectures",
+    ...(studentUid===ADMIN_UID||activePackage==="videos"?{videos:"🎥 Video Lectures"}:{}),
     papers:"📄 Model Papers"
   };
 
@@ -315,6 +323,9 @@ async function requestAccess(raw){
       utr: u,
       courseId: id,
       studentUid: studentUid,
+      username: studentUsername || "unknown",
+      studentName: studentName || "",
+      contactEmail: studentContactEmail || "",
       status: "pending",
       requestedAt: Date.now(),
       package: details.package,
@@ -334,9 +345,11 @@ async function checkStudentAccess(){
   try{
     await authReady;
     if(!studentUid) return;
+    if(studentUid===ADMIN_UID){setMessage("Administrator access.",true);unlock();return;}
 
     const accessSnap=await get(ref(db,`courseAccess/${id}/${studentUid}`));
     if(accessSnap.exists() && accessSnap.val()?.active===true){
+      activePackage=accessSnap.val()?.package==="videos"?"videos":"notes";
       localStorage.setItem("ls_access_"+id,"1");
       setMessage("✓ Access granted.",true);
       unlock();
@@ -365,28 +378,29 @@ document.getElementById("checkBtn").addEventListener("click",()=>{
   requestAccess(document.getElementById("utr").value);
 });
 
-authReady=signInAnonymously(auth).then(cred=>{
-  studentUid=cred.user.uid;
-}).catch(e=>{
-  console.error("Anonymous student authentication failed:",e);
-  const code = e?.code || "unknown";
-  if (code === "auth/operation-not-allowed") {
-    setMessage("Firebase Anonymous sign-in is disabled. In Firebase Console, enable Authentication → Sign-in method → Anonymous.");
-  } else if (code === "auth/unauthorized-domain") {
-    setMessage("This website domain is not authorised. Add your GitHub Pages domain under Firebase Authentication → Settings → Authorized domains.");
-  } else {
-    setMessage(`Student authentication failed (${code}). Check Firebase Authentication settings and the web app config.`);
+onAuthStateChanged(auth,async user=>{
+  if(!user){
+    const next=encodeURIComponent(location.pathname.split('/').pop()+(location.search||''));
+    location.replace(`student.html?next=${next}`);
+    return;
   }
-});
-
-onAuthStateChanged(auth,user=>{
-  if(user){
-    studentUid=user.uid;
-    checkStudentAccess();
+  studentUid=user.uid;
+  if(user.uid!==ADMIN_UID){
+    try{
+      const profileSnap=await get(ref(db,`studentProfiles/${user.uid}`));
+      if(!profileSnap.exists()||!profileSnap.val()?.username){
+        location.replace(`student.html?next=${encodeURIComponent(location.pathname.split('/').pop()+(location.search||''))}`);return;
+      }
+      studentUsername=String(profileSnap.val().username||'');
+      studentName=String(profileSnap.val().name||'');
+      studentContactEmail=String(profileSnap.val().contactEmail||'');
+    }catch(e){console.error(e);setMessage('Could not verify your registration. Please log in again.');return;}
   }
+  authGatePassed=true;
+  authReady=Promise.resolve();
+  await loadCourse();
+  if(id) await checkStudentAccess();
 });
-
-loadCourse();
 </script>
 </body>
 </html>

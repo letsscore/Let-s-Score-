@@ -19,20 +19,21 @@
       "$courseId": {
         ".write": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1'",
         "notes": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || $courseId === 'class10-assamese-free' || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && ($courseId === 'class10-assamese-free' || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)))"
         },
         "solutions": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "questions": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "papers": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "videos": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true && root.child('courseAccess').child($courseId).child(auth.uid).child('package').val() === 'videos'))"
-        }
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true && root.child('courseAccess').child($courseId).child(auth.uid).child('package').val() === 'videos'))"
+        },
+        ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1'"
       }
     },
     "accessRequests": {
@@ -41,7 +42,8 @@
           ".read": "auth != null && (auth.uid === $uid || auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1')",
           ".write": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (auth.uid === $uid && newData.exists() && newData.child('studentUid').val() === auth.uid && newData.child('courseId').val() === $courseId && newData.child('status').val() === 'pending' && newData.child('utr').isString() && newData.child('utr').val().length >= 6 && newData.child('utr').val().length <= 40 && ((newData.child('package').val() === 'notes' && newData.child('fee').val() === 299 && newData.child('includesRecordedVideos').val() === false) || (newData.child('package').val() === 'videos' && newData.child('fee').val() === 999 && newData.child('includesRecordedVideos').val() === true))))",
           ".validate": "!newData.exists() || newData.hasChildren(['utr','courseId','package','fee','includesRecordedVideos','status','studentUid','requestedAt'])"
-        }
+        },
+        ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1'"
       }
     },
     "courseAccess": {
