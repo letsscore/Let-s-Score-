@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="courses.html">Courses</a><a href="student.html">Account</a></div></div></nav>
+<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="student.html">Account</a></div></div></nav>
 
 <main class="wrap">
 <section class="hero">
@@ -182,7 +182,17 @@ async function loadCourseCatalog(){
     );
 
     if(!entries.length){
-      catalog.innerHTML='<div class="item"><p class="muted">No courses are published yet.</p></div>';
+      const fallbackEntries = Object.entries(COURSE_CATALOG);
+      catalog.innerHTML=fallbackEntries.map(([courseId,c])=>{
+        const paid=c.type==="paid";
+        return `<div class="item">
+          <h3>${esc(c.name)}</h3>
+          <p><strong>${paid?"💳 PAID COURSE":"🟢 FREE COURSE"}</strong></p>
+          <p>${esc([c.className,c.subject,c.language].filter(Boolean).join(" • "))}</p>
+          ${paid?'<p><strong>₹299 materials / ₹999 materials + videos</strong></p>':'<p>Free notes after registration</p>'}
+          <p><a class="btn" href="course.html?id=${encodeURIComponent(courseId)}">${paid?"Choose course":"View free course"} →</a></p>
+        </div>`;
+      }).join("");
       return;
     }
 
@@ -204,6 +214,34 @@ async function loadCourseCatalog(){
   }
 }
 
+const COURSE_CATALOG = {
+  "class10-assamese-free": {
+    name: "Class X Science — Assamese Medium",
+    className: "Class X", subject: "Science", language: "Assamese Medium",
+    type: "free", description: "Free chapter-wise Science notes for Assamese-medium students."
+  },
+  "class10-assamese-paid": {
+    name: "Class X Science — Assamese Medium",
+    className: "Class X", subject: "Science", language: "Assamese Medium",
+    type: "paid", fee: 299, description: "Chapter-wise notes, NCERT solutions, question bank and practice papers."
+  },
+  "class10-english": {
+    name: "Class X Science — English Medium",
+    className: "Class X", subject: "Science", language: "English Medium",
+    type: "paid", fee: 299, description: "Chapter-wise notes, NCERT solutions, question bank and practice papers."
+  },
+  "class11-physics": {
+    name: "Class XI Physics — English Medium",
+    className: "Class XI", subject: "Physics", language: "English Medium",
+    type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."
+  },
+  "class12-physics": {
+    name: "Class XII Physics — English Medium",
+    className: "Class XII", subject: "Physics", language: "English Medium",
+    type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."
+  }
+};
+
 async function loadCourse(){
   if(!id){
     document.getElementById("locked").style.display="none";
@@ -213,36 +251,66 @@ async function loadCourse(){
     return;
   }
 
+  // The course page must not depend on a separate `courses/$id` database
+  // record just to identify a course. Older deployments did not have these
+  // records, which caused every View/Choose Course button to say "Course not found".
+  const fallback = COURSE_CATALOG[id];
+  if(!fallback){
+    document.getElementById("courseName").textContent="Course not found";
+    document.getElementById("courseInfo").textContent="Please choose a course from the official course list.";
+    document.getElementById("locked").textContent="This course link is not recognised.";
+    document.getElementById("locked").style.display="block";
+    document.getElementById("payCard").style.display="none";
+    document.getElementById("catalogSection").style.display="block";
+    await loadCourseCatalog();
+    return;
+  }
+
   try{
-    const snap=await get(ref(db,`courses/${id}`));
-    if(!snap.exists()){
-      document.getElementById("courseName").textContent="Course not found";
-      document.getElementById("locked").textContent="This course does not exist or is not published.";
-      return;
+    let dbCourse = null;
+    try {
+      const snap=await get(ref(db,`courses/${id}`));
+      if(snap.exists()) dbCourse=snap.val()||null;
+    } catch (dbError) {
+      // Public course description is available from the local catalogue even
+      // when database rules do not allow reading the optional catalogue node.
+      console.warn("Using built-in course catalogue; optional database lookup failed.", dbError);
     }
 
-    course=snap.val()||{};
-    document.getElementById("courseName").textContent=course.name||"Course";
+    course = {...fallback, ...(dbCourse||{})};
+    document.getElementById("courseName").textContent=course.name||fallback.name;
     document.getElementById("courseBadge").textContent=course.type==="paid"?"💳 PAID COURSE":"🟢 FREE COURSE";
     document.getElementById("courseInfo").textContent=[course.className,course.subject,course.language].filter(Boolean).join(" • ");
 
     if(course.type==="paid"){
       document.getElementById("payCard").style.display=studentUid===ADMIN_UID?"none":"block";
       setupPayment(course);
-      document.getElementById("locked").textContent="🔒 Enter your approved UTR above to unlock resources.";
-
+      document.getElementById("locked").style.display="block";
+      document.getElementById("locked").textContent="🔒 Choose a package, pay using UPI, enter your UTR, and submit it for teacher approval.";
       const saved=localStorage.getItem("ls_utr_"+id);
-      if(saved){
-        document.getElementById("utr").value=saved;
-      }
+      if(saved) document.getElementById("utr").value=saved;
       await checkStudentAccess();
     }else{
+      document.getElementById("payCard").style.display="none";
       unlock();
     }
   }catch(e){
-    document.getElementById("courseName").textContent="Unable to load course";
-    document.getElementById("locked").textContent="Please try again later.";
     console.error(e);
+    // Keep the payment/enrolment route usable even if an optional catalogue
+    // read fails unexpectedly.
+    course = fallback;
+    document.getElementById("courseName").textContent=fallback.name;
+    document.getElementById("courseBadge").textContent=fallback.type==="paid"?"💳 PAID COURSE":"🟢 FREE COURSE";
+    document.getElementById("courseInfo").textContent=[fallback.className,fallback.subject,fallback.language].filter(Boolean).join(" • ");
+    if(fallback.type==="paid"){
+      document.getElementById("payCard").style.display=studentUid===ADMIN_UID?"none":"block";
+      setupPayment(fallback);
+      document.getElementById("locked").style.display="block";
+      document.getElementById("locked").textContent="Payment details are available below. Resources appear after approval.";
+    } else {
+      document.getElementById("locked").textContent="Free course notes are shown below when published.";
+      unlock();
+    }
   }
 }
 

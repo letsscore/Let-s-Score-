@@ -1,0 +1,13 @@
+LET'S SCORE — COURSE NOT FOUND FIX
+
+Problem fixed:
+The course page previously required a Firebase Realtime Database record at courses/<course-id> before it would show any course. Your existing Home/Courses buttons use valid course IDs, but those records may not exist in the database, so the page stopped before showing the payment section.
+
+Change made:
+- Added a built-in fallback catalogue for the five course IDs already used by index.html and courses.html.
+- The page now displays the course and its ₹299 / ₹999 payment section even if the optional courses/<course-id> record is missing or unreadable.
+- The course catalogue also falls back to these five courses if the database catalogue is empty.
+- Existing Firebase access checks, UTR submission, course resources, images, and other site files were preserved.
+
+Important:
+This fixes the missing-course metadata failure in the files. It does not deploy the website. Upload the ZIP contents to the same GitHub repository root and allow GitHub Pages to rebuild. Then test a paid course while logged in with a registered student account. Firebase rules must still permit the authenticated user's accessRequests/courseAccess paths for payment approval to work.
