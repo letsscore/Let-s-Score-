@@ -11,7 +11,7 @@
     "studentProfiles": {
       "$uid": {
         ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
-        ".write": "auth != null && auth.uid === $uid && auth.token.email != null",
+        ".write": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com')) && auth.token.email != null",
         ".validate": "!newData.exists() || (newData.hasChildren(['name','email','createdAt','username','contactEmail','mobile','district','classLevel','medium']) && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 100 && newData.child('email').isString() && newData.child('email').val() === auth.token.email && newData.child('createdAt').isNumber() && newData.child('username').isString() && newData.child('username').val().length >= 3 && newData.child('username').val().length <= 40 && newData.child('contactEmail').isString() && newData.child('contactEmail').val().length >= 5 && newData.child('contactEmail').val().length <= 254 && newData.child('mobile').isString() && newData.child('mobile').val().length >= 10 && newData.child('mobile').val().length <= 15 && newData.child('district').isString() && newData.child('district').val().length >= 2 && newData.child('district').val().length <= 100 && newData.child('classLevel').isString() && newData.child('classLevel').val().length >= 1 && newData.child('classLevel').val().length <= 50 && newData.child('medium').isString() && newData.child('medium').val().length >= 1 && newData.child('medium').val().length <= 50 && (!newData.child('role').exists() || newData.child('role').val() === 'student'))"
       },
       ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
@@ -86,7 +86,7 @@
       "$uid": {
         ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
         "$courseId": {
-          ".write": "auth != null && auth.uid === $uid && root.child('studentProfiles').child(auth.uid).child('username').isString() && ( $courseId === 'class10-assamese-free' || $courseId === 'class10-assamese-paid' || $courseId === 'class10-english' || $courseId === 'class11-physics' || $courseId === 'class12-physics' )",
+          ".write": "auth != null && ((auth.uid === $uid && root.child('studentProfiles').child(auth.uid).child('username').isString() && ($courseId === 'class10-assamese-free' || $courseId === 'class10-assamese-paid' || $courseId === 'class10-english' || $courseId === 'class11-physics' || $courseId === 'class12-physics')) || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
           ".validate": "!newData.exists() || (newData.hasChildren(['courseId','type','selectedAt']) && newData.child('courseId').val() === $courseId && (newData.child('type').val() === 'free' || newData.child('type').val() === 'paid') && newData.child('selectedAt').isNumber() && (($courseId === 'class10-assamese-free' && newData.child('type').val() === 'free') || ($courseId !== 'class10-assamese-free' && newData.child('type').val() === 'paid')))"
         }
       }

@@ -1,0 +1,17 @@
+LET'S SCORE — LIMITED NAVIGATION AND ADMIN DELETE UPDATE
+
+Only the requested changes were made to the existing website bundle:
+1. Homepage now has separate Student Registration and Student Login tabs.
+2. Homepage How it works, About, and Contact tabs link to their actual description pages.
+3. Courses tab still enters the registration-first student journey.
+4. A fixed Home and Back control is available on every HTML page, including student and admin pages.
+5. Admin student records now have Delete records; this removes the student's database profile, selections, requests, access grants, enrolment records and matching saved results. Firebase Authentication user account is not deleted by browser-side code.
+6. Admin test results have Delete result; test control has Delete test record.
+7. Existing payment request delete, course removal and individual resource-link delete options are retained.
+8. database.rules.json allows the admin to delete student profile and student selection records. Other rule structure remains unchanged.
+
+IMPORTANT:
+- Back up the repository before uploading.
+- Publish database.rules.json in Firebase Console > Realtime Database > Rules.
+- Deleting a profile from the website does not delete its Firebase Authentication login account; that requires a trusted admin backend or separate Firebase Console action.
+- Local JavaScript syntax and JSON checks passed. This bundle has not been deployed or live-tested against Firebase.
