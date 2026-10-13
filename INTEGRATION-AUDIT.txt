@@ -1,0 +1,26 @@
+LET'S SCORE — INTEGRATION / NAVIGATION AUDIT
+Prepared from the uploaded repository ZIP.
+
+FIXES APPLIED
+1. Kept the existing repository and assets; unrelated files were not removed.
+2. Standardized navigation links on the main student pages to point to actual HTML pages: Home, Courses, Account/Register/Login, How it works, About and Contact where appropriate.
+3. Removed Teacher Control links from student-facing pages. The Teacher Control/Admin Login entry remains on the homepage only.
+4. Fixed the legacy enrolment.html route so links with ?course=<course-id> open the canonical course.html?id=<course-id> payment/access page. Invalid or missing course IDs return to courses.html.
+5. Fixed the post-login redirect allowlist so valid local pages such as dashboard.html and revisionary-test.html can be returned to after login, rather than always being redirected to the course catalogue.
+6. Corrected the Class XI and XII test-page JavaScript syntax error (duplicate `const firebaseConfig=`), which prevented those pages from running.
+7. Removed a broken Class X descriptive-paper download link because the referenced PDF is not present in this repository. The page now explains that the PDF must be uploaded before the download can be enabled.
+8. Moved the Assam-specific course-language note inside courses.html's document body instead of after the closing HTML tag.
+9. Removed the obsolete UPI number from enrolment.html by routing enrolment through the current course payment page.
+10. Updated setup notes to avoid promising legacy email login where the username-based account profile is required.
+
+CHECKS PERFORMED
+- All local HTML/CSS/JS/PDF/image references found by the static scan resolve to files in this repository.
+- All inline JavaScript blocks in HTML files pass Node syntax checking.
+- database.rules.json parses as valid JSON.
+- No non-homepage HTML file links to teacher-control.html.
+- The obsolete UPI number 9678945621 no longer appears in HTML files.
+
+IMPORTANT LIMITATIONS
+- These are local file/static integration checks. The site was not deployed and Firebase Authentication / Realtime Database were not live-tested from this environment.
+- The Firebase Realtime Database rules must be published in the Firebase Console, and Email/Password sign-in must be enabled.
+- GitHub Pages changes take effect only after the corrected files are uploaded/committed to the repository.

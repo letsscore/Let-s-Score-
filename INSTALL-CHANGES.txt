@@ -4,7 +4,7 @@ CHANGES INCLUDED
 1. Mandatory student enrolment registration before opening any free or paid course (admin account excluded).
 2. Registration form captures full name, contact email, mobile number, Assam district, class/course level and medium.
 3. A unique username and auto-generated password are created automatically. The student must save/copy the credentials shown after registration.
-4. Students log in using their username and generated password. Existing Firebase email/password accounts can still try email login.
+4. Students log in using their username and generated password. Legacy email/password accounts without a LET’S SCORE username profile may need to register again using the new username-based flow.
 5. Course selection is available after login. Free course access requires a registered profile; paid course access remains locked until the admin verifies the UTR and approves the request.
 6. Paid-course request records include username, student name, contact email, UTR, course ID and package details. The admin's payment-request table now shows username/student alongside the UTR.
 7. Each normal navigation link opens its own HTML page. Admin login remains linked from the homepage only.
