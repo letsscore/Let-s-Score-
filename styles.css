@@ -6,3 +6,6 @@
 .course-artwork{display:block;width:100%;height:220px;object-fit:cover;object-position:center;background:#102943;border-bottom:1px solid rgba(255,255,255,.12)}
 .course-card-content{padding:24px}
 @media(max-width:600px){.course-artwork{height:230px}.course-card-content{padding:20px}}
+
+/* LET'S SCORE professional classroom resource cards */
+.resource-section{background:linear-gradient(145deg,#102743,#0a1b30);border:1px solid #284b6d;border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 12px 28px #0002}.resource-section h2{font-size:20px;margin:0 0 12px}.resource-link{display:flex;align-items:center;gap:12px;padding:14px 15px;margin:9px 0;background:#0b1b30;border:1px solid #2b4c6c;border-radius:13px;color:#e5f7ff;text-decoration:none;font-weight:750;transition:transform .15s,border-color .15s}.resource-link:hover{transform:translateY(-2px);border-color:#22d3ee;background:#10304c}.resource-link:before{content:"↗";display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:10px;background:#0e749033;color:#67e8f9;font-size:18px}.empty{border:1px dashed #355878;border-radius:16px;padding:22px;background:#0a1b30}.page-head{padding-top:28px}.panel{border-radius:18px}
