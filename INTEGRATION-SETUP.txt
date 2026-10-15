@@ -3,15 +3,15 @@ LET’S SCORE — INTEGRATED REGISTRATION / LOGIN / COURSE / PAYMENT FLOW
 Upload all files in this ZIP to the root of the existing GitHub repository, preserving existing files that are not included here.
 
 STUDENT FLOW
-1. Every non-admin link/button on the homepage opens register.
-2. Registration creates Firebase Authentication credentials using a generated username and password, saves the student profile, signs out, and redirects to login.
-3. Login validates Firebase Authentication and the saved student profile, then redirects to courses.
-4. Course selection opens enrolment?id=COURSE_ID.
+1. Every non-admin link/button on the homepage opens register.html.
+2. Registration creates Firebase Authentication credentials using a generated username and password, saves the student profile, signs out, and redirects to login.html.
+3. Login validates Firebase Authentication and the saved student profile, then redirects to courses.html.
+4. Course selection opens enrolment.html?id=COURSE_ID.
 5. Free Class X Assamese Science opens the free notes/resources path. Paid courses show ₹299 materials-only and ₹999 materials + recorded-video package options, UPI payment details, QR, and UTR submission.
-6. Payment request is saved at accessRequests/COURSE_ID/UID. Admin approval is managed in admin-control. Resource access depends on courseAccess/COURSE_ID/UID.
+6. Payment request is saved at accessRequests/COURSE_ID/UID. Admin approval is managed in admin-control.html. Resource access depends on courseAccess/COURSE_ID/UID.
 
 ADMIN FLOW
-- Admin Login is linked from the homepage only and opens admin-control.
+- Admin Login is linked from the homepage only and opens admin-control.html.
 - Payments & access: approve, reject, revoke access, or delete a request.
 - Resources: add chapter notes, NCERT solutions, question banks, model papers, and HTTPS video links by course.
 - Courses: edit the course catalogue.
@@ -45,7 +45,7 @@ LATEST COURSE VISIBILITY UPDATE
 - Selection is saved at studentSelections/{uid}/{courseId}. Publish the updated database.rules.json or firebase-database-rules.json rules in Firebase Console.
 - Dashboard lists only courses selected by that student. Paid course resources remain hidden until courseAccess/{courseId}/{uid}.active is true.
 - Free Class X Assamese notes appear only after the student confirms free enrolment.
-- Each resource opens in resource with a course/category/resource ID and checks the user's course access before displaying it.
+- Each resource opens in resource.html with a course/category/resource ID and checks the user's course access before displaying it.
 
 COURSE SELECTION / MATERIAL PAGE UPDATE (2026-10-13)
 - Students' course selections are saved at studentSelections/{uid}/{courseId}.
@@ -53,5 +53,5 @@ COURSE SELECTION / MATERIAL PAGE UPDATE (2026-10-13)
 - The dashboard lists only course IDs saved under that student's selection record.
 - Paid course materials remain locked until courseAccess/{courseId}/{uid}.active is true.
 - The free Class X Assamese course must be explicitly enrolled; it is no longer shown to every account automatically.
-- Resource links open resource?course=...&category=...&id=... and render on a separate page after access checks.
+- Resource links open resource.html?course=...&category=...&id=... and render on a separate page after access checks.
 - Enrolment accepts both ?course= and legacy ?id= course parameters.

@@ -6,6 +6,6 @@ assets/course-images/science-ix-x.jpg
 assets/course-images/physics-xi.jpg
 assets/course-images/physics-xii.jpg
 
-Do not upload the JPG files beside /. They must be inside assets/course-images/.
+Do not upload the JPG files beside index.html. They must be inside assets/course-images/.
 Commit the files to the same branch and folder used by GitHub Pages (main / root).
 After deployment, open https://letsscore.online/ and refresh the page.

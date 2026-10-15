@@ -1,6 +1,3 @@
----
-permalink: /enrolment
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +29,7 @@ nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);box-shadow:0 8px
 </style>
 </head>
 <body>
-<nav><div class="navin"><a class="logo" href="/">🎓 LET'S SCORE</a><div><a href="/">Home</a><a href="courses">Courses</a><a href="register">Account</a></div></div></nav>
+<nav><div class="navin"><a class="logo" href="index.html">🎓 LET'S SCORE</a><div><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="register.html">Account</a></div></div></nav>
 
 <main class="wrap">
 <section class="hero">
@@ -223,7 +220,7 @@ async function loadCourseCatalog(){
           <p><strong>${paid?"💳 PAID COURSE":"🟢 FREE COURSE"}</strong></p>
           <p>${esc([c.className,c.subject,c.language].filter(Boolean).join(" • "))}</p>
           ${paid?'<p><strong>₹299 materials / ₹999 materials + videos</strong></p>':'<p>Free notes after registration</p>'}
-          <p><a class="btn" href="enrolment?id=${encodeURIComponent(courseId)}">${paid?"Choose course":"View free course"} →</a></p>
+          <p><a class="btn" href="enrolment.html?id=${encodeURIComponent(courseId)}">${paid?"Choose course":"View free course"} →</a></p>
         </div>`;
       }).join("");
       return;
@@ -238,7 +235,7 @@ async function loadCourseCatalog(){
         <p><strong>${type}</strong></p>
         <p>${esc(info)}</p>
         ${fee}
-        <p><a class="btn" href="enrolment?id=${encodeURIComponent(courseId)}">Open Course →</a></p>
+        <p><a class="btn" href="enrolment.html?id=${encodeURIComponent(courseId)}">Open Course →</a></p>
       </div>`;
     }).join("");
   }catch(e){
@@ -344,7 +341,7 @@ async function loadCourse(){
           try{
             await saveSelection(id,studentUid,"free");
             document.getElementById("freeEnrollMsg").textContent="Free course added to your account. Opening My Learning…";
-            location.href="dashboard";
+            location.href="dashboard.html";
           }catch(err){console.error(err);document.getElementById("freeEnrollMsg").textContent="Could not enrol. Please check your connection and try again.";}
         };
       }
@@ -405,7 +402,7 @@ function unlock(){
         ?items.map(x=>{
           const title=esc(x.title||"Resource");
           const key=Object.keys(data).find(k=>data[k]===x);
-          const href=`resource?course=${encodeURIComponent(id)}&category=${encodeURIComponent(cat)}&id=${encodeURIComponent(key||"")}`;
+          const href=`resource.html?course=${encodeURIComponent(id)}&category=${encodeURIComponent(cat)}&id=${encodeURIComponent(key||"")}`;
           return `<div class="item"><strong>${title}</strong><p><a href="${href}">${cat==="videos"?"▶ Open video lecture →":"Open material →"}</a></p></div>`;
         }).join("")
         :'<p class="muted">Nothing added yet.</p>';
@@ -506,7 +503,7 @@ document.getElementById("checkBtn").addEventListener("click",()=>{
 onAuthStateChanged(auth,async user=>{
   if(!user){
     const next=encodeURIComponent(location.pathname.split('/').pop()+(location.search||''));
-    location.replace('register');
+    location.replace('register.html');
     return;
   }
   studentUid=user.uid;
@@ -514,7 +511,7 @@ onAuthStateChanged(auth,async user=>{
     try{
       const profileSnap=await get(ref(db,`studentProfiles/${user.uid}`));
       if(!profileSnap.exists()||!profileSnap.val()?.username){
-        location.replace('register');return;
+        location.replace('register.html');return;
       }
       studentUsername=String(profileSnap.val().username||'');
       studentName=String(profileSnap.val().name||'');
@@ -524,9 +521,9 @@ onAuthStateChanged(auth,async user=>{
   if(user.uid!==ADMIN_UID && id){
     try{
       const approvedSnap=await get(ref(db,`courseAccess/${id}/${user.uid}`));
-      if(approvedSnap.val()?.active===true){location.replace(`learn?course=${encodeURIComponent(id)}`);return;}
+      if(approvedSnap.val()?.active===true){location.replace(`learn.html?course=${encodeURIComponent(id)}`);return;}
       const freeSelection=await get(ref(db,`studentSelections/${user.uid}/${id}`));
-      if(id==='class10-assamese-free' && freeSelection.exists()){location.replace(`learn?course=${encodeURIComponent(id)}`);return;}
+      if(id==='class10-assamese-free' && freeSelection.exists()){location.replace(`learn.html?course=${encodeURIComponent(id)}`);return;}
     }catch(accessError){console.warn('Could not check existing course access before enrolment.',accessError);}
   }
   authGatePassed=true;
@@ -539,7 +536,7 @@ onAuthStateChanged(auth,async user=>{
 <!-- Shared navigation controls: available on every student and admin page -->
 <style id="site-home-back-style">.site-home-back{position:fixed!important;left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;z-index:99999!important;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:0!important;width:auto!important;min-width:0!important;max-width:calc(100vw - 24px)!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;flex-wrap:nowrap!important}.site-home-back a,.site-home-back button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:34px!important;max-height:none!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;font:600 13px/1.2 Arial,sans-serif!important;color:#f4f8ff!important;background:#153452!important;border:1px solid #3a6385!important;border-radius:9px!important;padding:9px 12px!important;text-decoration:none!important;cursor:pointer!important}.site-home-back a:hover,.site-home-back button:hover{background:#12627a!important}@media(max-width:520px){.site-home-back{right:8px!important;bottom:8px!important;left:auto!important;max-width:calc(100vw - 16px)!important}.site-home-back a,.site-home-back button{font-size:13px!important;min-height:34px!important;padding:9px 12px!important}}</style>
 <nav class="site-home-back" aria-label="Page navigation"><button type="button" id="siteBackButton" aria-label="Go back">← Back</button></nav>
-<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='/'}});</script>
+<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='index.html'}});</script>
 
 </body>
 </html>

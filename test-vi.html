@@ -1,6 +1,3 @@
----
-permalink: /test-vi
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +38,7 @@ button{border:0;border-radius:13px;padding:13px 20px;color:#fff;background:linea
   <h1>Revisionary Test</h1>
   <div class="status">● TEST NOT STARTED</div>
   <p class="muted">The teacher has not started this test yet.</p>
-  <a class="btn" href="revisionary-test">Back to Revisionary Tests</a>
+  <a class="btn" href="revisionary-test.html">Back to Revisionary Tests</a>
 </section>
 
 <section id="test" class="hidden">
@@ -59,7 +56,7 @@ button{border:0;border-radius:13px;padding:13px 20px;color:#fff;background:linea
       <strong>Questions are not added yet.</strong>
       <p class="muted">This page is ready. The required question paper can be added later without changing the Firebase teacher-control system.</p>
     </div>
-    <a class="btn" href="revisionary-test">Back to Revisionary Tests</a>
+    <a class="btn" href="revisionary-test.html">Back to Revisionary Tests</a>
   </div>
 </section>
 </main>
@@ -109,7 +106,7 @@ if (questions.length) {
 <!-- Shared navigation controls: available on every student and admin page -->
 <style id="site-home-back-style">.site-home-back{position:fixed!important;left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;z-index:99999!important;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:0!important;width:auto!important;min-width:0!important;max-width:calc(100vw - 24px)!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;flex-wrap:nowrap!important}.site-home-back a,.site-home-back button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:34px!important;max-height:none!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;font:600 13px/1.2 Arial,sans-serif!important;color:#f4f8ff!important;background:#153452!important;border:1px solid #3a6385!important;border-radius:9px!important;padding:9px 12px!important;text-decoration:none!important;cursor:pointer!important}.site-home-back a:hover,.site-home-back button:hover{background:#12627a!important}@media(max-width:520px){.site-home-back{right:8px!important;bottom:8px!important;left:auto!important;max-width:calc(100vw - 16px)!important}.site-home-back a,.site-home-back button{font-size:13px!important;min-height:34px!important;padding:9px 12px!important}}</style>
 <nav class="site-home-back" aria-label="Page navigation"><button type="button" id="siteBackButton" aria-label="Go back">← Back</button></nav>
-<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='/'}});</script>
+<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='index.html'}});</script>
 
 </body>
 </html>

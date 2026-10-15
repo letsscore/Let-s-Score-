@@ -1,9 +1,9 @@
 LET’S SCORE — ADMIN CONTROL UPDATE
 
 FILES TO UPLOAD TO THE ROOT OF YOUR EXISTING GITHUB PAGES REPOSITORY
-1. / — updated homepage. Keeps the Admin Control button hidden unless the signed-in Firebase account matches the authorised admin UID and email.
-2. admin-control — renamed administrator dashboard; keeps course management, payment approval, resource publishing, and revisionary-test controls.
-3. teacher-control — compatibility redirect to admin-control so old bookmarks do not break.
+1. index.html — updated homepage. Keeps the Admin Control button hidden unless the signed-in Firebase account matches the authorised admin UID and email.
+2. admin-control.html — renamed administrator dashboard; keeps course management, payment approval, resource publishing, and revisionary-test controls.
+3. teacher-control.html — compatibility redirect to admin-control.html so old bookmarks do not break.
 
 IMPORTANT LOGIN NOTE
 The code cannot recover or change your Firebase password. The displayed auth/invalid-credential error usually means the password/account credentials are not being accepted. In Firebase Console, select project lets-score-revisionary-test → Authentication → Users, verify the account abidurhussain2@gmail.com exists, then use the password reset option / send password reset email and set a new password.
@@ -15,4 +15,4 @@ SECURITY
 The dashboard verifies the existing admin UID q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email abidurhussain2@gmail.com. Keep Realtime Database rules restricted to this admin for writes. Client-side checks alone are not a substitute for Firebase Database Rules. Do not replace all current database rules with a generic rules file because the student portal needs its existing read/write paths.
 
 DEPLOY
-Upload/replace these three files at the repository root and commit the changes. Hard refresh the site after deployment. The admin button appears on the homepage only while the authorised admin account is signed in in that browser. Students and visitors will not see it. Direct access to admin-control still requires Firebase login and the authorised admin UID/email.
+Upload/replace these three files at the repository root and commit the changes. Hard refresh the site after deployment. The admin button appears on the homepage only while the authorised admin account is signed in in that browser. Students and visitors will not see it. Direct access to admin-control.html still requires Firebase login and the authorised admin UID/email.

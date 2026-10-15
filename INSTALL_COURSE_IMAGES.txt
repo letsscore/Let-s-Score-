@@ -1,5 +1,5 @@
 LET’S SCORE homepage course-image update
 
-Upload/replace /, common.js and styles.css in the repository root. Upload the assets/course-images/ folder while preserving its folder structure. Commit to the main branch and wait for GitHub Pages to deploy.
+Upload/replace index.html, common.js and styles.css in the repository root. Upload the assets/course-images/ folder while preserving its folder structure. Commit to the main branch and wait for GitHub Pages to deploy.
 
 The course images are used in the dynamic course cards on the homepage and Courses page. No Firebase database changes are required. Existing course IDs, pricing, access checks and links are preserved.
