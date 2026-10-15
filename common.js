@@ -28,8 +28,11 @@ if(location.pathname.endsWith('student.html')){
 }
 if(location.pathname.endsWith('courses.html'))courseCards();
 if(location.pathname.endsWith('enrolment.html')){
- const id=params.get('course')||'class10-english',c=courses[id];if($('selectedCourse'))$('selectedCourse').textContent=c?c.name:'Course not found';if($('package'))$('package').onchange=updateFee;function updateFee(){const video=$('package').value==='videos';$('fee').textContent=`₹${video?999:299}`;$('packageSummary').textContent=video?'Study materials + recorded video lectures':'Study materials only; no recorded video lectures';$('payLink').href='upi://pay?'+new URLSearchParams({pa:'9678945621@upi',pn:"LETS SCORE",am:(video?999:299).toFixed(2),cu:'INR',tn:(c?.name||id)+(video?' - video package':' - materials package')});$('whatsLink').href='https://wa.me/917002137940?text='+encodeURIComponent(`Hello LET'S SCORE. Course: ${c?.name||id}. Package: ${video?'₹999 with videos':'₹299 study materials'}. UTR: ${$('utr')?.value||''}`)}updateFee();
- $('submitRequest')?.addEventListener('click',async()=>{const u=await currentUserPromise;if(!u){message('requestMsg','Please log in first.');return}const utr=$('utr').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!utr){message('requestMsg','Enter your UTR after completing the payment.');return}try{const pkg=$('package').value;await set(ref(db,`accessRequests/${id}/${u.uid}`),{utr,courseId:id,package:pkg,fee:pkg==='videos'?999:299,includesRecordedVideos:pkg==='videos',status:'pending',studentUid:u.uid,studentEmail:u.email||'',requestedAt:Date.now()});message('requestMsg','Request submitted. Your course will unlock after the teacher verifies your payment.');}catch(e){message('requestMsg','Could not submit request: '+e.message)}})
+ const id=params.get('course')||'class10-english',c=courses[id];if($('selectedCourse'))$('selectedCourse').textContent=c?c.name:'Course not found';if($('package'))$('package').onchange=updateFee;function updateFee(){const video=$('package').value==='videos';$('fee').textContent=`₹${video?999:299}`;$('packageSummary').textContent=video?'Study materials + recorded video lectures':'Study materials only; no recorded video lectures';$('payLink').href='upi://pay?'+new URLSearchParams({pa:'7636047997@upi',pn:"LETS SCORE",am:(video?999:299).toFixed(2),cu:'INR',tn:(c?.name||id)+(video?' - video package':' - materials package')});$('whatsLink').href='https://wa.me/917002137940?text='+encodeURIComponent(`Hello LET'S SCORE. Course: ${c?.name||id}. Package: ${video?'₹999 with videos':'₹299 study materials'}. UTR: ${$('utr')?.value||''}`)}updateFee();
+ $('submitRequest')?.addEventListener('click',async()=>{const u=await currentUserPromise;if(!u){message('requestMsg','Please log in first.');return}const utr=$('utr').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!utr){message('requestMsg','Enter your UTR after completing the payment.');return}try{const pkg=$('package').value,now=Date.now();await Promise.all([
+ set(ref(db,`accessRequests/${id}/${u.uid}`),{utr,courseId:id,package:pkg,fee:pkg==='videos'?999:299,includesRecordedVideos:pkg==='videos',status:'pending',studentUid:u.uid,studentEmail:u.email||'',requestedAt:now}),
+ set(ref(db,`studentSelections/${u.uid}/${id}`),{courseId:id,type:'paid',selectedAt:now})
+]);message('requestMsg','Request submitted. Your course will unlock after the teacher verifies your payment.');}catch(e){message('requestMsg','Could not submit request: '+e.message)}})
 }
 if(location.pathname.endsWith('dashboard.html')){
  const u=await requireUser();
@@ -39,12 +42,23 @@ if(location.pathname.endsWith('dashboard.html')){
   try{
    const selectionSnap=await get(ref(db,`studentSelections/${u.uid}`));
    const selected=selectionSnap.val()||{};
+   // Read each known course request separately: Firebase rules grant students access
+   // to their own request records, not to the entire accessRequests parent node.
+   const requestPairs=await Promise.all(Object.keys(courses).map(async courseId=>[
+    courseId,(await get(ref(db,`accessRequests/${courseId}/${u.uid}`))).val()
+   ]));
+   const requestsByCourse=Object.fromEntries(requestPairs);
+   // Build the dashboard from both selections and payment requests. Older submissions
+   // may have a request record but no studentSelections record; do not hide those.
+   const ids=new Set(Object.keys(selected).filter(id=>selected[id]));
+   for(const [courseId,request] of Object.entries(requestsByCourse)) if(request) ids.add(courseId);
    const rows=[];
-   for(const [id,selection] of Object.entries(selected)){
-    const c=courses[id]; if(!c||!selection) continue;
-    if(c.type==='free') { rows.push({id,c,free:true}); continue; }
+   for(const id of ids){
+    const c=courses[id]; if(!c) continue;
+    const selection=selected[id];
+    if(c.type==='free') { if(selection) rows.push({id,c,free:true}); continue; }
     const [access,request]=await Promise.all([get(ref(db,`courseAccess/${id}/${u.uid}`)),get(ref(db,`accessRequests/${id}/${u.uid}`))]);
-    rows.push({id,c,a:access.val(),r:request.val()});
+    rows.push({id,c,a:access.val(),r:request.val()||requestsByCourse[id],selection});
    }
    const accessible=rows.filter(x=>x.free||x.a?.active===true);
    const showRows=accessible.length?accessible:rows;

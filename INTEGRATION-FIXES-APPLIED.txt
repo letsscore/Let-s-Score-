@@ -1,0 +1,19 @@
+LET’S SCORE — INTEGRATION FIXES APPLIED
+
+1. Admin catalogue now merges Firebase course records over the five built-in course records, so a partially populated courses node no longer hides built-in courses.
+2. Admin course creation is restricted to the five existing supported course IDs. Adding a new ID now shows a clear warning instead of silently creating a course that student pages cannot display and Firebase rules may reject.
+3. Built-in course IDs cannot be deleted from the admin panel, avoiding a mismatch with the student catalogue and database rules. Existing course details remain editable.
+4. On paid enrolment submission, the student payment request and matching studentSelections record are saved together. This allows the student dashboard to find the course and show its pending status.
+5. The student dashboard now builds its course list from both studentSelections and that student's accessRequests, so older requests without a selection record can still appear.
+6. Fixed the stale UPI ID in common.js to 7636047997@upi, matching course.html and enrolment.html.
+
+COURSE IDs RETAINED (do not rename without a coordinated migration):
+- class10-assamese-free
+- class10-assamese-paid
+- class10-english
+- class11-physics
+- class12-physics
+
+VALIDATION LIMITS
+- Static JavaScript/HTML checks can verify syntax and references only. Live Firebase reads/writes and deployed GitHub Pages behaviour were not tested here.
+- Upload the changed files to the existing repository after making a backup. Publish database.rules.json separately in Firebase Console only if you intentionally change rules; this patch does not modify the rules.

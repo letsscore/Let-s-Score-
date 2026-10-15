@@ -33,7 +33,8 @@
         },
         "videos": {
           ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true && root.child('courseAccess').child($courseId).child(auth.uid).child('package').val() === 'videos'))"
-        }
+        },
+        ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
       }
     },
     "accessRequests": {
