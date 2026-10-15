@@ -1,0 +1,5 @@
+LET'S SCORE - course access/resource compatibility patch
+
+This update adds compatibility lookup for Class XI/XII Physics course IDs that may be stored with or without the '-english' suffix. It also makes the learning page's access-check error more diagnostic. It does not change live Firebase Security Rules.
+
+Upload the extracted website files to the same GitHub Pages repository path, preserving folder structure. Back up the repository first. Test with an approved student account. If the page still reports a Firebase permission error, inspect the deployed Realtime Database Rules before changing them.
