@@ -1,0 +1,30 @@
+LET'S SCORE — CLASSROOM ACCESS FIX (15 October 2026)
+
+ROOT CAUSE FOUND IN THE ORIGINAL ZIP
+In database.rules.json, courseResources/$courseId had a parent ".read" rule allowing only the admin.
+Realtime Database rules cascade: a denied parent read cannot be overridden by more permissive child rules.
+Therefore students could pass the courseAccess check, but reads of courseResources/{courseId}/notes, solutions,
+questions, papers, or videos were denied. learn.html catches that failure and misleadingly displays
+"Could not verify course access", even when the dashboard shows an approved course.
+
+FIX APPLIED
+Removed only the parent ".read" rule from courseResources/$courseId. The existing category-specific read
+rules remain in place, so access is still gated by profile + course access; videos still require package="videos".
+The parent ".write" rule remains admin-only.
+
+DEPLOY THE FIX
+1. Back up your current GitHub repository.
+2. Open database.rules.json in this ZIP and copy its complete contents into Firebase Console:
+   Realtime Database > Rules. Click Publish.
+3. Do NOT upload this ZIP to GitHub expecting it to change Firebase rules automatically; Firebase rules
+   must be published separately in the Firebase Console.
+4. Hard-refresh the site on the phone (Chrome menu > Settings > Privacy and security > Delete browsing data,
+   or open the page in an Incognito tab) and sign in again.
+5. Test the approved Class XII Physics student. A package="videos", active=true courseAccess record should
+   now allow the video category. A package="notes" record should not allow videos.
+
+IMPORTANT
+This fix corrects the rules defect demonstrated by the screenshots. It does not modify student/payment data
+and does not grant new course access. If the error remains after publishing these rules, the next issue is
+likely a missing/mismatched courseAccess/{courseId}/{uid} record or a deployed rules file different from
+the one in this ZIP.
