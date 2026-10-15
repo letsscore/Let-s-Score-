@@ -1,29 +1,29 @@
 LET'S SCORE — Professional multi-page redesign (corrected bundle)
 
 Included files:
-- index.html          Homepage
-- courses.html        Course catalogue
-- student.html        Student login / registration
-- enrolment.html      ₹299 / ₹999 package, UPI and UTR submission
-- dashboard.html      Student enrolments and approval status
-- learn.html          Course resource catalogue
-- resource.html       Dedicated page that opens each selected resource inside the course site
-- teacher-control.html Current admin panel: payment requests, course/resource management, UTR approval and revisionary test controls
-- teacher-control-insights.html Existing Student Results/insights admin page, preserved unchanged and linked from teacher-control.html
+- /          Homepage
+- courses        Course catalogue
+- student        Student login / registration
+- enrolment      ₹299 / ₹999 package, UPI and UTR submission
+- dashboard      Student enrolments and approval status
+- learn          Course resource catalogue
+- resource       Dedicated page that opens each selected resource inside the course site
+- teacher-control Current admin panel: payment requests, course/resource management, UTR approval and revisionary test controls
+- teacher-control-insights Existing Student Results/insights admin page, preserved unchanged and linked from teacher-control
 - styles.css          Shared responsive styling
 - common.js           Student journey and Firebase integration
 
 Install safely:
 1. Back up the entire current GitHub Pages repository before uploading.
-2. Extract this ZIP. Copy the contents of the lets_score_redesign folder into the same repository root as index.html.
-3. This ZIP includes the current teacher-control.html admin panel. The existing Student Results/insights functionality is preserved in teacher-control-insights.html and linked from the main admin page. Keep both files. The insights page uses the existing authorised teacher account.
-4. Keep existing revisionary-test.html, test-x.html, test-xi.html, test-xii.html and any other current test pages unchanged. This redesign does not replace those files.
+2. Extract this ZIP. Copy the contents of the lets_score_redesign folder into the same repository root as /.
+3. This ZIP includes the current teacher-control admin panel. The existing Student Results/insights functionality is preserved in teacher-control-insights and linked from the main admin page. Keep both files. The insights page uses the existing authorised teacher account.
+4. Keep existing revisionary-test, test-x, test-xi, test-xii and any other current test pages unchanged. This redesign does not replace those files.
 5. Do not replace database.rules.json or modify Firebase rules as part of this front-end update.
 6. Commit and wait for GitHub Pages to publish.
-7. Test student login, payment request, UTR approval, course resources, videos on a ₹999-approved test account, and the Student Results/insights section in teacher-control.html.
+7. Test student login, payment request, UTR approval, course resources, videos on a ₹999-approved test account, and the Student Results/insights section in teacher-control.
 
 Resource click behavior:
-- Clicking a resource in learn.html opens resource.html with that selected course material.
+- Clicking a resource in learn opens resource with that selected course material.
 - YouTube videos and supported Google Drive files are embedded on the dedicated resource page. An “Open original resource” link remains available for providers that block embedding.
 - Videos are displayed only for approved ₹999 video-package access. ₹299 access does not unlock video lectures.
 
@@ -35,8 +35,8 @@ Firebase notes:
 
 
 REVISIONARY TEST CONNECTION FIX (v4)
-- revisionary-test.html now reads both `live` and `active` flags from examControl/classX, classXI and classXII.
-- teacher-control.html writes both flags to keep older student pages and Student Results/insights integrations compatible.
+- revisionary-test now reads both `live` and `active` flags from examControl/classX, classXI and classXII.
+- teacher-control writes both flags to keep older student pages and Student Results/insights integrations compatible.
 - Student Results/insights page is included unchanged.
 - Firebase database rules are not replaced by this bundle. If the test page reports PERMISSION_DENIED, verify that the deployed Realtime Database rules allow public read at `examControl` while restricting writes to the authorised teacher.
-- Existing test-x.html, test-xi.html and test-xii.html files should remain in the repository unchanged.
+- Existing test-x, test-xi and test-xii files should remain in the repository unchanged.

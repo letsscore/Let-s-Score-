@@ -1,19 +1,19 @@
 LET'S SCORE — HTML QUESTION PAPERS WITH PAID-COURSE ACCESS
 
 FILES IN THIS UPDATE
-- index.html: refreshed homepage copy; removes the Revisionary Tests item from the home navigation.
-- teacher-control.html: upload-by-repository-path workflow; preview, publish/start, and stop HTML papers.
-- revisionary-test.html: requires student sign-in and approved paid-course access before showing a test or paper link.
+- /: refreshed homepage copy; removes the Revisionary Tests item from the home navigation.
+- teacher-control: upload-by-repository-path workflow; preview, publish/start, and stop HTML papers.
+- revisionary-test: requires student sign-in and approved paid-course access before showing a test or paper link.
 
 INSTALL
 1. Extract this ZIP.
-2. Upload/replace index.html, teacher-control.html, and revisionary-test.html in the root of your GitHub repository.
-3. Keep common.js, styles.css, courses.html, student.html, dashboard.html, teacher-control-insights.html, and your existing test files.
+2. Upload/replace /, teacher-control, and revisionary-test in the root of your GitHub repository.
+3. Keep common.js, styles.css, courses, student, dashboard, teacher-control-insights, and your existing test files.
 4. Commit and wait for GitHub Pages to deploy.
 
 PUBLISH AN HTML PAPER
 1. Upload the HTML question paper to the repository root (or a subfolder).
-2. Sign in at teacher-control.html.
+2. Sign in at teacher-control.
 3. Choose Class X, XI, or XII. Enter title, test ID, marks, and the relative HTML path, e.g. question-papers/class10-science-01.html.
 4. Preview the paper, then select Publish & Start Test. Stop it when finished.
 
@@ -30,4 +30,4 @@ FIREBASE RULES
 Your Realtime Database rules must allow signed-in students to read their own courseAccess/<courseId>/<uid> record, and allow reading examControl status. Do not enable public writes.
 
 NOTE
-The homepage mentions paid-course revisionary tests as a feature but does not include a Revisionary Tests navigation tab/link. This ZIP does not alter teacher-control-insights.html or the existing test-x.html, test-xi.html, and test-xii.html files. The HTML paper linked from the new page is not automatically connected to the scoring/result submission code in those older test pages.
+The homepage mentions paid-course revisionary tests as a feature but does not include a Revisionary Tests navigation tab/link. This ZIP does not alter teacher-control-insights or the existing test-x, test-xi, and test-xii files. The HTML paper linked from the new page is not automatically connected to the scoring/result submission code in those older test pages.

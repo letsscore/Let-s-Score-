@@ -1,5 +1,5 @@
 LET'S SCORE — Explore Courses image fix
 
-Upload/replace these files in the ROOT of the same GitHub Pages repository: courses.html, common.js, styles.css. Also upload the complete assets/course-images/ folder with the three JPG files inside. Keep the folder names and lowercase filenames exactly as provided. Commit to main.
+Upload/replace these files in the ROOT of the same GitHub Pages repository: courses, common.js, styles.css. Also upload the complete assets/course-images/ folder with the three JPG files inside. Keep the folder names and lowercase filenames exactly as provided. Commit to main.
 
 The course catalogue cards now show course artwork for Science (Classes IX–X), Physics Class XI and Physics Class XII. Existing course IDs, package prices, enrolment links, and Firebase logic are preserved.

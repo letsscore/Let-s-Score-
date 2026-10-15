@@ -12,12 +12,12 @@ CHANGES INCLUDED
 9. Video-language labels remain: Assamese-medium paid course — Assamese; English-medium paid course — Assamese-English combination.
 
 FILES
-- index.html
-- student.html
-- courses.html
-- course.html
-- materials.html
-- teacher-control.html
+- /
+- student
+- courses
+- course
+- materials
+- teacher-control
 - database.rules.json
 - course-materials-banner.png
 

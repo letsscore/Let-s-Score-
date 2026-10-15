@@ -1,0 +1,15 @@
+LET'S SCORE — CLEAN URL UPDATE
+
+This package adds extensionless routes for the site's HTML pages, updates internal links and sitemap entries, and keeps legacy .html URLs working via redirects.
+
+DEPLOY SAFELY (Android)
+1. Keep a copy of your current GitHub repository before replacing anything.
+2. Extract this ZIP. Open the lets_score_pw_upgrade folder.
+3. Upload/replace the files in the ROOT of the GitHub Pages publishing branch (not the parent folder). Keep existing Firebase configuration and database rules unchanged.
+4. Commit the changes and wait for GitHub Pages to finish deploying.
+5. Test https://letsscore.online/register and https://letsscore.online/register.html, plus login and course links. The old .html URLs should redirect to clean routes.
+
+NOTES
+- This update does not change Firebase configuration or database rules.
+- Google site-verification HTML was left unchanged.
+- The ZIP is prepared from the latest supplied site package; it has not been pushed to GitHub automatically.

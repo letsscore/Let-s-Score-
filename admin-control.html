@@ -1,3 +1,6 @@
+---
+permalink: /admin-control
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,7 +22,7 @@ button,.btn{border-radius:12px;box-shadow:0 5px 14px #0002;transition:transform 
 </style>
 </head>
 <body><div class="wrap">
-<header class="top"><a class="brand" href="index.html">🎓 LET'S SCORE</a><div class="right"><a href="index.html">← Website</a><span class="pill">ADMIN • NO FILE STORAGE</span></div></header>
+<header class="top"><a class="brand" href="/">🎓 LET'S SCORE</a><div class="right"><a href="/">← Website</a><span class="pill">ADMIN • NO FILE STORAGE</span></div></header>
 <section class="hero"><div class="eyebrow">ADMIN CONTROL CENTRE</div><h1>Manage courses. Approve access. Publish learning.</h1><p class="muted">A rebuilt admin panel for the current LET'S SCORE student journey. Add resource links from Google Drive or YouTube—no Firebase Storage uploads.</p></section>
 <section id="loginPanel" class="panel login"><h2>🔐 Administrator login</h2><p class="muted">Sign in using the authorised Firebase email/password account.</p><label for="email">Admin email</label><input id="email" type="email" autocomplete="username" value="abidurhussain2@gmail.com"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password"><button id="loginBtn">Sign in</button><div id="loginMsg" class="message" role="status"></div></section>
 <main id="dashboard" class="hidden">
@@ -102,6 +105,6 @@ const originalRefresh=refreshAll;refreshAll=async function(){await originalRefre
 <!-- Shared navigation controls: available on every student and admin page -->
 <style id="site-home-back-style">.site-home-back{position:fixed!important;left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;z-index:99999!important;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:0!important;width:auto!important;min-width:0!important;max-width:calc(100vw - 24px)!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;flex-wrap:nowrap!important}.site-home-back a,.site-home-back button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:34px!important;max-height:none!important;writing-mode:horizontal-tb!important;text-orientation:mixed!important;transform:none!important;white-space:nowrap!important;overflow:visible!important;box-sizing:border-box!important;font:600 13px/1.2 Arial,sans-serif!important;color:#f4f8ff!important;background:#153452!important;border:1px solid #3a6385!important;border-radius:9px!important;padding:9px 12px!important;text-decoration:none!important;cursor:pointer!important}.site-home-back a:hover,.site-home-back button:hover{background:#12627a!important}@media(max-width:520px){.site-home-back{right:8px!important;bottom:8px!important;left:auto!important;max-width:calc(100vw - 16px)!important}.site-home-back a,.site-home-back button{font-size:13px!important;min-height:34px!important;padding:9px 12px!important}}</style>
 <nav class="site-home-back" aria-label="Page navigation"><button type="button" id="siteBackButton" aria-label="Go back">← Back</button></nav>
-<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='index.html'}});</script>
+<script id="site-home-back-script">document.getElementById('siteBackButton')?.addEventListener('click',function(){if(window.history.length>1){window.history.back()}else{window.location.href='/'}});</script>
 
 </body></html>

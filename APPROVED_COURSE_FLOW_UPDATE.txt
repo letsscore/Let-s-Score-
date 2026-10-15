@@ -2,12 +2,12 @@ LET'S SCORE — APPROVED COURSE FLOW UPDATE
 
 Only the requested workflow changes were applied:
 1. After student login, the site checks selected courses and active admin-approved courseAccess records.
-2. If exactly one accessible course is found, the student is redirected directly to learn.html for that course. If multiple accessible courses are found, My Learning lists only accessible courses.
-3. When any approved paid course (or already selected free course) is opened again through course.html/enrolment.html, the student is redirected to learn.html instead of seeing payment options again.
+2. If exactly one accessible course is found, the student is redirected directly to learn for that course. If multiple accessible courses are found, My Learning lists only accessible courses.
+3. When any approved paid course (or already selected free course) is opened again through course/enrolment, the student is redirected to learn instead of seeing payment options again.
 4. Existing pending/unapproved payment requests remain visible only when the student has no accessible course. If at least one accessible course exists, pending/unapproved unrelated selections are hidden from My Learning.
-5. Learning resources continue to open individually through resource.html?course=...&category=...&id=..., including notes, NCERT solutions, question bank, model papers, and approved-package videos.
+5. Learning resources continue to open individually through resource?course=...&category=...&id=..., including notes, NCERT solutions, question bank, model papers, and approved-package videos.
 
-Files changed: login.html, common.js, course.html, enrolment.html.
+Files changed: login, common.js, course, enrolment.
 
 Deployment:
 - Back up the current repository first.
@@ -16,4 +16,4 @@ Deployment:
 - Live Firebase and browser navigation were not tested in this environment. Test with a student who has an approved ₹299 package, a ₹999 package, and one pending request before removing the backup.
 
 
-FOLLOW-UP FIX (13 October 2026): Login now checks every known paid course's courseAccess/{courseId}/{uid} record directly, rather than relying on studentSelections being present. A student with exactly one active approved course is redirected straight to learn.html for that course. The Choose a Course page also redirects students with one approved course and, when multiple courses are approved, displays only those approved courses. This addresses approvals that were being missed when the student selection record was absent or incomplete. No Firebase rules change is required if students can read their own courseAccess records.
+FOLLOW-UP FIX (13 October 2026): Login now checks every known paid course's courseAccess/{courseId}/{uid} record directly, rather than relying on studentSelections being present. A student with exactly one active approved course is redirected straight to learn for that course. The Choose a Course page also redirects students with one approved course and, when multiple courses are approved, displays only those approved courses. This addresses approvals that were being missed when the student selection record was absent or incomplete. No Firebase rules change is required if students can read their own courseAccess records.
