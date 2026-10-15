@@ -12,7 +12,7 @@
       "$uid": {
         ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
         ".write": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com')) && auth.token.email != null",
-        ".validate": "!newData.exists() || (newData.hasChildren(['name','email','createdAt','username','contactEmail','mobile','district','classLevel','medium']) && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 100 && newData.child('email').isString() && newData.child('email').val() === auth.token.email && newData.child('createdAt').isNumber() && newData.child('username').isString() && newData.child('username').val().length >= 3 && newData.child('username').val().length <= 40 && newData.child('contactEmail').isString() && newData.child('contactEmail').val().length >= 5 && newData.child('contactEmail').val().length <= 254 && newData.child('mobile').isString() && newData.child('mobile').val().length >= 10 && newData.child('mobile').val().length <= 15 && newData.child('district').isString() && newData.child('district').val().length >= 2 && newData.child('district').val().length <= 100 && newData.child('classLevel').isString() && newData.child('classLevel').val().length >= 1 && newData.child('classLevel').val().length <= 50 && newData.child('medium').isString() && newData.child('medium').val().length >= 1 && newData.child('medium').val().length <= 50 && (!newData.child('role').exists() || newData.child('role').val() === 'student'))"
+        ".validate": "!newData.exists() || (newData.hasChildren(['name','email','createdAt']) && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 100 && newData.child('email').isString() && newData.child('email').val() === auth.token.email && newData.child('createdAt').isNumber() && (!newData.child('username').exists() || newData.child('username').isString()) && (!newData.child('contactEmail').exists() || newData.child('contactEmail').isString()) && (!newData.child('mobile').exists() || newData.child('mobile').isString()) && (!newData.child('district').exists() || newData.child('district').isString()) && (!newData.child('classLevel').exists() || newData.child('classLevel').isString()) && (!newData.child('medium').exists() || newData.child('medium').isString()) && (!newData.child('role').exists() || newData.child('role').val() === 'student'))"
       },
       ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
     },
@@ -20,19 +20,19 @@
       "$courseId": {
         ".write": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'",
         "notes": {
-          ".read": "auth != null && ((auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com') || (root.child('studentProfiles').child(auth.uid).child('username').isString() && (($courseId === 'class10-assamese-free' && root.child('studentSelections').child(auth.uid).child($courseId).child('courseId').val() === $courseId) || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)))"
+          ".read": "auth != null && ((auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com') || (root.child('studentProfiles').child(auth.uid).child('email').val() === auth.token.email && (($courseId === 'class10-assamese-free' && root.child('studentSelections').child(auth.uid).child($courseId).child('courseId').val() === $courseId) || root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true)))"
         },
         "solutions": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('email').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "questions": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('email').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "papers": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('email').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true))"
         },
         "videos": {
-          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('username').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true && root.child('courseAccess').child($courseId).child(auth.uid).child('package').val() === 'videos'))"
+          ".read": "auth != null && (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' || (root.child('studentProfiles').child(auth.uid).child('email').exists() && root.child('courseAccess').child($courseId).child(auth.uid).child('active').val() === true && root.child('courseAccess').child($courseId).child(auth.uid).child('package').val() === 'videos'))"
         },
         ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
       }
@@ -41,7 +41,7 @@
       "$courseId": {
         "$uid": {
           ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
-          ".write": "auth != null && ((auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com') || (auth.uid === $uid && !data.exists() && root.child('studentProfiles').child(auth.uid).child('username').isString() && newData.exists() && newData.child('studentUid').val() === auth.uid && newData.child('courseId').val() === $courseId && newData.child('status').val() === 'pending' && newData.child('utr').isString() && newData.child('utr').val().length >= 6 && newData.child('utr').val().length <= 40 && newData.child('requestedAt').isNumber() && ((newData.child('package').val() === 'notes' && newData.child('fee').val() === 299 && newData.child('includesRecordedVideos').val() === false) || (newData.child('package').val() === 'videos' && newData.child('fee').val() === 999 && newData.child('includesRecordedVideos').val() === true))))",
+          ".write": "auth != null && ((auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com') || (auth.uid === $uid && !data.exists() && root.child('studentProfiles').child(auth.uid).child('email').val() === auth.token.email && newData.exists() && newData.child('studentUid').val() === auth.uid && newData.child('courseId').val() === $courseId && newData.child('status').val() === 'pending' && newData.child('utr').isString() && newData.child('utr').val().length >= 6 && newData.child('utr').val().length <= 40 && newData.child('requestedAt').isNumber() && ((newData.child('package').val() === 'notes' && newData.child('fee').val() === 299 && newData.child('includesRecordedVideos').val() === false) || (newData.child('package').val() === 'videos' && newData.child('fee').val() === 999 && newData.child('includesRecordedVideos').val() === true))))",
           ".validate": "!newData.exists() || newData.hasChildren(['utr','courseId','package','fee','includesRecordedVideos','status','studentUid','requestedAt'])"
         },
         ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1'"
@@ -86,7 +86,7 @@
       "$uid": {
         ".read": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
         "$courseId": {
-          ".write": "auth != null && ((auth.uid === $uid && root.child('studentProfiles').child(auth.uid).child('username').isString() && ($courseId === 'class10-assamese-free' || $courseId === 'class10-assamese-paid' || $courseId === 'class10-english' || $courseId === 'class11-physics' || $courseId === 'class12-physics')) || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
+          ".write": "auth != null && ((auth.uid === $uid && root.child('studentProfiles').child(auth.uid).child('email').val() === auth.token.email && ($courseId === 'class10-assamese-free' || $courseId === 'class10-assamese-paid' || $courseId === 'class10-english' || $courseId === 'class11-physics' || $courseId === 'class12-physics')) || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'))",
           ".validate": "!newData.exists() || (newData.hasChildren(['courseId','type','selectedAt']) && newData.child('courseId').val() === $courseId && (newData.child('type').val() === 'free' || newData.child('type').val() === 'paid') && newData.child('selectedAt').isNumber() && (($courseId === 'class10-assamese-free' && newData.child('type').val() === 'free') || ($courseId !== 'class10-assamese-free' && newData.child('type').val() === 'paid')))"
         }
       }

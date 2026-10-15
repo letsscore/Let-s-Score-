@@ -34,3 +34,13 @@ The generated username is used as the Firebase Auth login alias at accounts.lets
 
 SECURITY NOTE
 This is a static GitHub Pages site using Firebase client-side authentication and Realtime Database rules. Do not publish database rules that grant public writes or public reads of paid course resources. Admin UID in the rules: q8Ybthhc3jQEhQf4e5EAFpYIaDv1.
+
+
+OCTOBER 2026 FIREBASE / COURSE CATALOGUE FIX
+- Admin course catalogue now displays exactly the five supported canonical course IDs, ignoring legacy duplicate IDs in the courses node. Existing Firebase data is not deleted.
+- database.rules.json explicitly permits the configured admin to read the studentProfiles parent node.
+- studentProfiles validation now accepts the actual registration payload (name, email, createdAt) while validating optional extended profile fields.
+- IMPORTANT: publish database.rules.json in Firebase Realtime Database Rules for the permission fix to take effect. Static ZIP changes do not update the live Firebase project automatically.
+- Canonical course IDs retained to protect existing student records: class10-assamese-free, class10-assamese-paid, class10-english, class11-physics, class12-physics.
+
+Student access rules now verify the authenticated profile email rather than requiring a username field that the registration form does not create.
