@@ -1,0 +1,39 @@
+LET’S SCORE — SECURE AUTOMATIC ACCOUNT RECOVERY
+
+WHAT THIS ADDS
+- Forgot password: student enters generated username + registration contact email. A server verifies the match and emails a Firebase password-reset link to the contact email.
+- Forgot username: student enters registration contact email. The server emails the username(s) associated with that email.
+- Responses do not reveal whether an account exists. Each action is rate-limited to 3 requests per username/email combination per hour.
+- Firebase Realtime Database rules keep the existing permissions. database.rules.json only adds .indexOn for username and contactEmail to support backend queries.
+
+REQUIREMENTS
+1. Firebase project: lets-score-revisionary-test.
+2. Firebase CLI installed on a computer (or a cloud shell). Cloud Functions deployment generally requires the Firebase Blaze billing plan. Email provider charges/limits may apply.
+3. An SMTP mailbox/provider. Use an app password or provider API SMTP credential, not your normal account password.
+4. Add letsscore.online and the Firebase auth domain to Firebase Authentication > Settings > Authorized domains.
+
+DEPLOY
+1. Extract this ZIP and open a terminal in the Let-s-Score--main folder.
+2. Install/login to Firebase CLI: npm install -g firebase-tools; firebase login
+3. Select the project: firebase use lets-score-revisionary-test
+4. Set SMTP secrets (use your provider's actual values):
+   firebase functions:secrets:set SMTP_HOST
+   firebase functions:secrets:set SMTP_PORT
+   firebase functions:secrets:set SMTP_USER
+   firebase functions:secrets:set SMTP_PASS
+   firebase functions:secrets:set MAIL_FROM
+   Enter the value when prompted. MAIL_FROM should be a verified sender address, e.g. LET'S SCORE Support <your-verified-sender@example.com>.
+5. Deploy the function: firebase deploy --only functions:requestAccountRecovery
+6. Publish the updated Realtime Database rules from database.rules.json in Firebase Console > Realtime Database > Rules, or run firebase deploy --only database.
+7. Upload the website files to the existing GitHub Pages repository, preserving folder paths.
+
+TEST
+- Test Forgot Username using a registration contact email. The same generic message appears whether or not the email is registered; check inbox and spam.
+- Test Forgot Password using a real username and its matching registration contact email. Use the emailed Firebase link to set a new password, then log in with the generated username and new password.
+- Test wrong username/email pair: no email should be sent.
+- Do not publish SMTP credentials in website files, GitHub, or Firebase client config.
+
+IMPORTANT
+- Passwords are never retrieved or sent in plain text; Firebase reset links are used.
+- This backend queries studentProfiles with Admin SDK; clients are not granted public profile lookup access.
+- If your project has an existing firebase.json or additional deployment targets, merge the functions/database entries rather than overwriting unrelated settings.
