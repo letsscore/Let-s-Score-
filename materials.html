@@ -9,7 +9,7 @@ import {getDatabase,ref,get} from 'https://www.gstatic.com/firebasejs/12.1.0/fir
 const ADMIN_UID='q8Ybthhc3jQEhQf4e5EAFpYIaDv1';
 const firebaseConfig={apiKey:"AIzaSyBdsypDM6A2Q1LO3GTueeg8RfTirXGZIP8",authDomain:"lets-score-revisionary-test.firebaseapp.com",databaseURL:"https://lets-score-revisionary-test-default-rtdb.firebaseio.com",projectId:"lets-score-revisionary-test",storageBucket:"lets-score-revisionary-test.firebasestorage.app",messagingSenderId:"629595293837",appId:"1:629595293837:web:b0fd9e83f22651cd577ac4"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),$=x=>document.getElementById(x),id=new URLSearchParams(location.search).get('id');
-const courses={'class10-assamese-free':'Class X Science — Assamese Medium (Free)','class10-assamese-paid':'Class X Science — Assamese Medium','class10-english':'Class X Science — English Medium','class11-physics':'Class XI Physics — English Medium','class12-physics':'Class XII Physics — English Medium'};
+const courses={'class10-assamese-free':'Class X Science — Assamese Medium (Free)','class10-assamese-paid':'Class X Science — Assamese Medium','class10-english':'Class X Science — English Medium','class11-physics-english':'Class XI Physics — English Medium','class12-physics-english':'Class XII Physics — English Medium'};
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function load(u){if(!courses[id]){location.href='courses.html';return}$('title').textContent=courses[id];let pkg='notes';
 if(id!=='class10-assamese-free'){const s=await get(ref(db,`courseAccess/${id}/${u.uid}`)),a=s.val();if(!a||a.active!==true){location.href='course.html?id='+id;return}pkg=a.package||'notes'}

@@ -55,7 +55,7 @@ nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);box-shadow:0 8px
   <p class="muted" id="packageDescription">Includes notes, NCERT solutions, question bank and model papers.</p>
 
   <div class="paybox">
-    <h3 style="margin-top:0">Scan to Pay with any UPI App</h3>
+    <h3 style="margin-top:0">Scan the permanent QR to pay with any UPI App</h3>
     <div id="qr" class="qr"></div>
     <p><strong>UPI Number: 7636047997</strong></p>
     <p class="muted" id="upiIdText"></p>
@@ -136,7 +136,7 @@ const id=enrollmentParams.get("course") || enrollmentParams.get("id");
 let course=null;
 
 const UPI_NUMBER = "7636047997";
-const UPI_ID = "7636047997@upi";
+const UPI_ID = "akilasultana3073-1@okaxis";
 const WHATSAPP_NUMBER = "917002137940";
 
 function makeUpiUri(amount, courseName) {
@@ -167,10 +167,9 @@ function setupPayment(courseData) {
   document.getElementById("upiPayBtn").href = uri;
   const waText = encodeURIComponent(`Hello LET'S SCORE,\nI have paid ₹${fee} for ${name}.\nPackage: ${details.label}\nUPI Number: ${UPI_NUMBER}\nI am sending my payment receipt for verification. My UTR is entered on the course page.`);
   document.getElementById("whatsappBtn").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+  // Permanent QR supplied by the site owner. It is intentionally not regenerated per course/amount.
   const qrBox = document.getElementById("qr");
-  qrBox.innerHTML = "";
-  if (window.QRCode) new QRCode(qrBox, { text: uri, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
-  else qrBox.innerHTML = "<p class='bad'>QR generator could not load. Use the UPI App button.</p>";
+  qrBox.innerHTML = '<img src="assets/lets-score-permanent-upi-qr.jpg" alt="Permanent UPI QR for Akila Sultana" width="280" height="auto" style="width:min(100%,280px);height:auto;object-fit:contain" loading="eager">';
 }
 
 
@@ -260,12 +259,12 @@ const COURSE_CATALOG = {
     className: "Class X", subject: "Science", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise notes, NCERT solutions, question bank and practice papers."
   },
-  "class11-physics": {
+  "class11-physics-english": {
     name: "Class XI Physics — English Medium",
     className: "Class XI", subject: "Physics", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."
   },
-  "class12-physics": {
+  "class12-physics-english": {
     name: "Class XII Physics — English Medium",
     className: "Class XII", subject: "Physics", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."

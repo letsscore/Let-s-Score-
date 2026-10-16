@@ -1,0 +1,9 @@
+LET’S SCORE tutorial video setup
+
+1. Record a phone screen tutorial showing: registration and course choice; selecting ₹299 notes or ₹999 notes + videos; paying with the permanent QR; entering/submitting UTR; admin approval; logging in and opening the selected course resources. Do not show real student passwords or private payment details.
+2. Upload the video to your YouTube channel. Choose Unlisted if you only want people with the link to view it, or Public for everyone.
+3. Open the video URL. For https://www.youtube.com/watch?v=ABC123xyz, the video ID is ABC123xyz. For https://youtu.be/ABC123xyz, it is also ABC123xyz.
+4. Open how-it-works.html in GitHub and find VIDEO_ID. Replace only VIDEO_ID with your actual ID. Save and commit the file.
+5. Test the How it works tab on your website and confirm the video plays on mobile.
+
+Payment QR image: assets/lets-score-permanent-upi-qr.jpg (copied unchanged from the image provided). Permanent QR shown is not amount-specific; students must enter the correct course/package amount in their UPI app before paying. The Pay using UPI button still opens a payment intent for the selected package.

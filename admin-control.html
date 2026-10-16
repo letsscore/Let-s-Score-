@@ -41,8 +41,8 @@ const ADMIN_UID='q8Ybthhc3jQEhQf4e5EAFpYIaDv1',ADMIN_EMAIL='abidurhussain2@gmail
 'class10-assamese-free':{name:'Class X Science — Assamese Medium',type:'free',fee:0,videoFee:0,className:'Class X',subject:'Science',language:'Assamese',description:'Free chapter-wise Science notes.'},
 'class10-assamese-paid':{name:'Class X Science — Assamese Medium',type:'paid',fee:299,videoFee:999,className:'Class X',subject:'Science',language:'Assamese',description:'Notes, NCERT solutions, question bank and optional recorded videos.'},
 'class10-english':{name:'Class X Science — English Medium',type:'paid',fee:299,videoFee:999,className:'Class X',subject:'Science',language:'English',description:'Notes, NCERT solutions, question bank and optional recorded videos.'},
-'class11-physics':{name:'Class XI Physics — English Medium',type:'paid',fee:299,videoFee:999,className:'Class XI',subject:'Physics',language:'English',description:'Physics notes, NCERT solutions, question bank and optional recorded videos.'},
-'class12-physics':{name:'Class XII Physics — English Medium',type:'paid',fee:299,videoFee:999,className:'Class XII',subject:'Physics',language:'English',description:'Physics notes, NCERT solutions, question bank and optional recorded videos.'}
+'class11-physics-english':{name:'Class XI Physics — English Medium',type:'paid',fee:299,videoFee:999,className:'Class XI',subject:'Physics',language:'English',description:'Physics notes, NCERT solutions, question bank and optional recorded videos.'},
+'class12-physics-english':{name:'Class XII Physics — English Medium',type:'paid',fee:299,videoFee:999,className:'Class XII',subject:'Physics',language:'English',description:'Physics notes, NCERT solutions, question bank and optional recorded videos.'}
 };let courses={},requestData={},resourcesData={},statusUnsub=null;
 const say=(id,msg)=>$(id).textContent=msg;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const admin=u=>!!u&&u.uid===ADMIN_UID&&(u.email||'').toLowerCase()===ADMIN_EMAIL;
 function courseLabel(id){return (courses[id]?.name||id)+' · '+id}function setOptions(id,includeAll=false){const el=$(id),old=el.value;const entries=Object.entries(courses).sort((a,b)=>(a[1].name||a[0]).localeCompare(b[1].name||b[0]));el.innerHTML=(includeAll?'<option value="all">All courses</option>':'')+entries.map(([k,v])=>`<option value="${esc(k)}">${esc(v.name||k)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old;}
@@ -72,7 +72,7 @@ async function deleteStudentRecords(uid){
   // not to the entire courseAccess parent. Discover course IDs first, then
   // remove the individual student's records at permitted paths.
   const courseIds=new Set([...Object.keys(allCourses),...Object.keys(requests),...Object.keys(enrollments),...Object.keys(selections),
-   'class10-assamese-free','class10-assamese-paid','class10-english','class11-physics','class12-physics']);
+   'class10-assamese-free','class10-assamese-paid','class10-english','class11-physics-english','class12-physics-english']);
   for(const [courseId,users] of Object.entries(requests)) if(users&&Object.prototype.hasOwnProperty.call(users,uid)) updates[`accessRequests/${courseId}/${uid}`]=null;
   for(const [courseId,users] of Object.entries(enrollments)) if(users&&Object.prototype.hasOwnProperty.call(users,uid)) updates[`enrollments/${courseId}/${uid}`]=null;
   for(const courseId of courseIds){

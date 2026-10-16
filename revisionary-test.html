@@ -285,8 +285,8 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const classes = {
   X:   { label: "Class X", path: "examControl/classX", fallback: "test-x.html", courses: ["class10-assamese-paid", "class10-english"] },
-  XI:  { label: "Class XI", path: "examControl/classXI", fallback: "test-xi.html", courses: ["class11-physics"] },
-  XII: { label: "Class XII", path: "examControl/classXII", fallback: "test-xii.html", courses: ["class12-physics"] }
+  XI:  { label: "Class XI", path: "examControl/classXI", fallback: "test-xi.html", courses: ["class11-physics-english"] },
+  XII: { label: "Class XII", path: "examControl/classXII", fallback: "test-xii.html", courses: ["class12-physics-english"] }
 };
 const grid = document.getElementById("grid");
 const records = { X: null, XI: null, XII: null };
