@@ -8,7 +8,7 @@ CHANGES INCLUDED
 5. Course selection is available after login. Free course access requires a registered profile; paid course access remains locked until the admin verifies the UTR and approves the request.
 6. Paid-course request records include username, student name, contact email, UTR, course ID and package details. The admin's payment-request table now shows username/student alongside the UTR.
 7. Each normal navigation link opens its own HTML page. Admin login remains linked from the homepage only.
-8. UPI number and UPI ID remain 7636047997 and 7636047997@upi.
+8. Payment is by UPI number only: 7636047997 (no QR code, no UPI ID, no payment deep link).
 9. Video-language labels remain: Assamese-medium paid course — Assamese; English-medium paid course — Assamese-English combination.
 
 FILES
@@ -27,7 +27,7 @@ INSTALL
 3. In Firebase Console → Authentication → Sign-in method, enable Email/Password.
 4. Publish database.rules.json in Firebase Realtime Database → Rules.
 5. Test with a new student account: register, save the displayed username/password, log out, log in using username/password, open the free course, then submit a paid-course test UTR and approve it from Admin Login → payment requests.
-6. Verify the payment UPI ID/QR using your own UPI app before accepting real payments.
+6. Verify the UPI number 7636047997 using your own UPI app before accepting real payments.
 
 CREDENTIAL NOTE
 The generated username is used as the Firebase Auth login alias at accounts.letsscore.online; the actual contact email is stored in the student profile. Students must save their generated password securely. Automated password-reset by contact email is not included in this static-site implementation.

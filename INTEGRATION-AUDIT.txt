@@ -10,7 +10,7 @@ FIXES APPLIED
 6. Corrected the Class XI and XII test-page JavaScript syntax error (duplicate `const firebaseConfig=`), which prevented those pages from running.
 7. Removed a broken Class X descriptive-paper download link because the referenced PDF is not present in this repository. The page now explains that the PDF must be uploaded before the download can be enabled.
 8. Moved the Assam-specific course-language note inside courses.html's document body instead of after the closing HTML tag.
-9. Removed the obsolete UPI number from enrolment.html by routing enrolment through the current course payment page.
+9. enrolment.html is now a small redirect to course.html (single payment page); all internal links point to course.html directly.
 10. Updated setup notes to avoid promising legacy email login where the username-based account profile is required.
 
 CHECKS PERFORMED
@@ -24,3 +24,13 @@ IMPORTANT LIMITATIONS
 - These are local file/static integration checks. The site was not deployed and Firebase Authentication / Realtime Database were not live-tested from this environment.
 - The Firebase Realtime Database rules must be published in the Firebase Console, and Email/Password sign-in must be enabled.
 - GitHub Pages changes take effect only after the corrected files are uploaded/committed to the repository.
+
+
+LATEST FIXES (QR REMOVAL + INTEGRATION PASS)
+- Removed the dynamic QR code (qrcodejs script + generator) and the static QR image/asset. Payment is now by UPI NUMBER ONLY: 7636047997, shown with a Copy button. The UPI ID text and the upi:// deep-link button were removed. (They also disagreed between pages: akilasultana3073-1@okaxis vs 7636047997@upi.)
+- enrolment.html duplicated course.html with different payment details; it now redirects to course.html?id=<course>.
+- common.js: removed the dead legacy UPI deep link and repointed course links to course.html.
+- Free-course fallback in course.html no longer calls unlock() (it tried to load paid resource paths); it shows the free-enrol card.
+- database.rules.json: added the missing `tests` node (test-vi to test-ix pages read tests/<class>; the root rule denied it). firebase-database-rules.json was a stale 3-node stub that would have wiped the real rules if published; it is now identical to database.rules.json.
+- test-x.html: removed the download link to a PDF that is not in the repo.
+- PUBLISH database.rules.json in Firebase Console -> Realtime Database -> Rules for the rules fixes to take effect.

@@ -7,7 +7,7 @@ STUDENT FLOW
 2. Registration creates Firebase Authentication credentials using a generated username and password, saves the student profile, signs out, and redirects to login.html.
 3. Login validates Firebase Authentication and the saved student profile, then redirects to courses.html.
 4. Course selection opens enrolment.html?id=COURSE_ID.
-5. Free Class X Assamese Science opens the free notes/resources path. Paid courses show ₹299 materials-only and ₹999 materials + recorded-video package options, UPI payment details, QR, and UTR submission.
+5. Free Class X Assamese Science opens the free notes/resources path. Paid courses show ₹299 materials-only and ₹999 materials + recorded-video package options, UPI number payment details and UTR submission.
 6. Payment request is saved at accessRequests/COURSE_ID/UID. Admin approval is managed in admin-control.html. Resource access depends on courseAccess/COURSE_ID/UID.
 
 ADMIN FLOW
@@ -23,7 +23,7 @@ IMPORTANT FIREBASE SETUP
 - database.rules.json is the upgraded Realtime Database rules file. Review it before publishing in Firebase Console → Realtime Database → Rules.
 - Enable Email/Password in Firebase Authentication.
 - Add letsscore.online and www.letsscore.online under Authentication → Settings → Authorized domains.
-- UPI ID: 7636047997@upi; WhatsApp receipt contact: 7002137940.
+- UPI number: 7636047997; WhatsApp receipt contact: 7002137940.
 - No Firebase Storage upload or Blaze plan is required; resources are added using external HTTPS links.
 - Revisionary tests are shown only to users with an active courseAccess record whose package is "videos" (₹999 package).
 - Student profile rules now require username, contactEmail, mobile, district, classLevel, and medium. Existing older profiles missing these fields may need migration before they can use protected pages.

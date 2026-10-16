@@ -27,7 +27,7 @@ $('registrationForm').addEventListener('submit',async e=>{
  $('newUsername').textContent=username;$('newPassword').textContent=password;$('credentials').hidden=false;$('registrationForm').classList.add('hidden');
  sessionStorage.setItem('ls_new_credentials',JSON.stringify({username,password,selectedCourseId:selectedCourse}));
  say('Account created. Opening your selected course payment page…');
- setTimeout(()=>location.replace('enrolment.html?id='+encodeURIComponent(selectedCourse)),500);
+ setTimeout(()=>location.replace('course.html?id='+encodeURIComponent(selectedCourse)),500);
  }catch(err){console.error(err);say(err.code==='auth/operation-not-allowed'?'Email/Password sign-in is disabled. Enable it in Firebase Console → Authentication → Sign-in method.':err.code==='PERMISSION_DENIED'?'Firebase rejected the student profile. Check the studentProfiles rules and required fields.':'Registration failed ('+(err.code||'error')+'). Please try again.')}finally{btn.disabled=false;btn.textContent='Register & Generate Credentials →'}
 });
 </script>

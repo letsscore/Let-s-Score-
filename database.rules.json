@@ -14,11 +14,7 @@
         ".write": "auth != null && (auth.uid === $uid || (auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com')) && auth.token.email != null",
         ".validate": "!newData.exists() || (newData.hasChildren(['name','email','createdAt']) && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 100 && newData.child('email').isString() && newData.child('email').val() === auth.token.email && newData.child('createdAt').isNumber() && (!newData.child('username').exists() || newData.child('username').isString()) && (!newData.child('contactEmail').exists() || newData.child('contactEmail').isString()) && (!newData.child('mobile').exists() || newData.child('mobile').isString()) && (!newData.child('district').exists() || newData.child('district').isString()) && (!newData.child('classLevel').exists() || newData.child('classLevel').isString()) && (!newData.child('medium').exists() || newData.child('medium').isString()) && (!newData.child('role').exists() || newData.child('role').val() === 'student'))"
       },
-      ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'",
-      ".indexOn": [
-        "contactEmail",
-        "username"
-      ]
+      ".read": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
     },
     "courseResources": {
       "$courseId": {
@@ -94,6 +90,10 @@
           ".validate": "!newData.exists() || (newData.hasChildren(['courseId','type','selectedAt']) && newData.child('courseId').val() === $courseId && (newData.child('type').val() === 'free' || newData.child('type').val() === 'paid') && newData.child('selectedAt').isNumber() && (($courseId === 'class10-assamese-free' && newData.child('type').val() === 'free') || ($courseId !== 'class10-assamese-free' && newData.child('type').val() === 'paid')))"
         }
       }
+    },
+    "tests": {
+      ".read": true,
+      ".write": "auth != null && auth.uid === 'q8Ybthhc3jQEhQf4e5EAFpYIaDv1' && auth.token.email === 'abidurhussain2@gmail.com'"
     }
   }
 }
