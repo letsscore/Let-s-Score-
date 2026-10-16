@@ -1,0 +1,51 @@
+LET'S SCORE - REGISTRATION / PAYMENT / ACCESS FLOW UPDATE (16 October 2026)
+
+WHAT CHANGED
+1. PAYMENT PAGES (enrolment.html, course.html)
+   - Dynamic UPI QR code removed (qrcodejs script and all QR code deleted).
+   - UPI ID (7636047997@upi) and the upi:// "Pay using UPI App" deep link removed.
+   - Only the UPI NUMBER 7636047997 is shown, with a "Copy UPI Number" button.
+   - UTR box now reads "Submit your UTR after payment" with a "Submit UTR for approval" button.
+   - WhatsApp receipt button kept. Package choices (Rs 299 / Rs 999) and fees unchanged.
+   - common.js: stale UPI ID code removed.
+
+2. REGISTRATION (register.html)
+   - New required field: "Course you want to join" (the 5 existing course IDs).
+   - ?course=<id> in the URL pre-selects the course.
+   - Optional tutorial video panel at the top (set by admin, see 4).
+   - After registering, the student stays signed in, sees username/password with Copy buttons,
+     then clicks "Continue to payment" (paid course) or "Open my free course" (free course).
+   - The selection is saved at studentSelections/{uid}/{courseId} and in the profile as selectedCourse.
+     If that write fails, the payment page saves the selection itself.
+
+3. LOGIN (login.html) - where a student lands
+   - Approved course(s): exactly one -> learn.html?course=ID (materials); several -> dashboard.html.
+   - Not approved yet, one selected paid course -> enrolment.html?course=ID (payment / status).
+   - Not approved yet, several selected -> dashboard.html. Nothing selected -> courses.html.
+   - Materials are shown only for courses with courseAccess/{courseId}/{uid}.active === true,
+     which the admin sets by approving the UTR in admin-control.html (unchanged).
+
+4. ADMIN (admin-control.html)
+   - New "Settings" tab: add / replace / remove the registration tutorial video
+     (YouTube link, Google Drive share link, or direct https .mp4).
+   - Student records now show the course each student chose at registration.
+
+5. DATABASE RULES (database.rules.json, also added to firebase-database-rules.json)
+   - NEW node siteSettings: public read, admin-only write (stores registrationTutorial {url,title,updatedAt}).
+   - studentProfiles validation accepts optional selectedCourse (only the 5 valid course IDs).
+   - ALL EXISTING RULES FOR courseAccess, accessRequests, courseResources, studentSelections are unchanged.
+
+COURSE IDs - UNCHANGED (do not rename)
+   class10-assamese-free, class10-assamese-paid, class10-english, class11-physics, class12-physics
+
+DEPLOY
+   1. Back up the repository.
+   2. Upload all files from this ZIP to the repository root (same filenames overwrite).
+   3. IMPORTANT: publish the updated database.rules.json in Firebase Console -> Realtime Database -> Rules.
+      Without it the tutorial video cannot be saved/read and profiles with selectedCourse are not validated.
+   4. Admin Login -> Settings -> paste the tutorial video link -> Save.
+   5. Test with a new account: register -> credentials -> payment page -> submit UTR ->
+      admin approves -> log out and log in -> course materials open.
+
+NOT TESTED LIVE: Firebase and the browser were not available in this environment. Code was syntax-checked,
+course-ID references were cross-checked, and the login redirect logic was simulated with a stubbed database.

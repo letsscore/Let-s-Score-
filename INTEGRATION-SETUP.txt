@@ -23,7 +23,7 @@ IMPORTANT FIREBASE SETUP
 - database.rules.json is the upgraded Realtime Database rules file. Review it before publishing in Firebase Console → Realtime Database → Rules.
 - Enable Email/Password in Firebase Authentication.
 - Add letsscore.online and www.letsscore.online under Authentication → Settings → Authorized domains.
-- UPI number: 7636047997; WhatsApp receipt contact: 7002137940.
+- UPI number: 7636047997 (no QR code, no UPI ID); WhatsApp receipt contact: 7002137940.
 - No Firebase Storage upload or Blaze plan is required; resources are added using external HTTPS links.
 - Revisionary tests are shown only to users with an active courseAccess record whose package is "videos" (₹999 package).
 - Student profile rules now require username, contactEmail, mobile, district, classLevel, and medium. Existing older profiles missing these fields may need migration before they can use protected pages.

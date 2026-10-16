@@ -8,7 +8,7 @@ CHANGES INCLUDED
 5. Course selection is available after login. Free course access requires a registered profile; paid course access remains locked until the admin verifies the UTR and approves the request.
 6. Paid-course request records include username, student name, contact email, UTR, course ID and package details. The admin's payment-request table now shows username/student alongside the UTR.
 7. Each normal navigation link opens its own HTML page. Admin login remains linked from the homepage only.
-8. Payment is by UPI number only: 7636047997 (no QR code, no UPI ID, no payment deep link).
+8. Only the UPI number 7636047997 is shown (QR code and UPI ID were removed in the registration/payment update).
 9. Video-language labels remain: Assamese-medium paid course — Assamese; English-medium paid course — Assamese-English combination.
 
 FILES

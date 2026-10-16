@@ -16,7 +16,7 @@ FIREBASE SETUP
 - Publish database.rules.json under Firebase Realtime Database → Rules.
 - Admin account must have UID q8Ybthhc3jQEhQf4e5EAFpYIaDv1 and email abidurhussain2@gmail.com.
 - Student registration stores the generated username and profile in studentProfiles. Paid requests include username, student name, contact email, UTR, course ID and package details.
-- UPI number: 7636047997 (number only, no QR / UPI ID); receipt WhatsApp: 7002137940.
+- UPI number: 7636047997 (QR code and UPI ID removed); receipt WhatsApp: 7002137940.
 - Package IDs: notes = ₹299, videos = ₹999.
 - Free course ID: class10-assamese-free.
 - Recorded video lecture language: Assamese-medium paid course — Assamese; English-medium paid course — Assamese-English combination.

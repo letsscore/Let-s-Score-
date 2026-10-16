@@ -31,10 +31,9 @@
   <p class="muted" id="packageDescription">Includes notes, NCERT solutions, question bank and model papers.</p>
 
   <div class="paybox">
-    <h3 style="margin-top:0">Pay with any UPI app</h3>
-    <p class="muted">Open PhonePe, Google Pay, Paytm or any UPI app and send the amount to this UPI number:</p>
-    <p style="font-size:26px;margin:10px 0"><strong id="upiNumber">7636047997</strong></p>
-    <p><strong id="amountText"></strong></p>
+    <h3 style="margin-top:0">Pay using this UPI Number</h3>
+    <p style="font-size:22px;margin:10px 0"><strong>UPI Number: <span id="upiNumberText">7636047997</span></strong></p>
+    <p class="muted">Open any UPI app (Google Pay, PhonePe, Paytm, BHIM…), choose <em>Pay to UPI number / mobile number</em>, enter the number above and pay the selected package fee.</p>
 
     <div class="upi-actions">
       <button id="copyUpiBtn" class="btn" type="button">📋 Copy UPI Number</button>
@@ -42,17 +41,17 @@
     </div>
 
     <div class="receipt">
-      After payment, <strong>save your UTR / Transaction Reference Number</strong> and submit it below for admin approval.
+      After payment, <strong>save your UTR / Transaction Reference Number</strong>.
       Send the payment receipt to WhatsApp <strong>7002137940</strong>.
       Your teacher will verify the payment and approve the UTR.
     </div>
   </div>
 
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
-    <h3 style="margin:0 0 8px">🔓 Already Paid?</h3>
-    <p class="muted">Enter the UTR approved by your teacher to unlock the course.</p>
+    <h3 style="margin:0 0 8px">✅ Submit your UTR after payment</h3>
+    <p class="muted">After paying, enter the UTR / Transaction Reference Number from your UPI app. Your materials unlock when the admin approves the payment; log in again to see them.</p>
     <input id="utr" placeholder="UTR / Transaction Reference Number" autocomplete="off">
-    <button class="btn" id="checkBtn" type="button">Check My Access</button>
+    <button class="btn" id="checkBtn" type="button">Submit UTR for approval</button>
     <div id="msg" class="msg"></div>
   </div>
 </section>
@@ -123,11 +122,11 @@ function setupPayment(courseData) {
   const details = packageDetails();
   const fee = details.fee;
   document.getElementById("feeText").textContent = `Selected package fee: ₹${fee}`;
-  document.getElementById("amountText").textContent = `Amount to pay: ₹${fee}`;
   document.getElementById("packageDescription").textContent = details.label + (selectedPackage === "notes" ? ". Includes notes, NCERT solutions, question bank and model papers." : ". Includes all study materials plus recorded video lectures.");
   const waText = encodeURIComponent(`Hello LET'S SCORE,\nI have paid ₹${fee} for ${name}.\nPackage: ${details.label}\nUPI Number: ${UPI_NUMBER}\nI am sending my payment receipt for verification. My UTR is entered on the course page.`);
   document.getElementById("whatsappBtn").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
 }
+
 
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const normalize=v=>String(v||"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"");
@@ -215,12 +214,12 @@ const COURSE_CATALOG = {
     className: "Class X", subject: "Science", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise notes, NCERT solutions, question bank and practice papers."
   },
-  "class11-physics-english": {
+  "class11-physics": {
     name: "Class XI Physics — English Medium",
     className: "Class XI", subject: "Physics", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."
   },
-  "class12-physics-english": {
+  "class12-physics": {
     name: "Class XII Physics — English Medium",
     className: "Class XII", subject: "Physics", language: "English Medium",
     type: "paid", fee: 299, description: "Chapter-wise Physics notes, NCERT solutions, question bank and practice papers."
@@ -302,10 +301,8 @@ async function loadCourse(){
       document.getElementById("locked").style.display="block";
       document.getElementById("locked").textContent="Payment details are available below. Resources appear after approval.";
     } else {
-      document.getElementById("payCard").style.display="none";
-      document.getElementById("resources").style.display="none";
-      document.getElementById("locked").style.display="none";
-      document.getElementById("freeEnrollCard").style.display=studentUid===ADMIN_UID?"none":"block";
+      document.getElementById("locked").textContent="Free course notes are shown below when published.";
+      unlock();
     }
   }
 }
@@ -434,21 +431,10 @@ async function checkStudentAccess(){
     setMessage("Could not check your access status.");
   }
 }
+document.getElementById("copyUpiBtn").addEventListener("click",async()=>{const b=document.getElementById("copyUpiBtn");try{await navigator.clipboard.writeText(UPI_NUMBER);b.textContent="✓ Copied";}catch(e){b.textContent="UPI Number: "+UPI_NUMBER;}setTimeout(()=>{b.textContent="📋 Copy UPI Number";},2500);});
 document.getElementById("packageSelect").addEventListener("change", e => {
   selectedPackage = e.target.value === "videos" ? "videos" : "notes";
   if (course) setupPayment(course);
-});
-document.getElementById("copyUpiBtn").addEventListener("click", async () => {
-  const btn = document.getElementById("copyUpiBtn");
-  try {
-    if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(UPI_NUMBER);
-    else {
-      const t = document.createElement("textarea"); t.value = UPI_NUMBER; document.body.appendChild(t); t.select();
-      const ok = document.execCommand("copy"); document.body.removeChild(t); if (!ok) throw new Error("copy failed");
-    }
-    btn.textContent = "✓ Copied";
-  } catch (e) { btn.textContent = "Number: " + UPI_NUMBER; }
-  setTimeout(() => { btn.textContent = "📋 Copy UPI Number"; }, 2000);
 });
 document.getElementById("checkBtn").addEventListener("click",()=>{
   requestAccess(document.getElementById("utr").value);
